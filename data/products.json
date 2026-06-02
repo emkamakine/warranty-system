@@ -334,9 +334,10 @@
   {
     "id": "EK-S12FP",
     "name": "12 LT İstim M. FULL Paslanmaz",
-    "category": "Makine",
+    "category": "İSTİM",
     "warrantyMonths": 24,
-    "description": ""
+    "description": "",
+    "warranty_months": 12
   },
   {
     "id": "EK-S30",
