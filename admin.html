@@ -226,6 +226,28 @@ textarea{resize:vertical;min-height:80px}
 .alert-success{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.2);color:#6ee7b7}
 .alert-error{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.2);color:#fca5a5}
 
+/* EDIT PRODUCT MODAL */
+#edit-product-modal {
+  display:none; position:fixed; inset:0; z-index:1000;
+  background:rgba(0,0,0,0.7); align-items:center; justify-content:center;
+}
+#edit-product-modal.open { display:flex; }
+.edit-modal-card {
+  background:#1a1a2e; border:1px solid rgba(255,255,255,0.12);
+  border-radius:20px; padding:32px; width:100%; max-width:480px;
+  position:relative;
+}
+.edit-modal-title {
+  font-family:'Syne',sans-serif; font-size:18px; font-weight:800;
+  color:#fff; margin-bottom:24px;
+}
+.edit-modal-close {
+  position:absolute; top:16px; right:16px;
+  background:none; border:none; color:rgba(255,255,255,0.4);
+  font-size:20px; cursor:pointer; line-height:1;
+}
+.edit-modal-close:hover { color:#fff; }
+
 /* QR MODAL */
 .modal-overlay{
   display:none;position:fixed;inset:0;z-index:100;
@@ -773,6 +795,7 @@ function renderProductTable(ps) {
     <td>${p.category||'—'}</td>
     <td>${p.warranty_months||24} ay</td>
     <td>
+      <button class="tbl-action" onclick="openEditProduct('${p.id}')">Düzenle</button>
       <button class="tbl-action del" onclick="deleteProduct('${p.id}')">Sil</button>
     </td>
   </tr>`).join('');
@@ -908,6 +931,43 @@ function resetPForm() {
   ['p-id','p-name','p-category','p-desc'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('p-months').value = '24';
   generateProductId();
+}
+
+function openEditProduct(id) {
+  const ps = getProducts();
+  const p = ps.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('ep-id').value = p.id;
+  document.getElementById('ep-name').value = p.name || '';
+  document.getElementById('ep-category').value = p.category || '';
+  document.getElementById('ep-months').value = p.warranty_months || 24;
+  document.getElementById('ep-desc').value = p.description || '';
+  document.getElementById('edit-product-modal').classList.add('open');
+}
+
+function closeEditProduct() {
+  document.getElementById('edit-product-modal').classList.remove('open');
+}
+
+async function saveEditProduct() {
+  const id = document.getElementById('ep-id').value;
+  const ps = getProducts();
+  const idx = ps.findIndex(x => x.id === id);
+  if (idx === -1) return;
+  ps[idx] = {
+    ...ps[idx],
+    name: document.getElementById('ep-name').value.trim(),
+    category: document.getElementById('ep-category').value.trim(),
+    warranty_months: parseInt(document.getElementById('ep-months').value) || 24,
+    description: document.getElementById('ep-desc').value.trim(),
+  };
+  LS.set('products', ps);
+  renderProductTable(ps);
+  fillProductSelect();
+  closeEditProduct();
+  setSaveStatus('syncing', 'GitHub\'a yükleniyor...');
+  const ok = await githubSave('data/products.json', ps);
+  setSaveStatus(ok ? 'ok' : 'error', ok ? 'Senkronize' : 'Bağlantı hatası');
 }
 
 function deleteProduct(id) {
@@ -1088,5 +1148,39 @@ function setSaveStatus(state, text) {
   txt.textContent = text;
 }
 </script>
+<!-- EDIT PRODUCT MODAL -->
+<div id="edit-product-modal">
+  <div class="edit-modal-card">
+    <button class="edit-modal-close" onclick="closeEditProduct()">✕</button>
+    <div class="edit-modal-title">✏️ Ürünü Düzenle</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Ürün ID</label>
+        <input type="text" id="ep-id" disabled style="opacity:0.4">
+      </div>
+      <div class="form-group">
+        <label>Garanti Süresi (Ay)</label>
+        <input type="number" id="ep-months" value="24" min="1" max="120">
+      </div>
+      <div class="form-group full">
+        <label>Ürün Adı *</label>
+        <input type="text" id="ep-name">
+      </div>
+      <div class="form-group full">
+        <label>Kategori</label>
+        <input type="text" id="ep-category">
+      </div>
+      <div class="form-group full">
+        <label>Açıklama</label>
+        <textarea id="ep-desc" rows="3"></textarea>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button class="btn btn-accent" onclick="saveEditProduct()" style="flex:1">💾 Kaydet</button>
+      <button class="btn" onclick="closeEditProduct()" style="flex:0 0 auto;padding:12px 20px">İptal</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
