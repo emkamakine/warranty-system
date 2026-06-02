@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garanti Doğrulama</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root {
+    --brand: #1a1a2e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --gold: #f5a623;
+    --surface: #ffffff;
+    --surface2: #f8f8fc;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --success: #10b981;
+    --warn: #f59e0b;
+    --danger: #ef4444;
+    --radius: 16px;
+    --radius-sm: 8px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0f0f1a;
+    min-height: 100vh;
+    color: var(--text);
+  }
+
+  /* ─── ANIMATED BG ─── */
+  .bg-canvas {
+    position: fixed; inset: 0; z-index: 0; overflow: hidden;
+  }
+  .bg-canvas::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(233,69,96,0.15) 0%, transparent 70%);
+    top: -200px; right: -200px;
+    animation: pulse1 8s ease-in-out infinite;
+  }
+  .bg-canvas::after {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(15,52,96,0.3) 0%, transparent 70%);
+    bottom: -100px; left: -100px;
+    animation: pulse2 10s ease-in-out infinite;
+  }
+  @keyframes pulse1 { 0%,100%{transform:scale(1) translate(0,0)} 50%{transform:scale(1.2) translate(20px,30px)} }
+  @keyframes pulse2 { 0%,100%{transform:scale(1) translate(0,0)} 50%{transform:scale(1.1) translate(-20px,-20px)} }
+
+  /* ─── HEADER ─── */
+  header {
+    position: relative; z-index: 10;
+    padding: 28px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 22px;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--accent); }
+  .lang-switcher {
+    display: flex; gap: 6px;
+  }
+  .lang-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+    font-size: 12px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .lang-btn.active, .lang-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* ─── MAIN ─── */
+  main {
+    position: relative; z-index: 10;
+    max-width: 680px; margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* ─── SEARCH ─── */
+  .search-section {
+    text-align: center; margin-bottom: 48px;
+  }
+  .search-eyebrow {
+    font-size: 12px; font-weight: 500; letter-spacing: 3px;
+    color: var(--accent); text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .search-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px; font-weight: 800;
+    color: #fff; line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  .search-title em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .search-sub {
+    font-size: 15px; color: rgba(255,255,255,0.45);
+    margin-bottom: 32px;
+  }
+  .search-box {
+    display: flex; gap: 0;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .search-box:focus-within {
+    border-color: var(--accent);
+    background: rgba(255,255,255,0.08);
+  }
+  .search-box input {
+    flex: 1;
+    background: transparent;
+    border: none; outline: none;
+    padding: 18px 24px;
+    font-size: 16px; font-weight: 400;
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 1px;
+  }
+  .search-box input::placeholder { color: rgba(255,255,255,0.25); }
+  .search-btn {
+    padding: 18px 28px;
+    background: var(--accent);
+    border: none; cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px; font-weight: 700;
+    color: #fff; letter-spacing: 1px;
+    transition: background 0.2s;
+  }
+  .search-btn:hover { background: #c73350; }
+
+  /* ─── STATE: LOADING ─── */
+  #state-loading { display: none; text-align: center; padding: 48px 0; }
+  .loader {
+    width: 40px; height: 40px;
+    border: 3px solid rgba(255,255,255,0.1);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #state-loading p { color: rgba(255,255,255,0.4); font-size: 14px; }
+
+  /* ─── STATE: NOT FOUND ─── */
+  #state-notfound { display: none; text-align: center; padding: 48px 0; }
+  .notfound-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: rgba(239,68,68,0.12);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 32px;
+  }
+  #state-notfound h3 {
+    font-family: 'Syne', sans-serif; font-size: 20px; color: #fff;
+    margin-bottom: 8px;
+  }
+  #state-notfound p { color: rgba(255,255,255,0.4); font-size: 14px; }
+
+  /* ─── WARRANTY CARD ─── */
+  #state-result { display: none; }
+
+  .warranty-card {
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+    position: relative;
+  }
+
+  /* Top stripe / header */
+  .card-header {
+    background: linear-gradient(135deg, var(--brand) 0%, #2d1b69 100%);
+    padding: 36px 40px 32px;
+    position: relative; overflow: hidden;
+  }
+  .card-header::after {
+    content: '';
+    position: absolute;
+    width: 300px; height: 300px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+    top: -100px; right: -100px;
+  }
+  .card-header-inner { position: relative; z-index: 1; }
+  .card-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.07);
+    font-size: 11px; font-weight: 500; letter-spacing: 2px;
+    color: rgba(255,255,255,0.7); text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .card-badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--success);
+    animation: blink 2s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .card-product-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px; font-weight: 800;
+    color: #fff; line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .card-model {
+    font-size: 14px; color: rgba(255,255,255,0.5);
+    font-weight: 400;
+  }
+
+  /* Status bar */
+  .card-status-bar {
+    display: flex; align-items: center; gap: 12px;
+    margin-top: 28px; padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 20px; border-radius: 24px;
+    font-size: 13px; font-weight: 600;
+  }
+  .status-active { background: rgba(16,185,129,0.2); color: #6ee7b7; }
+  .status-expired { background: rgba(239,68,68,0.2); color: #fca5a5; }
+  .status-warning { background: rgba(245,158,11,0.2); color: #fde68a; }
+  .status-days {
+    font-size: 13px; color: rgba(255,255,255,0.35);
+  }
+
+  /* Card body */
+  .card-body {
+    padding: 36px 40px;
+  }
+  .info-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .info-item {
+    padding: 20px 0;
+    border-bottom: 1px solid #f1f1f6;
+  }
+  .info-item:nth-child(odd) { padding-right: 32px; border-right: 1px solid #f1f1f6; }
+  .info-item:nth-child(even) { padding-left: 32px; }
+  .info-item:last-child, .info-item:nth-last-child(2) { border-bottom: none; }
+  .info-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 1.5px;
+    color: #9ca3af; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .info-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px; font-weight: 600;
+    color: var(--brand);
+  }
+  .info-value.mono {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px; font-weight: 400;
+    color: #374151;
+    letter-spacing: 0.5px;
+  }
+
+  /* Timeline bar */
+  .timeline-section {
+    background: #f8f8fc;
+    padding: 28px 40px;
+    border-top: 1px solid #f0f0f8;
+  }
+  .timeline-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 2px;
+    color: #9ca3af; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .timeline-bar-wrap {
+    position: relative;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .timeline-bar-fill {
+    height: 100%; border-radius: 4px;
+    transition: width 1s cubic-bezier(0.4,0,0.2,1);
+    background: linear-gradient(90deg, var(--success), #34d399);
+  }
+  .timeline-bar-fill.warn { background: linear-gradient(90deg, var(--warn), #fbbf24); }
+  .timeline-bar-fill.expired { background: linear-gradient(90deg, var(--danger), #f87171); }
+  .timeline-dates {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: #9ca3af;
+  }
+
+  /* Description */
+  .desc-section {
+    padding: 0 40px 28px;
+    border-top: 1px solid #f0f0f8;
+    padding-top: 24px;
+  }
+  .desc-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 2px;
+    color: #9ca3af; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .desc-text {
+    font-size: 14px; line-height: 1.7; color: #4b5563;
+  }
+
+  /* Footer */
+  .card-footer {
+    padding: 24px 40px;
+    background: #fafafa;
+    border-top: 1px solid #f0f0f8;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .verified-badge {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .verified-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(16,185,129,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .verified-text strong { display: block; font-size: 13px; color: #10b981; font-weight: 600; }
+  .verified-text span { font-size: 11px; color: #9ca3af; }
+  .warranty-id {
+    font-size: 11px; color: #d1d5db;
+    text-align: right;
+  }
+  .warranty-id span { display: block; font-weight: 600; color: #9ca3af; font-size: 12px; }
+
+  /* Print button */
+  .action-row {
+    display: flex; gap: 12px; margin-top: 24px;
+  }
+  .action-btn {
+    flex: 1; padding: 14px;
+    border-radius: 12px;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; border: none;
+    transition: all 0.2s;
+    font-family: 'Syne', sans-serif; letter-spacing: 0.5px;
+  }
+  .btn-primary {
+    background: var(--brand); color: #fff;
+  }
+  .btn-primary:hover { background: #2d1b69; }
+  .btn-ghost {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.7);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+
+  /* ─── PRINT ─── */
+  @media print {
+    body { background: #fff; }
+    .bg-canvas, header, .search-section, .action-row { display: none !important; }
+    .warranty-card { box-shadow: none; }
+    main { padding: 0; max-width: 100%; }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media(max-width: 520px) {
+    .card-header, .card-body { padding: 28px 24px; }
+    .card-body .info-item:nth-child(odd) { padding-right: 16px; }
+    .card-body .info-item:nth-child(even) { padding-left: 16px; }
+    .timeline-section, .desc-section { padding-left: 24px; padding-right: 24px; }
+    .card-footer { padding: 20px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
+    .search-title { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-canvas"></div>
+
+<header>
+  <div class="logo" id="logo-text">Garanti<span>.</span></div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('tr')">TR</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('ar')">AR</button>
+  </div>
+</header>
+
+<main>
+  <!-- SEARCH -->
+  <section class="search-section">
+    <div class="search-eyebrow" data-i18n="eyebrow">Dijital Garanti Sistemi</div>
+    <h1 class="search-title">
+      <span data-i18n="title1">Garantinizi</span><br>
+      <em data-i18n="title2">Anında Doğrulayın</em>
+    </h1>
+    <p class="search-sub" data-i18n="subtitle">Seri numarası veya garanti kodu girin</p>
+    <div class="search-box">
+      <input type="text" id="search-input" data-i18n-placeholder="placeholder"
+        placeholder="Örn: GAR-2024-001 veya seri no"
+        onkeydown="if(event.key==='Enter')doSearch()">
+      <button class="search-btn" onclick="doSearch()" data-i18n="search">SORGULA</button>
+    </div>
+  </section>
+
+  <!-- LOADING -->
+  <div id="state-loading">
+    <div class="loader"></div>
+    <p data-i18n="loading">Kayıt aranıyor...</p>
+  </div>
+
+  <!-- NOT FOUND -->
+  <div id="state-notfound">
+    <div class="notfound-icon">🔍</div>
+    <h3 data-i18n="nf-title">Kayıt Bulunamadı</h3>
+    <p data-i18n="nf-sub">Bu numara ile kayıtlı bir garanti belgesi yok.</p>
+  </div>
+
+  <!-- RESULT -->
+  <div id="state-result">
+    <div class="warranty-card">
+      <div class="card-header">
+        <div class="card-header-inner">
+          <div class="card-badge">
+            <div class="card-badge-dot"></div>
+            <span data-i18n="official">Resmi Garanti Belgesi</span>
+          </div>
+          <div class="card-product-name" id="res-product">—</div>
+          <div class="card-model" id="res-model">—</div>
+          <div class="card-status-bar">
+            <div class="status-pill" id="res-status-pill">—</div>
+            <div class="status-days" id="res-days">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label" data-i18n="lbl-customer">Müşteri</div>
+            <div class="info-value" id="res-customer">—</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label" data-i18n="lbl-serial">Seri Numarası</div>
+            <div class="info-value mono" id="res-serial">—</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label" data-i18n="lbl-start">Satış Tarihi</div>
+            <div class="info-value" id="res-start">—</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label" data-i18n="lbl-end">Garanti Bitiş</div>
+            <div class="info-value" id="res-end">—</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label" data-i18n="lbl-dealer">Yetkili Satıcı</div>
+            <div class="info-value" id="res-dealer">—</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label" data-i18n="lbl-duration">Garanti Süresi</div>
+            <div class="info-value" id="res-duration">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-section">
+        <div class="timeline-label" data-i18n="lbl-timeline">Garanti Süresi</div>
+        <div class="timeline-bar-wrap">
+          <div class="timeline-bar-fill" id="res-bar" style="width:0%"></div>
+        </div>
+        <div class="timeline-dates">
+          <span id="res-bar-start">—</span>
+          <span id="res-bar-end">—</span>
+        </div>
+      </div>
+
+      <div class="desc-section" id="res-desc-section" style="display:none">
+        <div class="desc-label" data-i18n="lbl-desc">Kapsam</div>
+        <div class="desc-text" id="res-desc">—</div>
+      </div>
+
+      <div class="card-footer">
+        <div class="verified-badge">
+          <div class="verified-icon">✓</div>
+          <div class="verified-text">
+            <strong data-i18n="verified">Doğrulandı</strong>
+            <span id="res-verify-time">—</span>
+          </div>
+        </div>
+        <div class="warranty-id">
+          <span data-i18n="lbl-code">Garanti Kodu</span>
+          <span id="res-id">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="action-btn btn-primary" onclick="window.print()" data-i18n="btn-print">🖨 Yazdır / PDF</button>
+      <button class="action-btn btn-ghost" onclick="resetSearch()" data-i18n="btn-new">↩ Yeni Sorgulama</button>
+    </div>
+  </div>
+</main>
+
+<script>
+/* ══════════════════════════════════════════════
+   CONFIG — Bunu doldurun
+══════════════════════════════════════════════ */
+const CONFIG = {
+  // GitHub raw URL — kurulumdan sonra güncellenecek
+  // Örnek: https://raw.githubusercontent.com/KULLANICI/REPO/main/data/warranties.json
+  DATA_URL: 'data/warranties.json',
+  COMPANY_NAME: 'Şirket Adı',
+};
+
+/* ══════════════════════════════════════════════
+   i18n
+══════════════════════════════════════════════ */
+const LANGS = {
+  tr: {
+    eyebrow:'Dijital Garanti Sistemi', title1:'Garantinizi', title2:'Anında Doğrulayın',
+    subtitle:'Seri numarası veya garanti kodu girin',
+    placeholder:'Örn: GAR-2024-001 veya seri no',
+    search:'SORGULA', loading:'Kayıt aranıyor...',
+    'nf-title':'Kayıt Bulunamadı', 'nf-sub':'Bu numara ile kayıtlı garanti belgesi bulunamadı.',
+    official:'Resmi Garanti Belgesi',
+    'lbl-customer':'Müşteri','lbl-serial':'Seri Numarası',
+    'lbl-start':'Satış Tarihi','lbl-end':'Garanti Bitiş',
+    'lbl-dealer':'Yetkili Satıcı','lbl-duration':'Garanti Süresi',
+    'lbl-timeline':'Süre Görselleştirme','lbl-desc':'Kapsam',
+    verified:'Doğrulandı','lbl-code':'Garanti Kodu',
+    'btn-print':'🖨 Yazdır / PDF','btn-new':'↩ Yeni Sorgulama',
+    active:'✓ Aktif Garanti', expired:'✕ Garanti Sona Erdi', expiring:'⚠ Yakında Bitiyor',
+    'days-left':'{n} gün kaldı','days-ago':'{n} gün önce sona erdi',
+    'verified-at':'Doğrulanma: {t}', year:'Yıl', month:'Ay',
+  },
+  en: {
+    eyebrow:'Digital Warranty System', title1:'Verify Your', title2:'Warranty Instantly',
+    subtitle:'Enter serial number or warranty code',
+    placeholder:'E.g: WAR-2024-001 or serial no',
+    search:'VERIFY', loading:'Looking up record...',
+    'nf-title':'Not Found', 'nf-sub':'No warranty record found with this number.',
+    official:'Official Warranty Certificate',
+    'lbl-customer':'Customer','lbl-serial':'Serial Number',
+    'lbl-start':'Purchase Date','lbl-end':'Warranty End',
+    'lbl-dealer':'Authorized Dealer','lbl-duration':'Warranty Period',
+    'lbl-timeline':'Timeline','lbl-desc':'Coverage',
+    verified:'Verified','lbl-code':'Warranty Code',
+    'btn-print':'🖨 Print / PDF','btn-new':'↩ New Search',
+    active:'✓ Active Warranty', expired:'✕ Warranty Expired', expiring:'⚠ Expiring Soon',
+    'days-left':'{n} days remaining','days-ago':'Expired {n} days ago',
+    'verified-at':'Verified: {t}', year:'Year', month:'Month',
+  },
+  ar: {
+    eyebrow:'نظام الضمان الرقمي', title1:'تحقق من', title2:'ضمانك الآن',
+    subtitle:'أدخل الرقم التسلسلي أو رمز الضمان',
+    placeholder:'مثال: WAR-2024-001',
+    search:'بحث', loading:'جارٍ البحث...',
+    'nf-title':'غير موجود', 'nf-sub':'لم يتم العثور على ضمان بهذا الرقم.',
+    official:'شهادة الضمان الرسمية',
+    'lbl-customer':'العميل','lbl-serial':'الرقم التسلسلي',
+    'lbl-start':'تاريخ الشراء','lbl-end':'انتهاء الضمان',
+    'lbl-dealer':'الوكيل المعتمد','lbl-duration':'مدة الضمان',
+    'lbl-timeline':'الجدول الزمني','lbl-desc':'التغطية',
+    verified:'تم التحقق','lbl-code':'رمز الضمان',
+    'btn-print':'🖨 طباعة','btn-new':'↩ بحث جديد',
+    active:'✓ الضمان فعّال', expired:'✕ انتهى الضمان', expiring:'⚠ ينتهي قريباً',
+    'days-left':'يتبقى {n} يوم','days-ago':'انتهى منذ {n} يوم',
+    'verified-at':'وقت التحقق: {t}', year:'سنة', month:'شهر',
+  },
+};
+
+let currentLang = 'tr';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick*="'${lang}'"]`).classList.add('active');
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  const t = LANGS[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.dataset.i18n;
+    if (t[k]) el.textContent = t[k];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const k = el.dataset.i18nPlaceholder;
+    if (t[k]) el.placeholder = t[k];
+  });
+  document.getElementById('logo-text').innerHTML = CONFIG.COMPANY_NAME + '<span>.</span>';
+}
+
+/* ══════════════════════════════════════════════
+   DATA
+══════════════════════════════════════════════ */
+let warranties = null;
+
+async function loadData() {
+  if (warranties) return warranties;
+  const r = await fetch(CONFIG.DATA_URL + '?v=' + Date.now());
+  if (!r.ok) throw new Error('data error');
+  warranties = await r.json();
+  return warranties;
+}
+
+/* ══════════════════════════════════════════════
+   SEARCH
+══════════════════════════════════════════════ */
+function showState(s) {
+  ['loading','notfound','result'].forEach(id => {
+    document.getElementById('state-'+id).style.display = 'none';
+  });
+  if (s) document.getElementById('state-'+s).style.display = 'block';
+}
+
+async function doSearch() {
+  const q = document.getElementById('search-input').value.trim().toUpperCase();
+  if (!q) return;
+  showState('loading');
+  try {
+    const data = await loadData();
+    const found = data.find(w =>
+      w.id?.toUpperCase() === q ||
+      w.serial?.toUpperCase() === q
+    );
+    if (!found) { showState('notfound'); return; }
+    renderResult(found);
+    showState('result');
+  } catch(e) {
+    showState('notfound');
+  }
+}
+
+function resetSearch() {
+  showState(null);
+  document.getElementById('search-input').value = '';
+  warranties = null;
+}
+
+/* ══════════════════════════════════════════════
+   RENDER
+══════════════════════════════════════════════ */
+function fmt(dateStr) {
+  if (!dateStr) return '—';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString(
+    currentLang === 'ar' ? 'ar-SA' : currentLang === 'en' ? 'en-GB' : 'tr-TR',
+    { day:'2-digit', month:'long', year:'numeric' }
+  );
+}
+
+function renderResult(w) {
+  const t = LANGS[currentLang];
+  const now = new Date();
+  const start = new Date(w.sale_date);
+  const end = new Date(w.warranty_end);
+  const totalMs = end - start;
+  const passedMs = now - start;
+  const pct = Math.min(100, Math.max(0, (passedMs / totalMs) * 100));
+  const daysLeft = Math.ceil((end - now) / 86400000);
+
+  document.getElementById('res-product').textContent = w.product_name || '—';
+  document.getElementById('res-model').textContent = w.model ? `Model: ${w.model}` : '';
+  document.getElementById('res-customer').textContent = w.customer_name || '—';
+  document.getElementById('res-serial').textContent = w.serial || '—';
+  document.getElementById('res-start').textContent = fmt(w.sale_date);
+  document.getElementById('res-end').textContent = fmt(w.warranty_end);
+  document.getElementById('res-dealer').textContent = w.dealer || CONFIG.COMPANY_NAME;
+  document.getElementById('res-id').textContent = w.id || '—';
+
+  // Duration
+  const months = w.warranty_months || 24;
+  const durText = months >= 12
+    ? `${months/12} ${t.year}`
+    : `${months} ${t.month}`;
+  document.getElementById('res-duration').textContent = durText;
+
+  // Status
+  const pill = document.getElementById('res-status-pill');
+  const bar = document.getElementById('res-bar');
+  const daysEl = document.getElementById('res-days');
+  if (daysLeft > 30) {
+    pill.className = 'status-pill status-active';
+    pill.textContent = t.active;
+    bar.className = 'timeline-bar-fill';
+    daysEl.textContent = t['days-left'].replace('{n}', daysLeft);
+  } else if (daysLeft > 0) {
+    pill.className = 'status-pill status-warning';
+    pill.textContent = t.expiring;
+    bar.className = 'timeline-bar-fill warn';
+    daysEl.textContent = t['days-left'].replace('{n}', daysLeft);
+  } else {
+    pill.className = 'status-pill status-expired';
+    pill.textContent = t.expired;
+    bar.className = 'timeline-bar-fill expired';
+    daysEl.textContent = t['days-ago'].replace('{n}', Math.abs(daysLeft));
+  }
+  setTimeout(() => { bar.style.width = pct + '%'; }, 100);
+
+  // Timeline labels
+  document.getElementById('res-bar-start').textContent = fmt(w.sale_date);
+  document.getElementById('res-bar-end').textContent = fmt(w.warranty_end);
+
+  // Description
+  const descSec = document.getElementById('res-desc-section');
+  if (w.description) {
+    descSec.style.display = 'block';
+    document.getElementById('res-desc').textContent = w.description;
+  } else {
+    descSec.style.display = 'none';
+  }
+
+  // Verify time
+  const now2 = new Date();
+  document.getElementById('res-verify-time').textContent = t['verified-at'].replace('{t}',
+    now2.toLocaleTimeString(currentLang === 'en' ? 'en-GB' : 'tr-TR', {hour:'2-digit',minute:'2-digit'})
+  );
+}
+
+/* ══════════════════════════════════════════════
+   AUTO-SEARCH from URL param
+══════════════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  setLang('tr');
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id') || params.get('warranty');
+  if (id) {
+    document.getElementById('search-input').value = id;
+    doSearch();
+  }
+  // Set company name
+  document.getElementById('logo-text').innerHTML = CONFIG.COMPANY_NAME + '<span>.</span>';
+});
+</script>
+</body>
+</html>

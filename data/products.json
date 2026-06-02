@@ -1,0 +1,10 @@
+[
+  {
+    "id": "PRD-001",
+    "name": "Örnek Makine A",
+    "category": "Tekstil Makinesi",
+    "warranty_months": 24,
+    "description": "Yüksek kapasiteli endüstriyel makine.",
+    "_created": 1705312800000
+  }
+]

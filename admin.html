@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garanti Admin Paneli</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root {
+  --brand:#1a1a2e; --accent:#e94560; --accent2:#0f3460;
+  --bg:#0f0f1a; --surface:rgba(255,255,255,0.04);
+  --surface2:rgba(255,255,255,0.07); --border:rgba(255,255,255,0.08);
+  --text:#fff; --muted:rgba(255,255,255,0.45);
+  --success:#10b981; --warn:#f59e0b; --danger:#ef4444;
+  --radius:14px; --radius-sm:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* LOGIN */
+#login-screen{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;
+  background: radial-gradient(ellipse at top, rgba(233,69,96,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at bottom left, rgba(15,52,96,0.2) 0%, transparent 60%),
+              #0f0f1a;
+}
+.login-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:24px;
+  padding:48px 40px;
+  width:100%;max-width:400px;
+  text-align:center;
+}
+.login-logo{
+  font-family:'Syne',sans-serif;font-size:28px;font-weight:800;
+  margin-bottom:8px;
+}
+.login-logo span{color:var(--accent)}
+.login-sub{font-size:13px;color:var(--muted);margin-bottom:36px}
+.login-card input{
+  width:100%;padding:14px 18px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:10px;color:#fff;
+  font-size:15px;font-family:'DM Sans',sans-serif;
+  margin-bottom:12px;outline:none;
+  transition:border-color 0.2s;
+}
+.login-card input:focus{border-color:var(--accent)}
+.login-card input::placeholder{color:rgba(255,255,255,0.25)}
+.login-btn{
+  width:100%;padding:15px;
+  background:var(--accent);border:none;border-radius:10px;
+  color:#fff;font-size:14px;font-weight:700;
+  font-family:'Syne',sans-serif;letter-spacing:1px;
+  cursor:pointer;transition:background 0.2s;margin-top:4px;
+}
+.login-btn:hover{background:#c73350}
+.login-err{
+  background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);
+  border-radius:8px;padding:10px 14px;font-size:13px;color:#fca5a5;
+  margin-top:12px;display:none;
+}
+
+/* LAYOUT */
+#app{display:none}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{
+  background:rgba(255,255,255,0.02);
+  border-right:1px solid var(--border);
+  padding:28px 20px;
+  display:flex;flex-direction:column;
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.sidebar-logo{
+  font-family:'Syne',sans-serif;font-size:20px;font-weight:800;
+  padding:0 8px;margin-bottom:36px;
+}
+.sidebar-logo span{color:var(--accent)}
+.nav-label{
+  font-size:10px;font-weight:600;letter-spacing:2px;
+  color:rgba(255,255,255,0.2);text-transform:uppercase;
+  padding:0 8px;margin-bottom:8px;margin-top:16px;
+}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:10px;
+  cursor:pointer;transition:all 0.15s;
+  font-size:13px;font-weight:500;color:var(--muted);
+  margin-bottom:2px;
+}
+.nav-item:hover{background:var(--surface2);color:#fff}
+.nav-item.active{background:rgba(233,69,96,0.15);color:var(--accent)}
+.nav-icon{font-size:16px;width:20px;text-align:center}
+.sidebar-footer{margin-top:auto;padding-top:20px;border-top:1px solid var(--border)}
+.sidebar-footer p{font-size:11px;color:rgba(255,255,255,0.2);padding:0 8px}
+.logout-btn{
+  width:100%;padding:10px;margin-top:10px;
+  background:transparent;border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px;color:rgba(255,255,255,0.4);
+  font-size:12px;cursor:pointer;transition:all 0.2s;
+  font-family:'DM Sans',sans-serif;
+}
+.logout-btn:hover{border-color:var(--danger);color:var(--danger)}
+
+/* MAIN CONTENT */
+.content{padding:36px 40px;overflow-y:auto}
+.page{display:none}
+.page.active{display:block}
+.page-header{margin-bottom:32px}
+.page-title{
+  font-family:'Syne',sans-serif;font-size:28px;font-weight:800;
+  margin-bottom:6px;
+}
+.page-sub{font-size:14px;color:var(--muted)}
+
+/* STAT CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px 22px;
+}
+.stat-card-label{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.stat-card-value{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;line-height:1}
+.stat-card-sub{font-size:12px;color:var(--muted);margin-top:6px}
+.stat-accent{color:var(--accent)}
+.stat-success{color:var(--success)}
+.stat-warn{color:var(--warn)}
+
+/* TABLES */
+.table-wrap{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;
+}
+.table-toolbar{
+  padding:16px 20px;display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid var(--border);
+}
+.table-search{
+  flex:1;padding:9px 14px;
+  background:rgba(255,255,255,0.05);border:1px solid var(--border);
+  border-radius:8px;color:#fff;font-size:13px;
+  font-family:'DM Sans',sans-serif;outline:none;
+}
+.table-search:focus{border-color:rgba(233,69,96,0.5)}
+.table-search::placeholder{color:rgba(255,255,255,0.2)}
+table{width:100%;border-collapse:collapse}
+th{
+  padding:12px 16px;text-align:left;
+  font-size:10px;font-weight:600;letter-spacing:1.5px;
+  color:rgba(255,255,255,0.25);text-transform:uppercase;
+  border-bottom:1px solid var(--border);
+}
+td{
+  padding:14px 16px;font-size:13px;color:rgba(255,255,255,0.8);
+  border-bottom:1px solid rgba(255,255,255,0.03);
+}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,0.02)}
+.badge{
+  display:inline-block;padding:3px 10px;border-radius:20px;
+  font-size:11px;font-weight:600;
+}
+.badge-active{background:rgba(16,185,129,0.15);color:#6ee7b7}
+.badge-expired{background:rgba(239,68,68,0.15);color:#fca5a5}
+.badge-warn{background:rgba(245,158,11,0.15);color:#fde68a}
+.tbl-action{
+  background:none;border:1px solid rgba(255,255,255,0.1);
+  border-radius:6px;padding:5px 10px;font-size:11px;
+  color:rgba(255,255,255,0.5);cursor:pointer;
+  transition:all 0.15s;font-family:'DM Sans',sans-serif;
+  margin-left:4px;
+}
+.tbl-action:hover{border-color:var(--accent);color:var(--accent)}
+.tbl-action.del:hover{border-color:var(--danger);color:var(--danger)}
+.empty-row td{text-align:center;padding:48px;color:var(--muted);font-size:13px}
+
+/* FORMS */
+.form-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:32px;margin-bottom:24px;
+}
+.form-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:24px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:1/-1}
+label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+input[type=text],input[type=date],input[type=number],select,textarea{
+  padding:11px 14px;
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px;color:#fff;font-size:13px;
+  font-family:'DM Sans',sans-serif;outline:none;
+  transition:border-color 0.2s;
+}
+input:focus,select:focus,textarea:focus{border-color:rgba(233,69,96,0.6)}
+input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.2)}
+select option{background:#1a1a2e;color:#fff}
+textarea{resize:vertical;min-height:80px}
+.form-actions{display:flex;gap:12px;margin-top:8px}
+.btn{
+  padding:12px 24px;border-radius:10px;border:none;
+  font-size:13px;font-weight:700;font-family:'Syne',sans-serif;
+  letter-spacing:0.5px;cursor:pointer;transition:all 0.2s;
+}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-accent:hover{background:#c73350}
+.btn-outline{
+  background:transparent;color:rgba(255,255,255,0.5);
+  border:1px solid rgba(255,255,255,0.1);
+}
+.btn-outline:hover{border-color:rgba(255,255,255,0.3);color:#fff}
+.btn-success{background:var(--success);color:#fff}
+.btn-success:hover{background:#059669}
+
+/* ALERTS */
+.alert{
+  padding:12px 16px;border-radius:10px;font-size:13px;
+  margin-bottom:16px;display:none;
+}
+.alert-success{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.2);color:#6ee7b7}
+.alert-error{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.2);color:#fca5a5}
+
+/* QR MODAL */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,0.7);
+  align-items:center;justify-content:center;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:#1a1a2e;border:1px solid rgba(255,255,255,0.1);
+  border-radius:20px;padding:36px;
+  width:90%;max-width:420px;text-align:center;
+}
+.modal h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px}
+.modal p{font-size:13px;color:var(--muted);margin-bottom:24px}
+#qr-display{
+  background:#fff;border-radius:12px;
+  padding:20px;display:inline-block;margin-bottom:20px;
+}
+.modal-btns{display:flex;gap:10px;justify-content:center}
+.modal-url{
+  font-size:11px;color:var(--muted);word-break:break-all;
+  background:rgba(255,255,255,0.04);border-radius:8px;
+  padding:10px 12px;margin-bottom:16px;text-align:left;
+  font-family:'DM Mono',monospace;
+}
+
+/* GITHUB SAVE STATUS */
+.save-status{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;color:var(--muted);
+  padding:8px 14px;background:var(--surface);
+  border:1px solid var(--border);border-radius:8px;
+  width:fit-content;
+}
+.save-dot{width:8px;height:8px;border-radius:50%;background:var(--success)}
+.save-dot.syncing{background:var(--warn);animation:pulse 1s ease-in-out infinite}
+.save-dot.error{background:var(--danger)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* SETTINGS */
+.settings-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.settings-note{font-size:12px;color:var(--muted);margin-top:4px}
+
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .form-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">Garanti<span>.</span>Admin</div>
+    <div class="login-sub">Yönetim paneline erişim</div>
+    <input type="password" id="login-pass" placeholder="Şifre" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">GİRİŞ YAP</button>
+    <div class="login-err" id="login-err">Hatalı şifre</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">Garanti<span>.</span></div>
+
+      <div class="nav-label">Yönetim</div>
+      <div class="nav-item active" onclick="showPage('dashboard')">
+        <span class="nav-icon">📊</span> Dashboard
+      </div>
+      <div class="nav-item" onclick="showPage('warranties')">
+        <span class="nav-icon">📋</span> Garanti Kayıtları
+      </div>
+      <div class="nav-item" onclick="showPage('products')">
+        <span class="nav-icon">📦</span> Ürün Kataloğu
+      </div>
+      <div class="nav-item" onclick="showPage('add-warranty')">
+        <span class="nav-icon">➕</span> Yeni Garanti
+      </div>
+      <div class="nav-item" onclick="showPage('add-product')">
+        <span class="nav-icon">📦</span> Yeni Ürün
+      </div>
+
+      <div class="nav-label">Sistem</div>
+      <div class="nav-item" onclick="showPage('settings')">
+        <span class="nav-icon">⚙️</span> Ayarlar
+      </div>
+
+      <div class="sidebar-footer">
+        <div id="save-status-sidebar" class="save-status">
+          <div class="save-dot" id="save-dot"></div>
+          <span id="save-text">Bağlı</span>
+        </div>
+        <button class="logout-btn" onclick="doLogout()">Çıkış Yap</button>
+      </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="content">
+
+      <!-- DASHBOARD -->
+      <div id="page-dashboard" class="page active">
+        <div class="page-header">
+          <div class="page-title">Dashboard</div>
+          <div class="page-sub" id="dash-date">—</div>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-card-label">Toplam Garanti</div>
+            <div class="stat-card-value" id="stat-total">0</div>
+            <div class="stat-card-sub">kayıt</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Aktif</div>
+            <div class="stat-card-value stat-success" id="stat-active">0</div>
+            <div class="stat-card-sub">geçerli garanti</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Bu ay bitiyor</div>
+            <div class="stat-card-value stat-warn" id="stat-expiring">0</div>
+            <div class="stat-card-sub">30 gün içinde</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Ürün Çeşidi</div>
+            <div class="stat-card-value stat-accent" id="stat-products">0</div>
+            <div class="stat-card-sub">katalogda</div>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <div class="table-toolbar">
+            <span style="font-size:13px;font-weight:600">Son Eklenen Garantiler</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Kod</th><th>Ürün</th><th>Müşteri</th><th>Bitiş</th><th>Durum</th>
+              </tr>
+            </thead>
+            <tbody id="dash-table">
+              <tr class="empty-row"><td colspan="5">Henüz kayıt yok</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- WARRANTY LIST -->
+      <div id="page-warranties" class="page">
+        <div class="page-header">
+          <div class="page-title">Garanti Kayıtları</div>
+          <div class="page-sub">Tüm garanti belgelerini görüntüle ve yönet</div>
+        </div>
+        <div class="table-wrap">
+          <div class="table-toolbar">
+            <input class="table-search" type="text" placeholder="Ara (müşteri, kod, seri no...)" oninput="filterWarranties(this.value)">
+            <button class="btn btn-accent" onclick="showPage('add-warranty')" style="white-space:nowrap;padding:9px 18px">+ Yeni Garanti</button>
+          </div>
+          <table>
+            <thead>
+              <tr><th>Kod</th><th>Ürün</th><th>Müşteri</th><th>Satış</th><th>Bitiş</th><th>Durum</th><th>İşlem</th></tr>
+            </thead>
+            <tbody id="warranty-table">
+              <tr class="empty-row"><td colspan="7">Yükleniyor...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PRODUCT LIST -->
+      <div id="page-products" class="page">
+        <div class="page-header">
+          <div class="page-title">Ürün Kataloğu</div>
+          <div class="page-sub">Garanti oluşturulabilecek ürünler</div>
+        </div>
+        <div class="table-wrap">
+          <div class="table-toolbar">
+            <input class="table-search" type="text" placeholder="Ürün ara..." oninput="filterProducts(this.value)">
+            <button class="btn btn-accent" onclick="showPage('add-product')" style="white-space:nowrap;padding:9px 18px">+ Yeni Ürün</button>
+          </div>
+          <table>
+            <thead>
+              <tr><th>ID</th><th>Ürün Adı</th><th>Kategori</th><th>Standart Garanti</th><th>İşlem</th></tr>
+            </thead>
+            <tbody id="product-table">
+              <tr class="empty-row"><td colspan="5">Yükleniyor...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ADD WARRANTY -->
+      <div id="page-add-warranty" class="page">
+        <div class="page-header">
+          <div class="page-title">Yeni Garanti Kaydı</div>
+          <div class="page-sub">Satış sonrası garanti belgesi oluştur</div>
+        </div>
+        <div class="alert alert-success" id="wform-ok">✓ Garanti başarıyla kaydedildi ve GitHub'a yüklendi.</div>
+        <div class="alert alert-error" id="wform-err">✕ Kayıt sırasında hata oluştu. Ayarları kontrol edin.</div>
+        <div class="form-card">
+          <div class="form-title">Müşteri & Ürün Bilgileri</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Garanti Kodu *</label>
+              <input type="text" id="w-id" placeholder="Otomatik üretilecek (değiştirilebilir)">
+            </div>
+            <div class="form-group">
+              <label>Ürün *</label>
+              <select id="w-product" onchange="fillWarrantyMonths()">
+                <option value="">-- Ürün seçin --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Seri Numarası</label>
+              <input type="text" id="w-serial" placeholder="Makine seri no">
+            </div>
+            <div class="form-group">
+              <label>Model</label>
+              <input type="text" id="w-model" placeholder="Ürün modeli">
+            </div>
+            <div class="form-group">
+              <label>Müşteri Adı *</label>
+              <input type="text" id="w-customer" placeholder="Ad Soyad / Firma">
+            </div>
+            <div class="form-group">
+              <label>Müşteri Tel / E-posta</label>
+              <input type="text" id="w-contact" placeholder="İletişim bilgisi">
+            </div>
+            <div class="form-group">
+              <label>Satış Tarihi *</label>
+              <input type="date" id="w-start">
+            </div>
+            <div class="form-group">
+              <label>Garanti Süresi (Ay) *</label>
+              <input type="number" id="w-months" value="24" min="1" max="120" onchange="calcEnd()">
+            </div>
+            <div class="form-group">
+              <label>Garanti Bitiş (otomatik)</label>
+              <input type="date" id="w-end" readonly style="opacity:0.5">
+            </div>
+            <div class="form-group">
+              <label>Yetkili Satıcı</label>
+              <input type="text" id="w-dealer" placeholder="Varsayılan: şirket adı">
+            </div>
+            <div class="form-group full">
+              <label>Kapsam / Notlar</label>
+              <textarea id="w-desc" placeholder="Garanti kapsamı, özel koşullar..."></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-accent" onclick="saveWarranty()">💾 Kaydet & GitHub'a Yükle</button>
+            <button class="btn btn-outline" onclick="resetWForm()">Temizle</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADD PRODUCT -->
+      <div id="page-add-product" class="page">
+        <div class="page-header">
+          <div class="page-title">Yeni Ürün</div>
+          <div class="page-sub">Ürün kataloğuna ekle</div>
+        </div>
+        <div class="alert alert-success" id="pform-ok">✓ Ürün başarıyla eklendi.</div>
+        <div class="alert alert-error" id="pform-err">✕ Hata oluştu.</div>
+        <div class="form-card">
+          <div class="form-title">Ürün Bilgileri</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Ürün ID *</label>
+              <input type="text" id="p-id" placeholder="Otomatik üretilecek">
+            </div>
+            <div class="form-group">
+              <label>Ürün Adı *</label>
+              <input type="text" id="p-name" placeholder="Ürün / Makine adı">
+            </div>
+            <div class="form-group">
+              <label>Kategori</label>
+              <input type="text" id="p-category" placeholder="Örn: Tekstil Makinesi">
+            </div>
+            <div class="form-group">
+              <label>Standart Garanti (Ay)</label>
+              <input type="number" id="p-months" value="24" min="1">
+            </div>
+            <div class="form-group full">
+              <label>Açıklama</label>
+              <textarea id="p-desc" placeholder="Ürün açıklaması, teknik bilgiler..."></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-accent" onclick="saveProduct()">💾 Kaydet & GitHub'a Yükle</button>
+            <button class="btn btn-outline" onclick="resetPForm()">Temizle</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div id="page-settings" class="page">
+        <div class="page-header">
+          <div class="page-title">Ayarlar</div>
+          <div class="page-sub">GitHub ve sistem yapılandırması</div>
+        </div>
+        <div class="form-card">
+          <div class="form-title">🔧 GitHub Bağlantısı</div>
+          <div class="settings-row">
+            <div class="form-group">
+              <label>GitHub Kullanıcı Adı</label>
+              <input type="text" id="cfg-user" placeholder="kullaniciadi">
+            </div>
+            <div class="form-group">
+              <label>Repository Adı</label>
+              <input type="text" id="cfg-repo" placeholder="garanti-sistemi">
+            </div>
+            <div class="form-group">
+              <label>GitHub Token (PAT)</label>
+              <input type="text" id="cfg-token" placeholder="ghp_xxxxxxxxxxxx">
+              <div class="settings-note">GitHub → Settings → Developer Settings → Personal Access Tokens → Fine-grained → repo write yetkisi ver</div>
+            </div>
+            <div class="form-group">
+              <label>Şirket Adı</label>
+              <input type="text" id="cfg-company" placeholder="Şirketinizin adı">
+            </div>
+            <div class="form-group">
+              <label>Garanti Doğrulama URL</label>
+              <input type="text" id="cfg-url" placeholder="https://garanti.siteniz.com/verify.html">
+              <div class="settings-note">QR kodlar bu URL'e yönlendirilir</div>
+            </div>
+            <div class="form-group">
+              <label>Admin Şifresi (değiştir)</label>
+              <input type="text" id="cfg-pass" placeholder="Boş bırakırsanız değişmez">
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-accent" onclick="saveSettings()">💾 Ayarları Kaydet</button>
+            <button class="btn btn-success" onclick="testConnection()">🔗 Bağlantıyı Test Et</button>
+          </div>
+          <div class="alert alert-success" id="cfg-ok" style="margin-top:16px">✓ Ayarlar kaydedildi.</div>
+          <div class="alert alert-error" id="cfg-err" style="margin-top:16px">✕ GitHub bağlantısı başarısız.</div>
+        </div>
+
+        <div class="form-card">
+          <div class="form-title">📥 Veri Yönetimi</div>
+          <div class="form-actions">
+            <button class="btn btn-outline" onclick="exportData()">📥 JSON Olarak İndir (Yedek)</button>
+            <button class="btn btn-outline" onclick="importData()">📤 JSON Yükle (Geri Yükle)</button>
+          </div>
+          <input type="file" id="import-file" accept=".json" style="display:none" onchange="handleImport(event)">
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- QR MODAL -->
+<div class="modal-overlay" id="qr-modal">
+  <div class="modal">
+    <h3>📱 QR Kod</h3>
+    <p id="qr-subtitle">Müşteri bu kodu tarayarak garantisini görebilir</p>
+    <div id="qr-display"></div>
+    <div class="modal-url" id="qr-url-text">—</div>
+    <div class="modal-btns">
+      <button class="btn btn-accent" onclick="downloadQR()">İndir (PNG)</button>
+      <button class="btn btn-outline" onclick="closeQR()">Kapat</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   STORAGE — localStorage ile basit yerel db
+   GitHub API ile uzak senkronizasyon
+═══════════════════════════════════════════ */
+const LS = {
+  get: k => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch { return null; } },
+  set: (k, v) => localStorage.setItem(k, JSON.stringify(v)),
+};
+
+function getConfig() {
+  return LS.get('cfg') || {
+    user: '', repo: '', token: '', company: 'Şirket Adı',
+    url: '', pass: btoa('admin123'),
+  };
+}
+function getWarranties() { return LS.get('warranties') || []; }
+function getProducts() { return LS.get('products') || []; }
+
+/* ═══════════════════════════════════════════
+   LOGIN
+═══════════════════════════════════════════ */
+function doLogin() {
+  const pass = document.getElementById('login-pass').value;
+  const cfg = getConfig();
+  const stored = cfg.pass || btoa('admin123');
+  if (btoa(pass) === stored || pass === atob(stored)) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initApp();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+    setTimeout(() => document.getElementById('login-err').style.display = 'none', 3000);
+  }
+}
+function doLogout() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-pass').value = '';
+}
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  const items = document.querySelectorAll('.nav-item');
+  items.forEach(i => { if (i.getAttribute('onclick')?.includes("'"+name+"'")) i.classList.add('active'); });
+  if (name === 'warranties') renderWarrantyTable(getWarranties());
+  if (name === 'products') renderProductTable(getProducts());
+  if (name === 'dashboard') renderDashboard();
+  if (name === 'settings') loadSettingsForm();
+  if (name === 'add-warranty') { generateWarrantyId(); fillProductSelect(); setTodayDate(); }
+  if (name === 'add-product') generateProductId();
+}
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+function initApp() {
+  renderDashboard();
+  fillProductSelect();
+  generateWarrantyId();
+  generateProductId();
+  setTodayDate();
+}
+
+function renderDashboard() {
+  const ws = getWarranties();
+  const ps = getProducts();
+  const now = new Date();
+  const active = ws.filter(w => new Date(w.warranty_end) > now).length;
+  const expiring = ws.filter(w => {
+    const d = new Date(w.warranty_end);
+    return d > now && (d - now) < 30*86400000;
+  }).length;
+  document.getElementById('stat-total').textContent = ws.length;
+  document.getElementById('stat-active').textContent = active;
+  document.getElementById('stat-expiring').textContent = expiring;
+  document.getElementById('stat-products').textContent = ps.length;
+  document.getElementById('dash-date').textContent = new Date().toLocaleDateString('tr-TR', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  const tbody = document.getElementById('dash-table');
+  const recent = [...ws].sort((a,b) => b._created - a._created).slice(0, 8);
+  if (!recent.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Henüz garanti kaydı yok</td></tr>';
+    return;
+  }
+  tbody.innerHTML = recent.map(w => {
+    const end = new Date(w.warranty_end);
+    const left = Math.ceil((end - now) / 86400000);
+    return `<tr>
+      <td style="font-family:'DM Mono',monospace;font-size:12px">${w.id}</td>
+      <td>${w.product_name || '—'}</td>
+      <td>${w.customer_name || '—'}</td>
+      <td>${fmtDate(w.warranty_end)}</td>
+      <td>${statusBadge(left)}</td>
+    </tr>`;
+  }).join('');
+}
+
+function statusBadge(daysLeft) {
+  if (daysLeft > 30) return `<span class="badge badge-active">Aktif</span>`;
+  if (daysLeft > 0) return `<span class="badge badge-warn">⚠ ${daysLeft}g</span>`;
+  return `<span class="badge badge-expired">Sona Erdi</span>`;
+}
+
+function fmtDate(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('tr-TR', {day:'2-digit',month:'2-digit',year:'numeric'});
+}
+
+/* ═══════════════════════════════════════════
+   WARRANTY TABLE
+═══════════════════════════════════════════ */
+let wFilter = '';
+function filterWarranties(v) { wFilter = v.toLowerCase(); renderWarrantyTable(getWarranties()); }
+
+function renderWarrantyTable(ws) {
+  const now = new Date();
+  let filtered = ws;
+  if (wFilter) filtered = ws.filter(w =>
+    (w.id||'').toLowerCase().includes(wFilter) ||
+    (w.customer_name||'').toLowerCase().includes(wFilter) ||
+    (w.serial||'').toLowerCase().includes(wFilter) ||
+    (w.product_name||'').toLowerCase().includes(wFilter)
+  );
+  const tbody = document.getElementById('warranty-table');
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="7">Kayıt bulunamadı</td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.map(w => {
+    const left = Math.ceil((new Date(w.warranty_end) - now) / 86400000);
+    return `<tr>
+      <td style="font-family:'DM Mono',monospace;font-size:12px">${w.id}</td>
+      <td>${w.product_name||'—'}</td>
+      <td>${w.customer_name||'—'}</td>
+      <td>${fmtDate(w.sale_date)}</td>
+      <td>${fmtDate(w.warranty_end)}</td>
+      <td>${statusBadge(left)}</td>
+      <td>
+        <button class="tbl-action" onclick="showQR('${w.id}')">QR</button>
+        <button class="tbl-action" onclick="copyLink('${w.id}')">Link</button>
+        <button class="tbl-action del" onclick="deleteWarranty('${w.id}')">Sil</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════
+   PRODUCT TABLE
+═══════════════════════════════════════════ */
+let pFilter = '';
+function filterProducts(v) { pFilter = v.toLowerCase(); renderProductTable(getProducts()); }
+
+function renderProductTable(ps) {
+  let filtered = ps;
+  if (pFilter) filtered = ps.filter(p =>
+    (p.name||'').toLowerCase().includes(pFilter) ||
+    (p.category||'').toLowerCase().includes(pFilter)
+  );
+  const tbody = document.getElementById('product-table');
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Ürün bulunamadı</td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.map(p => `<tr>
+    <td style="font-family:'DM Mono',monospace;font-size:12px">${p.id}</td>
+    <td>${p.name||'—'}</td>
+    <td>${p.category||'—'}</td>
+    <td>${p.warranty_months||24} ay</td>
+    <td>
+      <button class="tbl-action del" onclick="deleteProduct('${p.id}')">Sil</button>
+    </td>
+  </tr>`).join('');
+}
+
+/* ═══════════════════════════════════════════
+   WARRANTY FORM
+═══════════════════════════════════════════ */
+function generateWarrantyId() {
+  const ws = getWarranties();
+  const year = new Date().getFullYear();
+  const num = String(ws.length + 1).padStart(4, '0');
+  document.getElementById('w-id').value = `GAR-${year}-${num}`;
+}
+function setTodayDate() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('w-start').value = today;
+  calcEnd();
+}
+function fillProductSelect() {
+  const ps = getProducts();
+  const sel = document.getElementById('w-product');
+  sel.innerHTML = '<option value="">-- Ürün seçin --</option>' +
+    ps.map(p => `<option value="${p.id}" data-months="${p.warranty_months||24}" data-name="${p.name}">${p.name} (${p.category||''})</option>`).join('');
+}
+function fillWarrantyMonths() {
+  const sel = document.getElementById('w-product');
+  const opt = sel.selectedOptions[0];
+  if (opt && opt.dataset.months) {
+    document.getElementById('w-months').value = opt.dataset.months;
+    calcEnd();
+  }
+}
+function calcEnd() {
+  const start = document.getElementById('w-start').value;
+  const months = parseInt(document.getElementById('w-months').value) || 24;
+  if (!start) return;
+  const d = new Date(start);
+  d.setMonth(d.getMonth() + months);
+  document.getElementById('w-end').value = d.toISOString().split('T')[0];
+}
+
+async function saveWarranty() {
+  const sel = document.getElementById('w-product');
+  const opt = sel.selectedOptions[0];
+  const w = {
+    id: document.getElementById('w-id').value.trim(),
+    product_id: sel.value,
+    product_name: opt ? opt.dataset.name : sel.options[sel.selectedIndex]?.text,
+    serial: document.getElementById('w-serial').value.trim(),
+    model: document.getElementById('w-model').value.trim(),
+    customer_name: document.getElementById('w-customer').value.trim(),
+    customer_contact: document.getElementById('w-contact').value.trim(),
+    sale_date: document.getElementById('w-start').value,
+    warranty_months: parseInt(document.getElementById('w-months').value),
+    warranty_end: document.getElementById('w-end').value,
+    dealer: document.getElementById('w-dealer').value.trim() || getConfig().company,
+    description: document.getElementById('w-desc').value.trim(),
+    _created: Date.now(),
+  };
+  if (!w.id || !w.customer_name || !w.sale_date) {
+    alert('Lütfen zorunlu alanları doldurun (*)');
+    return;
+  }
+  const ws = getWarranties();
+  if (ws.find(x => x.id === w.id)) {
+    alert('Bu garanti kodu zaten mevcut!');
+    return;
+  }
+  ws.push(w);
+  LS.set('warranties', ws);
+  showAlert('wform-ok', 'wform-err');
+
+  // GitHub sync
+  setSaveStatus('syncing', 'GitHub\'a yükleniyor...');
+  const ok = await githubSave('data/warranties.json', ws);
+  setSaveStatus(ok ? 'ok' : 'error', ok ? 'Senkronize' : 'Bağlantı hatası');
+
+  resetWForm();
+  generateWarrantyId();
+}
+
+function resetWForm() {
+  ['w-id','w-serial','w-model','w-customer','w-contact','w-desc','w-dealer'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('w-product').value = '';
+  document.getElementById('w-months').value = '24';
+  setTodayDate();
+  generateWarrantyId();
+}
+
+function deleteWarranty(id) {
+  if (!confirm(`"${id}" garantisini silmek istiyor musunuz?`)) return;
+  let ws = getWarranties().filter(w => w.id !== id);
+  LS.set('warranties', ws);
+  renderWarrantyTable(ws);
+  githubSave('data/warranties.json', ws);
+}
+
+/* ═══════════════════════════════════════════
+   PRODUCT FORM
+═══════════════════════════════════════════ */
+function generateProductId() {
+  const ps = getProducts();
+  document.getElementById('p-id').value = `PRD-${String(ps.length + 1).padStart(3, '0')}`;
+}
+
+async function saveProduct() {
+  const p = {
+    id: document.getElementById('p-id').value.trim(),
+    name: document.getElementById('p-name').value.trim(),
+    category: document.getElementById('p-category').value.trim(),
+    warranty_months: parseInt(document.getElementById('p-months').value) || 24,
+    description: document.getElementById('p-desc').value.trim(),
+    _created: Date.now(),
+  };
+  if (!p.id || !p.name) { alert('ID ve Ürün Adı zorunlu!'); return; }
+  const ps = getProducts();
+  if (ps.find(x => x.id === p.id)) { alert('Bu ürün ID zaten mevcut!'); return; }
+  ps.push(p);
+  LS.set('products', ps);
+  showAlert('pform-ok', 'pform-err');
+  setSaveStatus('syncing', 'GitHub\'a yükleniyor...');
+  const ok = await githubSave('data/products.json', ps);
+  setSaveStatus(ok ? 'ok' : 'error', ok ? 'Senkronize' : 'Bağlantı hatası');
+  resetPForm();
+  generateProductId();
+  fillProductSelect();
+}
+
+function resetPForm() {
+  ['p-id','p-name','p-category','p-desc'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('p-months').value = '24';
+  generateProductId();
+}
+
+function deleteProduct(id) {
+  if (!confirm('Ürünü silmek istiyor musunuz?')) return;
+  let ps = getProducts().filter(p => p.id !== id);
+  LS.set('products', ps);
+  renderProductTable(ps);
+  githubSave('data/products.json', ps);
+}
+
+/* ═══════════════════════════════════════════
+   QR
+═══════════════════════════════════════════ */
+function showQR(id) {
+  const cfg = getConfig();
+  const url = `${cfg.url || window.location.origin + '/verify.html'}?id=${id}`;
+  document.getElementById('qr-url-text').textContent = url;
+  document.getElementById('qr-display').innerHTML = '';
+  new QRCode(document.getElementById('qr-display'), {
+    text: url, width: 200, height: 200,
+    colorDark: '#1a1a2e', colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.H,
+  });
+  document.getElementById('qr-modal').classList.add('open');
+}
+function closeQR() { document.getElementById('qr-modal').classList.remove('open'); }
+
+function downloadQR() {
+  const img = document.querySelector('#qr-display img') || document.querySelector('#qr-display canvas');
+  if (!img) return;
+  const a = document.createElement('a');
+  if (img.tagName === 'CANVAS') {
+    a.href = img.toDataURL('image/png');
+  } else {
+    a.href = img.src;
+  }
+  a.download = 'garanti-qr.png';
+  a.click();
+}
+
+function copyLink(id) {
+  const cfg = getConfig();
+  const url = `${cfg.url || window.location.origin + '/verify.html'}?id=${id}`;
+  navigator.clipboard.writeText(url).then(() => {
+    alert('Link kopyalandı:\n' + url);
+  });
+}
+
+/* ═══════════════════════════════════════════
+   SETTINGS
+═══════════════════════════════════════════ */
+function loadSettingsForm() {
+  const cfg = getConfig();
+  document.getElementById('cfg-user').value = cfg.user || '';
+  document.getElementById('cfg-repo').value = cfg.repo || '';
+  document.getElementById('cfg-token').value = cfg.token || '';
+  document.getElementById('cfg-company').value = cfg.company || '';
+  document.getElementById('cfg-url').value = cfg.url || '';
+}
+
+function saveSettings() {
+  const cfg = getConfig();
+  cfg.user = document.getElementById('cfg-user').value.trim();
+  cfg.repo = document.getElementById('cfg-repo').value.trim();
+  cfg.token = document.getElementById('cfg-token').value.trim();
+  cfg.company = document.getElementById('cfg-company').value.trim();
+  cfg.url = document.getElementById('cfg-url').value.trim();
+  const newPass = document.getElementById('cfg-pass').value;
+  if (newPass) cfg.pass = btoa(newPass);
+  LS.set('cfg', cfg);
+  showAlert('cfg-ok', 'cfg-err');
+}
+
+async function testConnection() {
+  const cfg = getConfig();
+  if (!cfg.user || !cfg.repo || !cfg.token) {
+    showAlert('cfg-err', 'cfg-ok'); return;
+  }
+  setSaveStatus('syncing', 'Test ediliyor...');
+  const r = await fetch(`https://api.github.com/repos/${cfg.user}/${cfg.repo}`, {
+    headers: { Authorization: `token ${cfg.token}` }
+  });
+  if (r.ok) {
+    showAlert('cfg-ok', 'cfg-err');
+    setSaveStatus('ok', 'Bağlı');
+    document.getElementById('cfg-ok').textContent = '✓ GitHub bağlantısı başarılı! Repository erişimi var.';
+  } else {
+    showAlert('cfg-err', 'cfg-ok');
+    setSaveStatus('error', 'Bağlantı hatası');
+  }
+}
+
+/* ═══════════════════════════════════════════
+   GITHUB API
+═══════════════════════════════════════════ */
+async function githubSave(path, data) {
+  const cfg = getConfig();
+  if (!cfg.user || !cfg.repo || !cfg.token) return false;
+  try {
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+    // Get current SHA if file exists
+    let sha = '';
+    const check = await fetch(
+      `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${path}`,
+      { headers: { Authorization: `token ${cfg.token}` } }
+    );
+    if (check.ok) {
+      const j = await check.json();
+      sha = j.sha;
+    }
+    const body = {
+      message: `[garanti-admin] Güncellendi: ${path} — ${new Date().toLocaleString('tr-TR')}`,
+      content,
+    };
+    if (sha) body.sha = sha;
+    const r = await fetch(
+      `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${path}`,
+      {
+        method: 'PUT',
+        headers: { Authorization: `token ${cfg.token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      }
+    );
+    return r.ok;
+  } catch { return false; }
+}
+
+/* ═══════════════════════════════════════════
+   EXPORT / IMPORT
+═══════════════════════════════════════════ */
+function exportData() {
+  const blob = new Blob([JSON.stringify({
+    warranties: getWarranties(),
+    products: getProducts(),
+    exported: new Date().toISOString(),
+  }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `garanti-yedek-${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+}
+
+function importData() { document.getElementById('import-file').click(); }
+function handleImport(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const d = JSON.parse(ev.target.result);
+      if (d.warranties) LS.set('warranties', d.warranties);
+      if (d.products) LS.set('products', d.products);
+      alert(`✓ İçe aktarıldı:\n${(d.warranties||[]).length} garanti\n${(d.products||[]).length} ürün`);
+      renderDashboard();
+    } catch { alert('Geçersiz dosya formatı!'); }
+  };
+  r.readAsText(file);
+}
+
+/* ═══════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════ */
+function showAlert(okId, errId) {
+  const ok = document.getElementById(okId);
+  const err = document.getElementById(errId);
+  if (err) err.style.display = 'none';
+  if (ok) {
+    ok.style.display = 'block';
+    setTimeout(() => ok.style.display = 'none', 4000);
+  }
+}
+
+function setSaveStatus(state, text) {
+  const dot = document.getElementById('save-dot');
+  const txt = document.getElementById('save-text');
+  if (!dot || !txt) return;
+  dot.className = 'save-dot' + (state === 'syncing' ? ' syncing' : state === 'error' ? ' error' : '');
+  txt.textContent = text;
+}
+</script>
+</body>
+</html>
