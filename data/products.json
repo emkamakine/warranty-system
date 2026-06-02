@@ -1,10 +1,478 @@
 [
   {
-    "id": "PRD-001",
-    "name": "Örnek Makine A",
-    "category": "Tekstil Makinesi",
-    "warranty_months": 24,
-    "description": "Yüksek kapasiteli endüstriyel makine.",
-    "_created": 1705312800000
+    "id": "EK-1",
+    "name": "Masaüstü Tekli C.M",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-2",
+    "name": "Masaüstü Çiftli C.M",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-2A",
+    "name": "Masaüstü Çiftli C.M İNVERTÖRLÜ",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-3",
+    "name": "Tekli Ayaklı Standart",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-3A",
+    "name": "Tekli Ayaklı Balkan İnvertörlü",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK--3",
+    "name": "Tekli Ayaklı Standart (Kapalı Kabin)",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-4",
+    "name": "Orta Kabin Standart",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-4A",
+    "name": "Orta Kabin Balkan İnvertörlü",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-4B",
+    "name": "Geniş Orta Kabin Çift Motor İnvertörlü",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-4C",
+    "name": "Geniş Orta Kabin Çift Motorlu",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-5",
+    "name": "Süper Vakum Tek Balkan Motor",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-6",
+    "name": "Süper Vakum Çift Balkan Motor",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-6A",
+    "name": "Süper Vakum Çift Balkan Kırmızı+Gri",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-7",
+    "name": "Lap Makinesi Standart",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-7A",
+    "name": "Lap Makinesi kompakt",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-8",
+    "name": "Süper Vakum Çift İnvertörlü Üçgen",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-8B",
+    "name": "Süper Vakum Çift İnvertörlü Balkan",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-8C",
+    "name": "Süper Vakum Çift İnvertörlü LCD EKRAN",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-9",
+    "name": "Laplı Cila Standart",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-9B",
+    "name": "Laplı Cila Süper Vakum",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-F5",
+    "name": "Eritme Ocağı 5 Kg",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-F3",
+    "name": "Eritme Ocağı 3 Kg",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-H1",
+    "name": "Hidrozon Tek Kişilik",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-H2",
+    "name": "Hidrozon Çift Kişilik",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-H3",
+    "name": "Hidrozon Dört Kişilik",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-K1",
+    "name": "Kurutma Makinesi",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-KM",
+    "name": "Kumlama Makinesi",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-L1",
+    "name": "Tekli Lavabo Filtreli",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-L2",
+    "name": "Çifli Lavabo Filtreli",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-M2",
+    "name": "Manyetik İğne Makinesi 2 Kg",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-PK60",
+    "name": "Punto Kaynak Makinesi 60W",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-PK100",
+    "name": "Punto Kaynak Makinesi 100W",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-PK150",
+    "name": "Punto Kaynak Makinesi 150W",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-PK200",
+    "name": "Punto Kaynak Makinesi 200W",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-RM2",
+    "name": "2'li Rodaj Makinesi",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-RM2A",
+    "name": "Mini 2'li Rodaj Makinesi",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-RM3",
+    "name": "3'lü Rodaj Makinesi",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-RM3A",
+    "name": "Mini 3'lü Rodaj Makinesi",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-RM3B",
+    "name": "Mini 3'lü Rodaj Makinesi İTALYAN",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-RM4",
+    "name": "4'lü Rodaj Makinesi",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-RM4A",
+    "name": "4'lü Rodaj Makinesi İTALYAN",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-RMC3",
+    "name": "3'lü Rodaj Makinesi Camlı",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-RMC4",
+    "name": "4'lü Rodaj Makinesi Camlı",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-S3",
+    "name": "3,5 LT İstim M.",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-S5",
+    "name": "5 LT İstim M.",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-S12",
+    "name": "12 LT İstim M.",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-S12P",
+    "name": "12 LT İstim M. İçi Paslanmaz",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-S12FP",
+    "name": "12 LT İstim M. FULL Paslanmaz",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-S30",
+    "name": "30 LT İstim M. FULL Paslanmaz",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-S40",
+    "name": "Full Oto. Motorlu İstim M. FULL Paslanmaz",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-VT1",
+    "name": "Vakumlu Tezgah Tekli",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-VT2",
+    "name": "Vakumlu Tezgah Çiftli",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-SİLİNDİR",
+    "name": "Manuel Silindir Makinesi",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-SİLİNDİRTEK",
+    "name": "Tek Motorlu Silindir Makinesi",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-SİLİNDİRÇİFT",
+    "name": "Çift Motorlu Silindir Makinesi",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-UY1",
+    "name": "Ultrasonik Yıkama 1,5 LT",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-UY2",
+    "name": "Ultrasonik Yıkama 2,8 LT",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-UY4",
+    "name": "Ultrasonik Yıkama 4 LT",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-UY6",
+    "name": "Ultrasonik Yıkama 6 LT",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-UY12",
+    "name": "Ultrasonik Yıkama 12 LT",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-UY18",
+    "name": "Ultrasonik Yıkama 18 LT",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-UY28",
+    "name": "Ultrasonik Yıkama 28 LT",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-UY30",
+    "name": "Ultrasonik Yıkama 30 LT",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-UY40",
+    "name": "Ultrasonik Yıkama 40 LT",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-UY50",
+    "name": "Ultrasonik Yıkama 50 LT",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-UY60",
+    "name": "Ultrasonik Yıkama 60 LT",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-UYÖ60",
+    "name": "Ultrasonik Yıkama ÖZEL 60 LT",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
+  },
+  {
+    "id": "EK-ASIT",
+    "name": "ASİT KABİNİ FANLI İKİLİ 70 CM",
+    "category": "Makine",
+    "warrantyMonths": 24,
+    "description": ""
   }
 ]
