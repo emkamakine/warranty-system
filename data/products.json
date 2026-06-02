@@ -350,9 +350,10 @@
   {
     "id": "EK-S40",
     "name": "Full Oto. Motorlu İstim M. FULL Paslanmaz",
-    "category": "Makine",
+    "category": "İSTİM",
     "warrantyMonths": 24,
-    "description": ""
+    "description": "",
+    "warranty_months": 12
   },
   {
     "id": "EK-VT1",
