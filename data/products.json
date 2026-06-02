@@ -367,9 +367,10 @@
   {
     "id": "EK-VT1",
     "name": "Vakumlu Tezgah Tekli",
-    "category": "Makine",
+    "category": "Vakumlu Tezgah",
     "warrantyMonths": 24,
-    "description": ""
+    "description": "",
+    "warranty_months": 24
   },
   {
     "id": "EK-VT2",
