@@ -2,9 +2,10 @@
   {
     "id": "EK-1",
     "name": "Masaüstü Tekli C.M",
-    "category": "Makine",
+    "category": "Cila Makinesi",
     "warrantyMonths": 24,
-    "description": ""
+    "description": "",
+    "warranty_months": 24
   },
   {
     "id": "EK-2",
