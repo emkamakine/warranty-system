@@ -389,9 +389,10 @@
   {
     "id": "EK-SİLİNDİRTEK",
     "name": "Tek Motorlu Silindir Makinesi",
-    "category": "Makine",
+    "category": "Silindir Makinesi",
     "warrantyMonths": 24,
-    "description": ""
+    "description": "",
+    "warranty_months": 24
   },
   {
     "id": "EK-SİLİNDİRÇİFT",
