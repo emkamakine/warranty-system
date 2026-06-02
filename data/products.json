@@ -310,9 +310,10 @@
   {
     "id": "EK-S5",
     "name": "5 LT İstim M.",
-    "category": "Makine",
+    "category": "İSTİM",
     "warrantyMonths": 24,
-    "description": ""
+    "description": "",
+    "warranty_months": 12
   },
   {
     "id": "EK-S12",
