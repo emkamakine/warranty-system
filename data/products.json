@@ -180,9 +180,10 @@
   {
     "id": "EK-K1",
     "name": "Kurutma Makinesi",
-    "category": "Makine",
+    "category": "Santrifüj Kurutma Makinesi",
     "warrantyMonths": 24,
-    "description": ""
+    "description": "",
+    "warranty_months": 24
   },
   {
     "id": "EK-KM",
