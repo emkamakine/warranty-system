@@ -188,9 +188,10 @@
   {
     "id": "EK-KM",
     "name": "Kumlama Makinesi",
-    "category": "Makine",
+    "category": "Kumlama Makinesi",
     "warrantyMonths": 24,
-    "description": ""
+    "description": "",
+    "warranty_months": 24
   },
   {
     "id": "EK-L1",
