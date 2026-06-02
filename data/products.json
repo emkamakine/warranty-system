@@ -143,9 +143,10 @@
   {
     "id": "EK-F5",
     "name": "Eritme Ocağı 5 Kg",
-    "category": "Makine",
+    "category": "Eritme Ocağı",
     "warrantyMonths": 24,
-    "description": ""
+    "description": "",
+    "warranty_months": 24
   },
   {
     "id": "EK-F3",
