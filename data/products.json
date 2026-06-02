@@ -404,9 +404,10 @@
   {
     "id": "EK-UY1",
     "name": "Ultrasonik Yıkama 1,5 LT",
-    "category": "Makine",
+    "category": "Ultrasonik Yıkama Makinesi",
     "warrantyMonths": 24,
-    "description": ""
+    "description": "",
+    "warranty_months": 24
   },
   {
     "id": "EK-UY2",
