@@ -342,9 +342,10 @@
   {
     "id": "EK-S30",
     "name": "30 LT İstim M. FULL Paslanmaz",
-    "category": "Makine",
+    "category": "İSTİM",
     "warrantyMonths": 24,
-    "description": ""
+    "description": "",
+    "warranty_months": 12
   },
   {
     "id": "EK-S40",
