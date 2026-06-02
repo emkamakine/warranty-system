@@ -211,9 +211,10 @@
   {
     "id": "EK-M2",
     "name": "Manyetik İğne Makinesi 2 Kg",
-    "category": "Makine",
+    "category": "Manyetik İğne Makinesi",
     "warrantyMonths": 24,
-    "description": ""
+    "description": "",
+    "warranty_months": 24
   },
   {
     "id": "EK-PK60",
