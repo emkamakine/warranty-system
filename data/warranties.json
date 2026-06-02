@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": "EK26-Z001",
+    "product_id": "EK-1",
+    "product_name": "Masaüstü Tekli C.M",
+    "serial": "abc123",
+    "model": "",
+    "customer_name": "zargar",
+    "customer_contact": "",
+    "sale_date": "2026-06-02",
+    "warranty_months": 24,
+    "warranty_end": "2028-06-02",
+    "dealer": "EMKA Jewelery Machine",
+    "description": "",
+    "_created": 1780412944900
+  }
+]
