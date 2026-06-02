@@ -248,9 +248,10 @@
   {
     "id": "EK-RM2",
     "name": "2'li Rodaj Makinesi",
-    "category": "Makine",
+    "category": "Rodaj Makinesi",
     "warrantyMonths": 24,
-    "description": ""
+    "description": "",
+    "warranty_months": 24
   },
   {
     "id": "EK-RM2A",
