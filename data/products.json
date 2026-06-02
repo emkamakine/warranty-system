@@ -196,9 +196,10 @@
   {
     "id": "EK-L1",
     "name": "Tekli Lavabo Filtreli",
-    "category": "Makine",
+    "category": "Lavabo",
     "warrantyMonths": 24,
-    "description": ""
+    "description": "",
+    "warranty_months": 24
   },
   {
     "id": "EK-L2",
