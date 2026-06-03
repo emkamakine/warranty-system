@@ -924,8 +924,8 @@ function renderSvc(q=''){
 }
 
 // ═══ OPEN MODALS ═══
-function openModal(name){
-  EID[name]=null;
+function openModal(name,keepEID=false){
+  if(!keepEID)EID[name]=null;
   if(name==='warranty'){
     document.getElementById('w-modal-title').textContent='Yeni Garanti Kaydı';
     ['w-code','w-start','w-end','w-note'].forEach(id=>document.getElementById(id).value='');
@@ -978,7 +978,7 @@ function closeModal(name){document.getElementById('modal-'+name)?.classList.remo
 
 function editW(id){
   const w=WS.find(x=>x.id===id);if(!w)return;
-  EID.warranty=id;openModal('warranty');
+  EID.warranty=id;openModal('warranty',true);
   document.getElementById('w-modal-title').textContent='Garanti Düzenle';
   document.getElementById('w-code').value=w.warranty_code||'';
   document.getElementById('w-sdate').value=w.sale_date||'';
@@ -998,7 +998,7 @@ function editW(id){
 }
 function editC(id){
   const c=CS.find(x=>x.id===id);if(!c)return;
-  EID.customer=id;openModal('customer');
+  EID.customer=id;openModal('customer',true);
   document.getElementById('c-modal-title').textContent='Müşteri Düzenle';
   document.getElementById('c-name').value=c.name||'';document.getElementById('c-yetkili').value=c.yetkili||'';
   document.getElementById('c-firma').value=c.firma_adi||'';document.getElementById('c-phone').value=c.phone||'';
@@ -1009,7 +1009,7 @@ function editC(id){
 }
 function editP(id){
   const p=PS.find(x=>x.id===id);if(!p)return;
-  EID.product=id;openModal('product');
+  EID.product=id;openModal('product',true);
   document.getElementById('p-modal-title').textContent='Ürün Düzenle';
   document.getElementById('p-cat').value=p.category_id||'';document.getElementById('p-tr').value=p.name_tr||'';
   document.getElementById('p-en').value=p.name_en||'';document.getElementById('p-ar').value=p.name_ar||'';
@@ -1025,14 +1025,14 @@ function editP(id){
 }
 function editCat(id){
   const c=CATS.find(x=>x.id===id);if(!c)return;
-  EID.category=id;openModal('category');
+  EID.category=id;openModal('category',true);
   document.getElementById('cat-modal-title').textContent='Kategori Düzenle';
   document.getElementById('cat-tr').value=c.name_tr||'';document.getElementById('cat-en').value=c.name_en||'';
   document.getElementById('cat-ar').value=c.name_ar||'';document.getElementById('cat-ord').value=c.sort_order||0;
 }
 function editSvc(id){
   const s=SVCS.find(x=>x.id===id);if(!s)return;
-  EID.service=id;openModal('service');
+  EID.service=id;openModal('service',true);
   document.getElementById('sr-modal-title').textContent='Servis Kaydı Düzenle';
   document.getElementById('sr-warr').value=s.warranty_id||'';
   document.getElementById('sr-date').value=s.service_date||'';document.getElementById('sr-delivery').value=s.delivery_date||'';
@@ -1059,7 +1059,7 @@ function getItems(){return[...document.querySelectorAll('#w-items-list .item-row
 function getPrices(listId){return[...document.querySelectorAll(`#${listId} .price-row`)].map(r=>({currency:r.querySelector('.pcurr').value,amount:parseFloat(r.querySelector('.pamt').value)||0})).filter(p=>p.amount>0);}
 
 // ═══ SAVE ═══
-async function saveWarranty(){
+async function saveWarranty(){try{
   const items=getItems();if(!items.length)return toast('En az bir ürün ekleyin','err');
   const custVal=document.getElementById('w-customer').value;if(!custVal)return toast('Müşteri seçin','err');
   let custId=custVal;
@@ -1088,15 +1088,15 @@ async function saveWarranty(){
   }
   toast(EID.warranty?'Garanti güncellendi':'Garanti eklendi','ok');closeModal('warranty');await reloadAll();
   const ap=document.querySelector('.page.active')?.id?.replace('page-','');if(ap==='warranties')renderW();else if(ap==='dashboard')loadDash();
-}
-async function saveCustomer(){
+  }catch(e){toast('JS Hatası: '+e.message,'err');console.error('saveWarranty',e);}}
+async function saveCustomer(){try{
   const name=document.getElementById('c-name').value.trim();if(!name)return toast('Ad Soyad gerekli','err');
   const payload={name,yetkili:document.getElementById('c-yetkili').value.trim()||null,firma_adi:document.getElementById('c-firma').value.trim()||null,phone:document.getElementById('c-phone').value.trim()||null,whatsapp:document.getElementById('c-wa').value.trim()||null,email:document.getElementById('c-email').value.trim()||null,vergi_no:document.getElementById('c-vergi').value.trim()||null,city:document.getElementById('c-city').value.trim()||null,country:document.getElementById('c-country').value.trim()||'TR',dil_tercihi:document.getElementById('c-lang').value||'tr',notes:document.getElementById('c-notes').value.trim()||null};
   const {error}=EID.customer?await sb.from('customers').update(payload).eq('id',EID.customer):await sb.from('customers').insert(payload);
   if(error)return toast('Hata: '+error.message,'err');
   toast(EID.customer?'Müşteri güncellendi':'Müşteri eklendi','ok');closeModal('customer');await reloadAll();renderC();
-}
-async function saveProduct(){
+  }catch(e){toast('JS Hatası: '+e.message,'err');console.error('saveCustomer',e);}}
+async function saveProduct(){try{
   const nameTr=document.getElementById('p-tr').value.trim();if(!nameTr)return toast('Ürün adı (TR) gerekli','err');
   let photoUrl=document.getElementById('p-photo-url').value;
   const pf=document.getElementById('p-photo-file').files[0];
@@ -1111,21 +1111,21 @@ async function saveProduct(){
   const {error}=EID.product?await sb.from('products').update(payload).eq('id',EID.product):await sb.from('products').insert(payload);
   if(error)return toast('Hata: '+error.message,'err');
   toast(EID.product?'Ürün güncellendi':'Ürün eklendi','ok');closeModal('product');await reloadAll();renderP();
-}
+  }catch(e){toast('JS Hatası: '+e.message,'err');console.error('saveProduct',e);}}
 async function saveCategory(){
   const tr=document.getElementById('cat-tr').value.trim();if(!tr)return toast('Türkçe isim gerekli','err');
   const {error}=EID.category?await sb.from('categories').update({name_tr:tr,name_en:document.getElementById('cat-en').value.trim()||null,name_ar:document.getElementById('cat-ar').value.trim()||null,sort_order:parseInt(document.getElementById('cat-ord').value)||0}).eq('id',EID.category):await sb.from('categories').insert({name_tr:tr,name_en:document.getElementById('cat-en').value.trim()||null,name_ar:document.getElementById('cat-ar').value.trim()||null,sort_order:parseInt(document.getElementById('cat-ord').value)||0});
   if(error)return toast('Hata: '+error.message,'err');
   toast(EID.category?'Güncellendi':'Eklendi','ok');closeModal('category');await reloadAll();renderCat();
 }
-async function saveService(){
+async function saveService(){try{
   const wid=document.getElementById('sr-warr').value;const desc=document.getElementById('sr-desc').value.trim();
   if(!wid)return toast('Garanti seçin','err');if(!desc)return toast('Açıklama gerekli','err');
   const payload={warranty_id:wid,service_date:document.getElementById('sr-date').value,delivery_date:document.getElementById('sr-delivery').value||null,technician:document.getElementById('sr-tech').value.trim()||null,description:desc,parts_changed:document.getElementById('sr-parts').value.trim()||null,internal_note:document.getElementById('sr-internal-note').value.trim()||null,status:document.getElementById('sr-status').value||'completed',customer_visible:document.getElementById('sr-visible').checked,costs:getPrices('sr-costs-list')};
   const {error}=EID.service?await sb.from('service_records').update(payload).eq('id',EID.service):await sb.from('service_records').insert(payload);
   if(error)return toast('Hata: '+error.message,'err');
   toast(EID.service?'Güncellendi':'Servis kaydı eklendi','ok');closeModal('service');await reloadAll();renderSvc();
-}
+  }catch(e){toast('JS Hatası: '+e.message,'err');console.error('saveService',e);}}
 
 // ═══ DELETE ═══
 async function delRec(table,id){
