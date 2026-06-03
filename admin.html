@@ -620,6 +620,7 @@ textarea{resize:vertical;min-height:72px}
   </div>
 </div>
 
+<div style="position:fixed;right:10px;bottom:8px;z-index:9999;font-size:10px;color:#94a3b8;background:rgba(255,255,255,.85);padding:3px 7px;border-radius:6px;border:1px solid #e2e8f0">v2026.06.03-fix1</div>
 <div id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -657,16 +658,68 @@ async function saveSettings(){
   toast('Ayarlar kaydedildi','ok');
 }
 
-// ═══ AUTH ═══
+// ═══ AUTH / BOOTSTRAP ═══
+const ADMIN_VERSION='v2026.06.03-fix1';
+let ADMIN_BOOTED=false;
+
+function showLogin(){
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('app').style.display='none';
+}
+
+async function showApp(session){
+  console.log('[EMKA Admin]', ADMIN_VERSION, 'showApp başladı', session?.user?.email);
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('s-email').textContent=session?.user?.email || '—';
+
+  await loadSettings();
+  await reloadAll();
+
+  const activePage=document.querySelector('.page.active')?.id?.replace('page-','') || 'dashboard';
+  const renderMap={dashboard:loadDash,warranties:renderW,customers:renderC,products:renderP,categories:renderCat,service:renderSvc};
+  (renderMap[activePage] || loadDash)();
+}
+
+async function bootAdmin(){
+  if(ADMIN_BOOTED) return;
+  ADMIN_BOOTED=true;
+  console.log('[EMKA Admin]', ADMIN_VERSION, 'boot başladı');
+  try{
+    const {data,error}=await sb.auth.getSession();
+    if(error){
+      console.error('getSession error:', error);
+      showLogin();
+      return;
+    }
+    if(data?.session){
+      await showApp(data.session);
+    }else{
+      showLogin();
+    }
+  }catch(e){
+    console.error('bootAdmin error:', e);
+    showLogin();
+  }
+}
+
 async function doLogin(){
   const email=document.getElementById('l-email').value.trim(),pass=document.getElementById('l-pass').value;
   const btn=document.getElementById('l-btn'),err=document.getElementById('l-err');
   err.style.display='none';btn.disabled=true;btn.innerHTML='<span class="spin"></span>';
-  const {error}=await sb.auth.signInWithPassword({email,password:pass});
+  const {data,error}=await sb.auth.signInWithPassword({email,password:pass});
   btn.disabled=false;btn.innerHTML='GİRİŞ YAP';
-  if(error){err.textContent='Giriş başarısız.';err.style.display='block';}
+  if(error){err.textContent='Giriş başarısız: '+error.message;err.style.display='block';return;}
+  await showApp(data.session);
 }
-async function doLogout(){await sb.auth.signOut();}
+
+async function doLogout(){
+  console.log('[EMKA Admin] logout tıklandı');
+  const {error}=await sb.auth.signOut();
+  if(error){toast('Çıkış hatası: '+error.message,'err');console.error('signOut error:',error);return;}
+  showLogin();
+}
+
 async function changePass(){
   const p1=document.getElementById('np1').value,p2=document.getElementById('np2').value;
   if(p1.length<8)return toast('En az 8 karakter','err');
@@ -675,21 +728,21 @@ async function changePass(){
   if(error)toast('Hata: '+error.message,'err');
   else{toast('Şifre güncellendi','ok');document.getElementById('np1').value='';document.getElementById('np2').value='';}
 }
-document.getElementById('l-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-sb.auth.onAuthStateChange(async(event,session)=>{
-  if(session){
-    if(event==='SIGNED_OUT')return;
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('app').style.display='block';
-    document.getElementById('s-email').textContent=session.user.email;
-    if(event==='INITIAL_SESSION'||event==='SIGNED_IN'){
-      await loadSettings();await reloadAll();loadDash();
-    }
-  } else {
-    document.getElementById('login-screen').style.display='flex';
-    document.getElementById('app').style.display='none';
+
+const lp=document.getElementById('l-pass');
+if(lp) lp.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+
+// onAuthStateChange içinde Supabase sorgusu await etmiyoruz.
+// Aksi durumda refresh sonrası veri yükleme/çıkış akışı kilitlenebiliyor.
+sb.auth.onAuthStateChange((event,session)=>{
+  console.log('[EMKA Admin] auth event:', event);
+  if(event==='SIGNED_OUT' || !session){showLogin();return;}
+  if(event==='SIGNED_IN'){
+    setTimeout(()=>showApp(session),0);
   }
 });
+
+bootAdmin();
 
 // ═══ NAV ═══
 function navigate(p){
