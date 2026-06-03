@@ -8,175 +8,186 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --brand:#1a2332;--accent:#29abe2;--bg:#f0f2f5;--surface:#fff;
-  --border:#e5e7eb;--text:#1a2332;--muted:#6b7280;
-  --success:#10b981;--warn:#f59e0b;--danger:#ef4444;
-  --radius:12px;--shadow:0 1px 3px rgba(0,0,0,.08);
+  --brand:#0f1c2e;--brand2:#1a3150;--accent:#29abe2;--accent2:#1a90c8;
+  --bg:#f4f6f9;--surface:#fff;--border:#e2e8f0;--border2:#f1f5f9;
+  --text:#0f172a;--sub:#475569;--muted:#94a3b8;
+  --ok:#059669;--ok-bg:#ecfdf5;--ok-text:#065f46;--ok-b:#a7f3d0;
+  --warn:#b45309;--warn-bg:#fffbeb;--warn-text:#78350f;--warn-b:#fcd34d;
+  --danger:#dc2626;--dan-bg:#fef2f2;--dan-text:#7f1d1d;--dan-b:#fca5a5;
+  --blue:#2563eb;--blue-bg:#eff6ff;--blue-text:#1e40af;--blue-b:#bfdbfe;
+  --r:10px;--sh:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
+  --sh-md:0 4px 6px -1px rgba(0,0,0,.07),0 2px 4px -1px rgba(0,0,0,.04);
 }
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
 /* LOGIN */
-#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#0f1520 0%,#1a2d4a 100%)}
-.login-box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
-  border-radius:20px;padding:44px 40px;width:380px;backdrop-filter:blur(20px)}
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(140deg,#060e1a 0%,#0f1c2e 55%,#1a3150 100%)}
+.login-box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:44px 40px;width:380px;backdrop-filter:blur(20px)}
 .lbrand{text-align:center;margin-bottom:32px}
-.lbrand-name{font-size:34px;font-weight:800;letter-spacing:-1px;color:#fff}
-.lbrand-name span{color:#29abe2}
-.lbrand-sub{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:4px}
-.llabel{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
-  color:rgba(255,255,255,.4);display:block;margin-bottom:6px;margin-top:16px}
-.linput{width:100%;padding:12px 14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
-  border-radius:10px;color:#fff;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;outline:none}
-.linput:focus{border-color:#29abe2}
-.linput::placeholder{color:rgba(255,255,255,.25)}
-.lbtn{width:100%;padding:13px;background:#29abe2;border:none;border-radius:10px;color:#fff;
-  font-size:14px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;
-  letter-spacing:1px;text-transform:uppercase;cursor:pointer;margin-top:24px}
-.lbtn:hover{background:#1a90c8}
-.lbtn:disabled{background:rgba(255,255,255,.2);cursor:not-allowed}
-.lerr{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:8px;
-  padding:10px 14px;font-size:13px;color:#fca5a5;margin-top:12px;display:none}
-
-/* APP LAYOUT */
+.lbrand-name{font-size:32px;font-weight:800;letter-spacing:-1px;color:#fff}
+.lbrand-name span{color:var(--accent)}
+.lbrand-sub{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:4px}
+.llabel{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.38);display:block;margin-bottom:6px;margin-top:18px}
+.linput{width:100%;padding:12px 14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:9px;color:#fff;font-size:14px;font-family:inherit;outline:none}
+.linput:focus{border-color:var(--accent)}
+.linput::placeholder{color:rgba(255,255,255,.22)}
+.lbtn{width:100%;padding:13px;background:var(--accent);border:none;border-radius:9px;color:#fff;font-size:13px;font-weight:700;font-family:inherit;letter-spacing:1px;text-transform:uppercase;cursor:pointer;margin-top:24px;transition:background .15s}
+.lbtn:hover{background:var(--accent2)}
+.lbtn:disabled{background:rgba(255,255,255,.18);cursor:not-allowed}
+.lerr{background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#fca5a5;margin-top:12px;display:none}
+/* LAYOUT */
 #app{display:none}
-.layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
-
+.layout{display:grid;grid-template-columns:224px 1fr;min-height:100vh}
 /* SIDEBAR */
-.sidebar{background:var(--brand);display:flex;flex-direction:column;padding:24px 14px;
-  position:sticky;top:0;height:100vh;overflow-y:auto}
-.sbrand{padding:0 8px;margin-bottom:32px}
-.sbrand-name{font-size:22px;font-weight:800;letter-spacing:-.5px;color:#fff}
-.sbrand-name span{color:#29abe2}
-.sbrand-sub{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:2px}
-.snav-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  color:rgba(255,255,255,.25);padding:0 8px;margin:20px 0 6px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;
-  font-size:13px;font-weight:600;color:rgba(255,255,255,.55);cursor:pointer;
-  border:none;background:none;width:100%;text-align:left;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s}
-.nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
-.nav-item.active{background:rgba(41,171,226,.2);color:#29abe2}
-.sfooter{margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.08)}
-.suser{font-size:11px;color:rgba(255,255,255,.35);padding:0 8px;margin-bottom:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.logout-btn{width:100%;padding:9px 10px;background:none;border:1px solid rgba(255,255,255,.1);
-  border-radius:8px;color:rgba(255,255,255,.4);font-size:12px;font-weight:600;cursor:pointer;
-  font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s}
-.logout-btn:hover{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#fca5a5}
-
+.sidebar{background:var(--brand);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;padding:18px 10px;border-right:1px solid rgba(255,255,255,.05)}
+.sbrand{padding:4px 8px 18px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:14px}
+.sbrand-name{font-size:20px;font-weight:800;letter-spacing:-.5px;color:#fff}
+.sbrand-name span{color:var(--accent)}
+.sbrand-sub{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-top:3px}
+.snav-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.22);padding:0 10px;margin:14px 0 4px}
+.nav-item{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:8px;font-size:13px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:inherit;transition:all .15s}
+.nav-item:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.85)}
+.nav-item.active{background:rgba(41,171,226,.18);color:var(--accent)}
+.sfooter{margin-top:auto;padding-top:14px;border-top:1px solid rgba(255,255,255,.07)}
+.suser{font-size:11px;color:rgba(255,255,255,.3);padding:0 10px;margin-bottom:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logout-btn{width:100%;padding:9px 10px;background:none;border:1px solid rgba(255,255,255,.1);border-radius:8px;color:rgba(255,255,255,.35);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.logout-btn:hover{background:rgba(220,38,38,.1);border-color:rgba(220,38,38,.3);color:#fca5a5}
 /* MAIN */
-.main{padding:32px 36px;overflow-y:auto}
+.main{padding:26px 30px;overflow-y:auto}
 .page{display:none}
 .page.active{display:block}
-.page-hdr{margin-bottom:28px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.page-title{font-size:26px;font-weight:800;letter-spacing:-.3px}
-.page-sub{font-size:14px;color:var(--muted);margin-top:3px}
-
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow)}
-.stat-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.stat-val{font-size:32px;font-weight:800;line-height:1}
-.blue{color:#29abe2}.green{color:#10b981}.amber{color:#f59e0b}.red{color:#ef4444}
-
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-.card-hdr{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.card-title{font-size:14px;font-weight:700;flex:1}
-
+.page-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.page-title{font-size:22px;font-weight:800;letter-spacing:-.4px}
+.page-sub{font-size:13px;color:var(--muted);margin-top:3px}
+/* STAT CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:22px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh)}
+.stat-icon{font-size:18px;margin-bottom:8px}
+.stat-lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.stat-val{font-size:26px;font-weight:800;line-height:1}
+.c-accent{color:var(--accent)}.c-ok{color:var(--ok)}.c-warn{color:var(--warn)}.c-danger{color:var(--danger)}.c-blue{color:var(--blue)}.c-sub{color:var(--sub)}
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;margin-bottom:18px}
+.card-hdr{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fafbfc}
+.card-title{font-size:13px;font-weight:700;flex:1}
+/* TABLE */
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
-th{padding:11px 14px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
-td{padding:13px 14px;font-size:13px;font-weight:500;color:var(--text);border-bottom:1px solid #f3f4f6}
+th{padding:9px 13px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;background:#fafbfc}
+td{padding:11px 13px;font-size:13px;font-weight:500;color:var(--text);border-bottom:1px solid var(--border2)}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#f9fafb}
-.erow td{text-align:center;color:var(--muted);font-size:13px;padding:40px}
-
-.sinput{flex:1;min-width:180px;padding:9px 14px;background:#f9fafb;border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none}
-.sinput:focus{border-color:#29abe2;background:#fff}
+.erow td{text-align:center;color:var(--muted);font-size:13px;padding:44px;font-weight:400}
+/* FILTER BAR */
+.fbar{display:flex;gap:8px;flex-wrap:wrap;padding:10px 14px;border-bottom:1px solid var(--border);background:#f8fafc;align-items:center}
+.fbar select,.fbar input[type=date]{padding:6px 10px;border:1px solid var(--border);border-radius:7px;font-size:12px;color:var(--text);background:#fff;font-family:inherit;outline:none}
+.fbar select:focus,.fbar input[type=date]:focus{border-color:var(--accent)}
+.sinput{flex:1;min-width:180px;padding:8px 13px;background:#fff;border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:13px;font-family:inherit;outline:none}
+.sinput:focus{border-color:var(--accent)}
 .sinput::placeholder{color:var(--muted)}
-
-.btn{padding:9px 18px;border-radius:8px;font-size:13px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;border:none;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
-.btn-primary{background:#29abe2;color:#fff}
-.btn-primary:hover{background:#1a90c8}
-.btn-ghost{background:none;border:1px solid var(--border);color:var(--muted)}
-.btn-ghost:hover{border-color:#29abe2;color:#29abe2}
-.btn-sm{padding:5px 11px;font-size:11px;border-radius:6px}
-.btn-danger{background:none;border:1px solid #fecaca;color:#ef4444}
-.btn-danger:hover{background:#fef2f2}
-
-.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
-.badge-active{background:#d1fae5;color:#065f46}
-.badge-expired{background:#fee2e2;color:#991b1b}
-.badge-warn{background:#fef3c7;color:#92400e}
-.m12{background:#fef3c7;color:#92400e}.m24{background:#d1fae5;color:#065f46}.m36{background:#dbeafe;color:#1e40af}
-.cat-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+/* BUTTONS */
+.btn{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;border:none;transition:all .15s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:var(--accent2)}
+.btn-ghost{background:#fff;border:1px solid var(--border);color:var(--sub)}.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn-xs{padding:4px 8px;font-size:11px;font-weight:700;border-radius:5px;font-family:inherit;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:3px;transition:all .15s;white-space:nowrap}
+.bv{background:#eff6ff;color:#1e40af;border-color:#bfdbfe}.bv:hover{background:#dbeafe}
+.be{background:#fff7ed;color:#c2410c;border-color:#fed7aa}.be:hover{background:#ffedd5}
+.bq{background:#ecfdf5;color:#065f46;border-color:#a7f3d0}.bq:hover{background:#d1fae5}
+.bl{background:#f3e8ff;color:#7c3aed;border-color:#e9d5ff}.bl:hover{background:#ede9fe}
+.bd{background:#fef2f2;color:#dc2626;border-color:#fca5a5}.bd:hover{background:#fee2e2}
+.act{display:flex;gap:4px;align-items:center;flex-wrap:nowrap}
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
+.b-active{background:var(--ok-bg);color:var(--ok-text)}
+.b-warn{background:var(--warn-bg);color:var(--warn-text)}
+.b-expired{background:var(--dan-bg);color:var(--dan-text)}
+.b-neutral{background:#f1f5f9;color:var(--sub)}
+.b-blue{background:var(--blue-bg);color:var(--blue-text)}
+.b-ok-sm{background:var(--ok-bg);color:var(--ok-text)}
+.b-warn-sm{background:var(--warn-bg);color:var(--warn-text)}
+.b-blue-sm{background:var(--blue-bg);color:var(--blue-text)}
+.b-red-sm{background:var(--dan-bg);color:var(--dan-text)}
+.b-gray-sm{background:#f1f5f9;color:var(--muted)}
+.cc{display:inline-flex;gap:3px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700;font-family:'IBM Plex Mono',monospace;background:#f0f9ff;color:#0369a1;border:1px solid #bae6fd}
+.cc.eur,.cc.usd{background:#f0fdf4;color:#065f46;border-color:#bbf7d0}
+.cc.gbp{background:#fdf4ff;color:#6b21a8;border-color:#e9d5ff}
 .ci0{background:#fce7f3;color:#9d174d}.ci1{background:#dbeafe;color:#1e40af}.ci2{background:#d1fae5;color:#065f46}
 .ci3{background:#fef3c7;color:#92400e}.ci4{background:#f3e8ff;color:#6b21a8}.ci5{background:#fee2e2;color:#991b1b}
 .ci6{background:#cffafe;color:#155e75}.ci7{background:#ffedd5;color:#9a3412}.ci8{background:#fdf4ff;color:#701a75}
 .ci9{background:#e0e7ff;color:#3730a3}.ci10{background:#f0fdf4;color:#14532d}
-
-/* CURRENCY CHIP */
-.curr-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;
-  font-size:11px;font-weight:700;font-family:'IBM Plex Mono',monospace;background:#f0f9ff;color:#0369a1;border:1px solid #bae6fd}
-.curr-chip.eur{background:#f0fdf4;color:#065f46;border-color:#bbf7d0}
-.curr-chip.usd{background:#f0fdf4;color:#065f46;border-color:#bbf7d0}
-.curr-chip.gbp{background:#fdf4ff;color:#701a75;border-color:#e9d5ff}
-
 /* MODAL */
-.modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.5);align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
+.modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.45);align-items:flex-start;justify-content:center;padding:32px 20px;overflow-y:auto}
 .modal.open{display:flex}
-.mcard{background:#fff;border-radius:16px;width:100%;max-width:580px;padding:32px;position:relative;margin:auto}
-.mcard-lg{max-width:720px}
-.mtitle{font-size:18px;font-weight:800;color:var(--text);margin-bottom:24px}
-.mclose{position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;padding:4px;line-height:1}
-.mclose:hover{color:var(--text)}
-
+.mcard{background:#fff;border-radius:14px;width:100%;max-width:600px;padding:26px 30px;position:relative;margin:auto;box-shadow:0 20px 40px rgba(0,0,0,.15)}
+.mcard-lg{max-width:760px}
+.mcard-xl{max-width:880px}
+.mtitle{font-size:17px;font-weight:800;color:var(--text);margin-bottom:18px;letter-spacing:-.3px}
+.mclose{position:absolute;top:12px;right:14px;background:none;border:none;font-size:18px;color:var(--muted);cursor:pointer;padding:6px;line-height:1;border-radius:6px;transition:all .15s}
+.mclose:hover{background:var(--border2);color:var(--text)}
 /* FORM */
-.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.fg{display:flex;flex-direction:column;gap:6px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fg{display:flex;flex-direction:column;gap:4px}
 .fg.full{grid-column:1/-1}
-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
-input[type=text],input[type=email],input[type=tel],input[type=date],
-input[type=number],input[type=password],select,textarea{
-  padding:10px 12px;background:#f9fafb;border:1.5px solid var(--border);
-  border-radius:8px;color:var(--text);font-size:13px;
-  font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border-color .15s;width:100%}
-input:focus,select:focus,textarea:focus{border-color:#29abe2;background:#fff}
+label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+input[type=text],input[type=email],input[type=tel],input[type=date],input[type=number],input[type=password],input[type=url],select,textarea{padding:9px 12px;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:inherit;outline:none;transition:all .15s;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);background:#fff}
 input:disabled{opacity:.5;cursor:not-allowed}
-textarea{resize:vertical;min-height:80px}
-.factions{display:flex;gap:10px;margin-top:24px;justify-content:flex-end}
-
-/* DYNAMIC ROWS — items & prices */
-.dyn-list{display:flex;flex-direction:column;gap:8px;margin-bottom:6px}
-.item-row{display:flex;gap:8px;align-items:center}
+textarea{resize:vertical;min-height:72px}
+.factions{display:flex;gap:10px;margin-top:18px;justify-content:flex-end;flex-wrap:wrap}
+.fsec{grid-column:1/-1;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--sub);padding:6px 0 4px;border-bottom:1px solid var(--border);margin-top:4px}
+/* DYNAMIC ROWS */
+.dyn-list{display:flex;flex-direction:column;gap:5px;margin-bottom:5px}
+.item-row{display:flex;gap:6px;align-items:center}
 .item-row .iprod{flex:2;min-width:0}
-.item-row .iqty{width:62px;flex-shrink:0}
-.item-row .iserial{flex:1;min-width:60px}
-.price-row{display:flex;gap:8px;align-items:center}
-.price-row .pcurr{width:80px;flex-shrink:0}
+.item-row .iqty{width:56px;flex-shrink:0}
+.item-row .iserial{flex:1;min-width:50px}
+.price-row{display:flex;gap:6px;align-items:center}
+.price-row .pcurr{width:74px;flex-shrink:0}
 .price-row .pamt{flex:1}
-.rm-btn{flex-shrink:0;padding:7px 10px;background:none;border:1px solid #fecaca;color:#ef4444;border-radius:7px;cursor:pointer;font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;transition:background .15s}
-.rm-btn:hover{background:#fef2f2}
-.add-btn{width:100%;padding:9px;background:none;border:1.5px dashed #29abe2;color:#29abe2;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;transition:background .15s}
-.add-btn:hover{background:rgba(41,171,226,.05)}
-
-/* FILE UPLOAD */
-.fupload{border:2px dashed var(--border);border-radius:8px;padding:18px;text-align:center;cursor:pointer;transition:border-color .15s;color:var(--muted);font-size:13px}
-.fupload:hover{border-color:#29abe2;color:#29abe2}
-.fprev{margin-top:6px;font-size:12px;color:var(--muted)}
-
+.rm-btn{flex-shrink:0;padding:6px 9px;background:none;border:1px solid var(--dan-b);color:var(--danger);border-radius:6px;cursor:pointer;font-size:12px;transition:background .15s}
+.rm-btn:hover{background:var(--dan-bg)}
+.add-btn{width:100%;padding:7px;background:none;border:1.5px dashed #93c5fd;color:#3b82f6;border-radius:7px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;transition:background .15s}
+.add-btn:hover{background:#eff6ff}
+/* FILE */
+.fupload{border:2px dashed var(--border);border-radius:8px;padding:14px;text-align:center;cursor:pointer;transition:border-color .15s;color:var(--muted);font-size:13px}
+.fupload:hover{border-color:var(--accent);color:var(--accent)}
+.fprev{margin-top:4px;font-size:11px;color:var(--muted)}
+/* TOGGLE */
+.tgl-row{display:flex;align-items:center;gap:10px;padding:6px 0}
+.tgl{position:relative;width:36px;height:20px;flex-shrink:0}
+.tgl input{opacity:0;width:0;height:0;position:absolute}
+.tgl-sl{position:absolute;inset:0;background:#d1d5db;border-radius:20px;cursor:pointer;transition:background .2s}
+.tgl-sl::before{content:'';position:absolute;height:14px;width:14px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.tgl input:checked+.tgl-sl{background:var(--ok)}
+.tgl input:checked+.tgl-sl::before{transform:translateX(16px)}
+.tgl-lbl{font-size:13px;color:var(--text);font-weight:500}
+/* CUSTOMER DETAIL BANNER */
+.cust-banner{background:linear-gradient(135deg,var(--brand) 0%,var(--brand2) 100%);border-radius:var(--r);padding:20px 24px;margin-bottom:18px;display:flex;align-items:center;gap:18px}
+.cust-av{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0}
+.cust-name{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.3px}
+.cust-meta{font-size:12px;color:rgba(255,255,255,.45);margin-top:2px}
+.cust-chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.cust-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:2px 11px;font-size:11px;color:rgba(255,255,255,.7);font-weight:600}
+/* WARRANTY VIEW */
+.wv-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px}
+.wv-f{background:#f8fafc;border-radius:8px;padding:9px 13px}
+.wv-lbl{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.wv-val{font-size:13px;font-weight:600;color:var(--text)}
 /* QR */
-.qr-code-txt{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text);background:#f3f4f6;padding:8px 14px;border-radius:6px;margin:12px 0;word-break:break-all}
-.qr-url-txt{font-size:11px;color:var(--muted);margin-bottom:16px;word-break:break-all}
-
+.qr-code-txt{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text);background:#f3f4f6;padding:7px 13px;border-radius:6px;margin:10px 0;word-break:break-all;text-align:center}
+.qr-url-txt{font-size:11px;color:var(--muted);margin-bottom:13px;word-break:break-all;text-align:center}
 /* TOAST */
-#toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--brand);color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.2);transform:translateY(100px);opacity:0;transition:all .3s;pointer-events:none}
+#toast{position:fixed;bottom:18px;right:18px;z-index:9999;background:var(--brand);color:#fff;padding:10px 18px;border-radius:9px;font-size:13px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.2);transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none}
 #toast.show{transform:translateY(0);opacity:1}
-#toast.ok{background:#10b981}
-#toast.err{background:#ef4444}
-
+#toast.ok{background:var(--ok)}
+#toast.err{background:var(--danger)}
+/* MISC */
 .mono{font-family:'IBM Plex Mono',monospace;font-size:12px}
-.pthumb{width:38px;height:38px;object-fit:cover;border-radius:6px;border:1px solid var(--border)}
-.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle}
+.pthumb{width:34px;height:34px;object-fit:cover;border-radius:6px;border:1px solid var(--border)}
+.pthumb-ph{width:34px;height:34px;border-radius:6px;background:#f1f5f9;display:inline-flex;align-items:center;justify-content:center;font-size:14px;border:1px solid var(--border);vertical-align:middle;flex-shrink:0}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--sub);cursor:pointer;margin-bottom:14px;padding:4px 0}
+.back-btn:hover{color:var(--text)}
 </style>
 </head>
 <body>
@@ -199,165 +210,207 @@ textarea{resize:vertical;min-height:80px}
 
 <!-- APP -->
 <div id="app">
-  <div class="layout">
-    <aside class="sidebar">
-      <div class="sbrand">
-        <div class="sbrand-name">EM<span>KA</span></div>
-        <div class="sbrand-sub">Garanti Sistemi</div>
-      </div>
-      <div class="snav-lbl">Yönetim</div>
-      <button class="nav-item active" data-page="dashboard">📊 Dashboard</button>
-      <button class="nav-item" data-page="warranties">🛡️ Garanti Kayıtları</button>
-      <button class="nav-item" data-page="customers">👥 Müşteriler</button>
-      <div class="snav-lbl">Katalog</div>
-      <button class="nav-item" data-page="products">📦 Ürün Kataloğu</button>
-      <button class="nav-item" data-page="categories">🏷️ Kategoriler</button>
-      <div class="snav-lbl">Servis</div>
-      <button class="nav-item" data-page="service">🔧 Servis Kayıtları</button>
-      <div class="snav-lbl">Sistem</div>
-      <button class="nav-item" data-page="settings">⚙️ Ayarlar</button>
-      <div class="sfooter">
-        <div class="suser" id="s-email">—</div>
-        <button class="logout-btn" onclick="doLogout()">🚪 Çıkış Yap</button>
-      </div>
-    </aside>
-
-    <main class="main">
-
-      <!-- DASHBOARD -->
-      <div id="page-dashboard" class="page active">
-        <div class="page-hdr">
-          <div><div class="page-title">Dashboard</div><div class="page-sub" id="dash-date"></div></div>
-          <button class="btn btn-primary" onclick="navigate('warranties');openModal('warranty')">+ Yeni Garanti</button>
-        </div>
-        <div class="stat-grid">
-          <div class="stat-card"><div class="stat-lbl">Toplam Garanti</div><div class="stat-val blue" id="st-total">—</div></div>
-          <div class="stat-card"><div class="stat-lbl">Aktif</div><div class="stat-val green" id="st-active">—</div></div>
-          <div class="stat-card"><div class="stat-lbl">Bu Ay Bitiyor</div><div class="stat-val amber" id="st-expiring">—</div></div>
-          <div class="stat-card"><div class="stat-lbl">Süresi Dolan</div><div class="stat-val red" id="st-expired">—</div></div>
-        </div>
-        <div class="card">
-          <div class="card-hdr"><div class="card-title">Son Garanti Kayıtları</div></div>
-          <div class="tbl-wrap"><table>
-            <thead><tr><th>Kod</th><th>Ürünler</th><th>Müşteri</th><th>Bitiş</th><th>Durum</th><th></th></tr></thead>
-            <tbody id="dash-tbl"><tr class="erow"><td colspan="6">Yükleniyor...</td></tr></tbody>
-          </table></div>
-        </div>
-        <div class="card">
-          <div class="card-hdr"><div class="card-title">⚠️ Bu Ay Biten Garantiler</div></div>
-          <div class="tbl-wrap"><table>
-            <thead><tr><th>Kod</th><th>Ürünler</th><th>Müşteri</th><th>Bitiş Tarihi</th><th></th></tr></thead>
-            <tbody id="expiring-tbl"><tr class="erow"><td colspan="5">—</td></tr></tbody>
-          </table></div>
-        </div>
-      </div>
-
-      <!-- WARRANTIES -->
-      <div id="page-warranties" class="page">
-        <div class="page-hdr">
-          <div><div class="page-title">Garanti Kayıtları</div><div class="page-sub">Tüm garanti belgeleri</div></div>
-          <button class="btn btn-primary" onclick="openModal('warranty')">+ Yeni Garanti</button>
-        </div>
-        <div class="card">
-          <div class="card-hdr">
-            <input class="sinput" placeholder="Kod, müşteri, ürün, seri no ara..." oninput="filterTbl('w-tbl',this.value,[0,1,2,3])">
-          </div>
-          <div class="tbl-wrap"><table>
-            <thead><tr><th>Kod</th><th>Ürünler</th><th>Müşteri</th><th>Tutar</th><th>Bitiş</th><th>Durum</th><th>İşlem</th></tr></thead>
-            <tbody id="w-tbl"><tr class="erow"><td colspan="7">Yükleniyor...</td></tr></tbody>
-          </table></div>
-        </div>
-      </div>
-
-      <!-- CUSTOMERS -->
-      <div id="page-customers" class="page">
-        <div class="page-hdr">
-          <div><div class="page-title">Müşteriler</div><div class="page-sub">Müşteri veritabanı</div></div>
-          <button class="btn btn-primary" onclick="openModal('customer')">+ Yeni Müşteri</button>
-        </div>
-        <div class="card">
-          <div class="card-hdr">
-            <input class="sinput" placeholder="İsim, telefon, şehir ara..." oninput="filterTbl('c-tbl',this.value,[0,1,2])">
-          </div>
-          <div class="tbl-wrap"><table>
-            <thead><tr><th>İsim</th><th>Telefon</th><th>Şehir</th><th>Ülke</th><th>Garanti</th><th>İşlem</th></tr></thead>
-            <tbody id="c-tbl"><tr class="erow"><td colspan="6">Yükleniyor...</td></tr></tbody>
-          </table></div>
-        </div>
-      </div>
-
-      <!-- PRODUCTS -->
-      <div id="page-products" class="page">
-        <div class="page-hdr">
-          <div><div class="page-title">Ürün Kataloğu</div><div class="page-sub">Makine ve ekipman kataloğu</div></div>
-          <button class="btn btn-primary" onclick="openModal('product')">+ Yeni Ürün</button>
-        </div>
-        <div class="card">
-          <div class="card-hdr">
-            <input class="sinput" placeholder="Ürün adı, model, kategori ara..." oninput="filterTbl('p-tbl',this.value,[1,2,3])">
-          </div>
-          <div class="tbl-wrap"><table>
-            <thead><tr><th>Foto</th><th>Ürün Adı (TR)</th><th>Model</th><th>Kategori</th><th>Garanti</th><th>Belge</th><th>İşlem</th></tr></thead>
-            <tbody id="p-tbl"><tr class="erow"><td colspan="7">Yükleniyor...</td></tr></tbody>
-          </table></div>
-        </div>
-      </div>
-
-      <!-- CATEGORIES -->
-      <div id="page-categories" class="page">
-        <div class="page-hdr">
-          <div><div class="page-title">Kategoriler</div><div class="page-sub">Ürün kategorileri</div></div>
-          <button class="btn btn-primary" onclick="openModal('category')">+ Yeni Kategori</button>
-        </div>
-        <div class="card">
-          <div class="tbl-wrap"><table>
-            <thead><tr><th>TR</th><th>EN</th><th>AR</th><th>Sıra</th><th>İşlem</th></tr></thead>
-            <tbody id="cat-tbl"><tr class="erow"><td colspan="5">Yükleniyor...</td></tr></tbody>
-          </table></div>
-        </div>
-      </div>
-
-      <!-- SERVICE -->
-      <div id="page-service" class="page">
-        <div class="page-hdr">
-          <div><div class="page-title">Servis Kayıtları</div><div class="page-sub">Tüm servis ve bakım kayıtları</div></div>
-          <button class="btn btn-primary" onclick="openModal('service')">+ Yeni Servis Kaydı</button>
-        </div>
-        <div class="card">
-          <div class="card-hdr">
-            <input class="sinput" placeholder="Garanti kodu, açıklama, teknisyen ara..." oninput="filterTbl('s-tbl',this.value,[0,1,2,3])">
-          </div>
-          <div class="tbl-wrap"><table>
-            <thead><tr><th>Garanti</th><th>Ürün</th><th>Müşteri</th><th>Tarih</th><th>Açıklama</th><th>Teknisyen</th><th>Ücret</th><th>İşlem</th></tr></thead>
-            <tbody id="s-tbl"><tr class="erow"><td colspan="8">Yükleniyor...</td></tr></tbody>
-          </table></div>
-        </div>
-      </div>
-
-      <!-- SETTINGS -->
-      <div id="page-settings" class="page">
-        <div class="page-hdr"><div><div class="page-title">Ayarlar</div></div></div>
-        <div class="card" style="max-width:480px">
-          <div class="card-hdr"><div class="card-title">🔑 Şifre Değiştir</div></div>
-          <div style="padding:24px">
-            <div class="fgrid">
-              <div class="fg full"><label>Yeni Şifre</label><input type="password" id="np1" placeholder="En az 8 karakter"></div>
-              <div class="fg full"><label>Şifre Tekrar</label><input type="password" id="np2" placeholder="Tekrar girin"></div>
-            </div>
-            <div class="factions"><button class="btn btn-primary" onclick="changePass()">Şifreyi Güncelle</button></div>
-          </div>
-        </div>
-        <div class="card" style="max-width:480px">
-          <div class="card-hdr"><div class="card-title">💾 Veri Yedekleme</div></div>
-          <div style="padding:24px">
-            <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Tüm garanti, müşteri ve servis kayıtlarını JSON olarak indir.</p>
-            <button class="btn btn-ghost" onclick="exportData()">⬇️ JSON Yedek İndir</button>
-          </div>
-        </div>
-      </div>
-
-    </main>
+<div class="layout">
+<aside class="sidebar">
+  <div class="sbrand">
+    <div class="sbrand-name">EM<span>KA</span></div>
+    <div class="sbrand-sub">Garanti Sistemi</div>
   </div>
+  <div class="snav-lbl">Yönetim</div>
+  <button class="nav-item active" data-page="dashboard">📊 Dashboard</button>
+  <button class="nav-item" data-page="warranties">🛡️ Garanti Kayıtları</button>
+  <button class="nav-item" data-page="customers">👥 Müşteriler</button>
+  <div class="snav-lbl">Katalog</div>
+  <button class="nav-item" data-page="products">📦 Ürün Kataloğu</button>
+  <button class="nav-item" data-page="categories">🏷️ Kategoriler</button>
+  <div class="snav-lbl">Servis</div>
+  <button class="nav-item" data-page="service">🔧 Servis Kayıtları</button>
+  <div class="snav-lbl">Sistem</div>
+  <button class="nav-item" data-page="settings">⚙️ Ayarlar</button>
+  <div class="sfooter">
+    <div class="suser" id="s-email">—</div>
+    <button class="logout-btn" onclick="doLogout()">🚪 Çıkış Yap</button>
+  </div>
+</aside>
+<main class="main">
+
+<!-- DASHBOARD -->
+<div id="page-dashboard" class="page active">
+  <div class="page-hdr">
+    <div><div class="page-title">Dashboard</div><div class="page-sub" id="dash-date"></div></div>
+    <button class="btn btn-primary" onclick="navigate('warranties');openModal('warranty')">+ Yeni Garanti</button>
+  </div>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="stat-icon">🛡️</div><div class="stat-lbl">Toplam</div><div class="stat-val c-accent" id="st-total">—</div></div>
+    <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-lbl">Aktif</div><div class="stat-val c-ok" id="st-active">—</div></div>
+    <div class="stat-card"><div class="stat-icon">⚠️</div><div class="stat-lbl">Bu Ay Bitiyor</div><div class="stat-val c-warn" id="st-expiring">—</div></div>
+    <div class="stat-card"><div class="stat-icon">❌</div><div class="stat-lbl">Süresi Dolan</div><div class="stat-val c-danger" id="st-expired">—</div></div>
+    <div class="stat-card"><div class="stat-icon">🔧</div><div class="stat-lbl">Bekleyen Servis</div><div class="stat-val c-blue" id="st-svc-pending">—</div></div>
+    <div class="stat-card"><div class="stat-icon">🚫</div><div class="stat-lbl">Garanti Dışı Servis</div><div class="stat-val c-sub" id="st-svc-out">—</div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><div class="card-title">Son Garanti Kayıtları</div><button class="btn btn-ghost" style="font-size:12px;padding:5px 11px" onclick="navigate('warranties')">Tümünü Gör →</button></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Kod</th><th>Ürün</th><th>Müşteri</th><th>Bitiş</th><th>Durum</th><th>İşlemler</th></tr></thead>
+      <tbody id="dash-tbl"><tr class="erow"><td colspan="6">Yükleniyor...</td></tr></tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><div class="card-title">⚠️ Bu Ay Biten Garantiler</div></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Kod</th><th>Ürün</th><th>Müşteri</th><th>Bitiş</th><th>Kalan</th><th>İşlemler</th></tr></thead>
+      <tbody id="expiring-tbl"><tr class="erow"><td colspan="6">—</td></tr></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- WARRANTIES -->
+<div id="page-warranties" class="page">
+  <div class="page-hdr">
+    <div><div class="page-title">Garanti Kayıtları</div><div class="page-sub" id="w-count-lbl">—</div></div>
+    <button class="btn btn-primary" onclick="openModal('warranty')">+ Yeni Garanti</button>
+  </div>
+  <div class="card">
+    <div class="fbar">
+      <input class="sinput" style="max-width:260px" id="w-search" placeholder="Kod, ürün, müşteri, seri no..." oninput="renderW()">
+      <select id="w-f-status" onchange="renderW()"><option value="">Tüm Durumlar</option><option value="active">Aktif</option><option value="warn">Yakında Bitiyor</option><option value="expired">Sona Ermiş</option></select>
+      <select id="w-f-cat" onchange="renderW()"><option value="">Tüm Kategoriler</option></select>
+      <select id="w-f-country" onchange="renderW()"><option value="">Tüm Ülkeler</option></select>
+      <input type="date" id="w-f-from" title="Satış tarihi başlangıç" onchange="renderW()">
+      <input type="date" id="w-f-to" title="Satış tarihi bitiş" onchange="renderW()">
+      <button class="btn btn-ghost" style="font-size:11px;padding:5px 11px" onclick="clearWF()">× Temizle</button>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Kod</th><th>Ürün(ler)</th><th>Müşteri</th><th>Tutar</th><th>Satış</th><th>Bitiş</th><th>Durum</th><th>İşlemler</th></tr></thead>
+      <tbody id="w-tbl"><tr class="erow"><td colspan="8">Yükleniyor...</td></tr></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- CUSTOMERS -->
+<div id="page-customers" class="page">
+  <div class="page-hdr">
+    <div><div class="page-title">Müşteriler</div><div class="page-sub" id="c-count-lbl">—</div></div>
+    <button class="btn btn-primary" onclick="openModal('customer')">+ Yeni Müşteri</button>
+  </div>
+  <div class="card">
+    <div class="card-hdr">
+      <input class="sinput" placeholder="İsim, firma, telefon, şehir..." oninput="renderC(this.value)">
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Ad Soyad</th><th>Firma</th><th>Telefon / WA</th><th>Şehir / Ülke</th><th>Dil</th><th>Garanti</th><th>İşlemler</th></tr></thead>
+      <tbody id="c-tbl"><tr class="erow"><td colspan="7">Yükleniyor...</td></tr></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- CUSTOMER DETAIL -->
+<div id="page-customer-detail" class="page">
+  <div class="back-btn" onclick="navigate('customers')">← Müşterilere Dön</div>
+  <div id="cust-detail-content"></div>
+</div>
+
+<!-- PRODUCTS -->
+<div id="page-products" class="page">
+  <div class="page-hdr">
+    <div><div class="page-title">Ürün Kataloğu</div></div>
+    <button class="btn btn-primary" onclick="openModal('product')">+ Yeni Ürün</button>
+  </div>
+  <div class="card">
+    <div class="fbar">
+      <input class="sinput" style="max-width:240px" placeholder="Ürün adı, model..." oninput="renderP(this.value)">
+      <select id="p-f-cat" onchange="renderP()"><option value="">Tüm Kategoriler</option></select>
+      <select id="p-f-active" onchange="renderP()"><option value="">Tüm Durum</option><option value="1">Aktif</option><option value="0">Pasif</option></select>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Foto</th><th>Ürün Adı (TR)</th><th>Model</th><th>Kategori</th><th>Garanti</th><th>Belgeler</th><th>Durum</th><th>Kullanım</th><th>İşlemler</th></tr></thead>
+      <tbody id="p-tbl"><tr class="erow"><td colspan="9">Yükleniyor...</td></tr></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<div id="page-categories" class="page">
+  <div class="page-hdr">
+    <div><div class="page-title">Kategoriler</div></div>
+    <button class="btn btn-primary" onclick="openModal('category')">+ Yeni Kategori</button>
+  </div>
+  <div class="card">
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Türkçe</th><th>English</th><th>العربية</th><th>Sıra</th><th>İşlemler</th></tr></thead>
+      <tbody id="cat-tbl"><tr class="erow"><td colspan="5">Yükleniyor...</td></tr></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- SERVICE -->
+<div id="page-service" class="page">
+  <div class="page-hdr">
+    <div><div class="page-title">Servis Kayıtları</div><div class="page-sub" id="svc-count-lbl">—</div></div>
+    <button class="btn btn-primary" onclick="openModal('service')">+ Yeni Servis Kaydı</button>
+  </div>
+  <div class="card">
+    <div class="fbar">
+      <input class="sinput" style="max-width:240px" placeholder="Garanti kodu, açıklama, teknisyen..." oninput="renderSvc(this.value)">
+      <select id="svc-f-status" onchange="renderSvc()"><option value="">Tüm Durumlar</option><option value="completed">Tamamlandı</option><option value="in_review">İncelemede</option><option value="pending">Bekliyor</option><option value="out_of_warranty">Garanti Dışı</option></select>
+      <select id="svc-f-vis" onchange="renderSvc()"><option value="">Görünürlük</option><option value="1">Müşteriye Görünür</option><option value="0">Gizli</option></select>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Garanti</th><th>Müşteri</th><th>Tarih / Teslim</th><th>Açıklama</th><th>Teknisyen</th><th>Durum</th><th>Görünürlük</th><th>Ücret</th><th>İşlemler</th></tr></thead>
+      <tbody id="s-tbl"><tr class="erow"><td colspan="9">Yükleniyor...</td></tr></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div id="page-settings" class="page">
+  <div class="page-hdr"><div><div class="page-title">Ayarlar</div></div></div>
+  <div style="max-width:560px">
+    <div class="card">
+      <div class="card-hdr"><div class="card-title">🏢 Firma Bilgileri</div></div>
+      <div style="padding:20px">
+        <div class="fgrid">
+          <div class="fg full"><label>Firma Adı</label><input type="text" id="set-company"></div>
+          <div class="fg"><label>Telefon</label><input type="tel" id="set-phone"></div>
+          <div class="fg"><label>WhatsApp</label><input type="tel" id="set-wa"></div>
+          <div class="fg"><label>E-posta</label><input type="email" id="set-email"></div>
+          <div class="fg"><label>Web Sitesi</label><input type="url" id="set-web"></div>
+          <div class="fg full"><label>Adres</label><textarea id="set-addr" rows="2"></textarea></div>
+          <div class="fg full"><label>Verify URL Temel Adresi</label><input type="url" id="set-verify-url"></div>
+        </div>
+        <div class="factions"><button class="btn btn-primary" onclick="saveSettings()">💾 Kaydet</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><div class="card-title">🔑 Şifre Değiştir</div></div>
+      <div style="padding:20px">
+        <div class="fgrid">
+          <div class="fg full"><label>Yeni Şifre</label><input type="password" id="np1" placeholder="En az 8 karakter"></div>
+          <div class="fg full"><label>Şifre Tekrar</label><input type="password" id="np2"></div>
+        </div>
+        <div class="factions"><button class="btn btn-primary" onclick="changePass()">Güncelle</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><div class="card-title">💾 Veri Yedekleme</div></div>
+      <div style="padding:20px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-ghost" onclick="exportJSON()">⬇️ JSON Yedek</button>
+        <button class="btn btn-ghost" onclick="exportCSV('warranties')">📊 CSV — Garantiler</button>
+        <button class="btn btn-ghost" onclick="exportCSV('customers')">📊 CSV — Müşteriler</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><div class="card-title">👤 Yetkili Kullanıcılar</div></div>
+      <div style="padding:20px">
+        <p style="font-size:13px;color:var(--sub);margin-bottom:12px">Kullanıcı ekleme/silme işlemleri için Supabase Authentication panosunu kullanın.</p>
+        <a href="https://supabase.com/dashboard" target="_blank" class="btn btn-ghost">🔗 Supabase Paneline Git</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
 </div>
 
 <!-- MODAL: WARRANTY -->
@@ -366,53 +419,42 @@ textarea{resize:vertical;min-height:80px}
     <button class="mclose" onclick="closeModal('warranty')">✕</button>
     <div class="mtitle" id="w-modal-title">Yeni Garanti Kaydı</div>
     <div class="fgrid">
-
       <div class="fg"><label>Garanti Kodu</label><input type="text" id="w-code" disabled placeholder="Otomatik üretilir"></div>
       <div class="fg"><label>Satış Tarihi *</label><input type="date" id="w-sdate" onchange="calcEnd()"></div>
-
-      <!-- MULTI-PRODUCT -->
       <div class="fg full">
         <label>Ürünler / Kalemler *</label>
         <div class="dyn-list" id="w-items-list"></div>
         <button type="button" class="add-btn" onclick="addItemRow()">+ Kalem Ekle</button>
       </div>
-
-      <!-- NEW CUSTOMER INLINE -->
-      <div class="fg full"><label>Müşteri *</label>
+      <div class="fg full">
+        <label>Müşteri *</label>
         <select id="w-customer" onchange="onCustChange()">
           <option value="">— Müşteri seçin —</option>
           <option value="__new__">➕ Yeni müşteri ekle</option>
         </select>
       </div>
       <div id="new-cust-fields" style="display:none;grid-column:1/-1">
-        <div class="fgrid" style="border:1px solid #e0f0fb;border-radius:10px;padding:16px;background:#f0f9ff">
-          <div class="fg"><label>Müşteri Adı *</label><input type="text" id="nc-name" placeholder="Ad Soyad"></div>
-          <div class="fg"><label>Telefon</label><input type="tel" id="nc-phone" placeholder="+90 5XX XXX XX XX"></div>
-          <div class="fg"><label>Şehir</label><input type="text" id="nc-city" placeholder="İstanbul"></div>
+        <div class="fgrid" style="border:1px solid #e0f0fb;border-radius:9px;padding:13px;background:#f0f9ff">
+          <div class="fg"><label>Ad Soyad *</label><input type="text" id="nc-name"></div>
+          <div class="fg"><label>Firma Adı</label><input type="text" id="nc-firm"></div>
+          <div class="fg"><label>Telefon</label><input type="tel" id="nc-phone"></div>
+          <div class="fg"><label>WhatsApp</label><input type="tel" id="nc-wa"></div>
+          <div class="fg"><label>Şehir</label><input type="text" id="nc-city"></div>
           <div class="fg"><label>Ülke</label><input type="text" id="nc-country" value="TR"></div>
         </div>
       </div>
-
       <div class="fg"><label>Garanti Süresi (ay)</label><input type="number" id="w-months" value="24" min="1" max="120" onchange="calcEnd()"></div>
       <div class="fg"><label>Garanti Başlangıç</label><input type="date" id="w-start"></div>
       <div class="fg full"><label>Garanti Bitiş</label><input type="date" id="w-end"></div>
-
-      <!-- MULTI-CURRENCY PRICES -->
       <div class="fg full">
         <label>Satış Tutarları</label>
         <div class="dyn-list" id="w-prices-list"></div>
-        <button type="button" class="add-btn" onclick="addPriceRow()">+ Tutar Ekle</button>
+        <button type="button" class="add-btn" onclick="addPriceRow('w-prices-list')">+ Tutar Ekle</button>
       </div>
-
-      <div class="fg full"><label>Ödeme Durumu</label>
-        <select id="w-payment">
-          <option value="">—</option>
-          <option value="paid">Ödendi</option>
-          <option value="partial">Kısmi Ödeme</option>
-          <option value="pending">Bekliyor</option>
-        </select>
+      <div class="fg"><label>Ödeme Durumu</label>
+        <select id="w-payment"><option value="">—</option><option value="paid">Ödendi</option><option value="partial">Kısmi</option><option value="pending">Bekliyor</option></select>
       </div>
-      <div class="fg full"><label>Bayi / Satıcı</label><input type="text" id="w-dealer" value="EMKA Kuyumculuk Malzeme ve Makinaları"></div>
+      <div class="fg"><label>Bayi / Satıcı</label><input type="text" id="w-dealer"></div>
       <div class="fg full"><label>İç Not (müşteriye görünmez)</label><textarea id="w-note" placeholder="Dahili notlar..."></textarea></div>
     </div>
     <div class="factions">
@@ -422,18 +464,33 @@ textarea{resize:vertical;min-height:80px}
   </div>
 </div>
 
+<!-- MODAL: WARRANTY VIEW -->
+<div class="modal" id="modal-warranty-view">
+  <div class="mcard mcard-xl">
+    <button class="mclose" onclick="closeModal('warranty-view')">✕</button>
+    <div id="wv-content"></div>
+  </div>
+</div>
+
 <!-- MODAL: CUSTOMER -->
 <div class="modal" id="modal-customer">
   <div class="mcard">
     <button class="mclose" onclick="closeModal('customer')">✕</button>
     <div class="mtitle" id="c-modal-title">Yeni Müşteri</div>
     <div class="fgrid">
-      <div class="fg full"><label>Ad Soyad *</label><input type="text" id="c-name" placeholder="Mehmet Yılmaz"></div>
-      <div class="fg"><label>Telefon</label><input type="tel" id="c-phone" placeholder="+90 5XX XXX XX XX"></div>
-      <div class="fg"><label>E-posta</label><input type="email" id="c-email" placeholder="ornek@mail.com"></div>
-      <div class="fg"><label>Şehir</label><input type="text" id="c-city" placeholder="İstanbul"></div>
+      <div class="fg"><label>Ad Soyad *</label><input type="text" id="c-name"></div>
+      <div class="fg"><label>Yetkili Kişi</label><input type="text" id="c-yetkili"></div>
+      <div class="fg full"><label>Firma Adı</label><input type="text" id="c-firma"></div>
+      <div class="fg"><label>Telefon</label><input type="tel" id="c-phone"></div>
+      <div class="fg"><label>WhatsApp</label><input type="tel" id="c-wa"></div>
+      <div class="fg"><label>E-posta</label><input type="email" id="c-email"></div>
+      <div class="fg"><label>Vergi No / TC</label><input type="text" id="c-vergi"></div>
+      <div class="fg"><label>Şehir</label><input type="text" id="c-city"></div>
       <div class="fg"><label>Ülke</label><input type="text" id="c-country" value="TR"></div>
-      <div class="fg full"><label>Notlar</label><textarea id="c-notes" placeholder="Müşteri notları..."></textarea></div>
+      <div class="fg"><label>Dil Tercihi</label>
+        <select id="c-lang"><option value="tr">Türkçe</option><option value="en">English</option><option value="ar">العربية</option></select>
+      </div>
+      <div class="fg full"><label>Notlar</label><textarea id="c-notes"></textarea></div>
     </div>
     <div class="factions">
       <button class="btn btn-ghost" onclick="closeModal('customer')">İptal</button>
@@ -448,29 +505,38 @@ textarea{resize:vertical;min-height:80px}
     <button class="mclose" onclick="closeModal('product')">✕</button>
     <div class="mtitle" id="p-modal-title">Yeni Ürün</div>
     <div class="fgrid">
-      <div class="fg full"><label>Kategori</label><select id="p-cat"></select></div>
-      <div class="fg"><label>Ürün Adı (TR) *</label><input type="text" id="p-tr" placeholder="Ultrasonic Temizlik Makinesi"></div>
-      <div class="fg"><label>Ürün Adı (EN)</label><input type="text" id="p-en" placeholder="Ultrasonic Cleaning Machine"></div>
-      <div class="fg full"><label>Ürün Adı (AR)</label><input type="text" id="p-ar" placeholder="ماكينة التنظيف" dir="rtl"></div>
-      <div class="fg"><label>Model</label><input type="text" id="p-model" placeholder="UTS-3000 Pro"></div>
+      <div class="fg"><label>Kategori</label><select id="p-cat"></select></div>
+      <div class="fg" style="justify-content:flex-end">
+        <label>Durum</label>
+        <div class="tgl-row"><label class="tgl"><input type="checkbox" id="p-active" checked><span class="tgl-sl"></span></label><span class="tgl-lbl">Aktif</span></div>
+      </div>
+      <div class="fg"><label>Ürün Adı (TR) *</label><input type="text" id="p-tr"></div>
+      <div class="fg"><label>Ürün Adı (EN)</label><input type="text" id="p-en"></div>
+      <div class="fg full"><label>Ürün Adı (AR)</label><input type="text" id="p-ar" dir="rtl"></div>
+      <div class="fg"><label>Model</label><input type="text" id="p-model"></div>
       <div class="fg"><label>Standart Garanti (ay)</label><input type="number" id="p-months" value="24" min="1"></div>
-      <div class="fg full"><label>Ürün Açıklaması (TR)</label><textarea id="p-desc" placeholder="Kısa açıklama..."></textarea></div>
-      <div class="fg full"><label>Garanti Şartları (TR)</label><textarea id="p-terms-tr" rows="4" placeholder="Garanti şartları..."></textarea></div>
-      <div class="fg full"><label>Garanti Şartları (EN)</label><textarea id="p-terms-en" rows="4" placeholder="Warranty terms..."></textarea></div>
-      <div class="fg full"><label>Garanti Şartları (AR)</label><textarea id="p-terms-ar" rows="4" placeholder="شروط الضمان..." dir="rtl"></textarea></div>
+      <div class="fg full"><label>Açıklama (TR)</label><textarea id="p-desc"></textarea></div>
+      <div class="fg full"><label>Teknik Servis Notu (iç — müşteriye görünmez)</label><textarea id="p-service-note"></textarea></div>
+      <div class="fg full"><label>Garanti Şartları (TR)</label><textarea id="p-terms-tr" rows="3"></textarea></div>
+      <div class="fg full"><label>Garanti Şartları (EN)</label><textarea id="p-terms-en" rows="3"></textarea></div>
+      <div class="fg full"><label>Garanti Şartları (AR)</label><textarea id="p-terms-ar" rows="3" dir="rtl"></textarea></div>
       <div class="fg full">
         <label>Ürün Fotoğrafı</label>
         <div class="fupload" onclick="document.getElementById('p-photo-file').click()">📷 Fotoğraf yükle (JPG/PNG, max 2MB)</div>
         <input type="file" id="p-photo-file" accept="image/*" style="display:none" onchange="prevFile(this,'p-photo-prev')">
-        <div class="fprev" id="p-photo-prev"></div>
-        <input type="hidden" id="p-photo-url">
+        <div class="fprev" id="p-photo-prev"></div><input type="hidden" id="p-photo-url">
       </div>
       <div class="fg full">
         <label>Garanti Belgesi (PDF)</label>
-        <div class="fupload" onclick="document.getElementById('p-doc-file').click()">📄 PDF yükle (max 10MB)</div>
+        <div class="fupload" onclick="document.getElementById('p-doc-file').click()">📄 Garanti belgesi PDF (max 10MB)</div>
         <input type="file" id="p-doc-file" accept=".pdf" style="display:none" onchange="prevFile(this,'p-doc-prev')">
-        <div class="fprev" id="p-doc-prev"></div>
-        <input type="hidden" id="p-doc-url">
+        <div class="fprev" id="p-doc-prev"></div><input type="hidden" id="p-doc-url">
+      </div>
+      <div class="fg full">
+        <label>Kullanım Kılavuzu (PDF)</label>
+        <div class="fupload" onclick="document.getElementById('p-manual-file').click()">📖 Kullanım kılavuzu PDF (max 20MB)</div>
+        <input type="file" id="p-manual-file" accept=".pdf" style="display:none" onchange="prevFile(this,'p-manual-prev')">
+        <div class="fprev" id="p-manual-prev"></div><input type="hidden" id="p-manual-url">
       </div>
     </div>
     <div class="factions">
@@ -486,9 +552,9 @@ textarea{resize:vertical;min-height:80px}
     <button class="mclose" onclick="closeModal('category')">✕</button>
     <div class="mtitle" id="cat-modal-title">Yeni Kategori</div>
     <div class="fgrid">
-      <div class="fg full"><label>Kategori Adı (TR) *</label><input type="text" id="cat-tr" placeholder="Cila Makineleri"></div>
-      <div class="fg full"><label>Kategori Adı (EN)</label><input type="text" id="cat-en" placeholder="Polishing Machines"></div>
-      <div class="fg full"><label>Kategori Adı (AR)</label><input type="text" id="cat-ar" placeholder="ماكينات التلميع" dir="rtl"></div>
+      <div class="fg full"><label>Kategori Adı (TR) *</label><input type="text" id="cat-tr"></div>
+      <div class="fg full"><label>Kategori Adı (EN)</label><input type="text" id="cat-en"></div>
+      <div class="fg full"><label>Kategori Adı (AR)</label><input type="text" id="cat-ar" dir="rtl"></div>
       <div class="fg full"><label>Sıra No</label><input type="number" id="cat-ord" value="0"></div>
     </div>
     <div class="factions">
@@ -500,20 +566,33 @@ textarea{resize:vertical;min-height:80px}
 
 <!-- MODAL: SERVICE -->
 <div class="modal" id="modal-service">
-  <div class="mcard">
+  <div class="mcard mcard-lg">
     <button class="mclose" onclick="closeModal('service')">✕</button>
     <div class="mtitle" id="sr-modal-title">Yeni Servis Kaydı</div>
     <div class="fgrid">
       <div class="fg full"><label>Garanti Kaydı *</label><select id="sr-warr"><option value="">— Garanti seçin —</option></select></div>
       <div class="fg"><label>Servis Tarihi *</label><input type="date" id="sr-date"></div>
-      <div class="fg"><label>Teknisyen</label><input type="text" id="sr-tech" placeholder="Teknisyen adı"></div>
-      <div class="fg full"><label>Açıklama *</label><textarea id="sr-desc" placeholder="Yapılan işlem, arıza açıklaması..."></textarea></div>
-      <div class="fg full"><label>Değiştirilen Parçalar</label><textarea id="sr-parts" placeholder="Parça adları..."></textarea></div>
-      <!-- MULTI-CURRENCY COSTS -->
+      <div class="fg"><label>Teslim Tarihi</label><input type="date" id="sr-delivery"></div>
+      <div class="fg"><label>Teknisyen</label><input type="text" id="sr-tech"></div>
+      <div class="fg"><label>Durum</label>
+        <select id="sr-status">
+          <option value="completed">✅ Tamamlandı</option>
+          <option value="in_review">🔍 İncelemede</option>
+          <option value="pending">⏳ Bekliyor</option>
+          <option value="out_of_warranty">🚫 Garanti Dışı</option>
+        </select>
+      </div>
+      <div class="fg full"><label>Açıklama *</label><textarea id="sr-desc"></textarea></div>
+      <div class="fg full"><label>Değiştirilen Parçalar</label><textarea id="sr-parts"></textarea></div>
+      <div class="fg full"><label>İç Not (müşteriye görünmez)</label><textarea id="sr-internal-note"></textarea></div>
+      <div class="fg full">
+        <label>Müşteriye Görünürlük</label>
+        <div class="tgl-row"><label class="tgl"><input type="checkbox" id="sr-visible" checked><span class="tgl-sl"></span></label><span class="tgl-lbl">Müşteri verify.html sayfasında görebilir</span></div>
+      </div>
       <div class="fg full">
         <label>Servis Ücretleri</label>
         <div class="dyn-list" id="sr-costs-list"></div>
-        <button type="button" class="add-btn" onclick="addCostRow()">+ Ücret Ekle</button>
+        <button type="button" class="add-btn" onclick="addPriceRow('sr-costs-list')">+ Ücret Ekle</button>
       </div>
     </div>
     <div class="factions">
@@ -525,47 +604,69 @@ textarea{resize:vertical;min-height:80px}
 
 <!-- MODAL: QR -->
 <div class="modal" id="modal-qr">
-  <div class="mcard" style="max-width:360px;text-align:center">
+  <div class="mcard" style="max-width:340px;text-align:center">
     <button class="mclose" onclick="closeModal('qr')">✕</button>
-    <div class="mtitle">QR Kod & Link</div>
-    <div id="qr-box" style="display:flex;justify-content:center;margin:16px 0"></div>
+    <div class="mtitle">QR Kod & Garanti Linki</div>
+    <div id="qr-box" style="display:flex;justify-content:center;margin:14px 0"></div>
     <div class="qr-code-txt" id="qr-code-txt"></div>
     <div class="qr-url-txt" id="qr-url-txt"></div>
     <div style="display:flex;gap:8px;justify-content:center">
-      <button class="btn btn-primary btn-sm" onclick="dlQR()">⬇️ QR İndir</button>
-      <button class="btn btn-ghost btn-sm" onclick="cpLink()">🔗 Link Kopyala</button>
+      <button class="btn btn-primary" style="font-size:12px;padding:6px 14px" onclick="dlQR()">⬇️ QR İndir</button>
+      <button class="btn btn-ghost" style="font-size:12px;padding:6px 14px" onclick="cpQRLink()">🔗 Link Kopyala</button>
     </div>
   </div>
 </div>
 
 <div id="toast"></div>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 const SB_URL='https://obbxxkzmnujtozxczgfm.supabase.co';
 const SB_KEY='sb_publishable_xY037ZoljAKp_mPOKh6HJA_ZCYfcuxc';
-const VERIFY_URL='https://garanti.emkakuyumculuk.com/verify.html?id=';
 const sb=window.supabase.createClient(SB_URL,SB_KEY);
-
-let WS=[],CS=[],PS=[],CATS=[];
+let VERIFY_URL='https://garanti.emkakuyumculuk.com/verify.html?id=';
+let WS=[],CS=[],PS=[],CATS=[],SVCS=[];
 let EID={warranty:null,customer:null,product:null,category:null,service:null};
 let curQR='';
 
-// ═══════ AUTH ═══════
+// ═══ SETTINGS ═══
+async function loadSettings(){
+  const {data}=await sb.from('settings').select('*').eq('id','main').single();
+  if(!data)return;
+  const m={'set-company':'company_name','set-phone':'phone','set-wa':'whatsapp','set-email':'email','set-web':'web','set-addr':'address','set-verify-url':'verify_base_url'};
+  Object.entries(m).forEach(([eid,col])=>{const e=document.getElementById(eid);if(e&&data[col])e.value=data[col];});
+  if(data.verify_base_url)VERIFY_URL=data.verify_base_url;
+}
+async function saveSettings(){
+  const payload={
+    company_name:document.getElementById('set-company').value,
+    phone:document.getElementById('set-phone').value,
+    whatsapp:document.getElementById('set-wa').value,
+    email:document.getElementById('set-email').value,
+    web:document.getElementById('set-web').value,
+    address:document.getElementById('set-addr').value,
+    verify_base_url:document.getElementById('set-verify-url').value,
+    updated_at:new Date().toISOString(),
+  };
+  const {error}=await sb.from('settings').upsert({id:'main',...payload});
+  if(error)return toast('Hata: '+error.message,'err');
+  VERIFY_URL=payload.verify_base_url||VERIFY_URL;
+  toast('Ayarlar kaydedildi','ok');
+}
+
+// ═══ AUTH ═══
 async function doLogin(){
-  const email=document.getElementById('l-email').value.trim();
-  const pass=document.getElementById('l-pass').value;
+  const email=document.getElementById('l-email').value.trim(),pass=document.getElementById('l-pass').value;
   const btn=document.getElementById('l-btn'),err=document.getElementById('l-err');
-  err.style.display='none'; btn.disabled=true; btn.innerHTML='<span class="spin"></span>';
+  err.style.display='none';btn.disabled=true;btn.innerHTML='<span class="spin"></span>';
   const {error}=await sb.auth.signInWithPassword({email,password:pass});
-  btn.disabled=false; btn.innerHTML='GİRİŞ YAP';
-  if(error){err.textContent='Giriş başarısız. E-posta veya şifrenizi kontrol edin.';err.style.display='block';}
+  btn.disabled=false;btn.innerHTML='GİRİŞ YAP';
+  if(error){err.textContent='Giriş başarısız.';err.style.display='block';}
 }
 async function doLogout(){await sb.auth.signOut();}
 async function changePass(){
   const p1=document.getElementById('np1').value,p2=document.getElementById('np2').value;
-  if(p1.length<8)return toast('Şifre en az 8 karakter olmalı','err');
+  if(p1.length<8)return toast('En az 8 karakter','err');
   if(p1!==p2)return toast('Şifreler eşleşmiyor','err');
   const {error}=await sb.auth.updateUser({password:p1});
   if(error)toast('Hata: '+error.message,'err');
@@ -577,506 +678,506 @@ sb.auth.onAuthStateChange(async(event,session)=>{
     document.getElementById('login-screen').style.display='none';
     document.getElementById('app').style.display='block';
     document.getElementById('s-email').textContent=session.user.email;
-    await reloadAll(); loadDash();
+    await loadSettings();await reloadAll();loadDash();
   } else {
     document.getElementById('login-screen').style.display='flex';
     document.getElementById('app').style.display='none';
   }
 });
 
-// ═══════ NAVIGATION ═══════
+// ═══ NAV ═══
 function navigate(p){
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-item[data-page]').forEach(x=>x.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
-  document.querySelector(`[data-page="${p}"]`)?.classList.add('active');
-  if(p==='dashboard')loadDash();
-  if(p==='warranties')renderW();
-  if(p==='customers')renderC();
-  if(p==='products')renderP();
-  if(p==='categories')renderCat();
-  if(p==='service')loadService();
+  const nb=document.querySelector(`[data-page="${p}"]`);if(nb)nb.classList.add('active');
+  const map={dashboard:loadDash,warranties:renderW,customers:renderC,products:renderP,categories:renderCat,service:renderSvc};
+  if(map[p])map[p]();
+  window.scrollTo(0,0);
 }
 document.querySelectorAll('.nav-item[data-page]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.page)));
 
-// ═══════ DATA ═══════
+// ═══ DATA LOAD ═══
 async function reloadAll(){
-  const [w,c,p,cat]=await Promise.all([
-    sb.from('warranties').select('*, warranty_items(quantity,serial_number,products(name_tr,model)), customers(name)').order('created_at',{ascending:false}),
+  const [wR,cR,pR,catR,sR]=await Promise.all([
+    sb.from('warranties').select('*,warranty_items(*,product:products(*)),customers(*)').order('created_at',{ascending:false}),
     sb.from('customers').select('*').order('name'),
-    sb.from('products').select('*,categories(name_tr)').order('name_tr'),
-    sb.from('categories').select('*').order('sort_order')
+    sb.from('products').select('*,categories(*)').order('name_tr'),
+    sb.from('categories').select('*').order('sort_order'),
+    sb.from('service_records').select('*,warranty:warranties(warranty_code,customer_id,customers(*),warranty_items(*,product:products(*)))').order('service_date',{ascending:false}),
   ]);
-  WS=w.data||[]; CS=c.data||[]; PS=p.data||[]; CATS=cat.data||[];
+  WS=wR.data||[];CS=cR.data||[];PS=pR.data||[];CATS=catR.data||[];SVCS=sR.data||[];
+  fillCatFilters();fillCountryFilter();
+}
+function fillCatFilters(){
+  ['w-f-cat','p-f-cat'].forEach(id=>{
+    const s=document.getElementById(id);if(!s)return;
+    const v=s.value;
+    s.innerHTML='<option value="">Tüm Kategoriler</option>';
+    CATS.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name_tr;s.appendChild(o);});
+    s.value=v;
+  });
+}
+function fillCountryFilter(){
+  const s=document.getElementById('w-f-country');if(!s)return;
+  const v=s.value;
+  const countries=[...new Set(WS.map(w=>w.customers?.country).filter(Boolean))].sort();
+  s.innerHTML='<option value="">Tüm Ülkeler</option>';
+  countries.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;s.appendChild(o);});
+  s.value=v;
 }
 
-function itemNames(w){
-  const items=w.warranty_items||[];
-  if(!items.length)return'—';
-  return items.map(i=>`${i.products?.name_tr||'?'}${i.quantity>1?' ×'+i.quantity:''}`).join(', ');
-}
-function priceChips(w){
-  const prices=w.prices||[];
-  if(!prices.length)return'—';
-  return prices.map(p=>`<span class="curr-chip ${p.currency?.toLowerCase()}">${p.currency} ${Number(p.amount).toLocaleString('tr-TR')}</span>`).join(' ');
-}
-
-// ═══════ DASHBOARD ═══════
+// ═══ DASHBOARD ═══
 function loadDash(){
-  document.getElementById('dash-date').textContent=new Date().toLocaleDateString('tr-TR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  const now=new Date(),in30=new Date(+now+30*86400000);
-  const active=WS.filter(w=>new Date(w.warranty_end)>now);
-  const expiring=WS.filter(w=>{const e=new Date(w.warranty_end);return e>now&&e<=in30;});
-  const expired=WS.filter(w=>new Date(w.warranty_end)<=now);
+  const now=new Date();
+  document.getElementById('dash-date').textContent=now.toLocaleDateString('tr-TR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   document.getElementById('st-total').textContent=WS.length;
-  document.getElementById('st-active').textContent=active.length;
-  document.getElementById('st-expiring').textContent=expiring.length;
-  document.getElementById('st-expired').textContent=expired.length;
-  const mkRow=w=>`<tr><td class="mono">${w.warranty_code}</td><td>${itemNames(w)}</td><td>${w.customers?.name||'—'}</td><td>${fd(w.warranty_end)}</td><td>${sbadge(w.warranty_end)}</td><td><button class="btn btn-ghost btn-sm" onclick="showQR('${w.public_token}','${w.warranty_code}')">QR/Link</button></td></tr>`;
-  document.getElementById('dash-tbl').innerHTML=WS.slice(0,8).map(mkRow).join('')||'<tr class="erow"><td colspan="6">Henüz garanti kaydı yok</td></tr>';
-  const expiring2=WS.filter(w=>{const e=new Date(w.warranty_end);return e>now&&e<=in30;});
-  document.getElementById('expiring-tbl').innerHTML=expiring2.map(w=>`<tr><td class="mono">${w.warranty_code}</td><td>${itemNames(w)}</td><td>${w.customers?.name||'—'}</td><td>${fd(w.warranty_end)}</td><td><button class="btn btn-ghost btn-sm" onclick="showQR('${w.public_token}','${w.warranty_code}')">QR/Link</button></td></tr>`).join('')||'<tr class="erow"><td colspan="5">Bu ay biten garanti yok</td></tr>';
+  document.getElementById('st-active').textContent=WS.filter(w=>wSt(w)==='active').length;
+  document.getElementById('st-expiring').textContent=WS.filter(w=>wSt(w)==='warn').length;
+  document.getElementById('st-expired').textContent=WS.filter(w=>wSt(w)==='expired').length;
+  document.getElementById('st-svc-pending').textContent=SVCS.filter(s=>s.status==='pending'||s.status==='in_review').length;
+  document.getElementById('st-svc-out').textContent=SVCS.filter(s=>s.status==='out_of_warranty').length;
+  document.getElementById('dash-tbl').innerHTML=WS.slice(0,8).map(w=>wTr(w,true)).join('')||'<tr class="erow"><td colspan="6">Henüz kayıt yok</td></tr>';
+  const endOfMonth=new Date(now.getFullYear(),now.getMonth()+1,0);
+  const exp=WS.filter(w=>{const d=new Date(w.warranty_end);return d>=now&&d<=endOfMonth;}).sort((a,b)=>new Date(a.warranty_end)-new Date(b.warranty_end));
+  document.getElementById('expiring-tbl').innerHTML=exp.map(w=>{
+    const dl=Math.ceil((new Date(w.warranty_end)-now)/86400000);
+    const items=w.warranty_items||[];
+    const pn=items[0]?.product?.name_tr||'—';
+    return`<tr><td><span class="mono">${esc(w.warranty_code)}</span></td><td>${esc(pn)}${items.length>1?' <span style="font-size:10px;color:var(--muted)">+'+( items.length-1)+'</span>':''}</td><td>${esc(w.customers?.name||'—')}</td><td>${fd(w.warranty_end)}</td><td><span class="badge b-warn">⚠ ${dl}g</span></td><td><div class="act">${actBtns(w)}</div></td></tr>`;
+  }).join('')||'<tr class="erow"><td colspan="6">Bu ay biten garanti yok</td></tr>';
 }
 
-// ═══════ RENDER TABLES ═══════
+// ═══ WARRANTY HELPERS ═══
+function wSt(w){const d=Math.ceil((new Date(w.warranty_end)-new Date())/86400000);if(d<=0)return'expired';if(d<=30)return'warn';return'active';}
+function wBadge(w){
+  const s=wSt(w);const d=Math.ceil((new Date(w.warranty_end)-new Date())/86400000);
+  if(s==='active')return'<span class="badge b-active">✓ Aktif</span>';
+  if(s==='warn')return`<span class="badge b-warn">⚠ ${d}g</span>`;
+  return'<span class="badge b-expired">✕ Sona Erdi</span>';
+}
+function actBtns(w){
+  return`<button class="btn-xs bv" onclick="viewWarranty('${w.id}')">👁</button><button class="btn-xs bq" onclick="showQR('${w.public_token}','${w.warranty_code}')">📲</button><button class="btn-xs bl" onclick="cpLink('${w.public_token}')">🔗</button><button class="btn-xs be" onclick="editW('${w.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('warranties','${w.id}')">🗑</button>`;
+}
+function wTr(w){
+  const items=w.warranty_items||[];
+  const pn=items[0]?.product?.name_tr||'—';
+  const multi=items.length>1?` <span style="font-size:10px;color:var(--muted)">+${items.length-1}</span>`:'';
+  const prices=w.prices||[];
+  const ph=prices.slice(0,2).map(p=>`<span class="cc ${(p.currency||'').toLowerCase()}">${p.currency} ${Number(p.amount||0).toLocaleString('tr-TR',{minimumFractionDigits:0})}</span>`).join(' ');
+  return`<tr><td><span class="mono">${esc(w.warranty_code)}</span></td><td>${esc(pn)}${multi}</td><td><b>${esc(w.customers?.name||'—')}</b><br><span style="font-size:11px;color:var(--muted)">${esc(w.customers?.city||'')}${w.customers?.country?' · '+w.customers.country:''}</span></td><td>${ph||'—'}</td><td>${fd(w.sale_date)}</td><td>${fd(w.warranty_end)}</td><td>${wBadge(w)}</td><td><div class="act">${actBtns(w)}</div></td></tr>`;
+}
+
+// ═══ WARRANTY PAGE ═══
 function renderW(){
-  document.getElementById('w-tbl').innerHTML=WS.length?WS.map(w=>`<tr>
-    <td class="mono">${w.warranty_code}</td>
-    <td style="max-width:220px">${itemNames(w)}</td>
-    <td>${w.customers?.name||'—'}</td>
-    <td>${priceChips(w)}</td>
-    <td>${fd(w.warranty_end)}</td>
-    <td>${sbadge(w.warranty_end)}</td>
-    <td style="white-space:nowrap">
-      <button class="btn btn-ghost btn-sm" onclick="showQR('${w.public_token}','${w.warranty_code}')">QR</button>
-      <button class="btn btn-ghost btn-sm" onclick="openModal('warranty','${w.id}')">Düzenle</button>
-      <button class="btn btn-danger btn-sm" onclick="delRec('warranties','${w.id}')">Sil</button>
-    </td></tr>`).join(''):'<tr class="erow"><td colspan="7">Garanti kaydı bulunamadı</td></tr>';
+  const q=(document.getElementById('w-search')?.value||'').toLowerCase();
+  const fs=document.getElementById('w-f-status')?.value||'';
+  const fc=document.getElementById('w-f-cat')?.value||'';
+  const fcr=document.getElementById('w-f-country')?.value||'';
+  const ff=document.getElementById('w-f-from')?.value||'';
+  const ft=document.getElementById('w-f-to')?.value||'';
+  let list=WS.filter(w=>{
+    if(fs&&wSt(w)!==fs)return false;
+    if(fc&&!w.warranty_items?.some(i=>i.product?.category_id==fc))return false;
+    if(fcr&&w.customers?.country!==fcr)return false;
+    if(ff&&w.sale_date<ff)return false;
+    if(ft&&w.sale_date>ft)return false;
+    if(q){
+      const items=w.warranty_items||[];
+      const pn=items.map(i=>i.product?.name_tr||'').join(' ').toLowerCase();
+      const sn=items.map(i=>i.serial_number||'').join(' ').toLowerCase();
+      if(!`${w.warranty_code} ${pn} ${w.customers?.name||''} ${w.customers?.city||''} ${w.customers?.country||''} ${sn}`.toLowerCase().includes(q))return false;
+    }
+    return true;
+  });
+  const lbl=document.getElementById('w-count-lbl');
+  if(lbl)lbl.textContent=`${list.length} / ${WS.length} kayıt`;
+  document.getElementById('w-tbl').innerHTML=list.map(wTr).join('')||'<tr class="erow"><td colspan="8">Kayıt bulunamadı</td></tr>';
 }
-function renderC(){
-  document.getElementById('c-tbl').innerHTML=CS.length?CS.map(c=>{
-    const n=WS.filter(w=>w.customer_id===c.id).length;
-    return`<tr><td>${c.name}</td><td>${c.phone||'—'}</td><td>${c.city||'—'}</td><td>${c.country||'—'}</td><td>${n}</td>
-    <td style="white-space:nowrap"><button class="btn btn-ghost btn-sm" onclick="openModal('customer','${c.id}')">Düzenle</button> <button class="btn btn-danger btn-sm" onclick="delRec('customers','${c.id}')">Sil</button></td></tr>`;
-  }).join(''):'<tr class="erow"><td colspan="6">Müşteri bulunamadı</td></tr>';
+function clearWF(){['w-search','w-f-status','w-f-cat','w-f-country','w-f-from','w-f-to'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});renderW();}
+
+// ═══ WARRANTY VIEW ═══
+function viewWarranty(id){
+  const w=WS.find(x=>x.id===id);if(!w)return;
+  const items=w.warranty_items||[];
+  const prices=w.prices||[];
+  const itemsHtml=items.map(it=>{
+    const pr=it.product||{};
+    const ph=pr.photo_url?`<img src="${pr.photo_url}" class="pthumb" style="margin-right:8px;vertical-align:middle">`:`<span class="pthumb-ph" style="margin-right:8px">📦</span>`;
+    return`<div style="display:flex;align-items:center;padding:8px 0;border-bottom:1px solid var(--border2)">${ph}<div><div style="font-size:13px;font-weight:700">${esc(pr.name_tr||'—')}</div><div style="font-size:11px;color:var(--muted)">${pr.model||''}${it.serial_number?' · S/N: '+esc(it.serial_number):''}${it.quantity>1?' · Adet: '+it.quantity:''}</div></div></div>`;
+  }).join('');
+  const ph=prices.map(p=>`<span class="cc ${(p.currency||'').toLowerCase()}">${p.currency} ${Number(p.amount||0).toLocaleString('tr-TR',{minimumFractionDigits:2})}</span>`).join(' ')||'—';
+  const payMap={paid:'✅ Ödendi',partial:'⚠️ Kısmi',pending:'⏳ Bekliyor'};
+  document.getElementById('wv-content').innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap">
+      <div><div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Garanti Belgesi</div><div style="font-size:20px;font-weight:800;font-family:'IBM Plex Mono',monospace;margin-top:2px">${esc(w.warranty_code)}</div></div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap">${wBadge(w)}<button class="btn btn-ghost" style="font-size:12px;padding:5px 12px" onclick="showQR('${w.public_token}','${w.warranty_code}')">📲 QR</button><button class="btn btn-ghost" style="font-size:12px;padding:5px 12px" onclick="cpLink('${w.public_token}')">🔗 Link</button><button class="btn btn-primary" style="font-size:12px;padding:5px 12px" onclick="closeModal('warranty-view');editW('${w.id}')">✏️ Düzenle</button></div>
+    </div>
+    <div style="margin-bottom:14px">${itemsHtml}</div>
+    <div class="wv-grid">
+      <div class="wv-f"><div class="wv-lbl">Müşteri</div><div class="wv-val">${esc(w.customers?.name||'—')}${w.customers?.city?' · '+w.customers.city:''}</div></div>
+      <div class="wv-f"><div class="wv-lbl">Satış Tarihi</div><div class="wv-val">${fd(w.sale_date)}</div></div>
+      <div class="wv-f"><div class="wv-lbl">Garanti Başlangıç</div><div class="wv-val">${fd(w.warranty_start)}</div></div>
+      <div class="wv-f"><div class="wv-lbl">Garanti Bitiş</div><div class="wv-val">${fd(w.warranty_end)}</div></div>
+      <div class="wv-f"><div class="wv-lbl">Süre</div><div class="wv-val">${w.warranty_months||'—'} ay</div></div>
+      <div class="wv-f"><div class="wv-lbl">Ödeme</div><div class="wv-val">${payMap[w.payment_status]||'—'}</div></div>
+      <div class="wv-f"><div class="wv-lbl">Tutar</div><div class="wv-val">${ph}</div></div>
+      <div class="wv-f"><div class="wv-lbl">Bayi</div><div class="wv-val">${esc(w.dealer||'—')}</div></div>
+      <div class="wv-f" style="grid-column:1/-1"><div class="wv-lbl">Public Token</div><div class="wv-val" style="font-family:'IBM Plex Mono',monospace;font-size:12px">${esc(w.public_token||'—')}</div></div>
+      ${w.notes?`<div class="wv-f" style="grid-column:1/-1"><div class="wv-lbl">İç Not</div><div class="wv-val" style="color:var(--sub);font-style:italic">${esc(w.notes)}</div></div>`:''}
+    </div>`;
+  document.getElementById('modal-warranty-view').classList.add('open');
 }
-function renderP(){
-  document.getElementById('p-tbl').innerHTML=PS.length?PS.map(p=>{
+
+// ═══ CUSTOMERS ═══
+function renderC(q=''){
+  q=q.toLowerCase();
+  const list=CS.filter(c=>!q||`${c.name||''} ${c.firma_adi||''} ${c.phone||''} ${c.city||''} ${c.country||''} ${c.whatsapp||''}`.toLowerCase().includes(q));
+  const lbl=document.getElementById('c-count-lbl');if(lbl)lbl.textContent=`${list.length} müşteri`;
+  const lm={tr:'🇹🇷 TR',en:'🇬🇧 EN',ar:'🇸🇦 AR'};
+  document.getElementById('c-tbl').innerHTML=list.map(c=>{
+    const wc=WS.filter(w=>w.customer_id===c.id).length;
+    const wa=c.whatsapp?`<a href="https://wa.me/${c.whatsapp.replace(/\D/g,'')}" target="_blank" style="color:#25d366;font-size:11px;margin-left:4px">💬</a>`:'';
+    return`<tr><td><b>${esc(c.name||'—')}</b>${c.yetkili?`<br><span style="font-size:11px;color:var(--muted)">👤 ${esc(c.yetkili)}</span>`:''}</td><td>${esc(c.firma_adi||'—')}</td><td>${esc(c.phone||'—')}${wa}${c.email?`<br><span style="font-size:11px;color:var(--muted)">${esc(c.email)}</span>`:''}</td><td>${esc(c.city||'—')}${c.country?' · '+c.country:''}</td><td>${lm[c.dil_tercihi||'tr']||'—'}</td><td><span class="badge b-blue">${wc}</span></td><td><div class="act"><button class="btn-xs bv" onclick="showCustDetail('${c.id}')">👁 Detay</button><button class="btn-xs be" onclick="editC('${c.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('customers','${c.id}')">🗑</button></div></td></tr>`;
+  }).join('')||'<tr class="erow"><td colspan="7">Müşteri bulunamadı</td></tr>';
+}
+
+function showCustDetail(cid){
+  const c=CS.find(x=>x.id===cid);if(!c)return;
+  const cws=WS.filter(w=>w.customer_id===cid);
+  const cSvcs=SVCS.filter(s=>cws.some(w=>w.id===s.warranty_id));
+  const lm={tr:'Türkçe',en:'English',ar:'العربية'};
+  const chips=[
+    c.phone&&`<div class="cust-chip">📞 ${esc(c.phone)}</div>`,
+    c.whatsapp&&`<a href="https://wa.me/${c.whatsapp.replace(/\D/g,'')}" target="_blank" class="cust-chip" style="cursor:pointer">💬 WA</a>`,
+    c.email&&`<div class="cust-chip">✉️ ${esc(c.email)}</div>`,
+    c.city&&`<div class="cust-chip">📍 ${esc(c.city)}${c.country?' / '+c.country:''}</div>`,
+    c.vergi_no&&`<div class="cust-chip">🪪 ${esc(c.vergi_no)}</div>`,
+  ].filter(Boolean).join('');
+  const wRows=cws.map(w=>{
+    const items=w.warranty_items||[];const pn=items[0]?.product?.name_tr||'—';
+    return`<tr><td><span class="mono">${esc(w.warranty_code)}</span></td><td>${esc(pn)}${items.length>1?' +'+( items.length-1):''}</td><td>${fd(w.sale_date)}</td><td>${fd(w.warranty_end)}</td><td>${wBadge(w)}</td><td><div class="act"><button class="btn-xs bv" onclick="viewWarranty('${w.id}')">👁</button><button class="btn-xs bq" onclick="showQR('${w.public_token}','${w.warranty_code}')">📲</button><button class="btn-xs be" onclick="navigate('warranties');editW('${w.id}')">✏️</button></div></td></tr>`;
+  }).join('')||'<tr class="erow"><td colspan="6">Garanti kaydı yok</td></tr>';
+  const sRows=cSvcs.map(s=>`<tr><td><span class="mono" style="font-size:11px">${esc(s.warranty?.warranty_code||'—')}</span></td><td>${fd(s.service_date)}</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.description||'—')}</td><td>${esc(s.technician||'—')}</td><td>${svcBadge(s.status)}</td></tr>`).join('')||'<tr class="erow"><td colspan="5">Servis kaydı yok</td></tr>';
+  document.getElementById('cust-detail-content').innerHTML=`
+    <div class="cust-banner">
+      <div class="cust-av">👤</div>
+      <div style="flex:1"><div class="cust-name">${esc(c.name||'—')}</div><div class="cust-meta">${c.firma_adi?esc(c.firma_adi)+' · ':''}${lm[c.dil_tercihi||'tr']||''}</div><div class="cust-chips">${chips}</div></div>
+      <button class="btn btn-ghost" style="color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.2);font-size:12px;padding:6px 13px" onclick="editC('${c.id}')">✏️ Düzenle</button>
+    </div>
+    ${c.notes?`<div class="card"><div class="card-hdr"><div class="card-title">📝 Notlar</div></div><div style="padding:14px 18px;font-size:13px;color:var(--sub);line-height:1.65">${esc(c.notes)}</div></div>`:''}
+    <div class="card"><div class="card-hdr"><div class="card-title">🛡️ Garanti Kayıtları (${cws.length})</div><button class="btn btn-primary" style="font-size:12px;padding:5px 12px" onclick="navigate('warranties');openModal('warranty')">+ Yeni</button></div><div class="tbl-wrap"><table><thead><tr><th>Kod</th><th>Ürün</th><th>Satış</th><th>Bitiş</th><th>Durum</th><th>İşlem</th></tr></thead><tbody>${wRows}</tbody></table></div></div>
+    <div class="card"><div class="card-hdr"><div class="card-title">🔧 Servis Geçmişi (${cSvcs.length})</div></div><div class="tbl-wrap"><table><thead><tr><th>Garanti</th><th>Tarih</th><th>Açıklama</th><th>Teknisyen</th><th>Durum</th></tr></thead><tbody>${sRows}</tbody></table></div></div>`;
+  navigate('customer-detail');
+}
+
+// ═══ PRODUCTS ═══
+function renderP(q=''){
+  q=(q||'').toLowerCase();
+  const fc=document.getElementById('p-f-cat')?.value||'';
+  const fa=document.getElementById('p-f-active')?.value||'';
+  const list=PS.filter(p=>{
+    if(fc&&p.category_id!=fc)return false;
+    if(fa==='1'&&p.is_active===false)return false;
+    if(fa==='0'&&p.is_active!==false)return false;
+    if(q&&!`${p.name_tr||''} ${p.name_en||''} ${p.model||''} ${p.categories?.name_tr||''}`.toLowerCase().includes(q))return false;
+    return true;
+  });
+  document.getElementById('p-tbl').innerHTML=list.map((p,i)=>{
+    const uc=WS.filter(w=>w.warranty_items?.some(it=>it.product_id===p.id)).length;
     const ci=CATS.findIndex(c=>c.id===p.category_id)%11;
-    return`<tr>
-      <td>${p.photo_url?`<img src="${p.photo_url}" class="pthumb">`:'—'}</td>
-      <td>${p.name_tr}</td><td class="mono">${p.model||'—'}</td>
-      <td>${p.categories?`<span class="cat-badge ci${ci}">${p.categories.name_tr}</span>`:'—'}</td>
-      <td><span class="badge ${p.warranty_months<=12?'m12':p.warranty_months<=24?'m24':'m36'}">${p.warranty_months} ay</span></td>
-      <td>${p.warranty_doc_url?`<a href="${p.warranty_doc_url}" target="_blank" style="color:#29abe2;font-size:12px">📄 Görüntüle</a>`:'—'}</td>
-      <td style="white-space:nowrap"><button class="btn btn-ghost btn-sm" onclick="openModal('product','${p.id}')">Düzenle</button> <button class="btn btn-danger btn-sm" onclick="delRec('products','${p.id}')">Sil</button></td></tr>`;
-  }).join(''):'<tr class="erow"><td colspan="7">Ürün bulunamadı</td></tr>';
+    const cb=p.categories?`<span class="badge ci${ci<0?0:ci}">${esc(p.categories.name_tr)}</span>`:'—';
+    const ph=p.photo_url?`<img src="${p.photo_url}" class="pthumb">`:`<div class="pthumb-ph">📦</div>`;
+    const active=p.is_active!==false;
+    return`<tr>${[ph,`<b>${esc(p.name_tr||'—')}</b>${p.name_en?`<br><span style="font-size:11px;color:var(--muted)">${esc(p.name_en)}</span>`:''}`,`<span class="mono">${esc(p.model||'—')}</span>`,cb,`<span class="badge b-neutral">${p.warranty_months||24}ay</span>`,`${p.warranty_doc_url?`<a href="${p.warranty_doc_url}" target="_blank" class="btn-xs bv">📄 Belge</a> `:''}${p.manual_url?`<a href="${p.manual_url}" target="_blank" class="btn-xs bl">📖 Kılavuz</a>`:''}${!p.warranty_doc_url&&!p.manual_url?'—':''}`,`<span class="badge ${active?'b-active':'b-neutral'}">${active?'✓ Aktif':'Pasif'}</span>`,`<span class="badge b-blue">${uc}x</span>`,`<div class="act"><button class="btn-xs be" onclick="editP('${p.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('products','${p.id}')">🗑</button></div>`].map(v=>`<td>${v}</td>`).join('')}</tr>`;
+  }).join('')||'<tr class="erow"><td colspan="9">Ürün bulunamadı</td></tr>';
 }
+
+// ═══ CATEGORIES ═══
 function renderCat(){
-  document.getElementById('cat-tbl').innerHTML=CATS.length?CATS.map(c=>`<tr>
-    <td>${c.name_tr}</td><td>${c.name_en||'—'}</td><td dir="rtl">${c.name_ar||'—'}</td><td>${c.sort_order}</td>
-    <td style="white-space:nowrap"><button class="btn btn-ghost btn-sm" onclick="openModal('category','${c.id}')">Düzenle</button> <button class="btn btn-danger btn-sm" onclick="delRec('categories','${c.id}')">Sil</button></td></tr>`).join(''):'<tr class="erow"><td colspan="5">Kategori bulunamadı</td></tr>';
-}
-async function loadService(){
-  const {data}=await sb.from('service_records').select('*,warranties(warranty_code,warranty_items(products(name_tr)),customers(name))').order('service_date',{ascending:false});
-  const recs=data||[];
-  document.getElementById('s-tbl').innerHTML=recs.length?recs.map(r=>{
-    const costs=(r.costs||[]).map(c=>`<span class="curr-chip ${c.currency?.toLowerCase()}">${c.currency} ${Number(c.amount).toLocaleString('tr-TR')}</span>`).join(' ')||'—';
-    const prodName=r.warranties?.warranty_items?.[0]?.products?.name_tr||'—';
-    return`<tr>
-      <td class="mono">${r.warranties?.warranty_code||'—'}</td>
-      <td>${prodName}</td>
-      <td>${r.warranties?.customers?.name||'—'}</td>
-      <td>${fd(r.service_date)}</td><td>${r.description}</td>
-      <td>${r.technician||'—'}</td><td>${costs}</td>
-      <td style="white-space:nowrap"><button class="btn btn-ghost btn-sm" onclick="openModal('service','${r.id}')">Düzenle</button> <button class="btn btn-danger btn-sm" onclick="delRec('service_records','${r.id}')">Sil</button></td></tr>`;
-  }).join(''):'<tr class="erow"><td colspan="8">Servis kaydı bulunamadı</td></tr>';
+  document.getElementById('cat-tbl').innerHTML=CATS.map((c,i)=>`<tr><td><span class="badge ci${i%11}">${esc(c.name_tr)}</span></td><td>${esc(c.name_en||'—')}</td><td dir="rtl">${esc(c.name_ar||'—')}</td><td>${c.sort_order??0}</td><td><div class="act"><button class="btn-xs be" onclick="editCat('${c.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('categories','${c.id}')">🗑</button></div></td></tr>`).join('')||'<tr class="erow"><td colspan="5">—</td></tr>';
 }
 
-// ═══════ DYNAMIC ROWS ═══════
-function addItemRow(productId='',qty=1,serial=''){
-  const list=document.getElementById('w-items-list');
-  const opts=PS.map(p=>`<option value="${p.id}"${p.id===productId?' selected':''}>${p.name_tr}${p.model?' — '+p.model:''}</option>`).join('');
-  const row=document.createElement('div');
-  row.className='item-row';
-  row.innerHTML=`
-    <select class="iprod" style="flex:2;min-width:0;padding:9px 10px;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:inherit;outline:none">
-      <option value="">— Ürün —</option>${opts}
-    </select>
-    <input type="number" class="iqty" value="${qty}" min="1" placeholder="Adet" style="width:62px;padding:9px 10px;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;flex-shrink:0">
-    <input type="text" class="iserial" value="${serial}" placeholder="Seri No" style="flex:1;min-width:60px;padding:9px 10px;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none">
-    <button type="button" class="rm-btn" onclick="this.parentElement.remove()">✕</button>`;
-  list.appendChild(row);
+// ═══ SERVICE ═══
+function svcBadge(st){
+  const m={completed:`<span class="badge b-ok-sm">✅ Tamamlandı</span>`,in_review:`<span class="badge b-warn-sm">🔍 İncelemede</span>`,pending:`<span class="badge b-blue-sm">⏳ Bekliyor</span>`,out_of_warranty:`<span class="badge b-red-sm">🚫 Garanti Dışı</span>`};
+  return m[st||'completed']||m.completed;
 }
-function getItemsFromForm(){
-  return Array.from(document.querySelectorAll('#w-items-list .item-row')).map(r=>({
-    product_id:r.querySelector('.iprod').value,
-    quantity:parseInt(r.querySelector('.iqty').value)||1,
-    serial_number:r.querySelector('.iserial').value.trim()
-  })).filter(i=>i.product_id);
-}
-
-function addPriceRow(currency='TRY',amount=''){
-  const list=document.getElementById('w-prices-list');
-  const row=document.createElement('div');
-  row.className='price-row';
-  row.innerHTML=`
-    <select class="pcurr" style="width:80px;flex-shrink:0;padding:9px 10px;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none">
-      <option${currency==='TRY'?' selected':''}>TRY</option>
-      <option${currency==='USD'?' selected':''}>USD</option>
-      <option${currency==='EUR'?' selected':''}>EUR</option>
-      <option${currency==='GBP'?' selected':''}>GBP</option>
-    </select>
-    <input type="number" class="pamt" value="${amount}" placeholder="0.00" step="0.01" style="flex:1;padding:9px 10px;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none">
-    <button type="button" class="rm-btn" onclick="this.parentElement.remove()">✕</button>`;
-  list.appendChild(row);
-}
-function getPricesFromForm(){
-  return Array.from(document.querySelectorAll('#w-prices-list .price-row')).map(r=>({
-    currency:r.querySelector('.pcurr').value,
-    amount:parseFloat(r.querySelector('.pamt').value)||0
-  })).filter(p=>p.amount>0);
+function renderSvc(q=''){
+  q=(q||'').toLowerCase();
+  const fs=document.getElementById('svc-f-status')?.value||'';
+  const fv=document.getElementById('svc-f-vis')?.value||'';
+  const list=SVCS.filter(s=>{
+    if(fs&&(s.status||'completed')!==fs)return false;
+    if(fv==='1'&&s.customer_visible===false)return false;
+    if(fv==='0'&&s.customer_visible!==false)return false;
+    if(q&&!`${s.warranty?.warranty_code||''} ${s.warranty?.customers?.name||''} ${s.description||''} ${s.technician||''}`.toLowerCase().includes(q))return false;
+    return true;
+  });
+  const lbl=document.getElementById('svc-count-lbl');if(lbl)lbl.textContent=`${list.length} kayıt`;
+  document.getElementById('s-tbl').innerHTML=list.map(s=>{
+    const costs=s.costs||[];
+    const ch=costs.slice(0,2).map(c=>`<span class="cc ${(c.currency||'').toLowerCase()}">${c.currency} ${Number(c.amount||0).toLocaleString('tr-TR',{minimumFractionDigits:0})}</span>`).join(' ');
+    const vis=s.customer_visible!==false?`<span class="badge b-ok-sm" style="font-size:10px">👁 Görünür</span>`:`<span class="badge b-gray-sm" style="font-size:10px">🔒 Gizli</span>`;
+    return`<tr><td><span class="mono" style="font-size:11px">${esc(s.warranty?.warranty_code||'—')}</span></td><td>${esc(s.warranty?.customers?.name||'—')}</td><td>${fd(s.service_date)}${s.delivery_date?`<br><span style="font-size:10px;color:var(--muted)">Teslim: ${fd(s.delivery_date)}</span>`:''}</td><td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(s.description||'')}">${esc(s.description||'—')}</td><td>${esc(s.technician||'—')}</td><td>${svcBadge(s.status)}</td><td>${vis}</td><td>${ch||'—'}</td><td><div class="act"><button class="btn-xs be" onclick="editSvc('${s.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('service_records','${s.id}')">🗑</button></div></td></tr>`;
+  }).join('')||'<tr class="erow"><td colspan="9">Kayıt bulunamadı</td></tr>';
 }
 
-function addCostRow(currency='TRY',amount=''){
-  const list=document.getElementById('sr-costs-list');
-  const row=document.createElement('div');
-  row.className='price-row';
-  row.innerHTML=`
-    <select class="pcurr" style="width:80px;flex-shrink:0;padding:9px 10px;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none">
-      <option${currency==='TRY'?' selected':''}>TRY</option>
-      <option${currency==='USD'?' selected':''}>USD</option>
-      <option${currency==='EUR'?' selected':''}>EUR</option>
-      <option${currency==='GBP'?' selected':''}>GBP</option>
-    </select>
-    <input type="number" class="pamt" value="${amount}" placeholder="0.00" step="0.01" style="flex:1;padding:9px 10px;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none">
-    <button type="button" class="rm-btn" onclick="this.parentElement.remove()">✕</button>`;
-  list.appendChild(row);
-}
-function getCostsFromForm(){
-  return Array.from(document.querySelectorAll('#sr-costs-list .price-row')).map(r=>({
-    currency:r.querySelector('.pcurr').value,
-    amount:parseFloat(r.querySelector('.pamt').value)||0
-  })).filter(c=>c.amount>0);
-}
-
-// ═══════ OPEN MODAL ═══════
-async function openModal(type,id=null){
-  EID[type]=id;
-  const clear=ids=>ids.forEach(i=>{const e=document.getElementById(i);if(e)e.value='';});
-
-  if(type==='warranty'){
-    document.getElementById('w-modal-title').textContent=id?'Garanti Düzenle':'Yeni Garanti Kaydı';
+// ═══ OPEN MODALS ═══
+function openModal(name){
+  EID[name]=null;
+  if(name==='warranty'){
+    document.getElementById('w-modal-title').textContent='Yeni Garanti Kaydı';
+    ['w-code','w-start','w-end','w-note'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('w-sdate').value=new Date().toISOString().split('T')[0];
+    document.getElementById('w-months').value=24;
+    document.getElementById('w-payment').value='';
+    const settComp=document.getElementById('set-company')?.value||'EMKA Kuyumcu Malzeme ve Makinaları';
+    document.getElementById('w-dealer').value=settComp;
     const cSel=document.getElementById('w-customer');
-    cSel.innerHTML='<option value="">— Müşteri seçin —</option>'+CS.map(c=>`<option value="${c.id}">${c.name}${c.city?' ('+c.city+')':''}</option>`).join('')+'<option value="__new__">➕ Yeni müşteri ekle</option>';
+    cSel.innerHTML='<option value="">— Müşteri seçin —</option><option value="__new__">➕ Yeni müşteri ekle</option>';
+    CS.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=`${c.name}${c.firma_adi?' ('+c.firma_adi+')':''}${c.city?' – '+c.city:''}`;cSel.appendChild(o);});
     document.getElementById('new-cust-fields').style.display='none';
-    document.getElementById('w-items-list').innerHTML='';
-    document.getElementById('w-prices-list').innerHTML='';
-
-    if(id){
-      const w=WS.find(x=>x.id===id);
-      if(w){
-        document.getElementById('w-code').value=w.warranty_code;
-        document.getElementById('w-sdate').value=w.sale_date||'';
-        document.getElementById('w-start').value=w.warranty_start||'';
-        document.getElementById('w-end').value=w.warranty_end||'';
-        document.getElementById('w-months').value=w.warranty_months||24;
-        document.getElementById('w-dealer').value=w.dealer||'';
-        document.getElementById('w-payment').value=w.payment_status||'';
-        document.getElementById('w-note').value=w.internal_note||'';
-        document.getElementById('w-customer').value=w.customer_id||'';
-        // Load items
-        const {data:wItems}=await sb.from('warranty_items').select('*').eq('warranty_id',id);
-        (wItems||[]).forEach(i=>addItemRow(i.product_id,i.quantity,i.serial_number));
-        // Load prices
-        (w.prices||[]).forEach(p=>addPriceRow(p.currency,p.amount));
-      }
-    } else {
-      clear(['w-note']);
-      document.getElementById('w-code').value='';
-      document.getElementById('w-months').value='24';
-      document.getElementById('w-payment').value='';
-      document.getElementById('w-dealer').value='EMKA Kuyumculuk Malzeme ve Makinaları';
-      document.getElementById('w-customer').value='';
-      document.getElementById('w-sdate').value=new Date().toISOString().split('T')[0];
-      calcEnd();
-      addItemRow(); // start with one empty row
-    }
+    ['nc-name','nc-firm','nc-phone','nc-wa','nc-city'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('nc-country').value='TR';
+    document.getElementById('w-items-list').innerHTML='';addItemRow();
+    document.getElementById('w-prices-list').innerHTML='';addPriceRow('w-prices-list');
+    calcEnd();
   }
-
-  if(type==='customer'){
-    document.getElementById('c-modal-title').textContent=id?'Müşteri Düzenle':'Yeni Müşteri';
-    if(id){const c=CS.find(x=>x.id===id);if(c){['name','phone','email','city','country','notes'].forEach(f=>{document.getElementById('c-'+f).value=c[f]||'';});}}
-    else clear(['c-name','c-phone','c-email','c-city','c-notes']);
+  if(name==='customer'){
+    document.getElementById('c-modal-title').textContent='Yeni Müşteri';
+    ['c-name','c-yetkili','c-firma','c-phone','c-wa','c-email','c-vergi','c-city','c-notes'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('c-country').value='TR';document.getElementById('c-lang').value='tr';
   }
-
-  if(type==='product'){
-    document.getElementById('p-modal-title').textContent=id?'Ürün Düzenle':'Yeni Ürün';
-    document.getElementById('p-cat').innerHTML='<option value="">— Kategori seçin —</option>'+CATS.map(c=>`<option value="${c.id}">${c.name_tr}</option>`).join('');
-    if(id){
-      const p=PS.find(x=>x.id===id);
-      if(p){
-        document.getElementById('p-cat').value=p.category_id||'';
-        document.getElementById('p-tr').value=p.name_tr||''; document.getElementById('p-en').value=p.name_en||''; document.getElementById('p-ar').value=p.name_ar||'';
-        document.getElementById('p-model').value=p.model||''; document.getElementById('p-months').value=p.warranty_months||24;
-        document.getElementById('p-desc').value=p.description_tr||'';
-        document.getElementById('p-terms-tr').value=p.warranty_terms_tr||''; document.getElementById('p-terms-en').value=p.warranty_terms_en||''; document.getElementById('p-terms-ar').value=p.warranty_terms_ar||'';
-        document.getElementById('p-photo-url').value=p.photo_url||''; document.getElementById('p-doc-url').value=p.warranty_doc_url||'';
-        document.getElementById('p-photo-prev').textContent=p.photo_url?'✓ Mevcut fotoğraf var':''; document.getElementById('p-doc-prev').textContent=p.warranty_doc_url?'✓ Mevcut belge var':'';
-      }
-    } else {
-      clear(['p-tr','p-en','p-ar','p-model','p-desc','p-terms-tr','p-terms-en','p-terms-ar','p-photo-url','p-doc-url']);
-      document.getElementById('p-months').value='24'; document.getElementById('p-photo-prev').textContent=''; document.getElementById('p-doc-prev').textContent='';
-      document.getElementById('p-photo-file').value=''; document.getElementById('p-doc-file').value='';
-    }
+  if(name==='product'){
+    document.getElementById('p-modal-title').textContent='Yeni Ürün';
+    ['p-tr','p-en','p-ar','p-model','p-desc','p-service-note','p-terms-tr','p-terms-en','p-terms-ar','p-photo-url','p-doc-url','p-manual-url'].forEach(id=>document.getElementById(id).value='');
+    ['p-photo-prev','p-doc-prev','p-manual-prev'].forEach(id=>document.getElementById(id).textContent='');
+    document.getElementById('p-months').value=24;document.getElementById('p-active').checked=true;
+    const pcat=document.getElementById('p-cat');pcat.innerHTML='<option value="">— Kategori —</option>';
+    CATS.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name_tr;pcat.appendChild(o);});
   }
-
-  if(type==='category'){
-    document.getElementById('cat-modal-title').textContent=id?'Kategori Düzenle':'Yeni Kategori';
-    if(id){const c=CATS.find(x=>x.id===id);if(c){document.getElementById('cat-tr').value=c.name_tr;document.getElementById('cat-en').value=c.name_en||'';document.getElementById('cat-ar').value=c.name_ar||'';document.getElementById('cat-ord').value=c.sort_order||0;}}
-    else clear(['cat-tr','cat-en','cat-ar']);
+  if(name==='category'){
+    document.getElementById('cat-modal-title').textContent='Yeni Kategori';
+    ['cat-tr','cat-en','cat-ar'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('cat-ord').value=0;
   }
-
-  if(type==='service'){
-    document.getElementById('sr-modal-title').textContent=id?'Servis Kaydı Düzenle':'Yeni Servis Kaydı';
-    document.getElementById('sr-warr').innerHTML='<option value="">— Garanti seçin —</option>'+WS.map(w=>`<option value="${w.id}">${w.warranty_code} — ${w.customers?.name||''} — ${itemNames(w)}</option>`).join('');
+  if(name==='service'){
+    document.getElementById('sr-modal-title').textContent='Yeni Servis Kaydı';
+    ['sr-desc','sr-tech','sr-parts','sr-internal-note','sr-delivery'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('sr-date').value=new Date().toISOString().split('T')[0];
+    document.getElementById('sr-status').value='completed';document.getElementById('sr-visible').checked=true;
     document.getElementById('sr-costs-list').innerHTML='';
-    if(id){
-      const {data}=await sb.from('service_records').select('*').eq('id',id).single();
-      if(data){
-        document.getElementById('sr-warr').value=data.warranty_id; document.getElementById('sr-date').value=data.service_date;
-        document.getElementById('sr-tech').value=data.technician||''; document.getElementById('sr-desc').value=data.description;
-        document.getElementById('sr-parts').value=data.parts_changed||'';
-        (data.costs||[]).forEach(c=>addCostRow(c.currency,c.amount));
-      }
-    } else {
-      clear(['sr-tech','sr-desc','sr-parts']); document.getElementById('sr-warr').value='';
-      document.getElementById('sr-date').value=new Date().toISOString().split('T')[0];
-    }
+    const wSel=document.getElementById('sr-warr');
+    wSel.innerHTML='<option value="">— Garanti seçin —</option>';
+    WS.forEach(w=>{const o=document.createElement('option');o.value=w.id;o.textContent=`${w.warranty_code} – ${w.customers?.name||'?'} (${fd(w.warranty_end)})`;wSel.appendChild(o);});
   }
-
-  document.getElementById('modal-'+type).classList.add('open');
+  document.getElementById('modal-'+name).classList.add('open');
 }
-function closeModal(t){document.getElementById('modal-'+t).classList.remove('open');EID[t]=null;}
+function closeModal(name){document.getElementById('modal-'+name)?.classList.remove('open');}
 
-// ═══════ SAVE ═══════
+function editW(id){
+  const w=WS.find(x=>x.id===id);if(!w)return;
+  EID.warranty=id;openModal('warranty');
+  document.getElementById('w-modal-title').textContent='Garanti Düzenle';
+  document.getElementById('w-code').value=w.warranty_code||'';
+  document.getElementById('w-sdate').value=w.sale_date||'';
+  document.getElementById('w-months').value=w.warranty_months||24;
+  document.getElementById('w-start').value=w.warranty_start||'';
+  document.getElementById('w-end').value=w.warranty_end||'';
+  document.getElementById('w-payment').value=w.payment_status||'';
+  document.getElementById('w-note').value=w.notes||'';
+  document.getElementById('w-dealer').value=w.dealer||'';
+  document.getElementById('w-customer').value=w.customer_id||'';
+  document.getElementById('w-items-list').innerHTML='';
+  (w.warranty_items||[]).forEach(it=>addItemRow(it.product_id,it.quantity,it.serial_number));
+  if(!(w.warranty_items||[]).length)addItemRow();
+  document.getElementById('w-prices-list').innerHTML='';
+  (w.prices||[]).forEach(p=>addPriceRow('w-prices-list',p.currency,p.amount));
+  if(!(w.prices||[]).length)addPriceRow('w-prices-list');
+}
+function editC(id){
+  const c=CS.find(x=>x.id===id);if(!c)return;
+  EID.customer=id;openModal('customer');
+  document.getElementById('c-modal-title').textContent='Müşteri Düzenle';
+  document.getElementById('c-name').value=c.name||'';document.getElementById('c-yetkili').value=c.yetkili||'';
+  document.getElementById('c-firma').value=c.firma_adi||'';document.getElementById('c-phone').value=c.phone||'';
+  document.getElementById('c-wa').value=c.whatsapp||'';document.getElementById('c-email').value=c.email||'';
+  document.getElementById('c-vergi').value=c.vergi_no||'';document.getElementById('c-city').value=c.city||'';
+  document.getElementById('c-country').value=c.country||'TR';document.getElementById('c-lang').value=c.dil_tercihi||'tr';
+  document.getElementById('c-notes').value=c.notes||'';
+}
+function editP(id){
+  const p=PS.find(x=>x.id===id);if(!p)return;
+  EID.product=id;openModal('product');
+  document.getElementById('p-modal-title').textContent='Ürün Düzenle';
+  document.getElementById('p-cat').value=p.category_id||'';document.getElementById('p-tr').value=p.name_tr||'';
+  document.getElementById('p-en').value=p.name_en||'';document.getElementById('p-ar').value=p.name_ar||'';
+  document.getElementById('p-model').value=p.model||'';document.getElementById('p-months').value=p.warranty_months||24;
+  document.getElementById('p-desc').value=p.description_tr||'';document.getElementById('p-service-note').value=p.service_note||'';
+  document.getElementById('p-terms-tr').value=p.warranty_terms_tr||'';document.getElementById('p-terms-en').value=p.warranty_terms_en||'';
+  document.getElementById('p-terms-ar').value=p.warranty_terms_ar||'';document.getElementById('p-photo-url').value=p.photo_url||'';
+  document.getElementById('p-doc-url').value=p.warranty_doc_url||'';document.getElementById('p-manual-url').value=p.manual_url||'';
+  document.getElementById('p-active').checked=p.is_active!==false;
+  if(p.photo_url)document.getElementById('p-photo-prev').textContent='✓ Mevcut fotoğraf';
+  if(p.warranty_doc_url)document.getElementById('p-doc-prev').textContent='✓ Mevcut belge';
+  if(p.manual_url)document.getElementById('p-manual-prev').textContent='✓ Mevcut kılavuz';
+}
+function editCat(id){
+  const c=CATS.find(x=>x.id===id);if(!c)return;
+  EID.category=id;openModal('category');
+  document.getElementById('cat-modal-title').textContent='Kategori Düzenle';
+  document.getElementById('cat-tr').value=c.name_tr||'';document.getElementById('cat-en').value=c.name_en||'';
+  document.getElementById('cat-ar').value=c.name_ar||'';document.getElementById('cat-ord').value=c.sort_order||0;
+}
+function editSvc(id){
+  const s=SVCS.find(x=>x.id===id);if(!s)return;
+  EID.service=id;openModal('service');
+  document.getElementById('sr-modal-title').textContent='Servis Kaydı Düzenle';
+  document.getElementById('sr-warr').value=s.warranty_id||'';
+  document.getElementById('sr-date').value=s.service_date||'';document.getElementById('sr-delivery').value=s.delivery_date||'';
+  document.getElementById('sr-tech').value=s.technician||'';document.getElementById('sr-desc').value=s.description||'';
+  document.getElementById('sr-parts').value=s.parts_changed||'';document.getElementById('sr-internal-note').value=s.internal_note||'';
+  document.getElementById('sr-status').value=s.status||'completed';document.getElementById('sr-visible').checked=s.customer_visible!==false;
+  document.getElementById('sr-costs-list').innerHTML='';
+  (s.costs||[]).forEach(c=>addPriceRow('sr-costs-list',c.currency,c.amount));
+}
+
+// ═══ DYNAMIC ROWS ═══
+function addItemRow(pid='',qty=1,serial=''){
+  const div=document.createElement('div');div.className='item-row';
+  const opts=PS.map(p=>`<option value="${p.id}"${p.id===pid?' selected':''}>${esc(p.name_tr||'')}${p.model?' ('+p.model+')':''}</option>`).join('');
+  div.innerHTML=`<select class="iprod"><option value="">— Ürün seçin —</option>${opts}</select><input type="number" class="iqty" value="${qty}" min="1" max="99" placeholder="Adet"><input type="text" class="iserial" value="${esc(serial)}" placeholder="Seri No"><button type="button" class="rm-btn" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById('w-items-list').appendChild(div);
+}
+function addPriceRow(listId,curr='TRY',amt=''){
+  const div=document.createElement('div');div.className='price-row';
+  div.innerHTML=`<select class="pcurr"><option${curr==='TRY'?' selected':''}>TRY</option><option${curr==='USD'?' selected':''}>USD</option><option${curr==='EUR'?' selected':''}>EUR</option><option${curr==='GBP'?' selected':''}>GBP</option></select><input type="number" class="pamt" value="${amt}" placeholder="0.00" min="0" step="0.01"><button type="button" class="rm-btn" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById(listId).appendChild(div);
+}
+function getItems(){return[...document.querySelectorAll('#w-items-list .item-row')].map(r=>({product_id:r.querySelector('.iprod').value||null,quantity:parseInt(r.querySelector('.iqty').value)||1,serial_number:r.querySelector('.iserial').value.trim()||null})).filter(i=>i.product_id);}
+function getPrices(listId){return[...document.querySelectorAll(`#${listId} .price-row`)].map(r=>({currency:r.querySelector('.pcurr').value,amount:parseFloat(r.querySelector('.pamt').value)||0})).filter(p=>p.amount>0);}
+
+// ═══ SAVE ═══
 async function saveWarranty(){
-  const items=getItemsFromForm();
-  if(!items.length)return toast('En az bir ürün/kalem ekleyin','err');
-  const cid=document.getElementById('w-customer').value;
-  let finalCid=cid;
-  if(cid==='__new__'){
-    const name=document.getElementById('nc-name').value.trim();
-    if(!name)return toast('Müşteri adı gerekli','err');
-    const {data:nc,error:ce}=await sb.from('customers').insert({
-      name,phone:document.getElementById('nc-phone').value.trim(),
-      city:document.getElementById('nc-city').value.trim(),country:document.getElementById('nc-country').value.trim()||'TR'
-    }).select().single();
-    if(ce)return toast('Müşteri eklenemedi','err');
-    finalCid=nc.id; CS.push(nc);
+  const items=getItems();if(!items.length)return toast('En az bir ürün ekleyin','err');
+  const custVal=document.getElementById('w-customer').value;if(!custVal)return toast('Müşteri seçin','err');
+  let custId=custVal;
+  if(custVal==='__new__'){
+    const nm=document.getElementById('nc-name').value.trim();if(!nm)return toast('Müşteri adı gerekli','err');
+    const {data:nc,error:ce}=await sb.from('customers').insert({name:nm,firma_adi:document.getElementById('nc-firm').value.trim()||null,phone:document.getElementById('nc-phone').value.trim()||null,whatsapp:document.getElementById('nc-wa').value.trim()||null,city:document.getElementById('nc-city').value.trim()||null,country:document.getElementById('nc-country').value.trim()||'TR'}).select().single();
+    if(ce)return toast('Müşteri eklenemedi','err');custId=nc.id;
   }
-  if(!finalCid)return toast('Müşteri seçin','err');
-  const sd=document.getElementById('w-sdate').value;
-  if(!sd)return toast('Satış tarihi gerekli','err');
-
-  const prices=getPricesFromForm();
-  let code=document.getElementById('w-code').value,token='';
-  if(!EID.warranty){
-    const cust=CS.find(c=>c.id===finalCid);
-    const seq=WS.length+1;
-    code=genCode(cust?.name||'',seq); token=genToken(seq);
+  const prices=getPrices('w-prices-list');
+  const sdate=document.getElementById('w-sdate').value;
+  const months=parseInt(document.getElementById('w-months').value)||24;
+  const wstart=document.getElementById('w-start').value||sdate;
+  let wend=document.getElementById('w-end').value;
+  if(!wend&&wstart){const e=new Date(wstart);e.setMonth(e.getMonth()+months);wend=e.toISOString().split('T')[0];}
+  const seq=WS.length+1;
+  const custName=CS.find(c=>c.id===custId)?.name||'MÜŞ';
+  const code=EID.warranty?(WS.find(w=>w.id===EID.warranty)?.warranty_code||genCode(custName,seq)):genCode(custName,seq);
+  const token=EID.warranty?(WS.find(w=>w.id===EID.warranty)?.public_token||genToken(seq)):genToken(seq);
+  const payload={warranty_code:code,public_token:token,customer_id:custId,sale_date:sdate,warranty_start:wstart,warranty_end:wend,warranty_months:months,prices,payment_status:document.getElementById('w-payment').value||null,dealer:document.getElementById('w-dealer').value.trim(),notes:document.getElementById('w-note').value.trim()||null};
+  let wid=EID.warranty;
+  if(wid){const {error}=await sb.from('warranties').update(payload).eq('id',wid);if(error)return toast('Güncelleme hatası: '+error.message,'err');}
+  else{const {data:nw,error}=await sb.from('warranties').insert(payload).select().single();if(error)return toast('Kayıt hatası: '+error.message,'err');wid=nw.id;}
+  if(wid){
+    await sb.from('warranty_items').delete().eq('warranty_id',wid);
+    if(items.length){const {error:ie}=await sb.from('warranty_items').insert(items.map(i=>({...i,warranty_id:wid})));if(ie)toast('Ürün kayıt hatası','err');}
   }
-
-  const payload={
-    customer_id:finalCid,
-    sale_date:sd,
-    warranty_start:document.getElementById('w-start').value||sd,
-    warranty_end:document.getElementById('w-end').value,
-    warranty_months:parseInt(document.getElementById('w-months').value)||24,
-    dealer:document.getElementById('w-dealer').value.trim(),
-    payment_status:document.getElementById('w-payment').value,
-    internal_note:document.getElementById('w-note').value.trim(),
-    status:'active',
-    prices:prices,
-  };
-  if(!EID.warranty){payload.warranty_code=code;payload.public_token=token;}
-
-  let warrantyId=EID.warranty;
-  if(EID.warranty){
-    const {error}=await sb.from('warranties').update(payload).eq('id',EID.warranty);
-    if(error)return toast('Hata: '+error.message,'err');
-  } else {
-    const {data,error}=await sb.from('warranties').insert(payload).select().single();
-    if(error)return toast('Hata: '+error.message,'err');
-    warrantyId=data.id;
-  }
-
-  // warranty_items: delete existing then re-insert
-  await sb.from('warranty_items').delete().eq('warranty_id',warrantyId);
-  for(const item of items){
-    await sb.from('warranty_items').insert({
-      warranty_id:warrantyId,product_id:item.product_id,
-      quantity:item.quantity,serial_number:item.serial_number
-    });
-  }
-
-  toast(EID.warranty?'Güncellendi':'Garanti kaydedildi','ok');
-  closeModal('warranty'); await reloadAll(); renderW();
+  toast(EID.warranty?'Garanti güncellendi':'Garanti eklendi','ok');closeModal('warranty');await reloadAll();
+  const ap=document.querySelector('.page.active')?.id?.replace('page-','');if(ap==='warranties')renderW();else if(ap==='dashboard')loadDash();
 }
-
 async function saveCustomer(){
-  const name=document.getElementById('c-name').value.trim();
-  if(!name)return toast('Müşteri adı gerekli','err');
-  const payload={name,phone:document.getElementById('c-phone').value.trim(),email:document.getElementById('c-email').value.trim(),city:document.getElementById('c-city').value.trim(),country:document.getElementById('c-country').value.trim()||'TR',notes:document.getElementById('c-notes').value.trim()};
+  const name=document.getElementById('c-name').value.trim();if(!name)return toast('Ad Soyad gerekli','err');
+  const payload={name,yetkili:document.getElementById('c-yetkili').value.trim()||null,firma_adi:document.getElementById('c-firma').value.trim()||null,phone:document.getElementById('c-phone').value.trim()||null,whatsapp:document.getElementById('c-wa').value.trim()||null,email:document.getElementById('c-email').value.trim()||null,vergi_no:document.getElementById('c-vergi').value.trim()||null,city:document.getElementById('c-city').value.trim()||null,country:document.getElementById('c-country').value.trim()||'TR',dil_tercihi:document.getElementById('c-lang').value||'tr',notes:document.getElementById('c-notes').value.trim()||null};
   const {error}=EID.customer?await sb.from('customers').update(payload).eq('id',EID.customer):await sb.from('customers').insert(payload);
   if(error)return toast('Hata: '+error.message,'err');
-  toast(EID.customer?'Müşteri güncellendi':'Müşteri eklendi','ok');
-  closeModal('customer'); await reloadAll(); renderC();
+  toast(EID.customer?'Müşteri güncellendi':'Müşteri eklendi','ok');closeModal('customer');await reloadAll();renderC();
 }
-
 async function saveProduct(){
-  const nameTr=document.getElementById('p-tr').value.trim();
-  if(!nameTr)return toast('Ürün adı (TR) gerekli','err');
+  const nameTr=document.getElementById('p-tr').value.trim();if(!nameTr)return toast('Ürün adı (TR) gerekli','err');
   let photoUrl=document.getElementById('p-photo-url').value;
   const pf=document.getElementById('p-photo-file').files[0];
-  if(pf){
-    const ext=pf.name.split('.').pop();
-    const path=`${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-    const {error:ue}=await sb.storage.from('product-photos').upload(path,pf,{upsert:true});
-    if(ue)return toast('Fotoğraf yüklenemedi','err');
-    const {data:ud}=sb.storage.from('product-photos').getPublicUrl(path);
-    photoUrl=ud.publicUrl;
-  }
+  if(pf){const path=`${Date.now()}.${pf.name.split('.').pop()}`;const {error}=await sb.storage.from('product-photos').upload(path,pf,{upsert:true});if(error)return toast('Fotoğraf yüklenemedi','err');photoUrl=sb.storage.from('product-photos').getPublicUrl(path).data.publicUrl;}
   let docUrl=document.getElementById('p-doc-url').value;
   const df=document.getElementById('p-doc-file').files[0];
-  if(df){
-    const path=`${Date.now()}-${Math.random().toString(36).slice(2)}.pdf`;
-    const {error:ue}=await sb.storage.from('warranty-docs').upload(path,df,{upsert:true});
-    if(ue)return toast('Belge yüklenemedi','err');
-    const {data:ud}=sb.storage.from('warranty-docs').getPublicUrl(path);
-    docUrl=ud.publicUrl;
-  }
-  const payload={
-    category_id:document.getElementById('p-cat').value||null,
-    name_tr:nameTr,name_en:document.getElementById('p-en').value.trim(),name_ar:document.getElementById('p-ar').value.trim(),
-    model:document.getElementById('p-model').value.trim(),warranty_months:parseInt(document.getElementById('p-months').value)||24,
-    description_tr:document.getElementById('p-desc').value.trim(),
-    warranty_terms_tr:document.getElementById('p-terms-tr').value.trim(),warranty_terms_en:document.getElementById('p-terms-en').value.trim(),warranty_terms_ar:document.getElementById('p-terms-ar').value.trim(),
-    photo_url:photoUrl,warranty_doc_url:docUrl,
-  };
+  if(df){const path=`${Date.now()}-doc.pdf`;const {error}=await sb.storage.from('warranty-docs').upload(path,df,{upsert:true});if(error)return toast('Belge yüklenemedi','err');docUrl=sb.storage.from('warranty-docs').getPublicUrl(path).data.publicUrl;}
+  let manualUrl=document.getElementById('p-manual-url').value;
+  const mf=document.getElementById('p-manual-file').files[0];
+  if(mf){const path=`${Date.now()}-manual.pdf`;const {error}=await sb.storage.from('warranty-docs').upload(path,mf,{upsert:true});if(error)return toast('Kılavuz yüklenemedi','err');manualUrl=sb.storage.from('warranty-docs').getPublicUrl(path).data.publicUrl;}
+  const payload={category_id:document.getElementById('p-cat').value||null,name_tr:nameTr,name_en:document.getElementById('p-en').value.trim()||null,name_ar:document.getElementById('p-ar').value.trim()||null,model:document.getElementById('p-model').value.trim()||null,warranty_months:parseInt(document.getElementById('p-months').value)||24,description_tr:document.getElementById('p-desc').value.trim()||null,service_note:document.getElementById('p-service-note').value.trim()||null,warranty_terms_tr:document.getElementById('p-terms-tr').value.trim()||null,warranty_terms_en:document.getElementById('p-terms-en').value.trim()||null,warranty_terms_ar:document.getElementById('p-terms-ar').value.trim()||null,photo_url:photoUrl||null,warranty_doc_url:docUrl||null,manual_url:manualUrl||null,is_active:document.getElementById('p-active').checked};
   const {error}=EID.product?await sb.from('products').update(payload).eq('id',EID.product):await sb.from('products').insert(payload);
   if(error)return toast('Hata: '+error.message,'err');
-  toast(EID.product?'Ürün güncellendi':'Ürün eklendi','ok');
-  closeModal('product'); await reloadAll(); renderP();
+  toast(EID.product?'Ürün güncellendi':'Ürün eklendi','ok');closeModal('product');await reloadAll();renderP();
 }
-
 async function saveCategory(){
-  const tr=document.getElementById('cat-tr').value.trim();
-  if(!tr)return toast('Türkçe isim gerekli','err');
-  const payload={name_tr:tr,name_en:document.getElementById('cat-en').value.trim(),name_ar:document.getElementById('cat-ar').value.trim(),sort_order:parseInt(document.getElementById('cat-ord').value)||0};
-  const {error}=EID.category?await sb.from('categories').update(payload).eq('id',EID.category):await sb.from('categories').insert(payload);
+  const tr=document.getElementById('cat-tr').value.trim();if(!tr)return toast('Türkçe isim gerekli','err');
+  const {error}=EID.category?await sb.from('categories').update({name_tr:tr,name_en:document.getElementById('cat-en').value.trim()||null,name_ar:document.getElementById('cat-ar').value.trim()||null,sort_order:parseInt(document.getElementById('cat-ord').value)||0}).eq('id',EID.category):await sb.from('categories').insert({name_tr:tr,name_en:document.getElementById('cat-en').value.trim()||null,name_ar:document.getElementById('cat-ar').value.trim()||null,sort_order:parseInt(document.getElementById('cat-ord').value)||0});
   if(error)return toast('Hata: '+error.message,'err');
-  toast(EID.category?'Kategori güncellendi':'Kategori eklendi','ok');
-  closeModal('category'); await reloadAll(); renderCat();
+  toast(EID.category?'Güncellendi':'Eklendi','ok');closeModal('category');await reloadAll();renderCat();
 }
-
 async function saveService(){
-  const wid=document.getElementById('sr-warr').value;
-  const desc=document.getElementById('sr-desc').value.trim();
-  if(!wid)return toast('Garanti seçin','err');
-  if(!desc)return toast('Açıklama gerekli','err');
-  const costs=getCostsFromForm();
-  const payload={
-    warranty_id:wid,service_date:document.getElementById('sr-date').value,description:desc,
-    technician:document.getElementById('sr-tech').value.trim(),parts_changed:document.getElementById('sr-parts').value.trim(),
-    costs:costs,
-  };
+  const wid=document.getElementById('sr-warr').value;const desc=document.getElementById('sr-desc').value.trim();
+  if(!wid)return toast('Garanti seçin','err');if(!desc)return toast('Açıklama gerekli','err');
+  const payload={warranty_id:wid,service_date:document.getElementById('sr-date').value,delivery_date:document.getElementById('sr-delivery').value||null,technician:document.getElementById('sr-tech').value.trim()||null,description:desc,parts_changed:document.getElementById('sr-parts').value.trim()||null,internal_note:document.getElementById('sr-internal-note').value.trim()||null,status:document.getElementById('sr-status').value||'completed',customer_visible:document.getElementById('sr-visible').checked,costs:getPrices('sr-costs-list')};
   const {error}=EID.service?await sb.from('service_records').update(payload).eq('id',EID.service):await sb.from('service_records').insert(payload);
   if(error)return toast('Hata: '+error.message,'err');
-  toast(EID.service?'Güncellendi':'Servis kaydı eklendi','ok');
-  closeModal('service'); loadService();
+  toast(EID.service?'Güncellendi':'Servis kaydı eklendi','ok');closeModal('service');await reloadAll();renderSvc();
 }
 
-// ═══════ DELETE ═══════
+// ═══ DELETE ═══
 async function delRec(table,id){
   if(!confirm('Silmek istediğinizden emin misiniz?'))return;
   const {error}=await sb.from(table).delete().eq('id',id);
   if(error)return toast('Silinemedi: '+error.message,'err');
-  toast('Silindi','ok'); await reloadAll();
+  toast('Silindi','ok');await reloadAll();
   const ap=document.querySelector('.page.active')?.id?.replace('page-','');
-  if(ap)navigate(ap);
+  if(ap)navigate(ap==='customer-detail'?'customers':ap);
 }
 
-// ═══════ QR ═══════
+// ═══ QR & LINK ═══
 function showQR(token,code){
-  curQR=token;
+  if(!token){toast('Token bulunamadı','err');return;}curQR=token;
   const url=VERIFY_URL+token;
-  document.getElementById('qr-code-txt').textContent=code;
-  document.getElementById('qr-url-txt').textContent=url;
-  const box=document.getElementById('qr-box');
-  box.innerHTML='';
+  document.getElementById('qr-code-txt').textContent=code;document.getElementById('qr-url-txt').textContent=url;
+  const box=document.getElementById('qr-box');box.innerHTML='';
   new QRCode(box,{text:url,width:200,height:200,correctLevel:QRCode.CorrectLevel.M});
   document.getElementById('modal-qr').classList.add('open');
 }
-function dlQR(){
-  const c=document.querySelector('#qr-box canvas');if(!c)return;
-  const a=document.createElement('a');a.download=`qr-${curQR}.png`;a.href=c.toDataURL();a.click();
-}
-function cpLink(){navigator.clipboard.writeText(VERIFY_URL+curQR).then(()=>toast('Link kopyalandı','ok'));}
+function dlQR(){const c=document.querySelector('#qr-box canvas');if(!c)return;const a=document.createElement('a');a.download=`qr-${curQR}.png`;a.href=c.toDataURL();a.click();}
+function cpQRLink(){navigator.clipboard.writeText(VERIFY_URL+curQR).then(()=>toast('Link kopyalandı','ok'));}
+function cpLink(token){navigator.clipboard.writeText(VERIFY_URL+token).then(()=>toast('Link kopyalandı','ok'));}
 
-// ═══════ HELPERS ═══════
+// ═══ UTILS ═══
 function onCustChange(){document.getElementById('new-cust-fields').style.display=document.getElementById('w-customer').value==='__new__'?'block':'none';}
-function calcEnd(){
-  const sd=document.getElementById('w-sdate').value,mo=parseInt(document.getElementById('w-months').value)||24;
-  if(sd){
-    document.getElementById('w-start').value=sd;
-    const e=new Date(sd);e.setMonth(e.getMonth()+mo);
-    document.getElementById('w-end').value=e.toISOString().split('T')[0];
-  }
-}
-function genCode(name,seq){
-  const y=new Date().getFullYear().toString().slice(-2);
-  const ini=(name||'GEN').split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,3).padEnd(3,'X');
-  return`EK${y}-${ini}${String(seq).padStart(3,'0')}`;
-}
-function genToken(seq){
-  const y=new Date().getFullYear().toString().slice(-2);
-  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  let s='';for(let i=0;i<6;i++)s+=chars[Math.floor(Math.random()*chars.length)];
-  return`EK${y}-${String(seq).padStart(3,'0')}-${s}`;
-}
-function sbadge(end){
-  const d=Math.ceil((new Date(end)-new Date())/86400000);
-  if(d>30)return'<span class="badge badge-active">Aktif</span>';
-  if(d>0)return`<span class="badge badge-warn">⚠ ${d}g</span>`;
-  return'<span class="badge badge-expired">Sona Erdi</span>';
-}
+function calcEnd(){const sd=document.getElementById('w-sdate').value,mo=parseInt(document.getElementById('w-months').value)||24;if(sd){document.getElementById('w-start').value=sd;const e=new Date(sd);e.setMonth(e.getMonth()+mo);document.getElementById('w-end').value=e.toISOString().split('T')[0];}}
+function genCode(name,seq){const y=new Date().getFullYear().toString().slice(-2);const ini=(name||'GEN').split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,3).padEnd(3,'X');return`EK${y}-${ini}${String(seq).padStart(3,'0')}`;}
+function genToken(seq){const y=new Date().getFullYear().toString().slice(-2);const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<6;i++)s+=chars[Math.floor(Math.random()*chars.length)];return`EK${y}-${String(seq).padStart(3,'0')}-${s}`;}
 function fd(d){if(!d)return'—';return new Date(d).toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric'});}
-function filterTbl(id,q,cols){
-  q=q.toLowerCase();
-  document.querySelectorAll('#'+id+' tr:not(.erow)').forEach(r=>{
-    const cells=r.querySelectorAll('td');
-    r.style.display=(!q||cols.some(i=>cells[i]?.textContent.toLowerCase().includes(q)))?'':'none';
-  });
-}
+function esc(s){if(s==null)return'';const t=document.createElement('span');t.textContent=String(s);return t.innerHTML;}
 function prevFile(inp,prevId){const f=inp.files[0];if(f)document.getElementById(prevId).textContent=`✓ ${f.name} (${(f.size/1024).toFixed(0)} KB)`;}
-function toast(msg,type=''){
-  const t=document.getElementById('toast');t.textContent=msg;t.className='show '+type;
-  setTimeout(()=>t.className='',3000);
-}
-async function exportData(){
-  const [w,c,s]=await Promise.all([
-    sb.from('warranties').select('*,warranty_items(*),customers(*)'),
-    sb.from('customers').select('*'),sb.from('service_records').select('*')
-  ]);
+function toast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='show '+(type||'');clearTimeout(t._to);t._to=setTimeout(()=>{t.className='';},3200);}
+async function exportJSON(){
+  const [w,c,s]=await Promise.all([sb.from('warranties').select('*,warranty_items(*),customers(*)'),sb.from('customers').select('*'),sb.from('service_records').select('*')]);
   const blob=new Blob([JSON.stringify({warranties:w.data,customers:c.data,service:s.data,exported:new Date().toISOString()},null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download=`emka-yedek-${new Date().toISOString().split('T')[0]}.json`;a.click();
-  toast('Yedek indirildi','ok');
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`emka-yedek-${new Date().toISOString().split('T')[0]}.json`;a.click();toast('JSON yedek indirildi','ok');
 }
-document.querySelectorAll('.modal').forEach(m=>{
-  m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id.replace('modal-',''));});
-});
+function exportCSV(type){
+  if(type==='warranties'){
+    const headers=['Garanti Kodu','Public Token','Müşteri','Firma','Şehir','Ülke','Ürün(ler)','Satış Tarihi','Başlangıç','Bitiş','Ay','Durum','Tutarlar','Ödeme','Bayi'];
+    const rows=WS.map(w=>{const items=w.warranty_items||[];const pn=items.map(i=>i.product?.name_tr||'').join('; ');const pr=(w.prices||[]).map(p=>`${p.currency}:${p.amount}`).join('; ');return[w.warranty_code,w.public_token,w.customers?.name||'',w.customers?.firma_adi||'',w.customers?.city||'',w.customers?.country||'',pn,w.sale_date||'',w.warranty_start||'',w.warranty_end||'',w.warranty_months||'',wSt(w),pr,w.payment_status||'',w.dealer||''].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',');});
+    dlCSV([headers.join(','),...rows].join('\n'),`emka-garantiler-${new Date().toISOString().split('T')[0]}.csv`);
+  } else {
+    const headers=['Ad Soyad','Firma','Yetkili','Telefon','WhatsApp','E-posta','Vergi No','Şehir','Ülke','Dil','Garanti Sayısı'];
+    const rows=CS.map(c=>{const wc=WS.filter(w=>w.customer_id===c.id).length;return[c.name||'',c.firma_adi||'',c.yetkili||'',c.phone||'',c.whatsapp||'',c.email||'',c.vergi_no||'',c.city||'',c.country||'',c.dil_tercihi||'tr',wc].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',');});
+    dlCSV([headers.join(','),...rows].join('\n'),`emka-musteriler-${new Date().toISOString().split('T')[0]}.csv`);
+  }
+  toast('CSV indirildi','ok');
+}
+function dlCSV(content,filename){const blob=new Blob(['\uFEFF'+content],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();}
+document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id.replace('modal-',''));});});
 </script>
 </body>
 </html>
