@@ -699,15 +699,19 @@ document.querySelectorAll('.nav-item[data-page]').forEach(b=>b.addEventListener(
 
 // ═══ DATA LOAD ═══
 async function reloadAll(){
-  const [wR,cR,pR,catR,sR]=await Promise.all([
-    sb.from('warranties').select('*,warranty_items(*,product:products(*)),customers(*)').order('created_at',{ascending:false}),
-    sb.from('customers').select('*').order('name'),
-    sb.from('products').select('*,categories(*)').order('name_tr'),
-    sb.from('categories').select('*').order('sort_order'),
-    sb.from('service_records').select('*,warranty:warranties(warranty_code,customer_id,customers(*),warranty_items(*,product:products(*)))').order('service_date',{ascending:false}),
-  ]);
-  WS=wR.data||[];CS=cR.data||[];PS=pR.data||[];CATS=catR.data||[];SVCS=sR.data||[];
-  fillCatFilters();fillCountryFilter();
+  try{
+    const [wR,cR,pR,catR,sR]=await Promise.all([
+      sb.from('warranties').select('*,warranty_items(*,product:products(*)),customers(*)').order('created_at',{ascending:false}),
+      sb.from('customers').select('*').order('name'),
+      sb.from('products').select('*,categories(*)').order('name_tr'),
+      sb.from('categories').select('*').order('sort_order'),
+      sb.from('service_records').select('*,warranty:warranties(warranty_code,customer_id,customers(*))').order('service_date',{ascending:false}),
+    ]);
+    const errs=[wR,cR,pR,catR,sR].map((r,i)=>r.error?['Garanti','Musteri','Urun','Kategori','Servis'][i]+': '+r.error.message:null).filter(Boolean);
+    if(errs.length){toast('Yukleme hatasi: '+errs[0],'err');console.error('reloadAll errors:',errs);}
+    WS=wR.data||[];CS=cR.data||[];PS=pR.data||[];CATS=catR.data||[];SVCS=sR.data||[];
+    fillCatFilters();fillCountryFilter();
+  }catch(e){toast('Baglanti hatasi: '+e.message,'err');console.error('reloadAll:',e);}
 }
 function fillCatFilters(){
   ['w-f-cat','p-f-cat'].forEach(id=>{
