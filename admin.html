@@ -27,13 +27,12 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .llabel{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
   color:rgba(255,255,255,.4);display:block;margin-bottom:6px;margin-top:16px}
 .linput{width:100%;padding:12px 14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
-  border-radius:10px;color:#fff;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;
-  outline:none;transition:border-color .2s}
+  border-radius:10px;color:#fff;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;outline:none}
 .linput:focus{border-color:#29abe2}
 .linput::placeholder{color:rgba(255,255,255,.25)}
 .lbtn{width:100%;padding:13px;background:#29abe2;border:none;border-radius:10px;color:#fff;
   font-size:14px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;
-  letter-spacing:1px;text-transform:uppercase;cursor:pointer;margin-top:24px;transition:background .2s}
+  letter-spacing:1px;text-transform:uppercase;cursor:pointer;margin-top:24px}
 .lbtn:hover{background:#1a90c8}
 .lbtn:disabled{background:rgba(255,255,255,.2);cursor:not-allowed}
 .lerr{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:8px;
@@ -54,12 +53,11 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
   color:rgba(255,255,255,.25);padding:0 8px;margin:20px 0 6px}
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;
   font-size:13px;font-weight:600;color:rgba(255,255,255,.55);cursor:pointer;
-  transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:'Plus Jakarta Sans',sans-serif}
+  border:none;background:none;width:100%;text-align:left;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s}
 .nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
 .nav-item.active{background:rgba(41,171,226,.2);color:#29abe2}
 .sfooter{margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.08)}
-.suser{font-size:11px;color:rgba(255,255,255,.35);padding:0 8px;margin-bottom:10px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.suser{font-size:11px;color:rgba(255,255,255,.35);padding:0 8px;margin-bottom:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .logout-btn{width:100%;padding:9px 10px;background:none;border:1px solid rgba(255,255,255,.1);
   border-radius:8px;color:rgba(255,255,255,.4);font-size:12px;font-weight:600;cursor:pointer;
   font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s}
@@ -73,42 +71,29 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .page-title{font-size:26px;font-weight:800;letter-spacing:-.3px}
 .page-sub{font-size:14px;color:var(--muted);margin-top:3px}
 
-/* STAT GRID */
 .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  padding:20px 22px;box-shadow:var(--shadow)}
-.stat-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:10px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow)}
+.stat-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
 .stat-val{font-size:32px;font-weight:800;line-height:1}
 .blue{color:#29abe2}.green{color:#10b981}.amber{color:#f59e0b}.red{color:#ef4444}
 
-/* CARD */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-.card-hdr{padding:14px 20px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
+.card-hdr{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .card-title{font-size:14px;font-weight:700;flex:1}
 
-/* TABLE */
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
-th{padding:11px 14px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--muted);text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
+th{padding:11px 14px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
 td{padding:13px 14px;font-size:13px;font-weight:500;color:var(--text);border-bottom:1px solid #f3f4f6}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#f9fafb}
 .erow td{text-align:center;color:var(--muted);font-size:13px;padding:40px}
 
-/* INPUTS */
-.sinput{flex:1;min-width:180px;padding:9px 14px;background:#f9fafb;border:1px solid var(--border);
-  border-radius:8px;color:var(--text);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none}
+.sinput{flex:1;min-width:180px;padding:9px 14px;background:#f9fafb;border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none}
 .sinput:focus{border-color:#29abe2;background:#fff}
 .sinput::placeholder{color:var(--muted)}
 
-/* BUTTONS */
-.btn{padding:9px 18px;border-radius:8px;font-size:13px;font-weight:700;
-  font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;border:none;
-  transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn{padding:9px 18px;border-radius:8px;font-size:13px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;border:none;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
 .btn-primary{background:#29abe2;color:#fff}
 .btn-primary:hover{background:#1a90c8}
 .btn-ghost{background:none;border:1px solid var(--border);color:var(--muted)}
@@ -117,31 +102,31 @@ tr:hover td{background:#f9fafb}
 .btn-danger{background:none;border:1px solid #fecaca;color:#ef4444}
 .btn-danger:hover{background:#fef2f2}
 
-/* BADGES */
 .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
 .badge-active{background:#d1fae5;color:#065f46}
 .badge-expired{background:#fee2e2;color:#991b1b}
 .badge-warn{background:#fef3c7;color:#92400e}
-.m12{background:#fef3c7;color:#92400e}
-.m24{background:#d1fae5;color:#065f46}
-.m36{background:#dbeafe;color:#1e40af}
+.m12{background:#fef3c7;color:#92400e}.m24{background:#d1fae5;color:#065f46}.m36{background:#dbeafe;color:#1e40af}
 .cat-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
-.ci0{background:#fce7f3;color:#9d174d}.ci1{background:#dbeafe;color:#1e40af}
-.ci2{background:#d1fae5;color:#065f46}.ci3{background:#fef3c7;color:#92400e}
-.ci4{background:#f3e8ff;color:#6b21a8}.ci5{background:#fee2e2;color:#991b1b}
-.ci6{background:#cffafe;color:#155e75}.ci7{background:#ffedd5;color:#9a3412}
-.ci8{background:#fdf4ff;color:#701a75}.ci9{background:#e0e7ff;color:#3730a3}
-.ci10{background:#f0fdf4;color:#14532d}
+.ci0{background:#fce7f3;color:#9d174d}.ci1{background:#dbeafe;color:#1e40af}.ci2{background:#d1fae5;color:#065f46}
+.ci3{background:#fef3c7;color:#92400e}.ci4{background:#f3e8ff;color:#6b21a8}.ci5{background:#fee2e2;color:#991b1b}
+.ci6{background:#cffafe;color:#155e75}.ci7{background:#ffedd5;color:#9a3412}.ci8{background:#fdf4ff;color:#701a75}
+.ci9{background:#e0e7ff;color:#3730a3}.ci10{background:#f0fdf4;color:#14532d}
+
+/* CURRENCY CHIP */
+.curr-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;
+  font-size:11px;font-weight:700;font-family:'IBM Plex Mono',monospace;background:#f0f9ff;color:#0369a1;border:1px solid #bae6fd}
+.curr-chip.eur{background:#f0fdf4;color:#065f46;border-color:#bbf7d0}
+.curr-chip.usd{background:#f0fdf4;color:#065f46;border-color:#bbf7d0}
+.curr-chip.gbp{background:#fdf4ff;color:#701a75;border-color:#e9d5ff}
 
 /* MODAL */
-.modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.5);
-  align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
+.modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.5);align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
 .modal.open{display:flex}
 .mcard{background:#fff;border-radius:16px;width:100%;max-width:580px;padding:32px;position:relative;margin:auto}
-.mcard-lg{max-width:700px}
+.mcard-lg{max-width:720px}
 .mtitle{font-size:18px;font-weight:800;color:var(--text);margin-bottom:24px}
-.mclose{position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;
-  color:var(--muted);cursor:pointer;padding:4px;line-height:1}
+.mclose{position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;padding:4px;line-height:1}
 .mclose:hover{color:var(--text)}
 
 /* FORM */
@@ -159,44 +144,44 @@ input:disabled{opacity:.5;cursor:not-allowed}
 textarea{resize:vertical;min-height:80px}
 .factions{display:flex;gap:10px;margin-top:24px;justify-content:flex-end}
 
+/* DYNAMIC ROWS — items & prices */
+.dyn-list{display:flex;flex-direction:column;gap:8px;margin-bottom:6px}
+.item-row{display:flex;gap:8px;align-items:center}
+.item-row .iprod{flex:2;min-width:0}
+.item-row .iqty{width:62px;flex-shrink:0}
+.item-row .iserial{flex:1;min-width:60px}
+.price-row{display:flex;gap:8px;align-items:center}
+.price-row .pcurr{width:80px;flex-shrink:0}
+.price-row .pamt{flex:1}
+.rm-btn{flex-shrink:0;padding:7px 10px;background:none;border:1px solid #fecaca;color:#ef4444;border-radius:7px;cursor:pointer;font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;transition:background .15s}
+.rm-btn:hover{background:#fef2f2}
+.add-btn{width:100%;padding:9px;background:none;border:1.5px dashed #29abe2;color:#29abe2;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;transition:background .15s}
+.add-btn:hover{background:rgba(41,171,226,.05)}
+
 /* FILE UPLOAD */
-.fupload{border:2px dashed var(--border);border-radius:8px;padding:18px;text-align:center;
-  cursor:pointer;transition:border-color .15s;color:var(--muted);font-size:13px}
+.fupload{border:2px dashed var(--border);border-radius:8px;padding:18px;text-align:center;cursor:pointer;transition:border-color .15s;color:var(--muted);font-size:13px}
 .fupload:hover{border-color:#29abe2;color:#29abe2}
 .fprev{margin-top:6px;font-size:12px;color:var(--muted)}
 
-/* QR MODAL */
-#modal-qr .mcard{max-width:340px;text-align:center}
-.qr-code-txt{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text);
-  background:#f3f4f6;padding:8px 14px;border-radius:6px;margin:12px 0;word-break:break-all}
+/* QR */
+.qr-code-txt{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text);background:#f3f4f6;padding:8px 14px;border-radius:6px;margin:12px 0;word-break:break-all}
 .qr-url-txt{font-size:11px;color:var(--muted);margin-bottom:16px;word-break:break-all}
 
 /* TOAST */
-#toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--brand);color:#fff;
-  padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;
-  box-shadow:0 4px 20px rgba(0,0,0,.2);transform:translateY(100px);opacity:0;transition:all .3s;pointer-events:none}
+#toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--brand);color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.2);transform:translateY(100px);opacity:0;transition:all .3s;pointer-events:none}
 #toast.show{transform:translateY(0);opacity:1}
 #toast.ok{background:#10b981}
 #toast.err{background:#ef4444}
 
-/* MONO */
 .mono{font-family:'IBM Plex Mono',monospace;font-size:12px}
-
-/* PHOTO THUMB */
 .pthumb{width:38px;height:38px;object-fit:cover;border-radius:6px;border:1px solid var(--border)}
-
-/* LOADING SPINNER */
-.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);
-  border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* SECTION DIVIDER */
-.sdiv{height:1px;background:var(--border);margin:20px 0}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════ LOGIN ═══════════════════ -->
+<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-box">
     <div class="lbrand">
@@ -212,7 +197,7 @@ textarea{resize:vertical;min-height:80px}
   </div>
 </div>
 
-<!-- ═══════════════════ APP ═══════════════════ -->
+<!-- APP -->
 <div id="app">
   <div class="layout">
     <aside class="sidebar">
@@ -254,14 +239,14 @@ textarea{resize:vertical;min-height:80px}
         <div class="card">
           <div class="card-hdr"><div class="card-title">Son Garanti Kayıtları</div></div>
           <div class="tbl-wrap"><table>
-            <thead><tr><th>Kod</th><th>Ürün</th><th>Müşteri</th><th>Bitiş</th><th>Durum</th><th></th></tr></thead>
+            <thead><tr><th>Kod</th><th>Ürünler</th><th>Müşteri</th><th>Bitiş</th><th>Durum</th><th></th></tr></thead>
             <tbody id="dash-tbl"><tr class="erow"><td colspan="6">Yükleniyor...</td></tr></tbody>
           </table></div>
         </div>
         <div class="card">
           <div class="card-hdr"><div class="card-title">⚠️ Bu Ay Biten Garantiler</div></div>
           <div class="tbl-wrap"><table>
-            <thead><tr><th>Kod</th><th>Ürün</th><th>Müşteri</th><th>Bitiş Tarihi</th><th></th></tr></thead>
+            <thead><tr><th>Kod</th><th>Ürünler</th><th>Müşteri</th><th>Bitiş Tarihi</th><th></th></tr></thead>
             <tbody id="expiring-tbl"><tr class="erow"><td colspan="5">—</td></tr></tbody>
           </table></div>
         </div>
@@ -278,7 +263,7 @@ textarea{resize:vertical;min-height:80px}
             <input class="sinput" placeholder="Kod, müşteri, ürün, seri no ara..." oninput="filterTbl('w-tbl',this.value,[0,1,2,3])">
           </div>
           <div class="tbl-wrap"><table>
-            <thead><tr><th>Kod</th><th>Ürün</th><th>Müşteri</th><th>Seri No</th><th>Bitiş</th><th>Durum</th><th>İşlem</th></tr></thead>
+            <thead><tr><th>Kod</th><th>Ürünler</th><th>Müşteri</th><th>Tutar</th><th>Bitiş</th><th>Durum</th><th>İşlem</th></tr></thead>
             <tbody id="w-tbl"><tr class="erow"><td colspan="7">Yükleniyor...</td></tr></tbody>
           </table></div>
         </div>
@@ -375,17 +360,24 @@ textarea{resize:vertical;min-height:80px}
   </div>
 </div>
 
-<!-- ════ MODAL: WARRANTY ════ -->
+<!-- MODAL: WARRANTY -->
 <div class="modal" id="modal-warranty">
   <div class="mcard mcard-lg">
     <button class="mclose" onclick="closeModal('warranty')">✕</button>
     <div class="mtitle" id="w-modal-title">Yeni Garanti Kaydı</div>
     <div class="fgrid">
+
       <div class="fg"><label>Garanti Kodu</label><input type="text" id="w-code" disabled placeholder="Otomatik üretilir"></div>
-      <div class="fg"><label>Seri Numarası</label><input type="text" id="w-serial" placeholder="SN-XXXX"></div>
-      <div class="fg full"><label>Ürün *</label>
-        <select id="w-product" onchange="onProductChange()"><option value="">— Ürün seçin —</option></select>
+      <div class="fg"><label>Satış Tarihi *</label><input type="date" id="w-sdate" onchange="calcEnd()"></div>
+
+      <!-- MULTI-PRODUCT -->
+      <div class="fg full">
+        <label>Ürünler / Kalemler *</label>
+        <div class="dyn-list" id="w-items-list"></div>
+        <button type="button" class="add-btn" onclick="addItemRow()">+ Kalem Ekle</button>
       </div>
+
+      <!-- NEW CUSTOMER INLINE -->
       <div class="fg full"><label>Müşteri *</label>
         <select id="w-customer" onchange="onCustChange()">
           <option value="">— Müşteri seçin —</option>
@@ -400,15 +392,27 @@ textarea{resize:vertical;min-height:80px}
           <div class="fg"><label>Ülke</label><input type="text" id="nc-country" value="TR"></div>
         </div>
       </div>
-      <div class="fg"><label>Satış Tarihi *</label><input type="date" id="w-sdate" onchange="calcEnd()"></div>
+
       <div class="fg"><label>Garanti Süresi (ay)</label><input type="number" id="w-months" value="24" min="1" max="120" onchange="calcEnd()"></div>
       <div class="fg"><label>Garanti Başlangıç</label><input type="date" id="w-start"></div>
-      <div class="fg"><label>Garanti Bitiş</label><input type="date" id="w-end"></div>
-      <div class="fg full"><label>Bayi / Satıcı</label><input type="text" id="w-dealer" value="EMKA Kuyumculuk Malzeme ve Makinaları"></div>
-      <div class="fg"><label>Fiyat (₺)</label><input type="number" id="w-price" placeholder="0.00" step="0.01"></div>
-      <div class="fg"><label>Ödeme Durumu</label>
-        <select id="w-payment"><option value="">—</option><option value="paid">Ödendi</option><option value="partial">Kısmi</option><option value="pending">Bekliyor</option></select>
+      <div class="fg full"><label>Garanti Bitiş</label><input type="date" id="w-end"></div>
+
+      <!-- MULTI-CURRENCY PRICES -->
+      <div class="fg full">
+        <label>Satış Tutarları</label>
+        <div class="dyn-list" id="w-prices-list"></div>
+        <button type="button" class="add-btn" onclick="addPriceRow()">+ Tutar Ekle</button>
       </div>
+
+      <div class="fg full"><label>Ödeme Durumu</label>
+        <select id="w-payment">
+          <option value="">—</option>
+          <option value="paid">Ödendi</option>
+          <option value="partial">Kısmi Ödeme</option>
+          <option value="pending">Bekliyor</option>
+        </select>
+      </div>
+      <div class="fg full"><label>Bayi / Satıcı</label><input type="text" id="w-dealer" value="EMKA Kuyumculuk Malzeme ve Makinaları"></div>
       <div class="fg full"><label>İç Not (müşteriye görünmez)</label><textarea id="w-note" placeholder="Dahili notlar..."></textarea></div>
     </div>
     <div class="factions">
@@ -418,7 +422,7 @@ textarea{resize:vertical;min-height:80px}
   </div>
 </div>
 
-<!-- ════ MODAL: CUSTOMER ════ -->
+<!-- MODAL: CUSTOMER -->
 <div class="modal" id="modal-customer">
   <div class="mcard">
     <button class="mclose" onclick="closeModal('customer')">✕</button>
@@ -438,7 +442,7 @@ textarea{resize:vertical;min-height:80px}
   </div>
 </div>
 
-<!-- ════ MODAL: PRODUCT ════ -->
+<!-- MODAL: PRODUCT -->
 <div class="modal" id="modal-product">
   <div class="mcard mcard-lg">
     <button class="mclose" onclick="closeModal('product')">✕</button>
@@ -451,9 +455,9 @@ textarea{resize:vertical;min-height:80px}
       <div class="fg"><label>Model</label><input type="text" id="p-model" placeholder="UTS-3000 Pro"></div>
       <div class="fg"><label>Standart Garanti (ay)</label><input type="number" id="p-months" value="24" min="1"></div>
       <div class="fg full"><label>Ürün Açıklaması (TR)</label><textarea id="p-desc" placeholder="Kısa açıklama..."></textarea></div>
-      <div class="fg full"><label>Garanti Şartları (TR)</label><textarea id="p-terms-tr" rows="4" placeholder="Garanti şartları ve koşulları..."></textarea></div>
-      <div class="fg full"><label>Garanti Şartları (EN)</label><textarea id="p-terms-en" rows="4" placeholder="Warranty terms and conditions..."></textarea></div>
-      <div class="fg full"><label>Garanti Şartları (AR)</label><textarea id="p-terms-ar" rows="4" placeholder="شروط وأحكام الضمان..." dir="rtl"></textarea></div>
+      <div class="fg full"><label>Garanti Şartları (TR)</label><textarea id="p-terms-tr" rows="4" placeholder="Garanti şartları..."></textarea></div>
+      <div class="fg full"><label>Garanti Şartları (EN)</label><textarea id="p-terms-en" rows="4" placeholder="Warranty terms..."></textarea></div>
+      <div class="fg full"><label>Garanti Şartları (AR)</label><textarea id="p-terms-ar" rows="4" placeholder="شروط الضمان..." dir="rtl"></textarea></div>
       <div class="fg full">
         <label>Ürün Fotoğrafı</label>
         <div class="fupload" onclick="document.getElementById('p-photo-file').click()">📷 Fotoğraf yükle (JPG/PNG, max 2MB)</div>
@@ -476,7 +480,7 @@ textarea{resize:vertical;min-height:80px}
   </div>
 </div>
 
-<!-- ════ MODAL: CATEGORY ════ -->
+<!-- MODAL: CATEGORY -->
 <div class="modal" id="modal-category">
   <div class="mcard">
     <button class="mclose" onclick="closeModal('category')">✕</button>
@@ -494,7 +498,7 @@ textarea{resize:vertical;min-height:80px}
   </div>
 </div>
 
-<!-- ════ MODAL: SERVICE ════ -->
+<!-- MODAL: SERVICE -->
 <div class="modal" id="modal-service">
   <div class="mcard">
     <button class="mclose" onclick="closeModal('service')">✕</button>
@@ -505,7 +509,12 @@ textarea{resize:vertical;min-height:80px}
       <div class="fg"><label>Teknisyen</label><input type="text" id="sr-tech" placeholder="Teknisyen adı"></div>
       <div class="fg full"><label>Açıklama *</label><textarea id="sr-desc" placeholder="Yapılan işlem, arıza açıklaması..."></textarea></div>
       <div class="fg full"><label>Değiştirilen Parçalar</label><textarea id="sr-parts" placeholder="Parça adları..."></textarea></div>
-      <div class="fg"><label>Servis Ücreti (₺)</label><input type="number" id="sr-cost" placeholder="0.00" step="0.01"></div>
+      <!-- MULTI-CURRENCY COSTS -->
+      <div class="fg full">
+        <label>Servis Ücretleri</label>
+        <div class="dyn-list" id="sr-costs-list"></div>
+        <button type="button" class="add-btn" onclick="addCostRow()">+ Ücret Ekle</button>
+      </div>
     </div>
     <div class="factions">
       <button class="btn btn-ghost" onclick="closeModal('service')">İptal</button>
@@ -514,7 +523,7 @@ textarea{resize:vertical;min-height:80px}
   </div>
 </div>
 
-<!-- ════ MODAL: QR ════ -->
+<!-- MODAL: QR -->
 <div class="modal" id="modal-qr">
   <div class="mcard" style="max-width:360px;text-align:center">
     <button class="mclose" onclick="closeModal('qr')">✕</button>
@@ -534,31 +543,28 @@ textarea{resize:vertical;min-height:80px}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-const SB_URL = 'https://obbxxkzmnujtozxczgfm.supabase.co';
-const SB_KEY = 'sb_publishable_xY037ZoljAKp_mPOKh6HJA_ZCYfcuxc';
-const VERIFY_URL = 'https://garanti.emkakuyumculuk.com/verify.html?id=';
-const sb = window.supabase.createClient(SB_URL, SB_KEY);
+const SB_URL='https://obbxxkzmnujtozxczgfm.supabase.co';
+const SB_KEY='sb_publishable_xY037ZoljAKp_mPOKh6HJA_ZCYfcuxc';
+const VERIFY_URL='https://garanti.emkakuyumculuk.com/verify.html?id=';
+const sb=window.supabase.createClient(SB_URL,SB_KEY);
 
-let WS=[], CS=[], PS=[], CATS=[];
-let EID = {warranty:null,customer:null,product:null,category:null,service:null};
-let curQR = '';
+let WS=[],CS=[],PS=[],CATS=[];
+let EID={warranty:null,customer:null,product:null,category:null,service:null};
+let curQR='';
 
-// ═══════════ AUTH ═══════════
-async function doLogin() {
+// ═══════ AUTH ═══════
+async function doLogin(){
   const email=document.getElementById('l-email').value.trim();
   const pass=document.getElementById('l-pass').value;
-  const btn=document.getElementById('l-btn');
-  const err=document.getElementById('l-err');
-  err.style.display='none';
-  btn.disabled=true; btn.innerHTML='<span class="spin"></span>';
+  const btn=document.getElementById('l-btn'),err=document.getElementById('l-err');
+  err.style.display='none'; btn.disabled=true; btn.innerHTML='<span class="spin"></span>';
   const {error}=await sb.auth.signInWithPassword({email,password:pass});
   btn.disabled=false; btn.innerHTML='GİRİŞ YAP';
   if(error){err.textContent='Giriş başarısız. E-posta veya şifrenizi kontrol edin.';err.style.display='block';}
 }
 async function doLogout(){await sb.auth.signOut();}
 async function changePass(){
-  const p1=document.getElementById('np1').value;
-  const p2=document.getElementById('np2').value;
+  const p1=document.getElementById('np1').value,p2=document.getElementById('np2').value;
   if(p1.length<8)return toast('Şifre en az 8 karakter olmalı','err');
   if(p1!==p2)return toast('Şifreler eşleşmiyor','err');
   const {error}=await sb.auth.updateUser({password:p1});
@@ -571,15 +577,14 @@ sb.auth.onAuthStateChange(async(event,session)=>{
     document.getElementById('login-screen').style.display='none';
     document.getElementById('app').style.display='block';
     document.getElementById('s-email').textContent=session.user.email;
-    await reloadAll();
-    loadDash();
+    await reloadAll(); loadDash();
   } else {
     document.getElementById('login-screen').style.display='flex';
     document.getElementById('app').style.display='none';
   }
 });
 
-// ═══════════ NAVIGATION ═══════════
+// ═══════ NAVIGATION ═══════
 function navigate(p){
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
@@ -594,10 +599,10 @@ function navigate(p){
 }
 document.querySelectorAll('.nav-item[data-page]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.page)));
 
-// ═══════════ DATA LOAD ═══════════
+// ═══════ DATA ═══════
 async function reloadAll(){
   const [w,c,p,cat]=await Promise.all([
-    sb.from('warranties').select('*,products(name_tr,model),customers(name)').order('created_at',{ascending:false}),
+    sb.from('warranties').select('*, warranty_items(quantity,serial_number,products(name_tr,model)), customers(name)').order('created_at',{ascending:false}),
     sb.from('customers').select('*').order('name'),
     sb.from('products').select('*,categories(name_tr)').order('name_tr'),
     sb.from('categories').select('*').order('sort_order')
@@ -605,10 +610,21 @@ async function reloadAll(){
   WS=w.data||[]; CS=c.data||[]; PS=p.data||[]; CATS=cat.data||[];
 }
 
-// ═══════════ DASHBOARD ═══════════
+function itemNames(w){
+  const items=w.warranty_items||[];
+  if(!items.length)return'—';
+  return items.map(i=>`${i.products?.name_tr||'?'}${i.quantity>1?' ×'+i.quantity:''}`).join(', ');
+}
+function priceChips(w){
+  const prices=w.prices||[];
+  if(!prices.length)return'—';
+  return prices.map(p=>`<span class="curr-chip ${p.currency?.toLowerCase()}">${p.currency} ${Number(p.amount).toLocaleString('tr-TR')}</span>`).join(' ');
+}
+
+// ═══════ DASHBOARD ═══════
 function loadDash(){
   document.getElementById('dash-date').textContent=new Date().toLocaleDateString('tr-TR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  const now=new Date(), in30=new Date(+now+30*86400000);
+  const now=new Date(),in30=new Date(+now+30*86400000);
   const active=WS.filter(w=>new Date(w.warranty_end)>now);
   const expiring=WS.filter(w=>{const e=new Date(w.warranty_end);return e>now&&e<=in30;});
   const expired=WS.filter(w=>new Date(w.warranty_end)<=now);
@@ -616,17 +632,21 @@ function loadDash(){
   document.getElementById('st-active').textContent=active.length;
   document.getElementById('st-expiring').textContent=expiring.length;
   document.getElementById('st-expired').textContent=expired.length;
-  const mkRow=(w)=>`<tr><td class="mono">${w.warranty_code}</td><td>${w.products?.name_tr||'—'}</td><td>${w.customers?.name||'—'}</td><td>${fd(w.warranty_end)}</td><td>${sbadge(w.warranty_end)}</td><td><button class="btn btn-ghost btn-sm" onclick="showQR('${w.public_token}','${w.warranty_code}')">QR/Link</button></td></tr>`;
+  const mkRow=w=>`<tr><td class="mono">${w.warranty_code}</td><td>${itemNames(w)}</td><td>${w.customers?.name||'—'}</td><td>${fd(w.warranty_end)}</td><td>${sbadge(w.warranty_end)}</td><td><button class="btn btn-ghost btn-sm" onclick="showQR('${w.public_token}','${w.warranty_code}')">QR/Link</button></td></tr>`;
   document.getElementById('dash-tbl').innerHTML=WS.slice(0,8).map(mkRow).join('')||'<tr class="erow"><td colspan="6">Henüz garanti kaydı yok</td></tr>';
-  document.getElementById('expiring-tbl').innerHTML=expiring.map(w=>`<tr><td class="mono">${w.warranty_code}</td><td>${w.products?.name_tr||'—'}</td><td>${w.customers?.name||'—'}</td><td>${fd(w.warranty_end)}</td><td><button class="btn btn-ghost btn-sm" onclick="showQR('${w.public_token}','${w.warranty_code}')">QR/Link</button></td></tr>`).join('')||'<tr class="erow"><td colspan="5">Bu ay biten garanti yok</td></tr>';
+  const expiring2=WS.filter(w=>{const e=new Date(w.warranty_end);return e>now&&e<=in30;});
+  document.getElementById('expiring-tbl').innerHTML=expiring2.map(w=>`<tr><td class="mono">${w.warranty_code}</td><td>${itemNames(w)}</td><td>${w.customers?.name||'—'}</td><td>${fd(w.warranty_end)}</td><td><button class="btn btn-ghost btn-sm" onclick="showQR('${w.public_token}','${w.warranty_code}')">QR/Link</button></td></tr>`).join('')||'<tr class="erow"><td colspan="5">Bu ay biten garanti yok</td></tr>';
 }
 
-// ═══════════ RENDER TABLES ═══════════
+// ═══════ RENDER TABLES ═══════
 function renderW(){
   document.getElementById('w-tbl').innerHTML=WS.length?WS.map(w=>`<tr>
-    <td class="mono">${w.warranty_code}</td><td>${w.products?.name_tr||'—'}</td>
-    <td>${w.customers?.name||'—'}</td><td class="mono">${w.serial_number||'—'}</td>
-    <td>${fd(w.warranty_end)}</td><td>${sbadge(w.warranty_end)}</td>
+    <td class="mono">${w.warranty_code}</td>
+    <td style="max-width:220px">${itemNames(w)}</td>
+    <td>${w.customers?.name||'—'}</td>
+    <td>${priceChips(w)}</td>
+    <td>${fd(w.warranty_end)}</td>
+    <td>${sbadge(w.warranty_end)}</td>
     <td style="white-space:nowrap">
       <button class="btn btn-ghost btn-sm" onclick="showQR('${w.public_token}','${w.warranty_code}')">QR</button>
       <button class="btn btn-ghost btn-sm" onclick="openModal('warranty','${w.id}')">Düzenle</button>
@@ -636,90 +656,151 @@ function renderW(){
 function renderC(){
   document.getElementById('c-tbl').innerHTML=CS.length?CS.map(c=>{
     const n=WS.filter(w=>w.customer_id===c.id).length;
-    return `<tr><td>${c.name}</td><td>${c.phone||'—'}</td><td>${c.city||'—'}</td><td>${c.country||'—'}</td><td>${n}</td>
-    <td style="white-space:nowrap">
-      <button class="btn btn-ghost btn-sm" onclick="openModal('customer','${c.id}')">Düzenle</button>
-      <button class="btn btn-danger btn-sm" onclick="delRec('customers','${c.id}')">Sil</button>
-    </td></tr>`;}).join(''):'<tr class="erow"><td colspan="6">Müşteri bulunamadı</td></tr>';
+    return`<tr><td>${c.name}</td><td>${c.phone||'—'}</td><td>${c.city||'—'}</td><td>${c.country||'—'}</td><td>${n}</td>
+    <td style="white-space:nowrap"><button class="btn btn-ghost btn-sm" onclick="openModal('customer','${c.id}')">Düzenle</button> <button class="btn btn-danger btn-sm" onclick="delRec('customers','${c.id}')">Sil</button></td></tr>`;
+  }).join(''):'<tr class="erow"><td colspan="6">Müşteri bulunamadı</td></tr>';
 }
 function renderP(){
-  document.getElementById('p-tbl').innerHTML=PS.length?PS.map((p,i)=>{
+  document.getElementById('p-tbl').innerHTML=PS.length?PS.map(p=>{
     const ci=CATS.findIndex(c=>c.id===p.category_id)%11;
-    return `<tr>
+    return`<tr>
       <td>${p.photo_url?`<img src="${p.photo_url}" class="pthumb">`:'—'}</td>
       <td>${p.name_tr}</td><td class="mono">${p.model||'—'}</td>
       <td>${p.categories?`<span class="cat-badge ci${ci}">${p.categories.name_tr}</span>`:'—'}</td>
       <td><span class="badge ${p.warranty_months<=12?'m12':p.warranty_months<=24?'m24':'m36'}">${p.warranty_months} ay</span></td>
       <td>${p.warranty_doc_url?`<a href="${p.warranty_doc_url}" target="_blank" style="color:#29abe2;font-size:12px">📄 Görüntüle</a>`:'—'}</td>
-      <td style="white-space:nowrap">
-        <button class="btn btn-ghost btn-sm" onclick="openModal('product','${p.id}')">Düzenle</button>
-        <button class="btn btn-danger btn-sm" onclick="delRec('products','${p.id}')">Sil</button>
-      </td></tr>`;}).join(''):'<tr class="erow"><td colspan="7">Ürün bulunamadı</td></tr>';
+      <td style="white-space:nowrap"><button class="btn btn-ghost btn-sm" onclick="openModal('product','${p.id}')">Düzenle</button> <button class="btn btn-danger btn-sm" onclick="delRec('products','${p.id}')">Sil</button></td></tr>`;
+  }).join(''):'<tr class="erow"><td colspan="7">Ürün bulunamadı</td></tr>';
 }
 function renderCat(){
   document.getElementById('cat-tbl').innerHTML=CATS.length?CATS.map(c=>`<tr>
     <td>${c.name_tr}</td><td>${c.name_en||'—'}</td><td dir="rtl">${c.name_ar||'—'}</td><td>${c.sort_order}</td>
-    <td style="white-space:nowrap">
-      <button class="btn btn-ghost btn-sm" onclick="openModal('category','${c.id}')">Düzenle</button>
-      <button class="btn btn-danger btn-sm" onclick="delRec('categories','${c.id}')">Sil</button>
-    </td></tr>`).join(''):'<tr class="erow"><td colspan="5">Kategori bulunamadı</td></tr>';
+    <td style="white-space:nowrap"><button class="btn btn-ghost btn-sm" onclick="openModal('category','${c.id}')">Düzenle</button> <button class="btn btn-danger btn-sm" onclick="delRec('categories','${c.id}')">Sil</button></td></tr>`).join(''):'<tr class="erow"><td colspan="5">Kategori bulunamadı</td></tr>';
 }
 async function loadService(){
-  const {data}=await sb.from('service_records')
-    .select('*,warranties(warranty_code,products(name_tr),customers(name))')
-    .order('service_date',{ascending:false});
+  const {data}=await sb.from('service_records').select('*,warranties(warranty_code,warranty_items(products(name_tr)),customers(name))').order('service_date',{ascending:false});
   const recs=data||[];
-  document.getElementById('s-tbl').innerHTML=recs.length?recs.map(r=>`<tr>
-    <td class="mono">${r.warranties?.warranty_code||'—'}</td>
-    <td>${r.warranties?.products?.name_tr||'—'}</td>
-    <td>${r.warranties?.customers?.name||'—'}</td>
-    <td>${fd(r.service_date)}</td><td>${r.description}</td>
-    <td>${r.technician||'—'}</td>
-    <td class="mono">${r.cost?'₺'+Number(r.cost).toLocaleString('tr-TR'):'—'}</td>
-    <td style="white-space:nowrap">
-      <button class="btn btn-ghost btn-sm" onclick="openModal('service','${r.id}')">Düzenle</button>
-      <button class="btn btn-danger btn-sm" onclick="delRec('service_records','${r.id}')">Sil</button>
-    </td></tr>`).join(''):'<tr class="erow"><td colspan="8">Servis kaydı bulunamadı</td></tr>';
+  document.getElementById('s-tbl').innerHTML=recs.length?recs.map(r=>{
+    const costs=(r.costs||[]).map(c=>`<span class="curr-chip ${c.currency?.toLowerCase()}">${c.currency} ${Number(c.amount).toLocaleString('tr-TR')}</span>`).join(' ')||'—';
+    const prodName=r.warranties?.warranty_items?.[0]?.products?.name_tr||'—';
+    return`<tr>
+      <td class="mono">${r.warranties?.warranty_code||'—'}</td>
+      <td>${prodName}</td>
+      <td>${r.warranties?.customers?.name||'—'}</td>
+      <td>${fd(r.service_date)}</td><td>${r.description}</td>
+      <td>${r.technician||'—'}</td><td>${costs}</td>
+      <td style="white-space:nowrap"><button class="btn btn-ghost btn-sm" onclick="openModal('service','${r.id}')">Düzenle</button> <button class="btn btn-danger btn-sm" onclick="delRec('service_records','${r.id}')">Sil</button></td></tr>`;
+  }).join(''):'<tr class="erow"><td colspan="8">Servis kaydı bulunamadı</td></tr>';
 }
 
-// ═══════════ OPEN MODAL ═══════════
-async function openModal(type, id=null){
+// ═══════ DYNAMIC ROWS ═══════
+function addItemRow(productId='',qty=1,serial=''){
+  const list=document.getElementById('w-items-list');
+  const opts=PS.map(p=>`<option value="${p.id}"${p.id===productId?' selected':''}>${p.name_tr}${p.model?' — '+p.model:''}</option>`).join('');
+  const row=document.createElement('div');
+  row.className='item-row';
+  row.innerHTML=`
+    <select class="iprod" style="flex:2;min-width:0;padding:9px 10px;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:inherit;outline:none">
+      <option value="">— Ürün —</option>${opts}
+    </select>
+    <input type="number" class="iqty" value="${qty}" min="1" placeholder="Adet" style="width:62px;padding:9px 10px;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;flex-shrink:0">
+    <input type="text" class="iserial" value="${serial}" placeholder="Seri No" style="flex:1;min-width:60px;padding:9px 10px;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none">
+    <button type="button" class="rm-btn" onclick="this.parentElement.remove()">✕</button>`;
+  list.appendChild(row);
+}
+function getItemsFromForm(){
+  return Array.from(document.querySelectorAll('#w-items-list .item-row')).map(r=>({
+    product_id:r.querySelector('.iprod').value,
+    quantity:parseInt(r.querySelector('.iqty').value)||1,
+    serial_number:r.querySelector('.iserial').value.trim()
+  })).filter(i=>i.product_id);
+}
+
+function addPriceRow(currency='TRY',amount=''){
+  const list=document.getElementById('w-prices-list');
+  const row=document.createElement('div');
+  row.className='price-row';
+  row.innerHTML=`
+    <select class="pcurr" style="width:80px;flex-shrink:0;padding:9px 10px;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none">
+      <option${currency==='TRY'?' selected':''}>TRY</option>
+      <option${currency==='USD'?' selected':''}>USD</option>
+      <option${currency==='EUR'?' selected':''}>EUR</option>
+      <option${currency==='GBP'?' selected':''}>GBP</option>
+    </select>
+    <input type="number" class="pamt" value="${amount}" placeholder="0.00" step="0.01" style="flex:1;padding:9px 10px;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none">
+    <button type="button" class="rm-btn" onclick="this.parentElement.remove()">✕</button>`;
+  list.appendChild(row);
+}
+function getPricesFromForm(){
+  return Array.from(document.querySelectorAll('#w-prices-list .price-row')).map(r=>({
+    currency:r.querySelector('.pcurr').value,
+    amount:parseFloat(r.querySelector('.pamt').value)||0
+  })).filter(p=>p.amount>0);
+}
+
+function addCostRow(currency='TRY',amount=''){
+  const list=document.getElementById('sr-costs-list');
+  const row=document.createElement('div');
+  row.className='price-row';
+  row.innerHTML=`
+    <select class="pcurr" style="width:80px;flex-shrink:0;padding:9px 10px;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none">
+      <option${currency==='TRY'?' selected':''}>TRY</option>
+      <option${currency==='USD'?' selected':''}>USD</option>
+      <option${currency==='EUR'?' selected':''}>EUR</option>
+      <option${currency==='GBP'?' selected':''}>GBP</option>
+    </select>
+    <input type="number" class="pamt" value="${amount}" placeholder="0.00" step="0.01" style="flex:1;padding:9px 10px;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none">
+    <button type="button" class="rm-btn" onclick="this.parentElement.remove()">✕</button>`;
+  list.appendChild(row);
+}
+function getCostsFromForm(){
+  return Array.from(document.querySelectorAll('#sr-costs-list .price-row')).map(r=>({
+    currency:r.querySelector('.pcurr').value,
+    amount:parseFloat(r.querySelector('.pamt').value)||0
+  })).filter(c=>c.amount>0);
+}
+
+// ═══════ OPEN MODAL ═══════
+async function openModal(type,id=null){
   EID[type]=id;
   const clear=ids=>ids.forEach(i=>{const e=document.getElementById(i);if(e)e.value='';});
 
   if(type==='warranty'){
     document.getElementById('w-modal-title').textContent=id?'Garanti Düzenle':'Yeni Garanti Kaydı';
-    const pSel=document.getElementById('w-product');
-    pSel.innerHTML='<option value="">— Ürün seçin —</option>'+PS.map(p=>`<option value="${p.id}">${p.name_tr}${p.model?' — '+p.model:''}</option>`).join('');
     const cSel=document.getElementById('w-customer');
     cSel.innerHTML='<option value="">— Müşteri seçin —</option>'+CS.map(c=>`<option value="${c.id}">${c.name}${c.city?' ('+c.city+')':''}</option>`).join('')+'<option value="__new__">➕ Yeni müşteri ekle</option>';
     document.getElementById('new-cust-fields').style.display='none';
+    document.getElementById('w-items-list').innerHTML='';
+    document.getElementById('w-prices-list').innerHTML='';
+
     if(id){
       const w=WS.find(x=>x.id===id);
       if(w){
         document.getElementById('w-code').value=w.warranty_code;
-        document.getElementById('w-serial').value=w.serial_number||'';
-        document.getElementById('w-product').value=w.product_id||'';
-        document.getElementById('w-customer').value=w.customer_id||'';
         document.getElementById('w-sdate').value=w.sale_date||'';
         document.getElementById('w-start').value=w.warranty_start||'';
         document.getElementById('w-end').value=w.warranty_end||'';
         document.getElementById('w-months').value=w.warranty_months||24;
         document.getElementById('w-dealer').value=w.dealer||'';
-        document.getElementById('w-price').value=w.price||'';
         document.getElementById('w-payment').value=w.payment_status||'';
         document.getElementById('w-note').value=w.internal_note||'';
+        document.getElementById('w-customer').value=w.customer_id||'';
+        // Load items
+        const {data:wItems}=await sb.from('warranty_items').select('*').eq('warranty_id',id);
+        (wItems||[]).forEach(i=>addItemRow(i.product_id,i.quantity,i.serial_number));
+        // Load prices
+        (w.prices||[]).forEach(p=>addPriceRow(p.currency,p.amount));
       }
     } else {
-      clear(['w-serial','w-price','w-note']);
+      clear(['w-note']);
       document.getElementById('w-code').value='';
-      document.getElementById('w-product').value='';
-      document.getElementById('w-customer').value='';
       document.getElementById('w-months').value='24';
       document.getElementById('w-payment').value='';
       document.getElementById('w-dealer').value='EMKA Kuyumculuk Malzeme ve Makinaları';
+      document.getElementById('w-customer').value='';
       document.getElementById('w-sdate').value=new Date().toISOString().split('T')[0];
       calcEnd();
+      addItemRow(); // start with one empty row
     }
   }
 
@@ -736,27 +817,17 @@ async function openModal(type, id=null){
       const p=PS.find(x=>x.id===id);
       if(p){
         document.getElementById('p-cat').value=p.category_id||'';
-        document.getElementById('p-tr').value=p.name_tr||'';
-        document.getElementById('p-en').value=p.name_en||'';
-        document.getElementById('p-ar').value=p.name_ar||'';
-        document.getElementById('p-model').value=p.model||'';
-        document.getElementById('p-months').value=p.warranty_months||24;
+        document.getElementById('p-tr').value=p.name_tr||''; document.getElementById('p-en').value=p.name_en||''; document.getElementById('p-ar').value=p.name_ar||'';
+        document.getElementById('p-model').value=p.model||''; document.getElementById('p-months').value=p.warranty_months||24;
         document.getElementById('p-desc').value=p.description_tr||'';
-        document.getElementById('p-terms-tr').value=p.warranty_terms_tr||'';
-        document.getElementById('p-terms-en').value=p.warranty_terms_en||'';
-        document.getElementById('p-terms-ar').value=p.warranty_terms_ar||'';
-        document.getElementById('p-photo-url').value=p.photo_url||'';
-        document.getElementById('p-doc-url').value=p.warranty_doc_url||'';
-        document.getElementById('p-photo-prev').textContent=p.photo_url?'✓ Mevcut fotoğraf var':'';
-        document.getElementById('p-doc-prev').textContent=p.warranty_doc_url?'✓ Mevcut belge var':'';
+        document.getElementById('p-terms-tr').value=p.warranty_terms_tr||''; document.getElementById('p-terms-en').value=p.warranty_terms_en||''; document.getElementById('p-terms-ar').value=p.warranty_terms_ar||'';
+        document.getElementById('p-photo-url').value=p.photo_url||''; document.getElementById('p-doc-url').value=p.warranty_doc_url||'';
+        document.getElementById('p-photo-prev').textContent=p.photo_url?'✓ Mevcut fotoğraf var':''; document.getElementById('p-doc-prev').textContent=p.warranty_doc_url?'✓ Mevcut belge var':'';
       }
     } else {
       clear(['p-tr','p-en','p-ar','p-model','p-desc','p-terms-tr','p-terms-en','p-terms-ar','p-photo-url','p-doc-url']);
-      document.getElementById('p-months').value='24';
-      document.getElementById('p-photo-prev').textContent='';
-      document.getElementById('p-doc-prev').textContent='';
-      document.getElementById('p-photo-file').value='';
-      document.getElementById('p-doc-file').value='';
+      document.getElementById('p-months').value='24'; document.getElementById('p-photo-prev').textContent=''; document.getElementById('p-doc-prev').textContent='';
+      document.getElementById('p-photo-file').value=''; document.getElementById('p-doc-file').value='';
     }
   }
 
@@ -768,20 +839,18 @@ async function openModal(type, id=null){
 
   if(type==='service'){
     document.getElementById('sr-modal-title').textContent=id?'Servis Kaydı Düzenle':'Yeni Servis Kaydı';
-    document.getElementById('sr-warr').innerHTML='<option value="">— Garanti seçin —</option>'+WS.map(w=>`<option value="${w.id}">${w.warranty_code} — ${w.customers?.name||''} — ${w.products?.name_tr||''}</option>`).join('');
+    document.getElementById('sr-warr').innerHTML='<option value="">— Garanti seçin —</option>'+WS.map(w=>`<option value="${w.id}">${w.warranty_code} — ${w.customers?.name||''} — ${itemNames(w)}</option>`).join('');
+    document.getElementById('sr-costs-list').innerHTML='';
     if(id){
       const {data}=await sb.from('service_records').select('*').eq('id',id).single();
       if(data){
-        document.getElementById('sr-warr').value=data.warranty_id;
-        document.getElementById('sr-date').value=data.service_date;
-        document.getElementById('sr-tech').value=data.technician||'';
-        document.getElementById('sr-desc').value=data.description;
+        document.getElementById('sr-warr').value=data.warranty_id; document.getElementById('sr-date').value=data.service_date;
+        document.getElementById('sr-tech').value=data.technician||''; document.getElementById('sr-desc').value=data.description;
         document.getElementById('sr-parts').value=data.parts_changed||'';
-        document.getElementById('sr-cost').value=data.cost||'';
+        (data.costs||[]).forEach(c=>addCostRow(c.currency,c.amount));
       }
     } else {
-      clear(['sr-tech','sr-desc','sr-parts','sr-cost']);
-      document.getElementById('sr-warr').value='';
+      clear(['sr-tech','sr-desc','sr-parts']); document.getElementById('sr-warr').value='';
       document.getElementById('sr-date').value=new Date().toISOString().split('T')[0];
     }
   }
@@ -790,19 +859,18 @@ async function openModal(type, id=null){
 }
 function closeModal(t){document.getElementById('modal-'+t).classList.remove('open');EID[t]=null;}
 
-// ═══════════ SAVE ═══════════
+// ═══════ SAVE ═══════
 async function saveWarranty(){
-  const pid=document.getElementById('w-product').value;
+  const items=getItemsFromForm();
+  if(!items.length)return toast('En az bir ürün/kalem ekleyin','err');
   const cid=document.getElementById('w-customer').value;
-  if(!pid)return toast('Ürün seçin','err');
   let finalCid=cid;
   if(cid==='__new__'){
     const name=document.getElementById('nc-name').value.trim();
     if(!name)return toast('Müşteri adı gerekli','err');
     const {data:nc,error:ce}=await sb.from('customers').insert({
       name,phone:document.getElementById('nc-phone').value.trim(),
-      city:document.getElementById('nc-city').value.trim(),
-      country:document.getElementById('nc-country').value.trim()||'TR'
+      city:document.getElementById('nc-city').value.trim(),country:document.getElementById('nc-country').value.trim()||'TR'
     }).select().single();
     if(ce)return toast('Müşteri eklenemedi','err');
     finalCid=nc.id; CS.push(nc);
@@ -811,37 +879,49 @@ async function saveWarranty(){
   const sd=document.getElementById('w-sdate').value;
   if(!sd)return toast('Satış tarihi gerekli','err');
 
-  let code=document.getElementById('w-code').value;
-  let token='';
+  const prices=getPricesFromForm();
+  let code=document.getElementById('w-code').value,token='';
   if(!EID.warranty){
     const cust=CS.find(c=>c.id===finalCid);
     const seq=WS.length+1;
-    code=genCode(cust?.name||'',seq);
-    token=genToken(seq);
+    code=genCode(cust?.name||'',seq); token=genToken(seq);
   }
 
   const payload={
-    product_id:pid,customer_id:finalCid,
-    serial_number:document.getElementById('w-serial').value.trim(),
+    customer_id:finalCid,
     sale_date:sd,
     warranty_start:document.getElementById('w-start').value||sd,
     warranty_end:document.getElementById('w-end').value,
     warranty_months:parseInt(document.getElementById('w-months').value)||24,
     dealer:document.getElementById('w-dealer').value.trim(),
-    price:parseFloat(document.getElementById('w-price').value)||null,
     payment_status:document.getElementById('w-payment').value,
     internal_note:document.getElementById('w-note').value.trim(),
     status:'active',
+    prices:prices,
   };
   if(!EID.warranty){payload.warranty_code=code;payload.public_token=token;}
 
-  const {error}=EID.warranty?
-    await sb.from('warranties').update(payload).eq('id',EID.warranty):
-    await sb.from('warranties').insert(payload);
-  if(error)return toast('Hata: '+error.message,'err');
+  let warrantyId=EID.warranty;
+  if(EID.warranty){
+    const {error}=await sb.from('warranties').update(payload).eq('id',EID.warranty);
+    if(error)return toast('Hata: '+error.message,'err');
+  } else {
+    const {data,error}=await sb.from('warranties').insert(payload).select().single();
+    if(error)return toast('Hata: '+error.message,'err');
+    warrantyId=data.id;
+  }
+
+  // warranty_items: delete existing then re-insert
+  await sb.from('warranty_items').delete().eq('warranty_id',warrantyId);
+  for(const item of items){
+    await sb.from('warranty_items').insert({
+      warranty_id:warrantyId,product_id:item.product_id,
+      quantity:item.quantity,serial_number:item.serial_number
+    });
+  }
+
   toast(EID.warranty?'Güncellendi':'Garanti kaydedildi','ok');
-  closeModal('warranty');
-  await reloadAll(); renderW();
+  closeModal('warranty'); await reloadAll(); renderW();
 }
 
 async function saveCustomer(){
@@ -857,37 +937,31 @@ async function saveCustomer(){
 async function saveProduct(){
   const nameTr=document.getElementById('p-tr').value.trim();
   if(!nameTr)return toast('Ürün adı (TR) gerekli','err');
-
   let photoUrl=document.getElementById('p-photo-url').value;
   const pf=document.getElementById('p-photo-file').files[0];
   if(pf){
     const ext=pf.name.split('.').pop();
     const path=`${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
     const {error:ue}=await sb.storage.from('product-photos').upload(path,pf,{upsert:true});
-    if(ue)return toast('Fotoğraf yüklenemedi: '+ue.message,'err');
+    if(ue)return toast('Fotoğraf yüklenemedi','err');
     const {data:ud}=sb.storage.from('product-photos').getPublicUrl(path);
     photoUrl=ud.publicUrl;
   }
-
   let docUrl=document.getElementById('p-doc-url').value;
   const df=document.getElementById('p-doc-file').files[0];
   if(df){
     const path=`${Date.now()}-${Math.random().toString(36).slice(2)}.pdf`;
     const {error:ue}=await sb.storage.from('warranty-docs').upload(path,df,{upsert:true});
-    if(ue)return toast('Belge yüklenemedi: '+ue.message,'err');
+    if(ue)return toast('Belge yüklenemedi','err');
     const {data:ud}=sb.storage.from('warranty-docs').getPublicUrl(path);
     docUrl=ud.publicUrl;
   }
-
   const payload={
     category_id:document.getElementById('p-cat').value||null,
     name_tr:nameTr,name_en:document.getElementById('p-en').value.trim(),name_ar:document.getElementById('p-ar').value.trim(),
-    model:document.getElementById('p-model').value.trim(),
-    warranty_months:parseInt(document.getElementById('p-months').value)||24,
+    model:document.getElementById('p-model').value.trim(),warranty_months:parseInt(document.getElementById('p-months').value)||24,
     description_tr:document.getElementById('p-desc').value.trim(),
-    warranty_terms_tr:document.getElementById('p-terms-tr').value.trim(),
-    warranty_terms_en:document.getElementById('p-terms-en').value.trim(),
-    warranty_terms_ar:document.getElementById('p-terms-ar').value.trim(),
+    warranty_terms_tr:document.getElementById('p-terms-tr').value.trim(),warranty_terms_en:document.getElementById('p-terms-en').value.trim(),warranty_terms_ar:document.getElementById('p-terms-ar').value.trim(),
     photo_url:photoUrl,warranty_doc_url:docUrl,
   };
   const {error}=EID.product?await sb.from('products').update(payload).eq('id',EID.product):await sb.from('products').insert(payload);
@@ -911,25 +985,29 @@ async function saveService(){
   const desc=document.getElementById('sr-desc').value.trim();
   if(!wid)return toast('Garanti seçin','err');
   if(!desc)return toast('Açıklama gerekli','err');
-  const payload={warranty_id:wid,service_date:document.getElementById('sr-date').value,description:desc,technician:document.getElementById('sr-tech').value.trim(),parts_changed:document.getElementById('sr-parts').value.trim(),cost:parseFloat(document.getElementById('sr-cost').value)||null};
+  const costs=getCostsFromForm();
+  const payload={
+    warranty_id:wid,service_date:document.getElementById('sr-date').value,description:desc,
+    technician:document.getElementById('sr-tech').value.trim(),parts_changed:document.getElementById('sr-parts').value.trim(),
+    costs:costs,
+  };
   const {error}=EID.service?await sb.from('service_records').update(payload).eq('id',EID.service):await sb.from('service_records').insert(payload);
   if(error)return toast('Hata: '+error.message,'err');
   toast(EID.service?'Güncellendi':'Servis kaydı eklendi','ok');
   closeModal('service'); loadService();
 }
 
-// ═══════════ DELETE ═══════════
+// ═══════ DELETE ═══════
 async function delRec(table,id){
   if(!confirm('Silmek istediğinizden emin misiniz?'))return;
   const {error}=await sb.from(table).delete().eq('id',id);
   if(error)return toast('Silinemedi: '+error.message,'err');
-  toast('Silindi','ok');
-  await reloadAll();
+  toast('Silindi','ok'); await reloadAll();
   const ap=document.querySelector('.page.active')?.id?.replace('page-','');
   if(ap)navigate(ap);
 }
 
-// ═══════════ QR ═══════════
+// ═══════ QR ═══════
 function showQR(token,code){
   curQR=token;
   const url=VERIFY_URL+token;
@@ -944,19 +1022,12 @@ function dlQR(){
   const c=document.querySelector('#qr-box canvas');if(!c)return;
   const a=document.createElement('a');a.download=`qr-${curQR}.png`;a.href=c.toDataURL();a.click();
 }
-function cpLink(){
-  navigator.clipboard.writeText(VERIFY_URL+curQR).then(()=>toast('Link kopyalandı','ok'));
-}
+function cpLink(){navigator.clipboard.writeText(VERIFY_URL+curQR).then(()=>toast('Link kopyalandı','ok'));}
 
-// ═══════════ HELPERS ═══════════
+// ═══════ HELPERS ═══════
 function onCustChange(){document.getElementById('new-cust-fields').style.display=document.getElementById('w-customer').value==='__new__'?'block':'none';}
-function onProductChange(){
-  const p=PS.find(x=>x.id===document.getElementById('w-product').value);
-  if(p){document.getElementById('w-months').value=p.warranty_months||24;calcEnd();}
-}
 function calcEnd(){
-  const sd=document.getElementById('w-sdate').value;
-  const mo=parseInt(document.getElementById('w-months').value)||24;
+  const sd=document.getElementById('w-sdate').value,mo=parseInt(document.getElementById('w-months').value)||24;
   if(sd){
     document.getElementById('w-start').value=sd;
     const e=new Date(sd);e.setMonth(e.getMonth()+mo);
@@ -966,13 +1037,13 @@ function calcEnd(){
 function genCode(name,seq){
   const y=new Date().getFullYear().toString().slice(-2);
   const ini=(name||'GEN').split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,3).padEnd(3,'X');
-  return `EK${y}-${ini}${String(seq).padStart(3,'0')}`;
+  return`EK${y}-${ini}${String(seq).padStart(3,'0')}`;
 }
 function genToken(seq){
   const y=new Date().getFullYear().toString().slice(-2);
   const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let s='';for(let i=0;i<6;i++)s+=chars[Math.floor(Math.random()*chars.length)];
-  return `EK${y}-${String(seq).padStart(3,'0')}-${s}`;
+  return`EK${y}-${String(seq).padStart(3,'0')}-${s}`;
 }
 function sbadge(end){
   const d=Math.ceil((new Date(end)-new Date())/86400000);
@@ -995,9 +1066,8 @@ function toast(msg,type=''){
 }
 async function exportData(){
   const [w,c,s]=await Promise.all([
-    sb.from('warranties').select('*,products(name_tr),customers(*)'),
-    sb.from('customers').select('*'),
-    sb.from('service_records').select('*')
+    sb.from('warranties').select('*,warranty_items(*),customers(*)'),
+    sb.from('customers').select('*'),sb.from('service_records').select('*')
   ]);
   const blob=new Blob([JSON.stringify({warranties:w.data,customers:c.data,service:s.data,exported:new Date().toISOString()},null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
