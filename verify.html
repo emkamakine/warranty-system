@@ -3,755 +3,619 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Garanti Doğrulama</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>Garanti Belgesi Sorgulama — EMKA</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-  :root {
-    --brand: #1a2332;
-    --accent: #29abe2;
-    --accent2: #1a2332;
-    --gold: #f5a623;
-    --surface: #ffffff;
-    --surface2: #f8f8fc;
-    --text: #1a1a2e;
-    --muted: #6b7280;
-    --border: #e5e7eb;
-    --success: #10b981;
-    --warn: #f59e0b;
-    --danger: #ef4444;
-    --radius: 16px;
-    --radius-sm: 8px;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background: #f4f5f7;
-    min-height: 100vh;
-    color: var(--text);
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#1a2332;--accent:#29abe2;--bg:#f0f2f5;--surface:#fff;
+  --border:#e5e7eb;--text:#1a2332;--muted:#6b7280;
+  --success:#10b981;--warn:#f59e0b;--danger:#ef4444;
+  --radius:14px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
-  /* ─── ANIMATED BG ─── */
-  .bg-canvas {
-    position: fixed; inset: 0; z-index: 0; overflow: hidden;
-  }
-  .bg-canvas::before {
-    content: '';
-    position: absolute;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(41,171,226,0.10) 0%, transparent 70%);
-    top: -200px; right: -200px;
-    animation: pulse1 8s ease-in-out infinite;
-  }
-  .bg-canvas::after {
-    content: '';
-    position: absolute;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(42,42,50,0.07) 0%, transparent 70%);
-    bottom: -100px; left: -100px;
-    animation: pulse2 10s ease-in-out infinite;
-  }
-  @keyframes pulse1 { 0%,100%{transform:scale(1) translate(0,0)} 50%{transform:scale(1.2) translate(20px,30px)} }
-  @keyframes pulse2 { 0%,100%{transform:scale(1) translate(0,0)} 50%{transform:scale(1.1) translate(-20px,-20px)} }
+/* HEADER */
+.header{background:var(--brand);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.header-brand{display:flex;align-items:center;gap:12px}
+.brand-name{font-size:22px;font-weight:800;letter-spacing:-.5px;color:#fff}
+.brand-name span{color:#29abe2}
+.brand-sub{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.lang-btns{display:flex;gap:4px}
+.lang-btn{padding:5px 12px;border-radius:6px;border:1px solid rgba(255,255,255,.2);
+  background:none;color:rgba(255,255,255,.5);font-size:12px;font-weight:700;
+  cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s}
+.lang-btn.active,.lang-btn:hover{background:rgba(41,171,226,.25);border-color:#29abe2;color:#fff}
 
-  /* ─── HEADER ─── */
-  header {
-    position: relative; z-index: 10;
-    padding: 28px 32px;
-    display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 1px solid rgba(0,0,0,0.08); background: #fff;
-  }
-  .logo {
-    font-family: 'Plus Jakarta Sans', sans-serif; font-weight:700;
-    font-weight: 800; font-size: 22px;
-    color: #fff;
-    letter-spacing: -0.5px;
-  }
-  .logo span { color: var(--accent); }
-  .lang-switcher {
-    display: flex; gap: 6px;
-  }
-  .lang-btn {
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid rgba(0,0,0,0.15);
-    background: transparent;
-    color: rgba(0,0,0,0.5);
-    font-size: 12px; font-weight: 500;
-    cursor: pointer; transition: all 0.2s;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-  }
-  .lang-btn.active, .lang-btn:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-  }
+/* MAIN CONTAINER */
+.container{max-width:760px;margin:0 auto;padding:32px 20px}
 
-  /* ─── MAIN ─── */
-  main {
-    position: relative; z-index: 10;
-    max-width: 680px; margin: 0 auto;
-    padding: 48px 24px 80px;
-  }
+/* SEARCH BOX */
+.search-card{background:var(--surface);border-radius:var(--radius);padding:28px 32px;
+  margin-bottom:28px;box-shadow:0 1px 4px rgba(0,0,0,.08);border:1px solid var(--border);text-align:center}
+.search-title{font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px}
+.search-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.search-row{display:flex;gap:10px;max-width:480px;margin:0 auto}
+.search-input{flex:1;padding:12px 16px;border:1.5px solid var(--border);border-radius:10px;
+  font-size:14px;font-family:'IBM Plex Mono',monospace;color:var(--text);outline:none;
+  background:#f9fafb;transition:border-color .2s;letter-spacing:.5px;text-transform:uppercase}
+.search-input:focus{border-color:#29abe2;background:#fff}
+.search-input::placeholder{font-family:'Plus Jakarta Sans',sans-serif;text-transform:none;letter-spacing:0;font-size:13px}
+.search-btn{padding:12px 22px;background:#29abe2;border:none;border-radius:10px;
+  color:#fff;font-size:13px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;
+  cursor:pointer;white-space:nowrap;transition:background .15s;letter-spacing:.5px}
+.search-btn:hover{background:#1a90c8}
+.search-btn:disabled{background:#cbd5e1;cursor:not-allowed}
 
-  /* ─── SEARCH ─── */
-  .search-section {
-    text-align: center; margin-bottom: 48px;
-  }
-  .search-eyebrow {
-    font-size: 12px; font-weight: 500; letter-spacing: 3px;
-    color: #29abe2; text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-  .search-title {
-    font-family: 'Plus Jakarta Sans', sans-serif; font-weight:700;
-    font-size: 36px; font-weight: 800;
-    color: #1a2332; line-height: 1.1;
-    margin-bottom: 12px;
-  }
-  .search-title em {
-    font-style: normal;
-    background: linear-gradient(135deg, var(--accent), var(--gold));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .search-sub {
-    font-size: 15px; color: #6b7280;
-    margin-bottom: 32px;
-  }
-  .search-box {
-    display: flex; gap: 0;
-    background: #fff;
-    border: 1px solid #d1d5db;
-    border-radius: 14px;
-    overflow: hidden;
-    transition: border-color 0.2s;
-  }
-  .search-box:focus-within {
-    border-color: var(--accent);
-    background: #fff;
-  }
-  .search-box input {
-    flex: 1;
-    background: transparent;
-    border: none; outline: none;
-    padding: 18px 24px;
-    font-size: 16px; font-weight: 400;
-    color: #fff;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    letter-spacing: 1px;
-  }
-  .search-box input::placeholder { color: #9ca3af; }
-  .search-btn {
-    padding: 18px 28px;
-    background: var(--accent);
-    border: none; cursor: pointer;
-    font-family: 'Plus Jakarta Sans', sans-serif; font-weight:700;
-    font-size: 13px; font-weight: 700;
-    color: #fff; letter-spacing: 1px;
-    transition: background 0.2s;
-  }
-  .search-btn:hover { background: #c73350; }
+/* STATES */
+.state{text-align:center;padding:60px 20px}
+.state-icon{font-size:48px;margin-bottom:16px}
+.state-title{font-size:20px;font-weight:800;color:var(--text);margin-bottom:8px}
+.state-sub{font-size:14px;color:var(--muted)}
+.spin{display:inline-block;width:32px;height:32px;border:3px solid var(--border);
+  border-top-color:#29abe2;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-  /* ─── STATE: LOADING ─── */
-  #state-loading { display: none; text-align: center; padding: 48px 0; }
-  .loader {
-    width: 40px; height: 40px;
-    border: 3px solid rgba(255,255,255,0.1);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 16px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  #state-loading p { color: #6b7280; font-size: 14px; }
+/* WARRANTY CARD */
+.warranty-card{display:none}
+.wcard-header{background:var(--brand);border-radius:var(--radius) var(--radius) 0 0;
+  padding:28px 32px;display:flex;align-items:center;gap:24px}
+.wcard-photo{width:80px;height:80px;border-radius:10px;object-fit:cover;
+  border:2px solid rgba(255,255,255,.2);flex-shrink:0;background:rgba(255,255,255,.1)}
+.wcard-photo-placeholder{width:80px;height:80px;border-radius:10px;
+  background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;
+  font-size:28px;flex-shrink:0}
+.wcard-info{flex:1;min-width:0}
+.wcard-product{font-size:20px;font-weight:800;color:#fff;margin-bottom:4px}
+.wcard-model{font-size:13px;color:rgba(255,255,255,.5);font-family:'IBM Plex Mono',monospace;margin-bottom:10px}
+.wcard-badges{display:flex;gap:8px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700}
+.badge-active{background:#d1fae5;color:#065f46}
+.badge-expired{background:#fee2e2;color:#991b1b}
+.badge-warn{background:#fef3c7;color:#92400e}
+.badge-code{background:rgba(255,255,255,.12);color:rgba(255,255,255,.8);font-family:'IBM Plex Mono',monospace;font-size:12px}
 
-  /* ─── STATE: NOT FOUND ─── */
-  #state-notfound { display: none; text-align: center; padding: 48px 0; }
-  .notfound-icon {
-    width: 72px; height: 72px; border-radius: 50%;
-    background: rgba(239,68,68,0.12);
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 20px;
-    font-size: 32px;
-  }
-  #state-notfound h3 {
-    font-family: 'Plus Jakarta Sans', sans-serif; font-weight:700; font-size: 20px; color: #fff;
-    margin-bottom: 8px;
-  }
-  #state-notfound p { color: #6b7280; font-size: 14px; }
+/* PROGRESS BAR */
+.progress-wrap{margin-top:16px}
+.progress-lbl{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.45);margin-bottom:6px}
+.progress-bar{height:6px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;border-radius:4px;transition:width .5s ease;background:#29abe2}
+.progress-fill.expired{background:#ef4444}
+.progress-fill.warn{background:#f59e0b}
 
-  /* ─── WARRANTY CARD ─── */
-  #state-result { display: none; }
+/* TABS */
+.tabs-nav{background:var(--surface);border-bottom:1px solid var(--border);
+  display:flex;overflow-x:auto}
+.tab-btn{padding:14px 20px;font-size:13px;font-weight:700;color:var(--muted);
+  border:none;background:none;cursor:pointer;white-space:nowrap;
+  border-bottom:2px solid transparent;transition:all .15s;font-family:'Plus Jakarta Sans',sans-serif}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:#29abe2;border-bottom-color:#29abe2}
 
-  .warranty-card {
-    background: #fff;
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 0 32px 80px rgba(0,0,0,0.5);
-    position: relative;
-  }
+/* TAB CONTENT */
+.tabs-body{background:var(--surface);border-radius:0 0 var(--radius) var(--radius);
+  border:1px solid var(--border);border-top:none;padding:28px 32px;margin-bottom:28px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
 
-  /* Top stripe / header */
-  .card-header {
-    background: linear-gradient(135deg, #1a2332 0%, #2a3a52 100%);
-    padding: 36px 40px 32px;
-    position: relative; overflow: hidden;
-  }
-  .card-header::after {
-    content: '';
-    position: absolute;
-    width: 300px; height: 300px;
-    background: rgba(255,255,255,0.04);
-    border-radius: 50%;
-    top: -100px; right: -100px;
-  }
-  .card-header-inner { position: relative; z-index: 1; }
-  .card-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid rgba(0,0,0,0.15);
-    background: rgba(255,255,255,0.07);
-    font-size: 11px; font-weight: 500; letter-spacing: 2px;
-    color: rgba(255,255,255,0.7); text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-  .card-badge-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--success);
-    animation: blink 2s ease-in-out infinite;
-  }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-  .card-product-name {
-    font-family: 'Plus Jakarta Sans', sans-serif; font-weight:700;
-    font-size: 28px; font-weight: 800;
-    color: #1a2332; line-height: 1.1;
-    margin-bottom: 8px;
-  }
-  .card-model {
-    font-size: 14px; color: rgba(0,0,0,0.5);
-    font-weight: 400;
-  }
+/* INFO TABLE */
+.info-table{width:100%;border-collapse:collapse}
+.info-table tr td{padding:10px 0;border-bottom:1px solid #f3f4f6;vertical-align:top}
+.info-table tr:last-child td{border-bottom:none}
+.info-table .ilbl{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  color:var(--muted);width:180px;padding-right:16px}
+.info-table .ival{font-size:14px;font-weight:600;color:var(--text)}
+.info-table .ival.mono{font-family:'IBM Plex Mono',monospace;font-size:13px}
 
-  /* Status bar */
-  .card-status-bar {
-    display: flex; align-items: center; gap: 12px;
-    margin-top: 28px; padding-top: 24px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-  }
-  .status-pill {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 8px 20px; border-radius: 24px;
-    font-size: 13px; font-weight: 600;
-  }
-  .status-active { background: rgba(16,185,129,0.2); color: #6ee7b7; }
-  .status-expired { background: rgba(239,68,68,0.2); color: #fca5a5; }
-  .status-warning { background: rgba(245,158,11,0.2); color: #fde68a; }
-  .status-days {
-    font-size: 13px; color: rgba(255,255,255,0.35);
-  }
+/* SECTION HEADING */
+.sec-hdr{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 
-  /* Card body */
-  .card-body {
-    padding: 36px 40px;
-  }
-  .info-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 0;
-  }
-  .info-item {
-    padding: 20px 0;
-    border-bottom: 1px solid #f1f1f6;
-  }
-  .info-item:nth-child(odd) { padding-right: 32px; border-right: 1px solid #f1f1f6; }
-  .info-item:nth-child(even) { padding-left: 32px; }
-  .info-item:last-child, .info-item:nth-last-child(2) { border-bottom: none; }
-  .info-label {
-    font-size: 11px; font-weight: 500; letter-spacing: 1.5px;
-    color: #9ca3af; text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .info-value {
-    font-family: 'Plus Jakarta Sans', sans-serif; font-weight:700;
-    font-size: 15px; font-weight: 600;
-    color: var(--brand);
-  }
-  .info-value.mono {
-    font-family: 'DM Mono', monospace;
-    font-size: 13px; font-weight: 400;
-    color: #374151;
-    letter-spacing: 0.5px;
-  }
+/* WARRANTY TERMS */
+.terms-box{background:#f8fafc;border:1px solid var(--border);border-radius:10px;
+  padding:18px 20px;font-size:13px;line-height:1.7;color:var(--text);margin-top:16px}
+.disclaimer-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;
+  padding:14px 18px;font-size:12px;line-height:1.6;color:#78350f;margin-top:16px}
 
-  /* Timeline bar */
-  .timeline-section {
-    background: #f8f8fc;
-    padding: 28px 40px;
-    border-top: 1px solid #f0f0f8;
-  }
-  .timeline-label {
-    font-size: 11px; font-weight: 500; letter-spacing: 2px;
-    color: #9ca3af; text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-  .timeline-bar-wrap {
-    position: relative;
-    height: 8px;
-    background: #e5e7eb;
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 10px;
-  }
-  .timeline-bar-fill {
-    height: 100%; border-radius: 4px;
-    transition: width 1s cubic-bezier(0.4,0,0.2,1);
-    background: linear-gradient(90deg, var(--success), #34d399);
-  }
-  .timeline-bar-fill.warn { background: linear-gradient(90deg, var(--warn), #fbbf24); }
-  .timeline-bar-fill.expired { background: linear-gradient(90deg, var(--danger), #f87171); }
-  .timeline-dates {
-    display: flex; justify-content: space-between;
-    font-size: 12px; color: #9ca3af;
-  }
+/* PDF EMBED */
+.pdf-frame{width:100%;height:500px;border:1px solid var(--border);border-radius:8px}
+.pdf-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
 
-  /* Description */
-  .desc-section {
-    padding: 0 40px 28px;
-    border-top: 1px solid #f0f0f8;
-    padding-top: 24px;
-  }
-  .desc-label {
-    font-size: 11px; font-weight: 500; letter-spacing: 2px;
-    color: #9ca3af; text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .desc-text {
-    font-size: 14px; line-height: 1.7; color: #4b5563;
-  }
+/* SERVICE TABLE */
+.service-item{border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:12px}
+.service-item:last-child{margin-bottom:0}
+.service-item-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.service-date{font-size:13px;font-weight:700;color:var(--text)}
+.service-tech{font-size:12px;color:var(--muted)}
+.service-desc{font-size:14px;color:var(--text);line-height:1.6;margin-bottom:8px}
+.service-parts{font-size:12px;color:var(--muted);background:#f9fafb;border-radius:6px;padding:8px 12px;margin-top:8px}
+.no-service{text-align:center;padding:40px;color:var(--muted);font-size:13px}
 
-  /* Footer */
-  .card-footer {
-    padding: 24px 40px;
-    background: #fafafa;
-    border-top: 1px solid #f0f0f8;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .verified-badge {
-    display: flex; align-items: center; gap: 10px;
-  }
-  .verified-icon {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(16,185,129,0.1);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-  }
-  .verified-text strong { display: block; font-size: 13px; color: #10b981; font-weight: 600; }
-  .verified-text span { font-size: 11px; color: #9ca3af; }
-  .warranty-id {
-    font-size: 11px; color: #d1d5db;
-    text-align: right;
-  }
-  .warranty-id span { display: block; font-weight: 600; color: #9ca3af; font-size: 12px; }
+/* CONTACT CARD */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
+.contact-item{background:#f9fafb;border:1px solid var(--border);border-radius:10px;padding:18px}
+.contact-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.contact-val{font-size:14px;font-weight:600;color:var(--text)}
+.contact-val a{color:#29abe2;text-decoration:none}
+.contact-val a:hover{text-decoration:underline}
 
-  /* Print button */
-  .action-row {
-    display: flex; gap: 12px; margin-top: 24px;
-  }
-  .action-btn {
-    flex: 1; padding: 14px;
-    border-radius: 12px;
-    font-size: 13px; font-weight: 600;
-    cursor: pointer; border: none;
-    transition: all 0.2s;
-    font-family: 'Plus Jakarta Sans', sans-serif; font-weight:700; letter-spacing: 0.5px;
-  }
-  .btn-primary {
-    background: var(--brand); color: #fff;
-  }
-  .btn-primary:hover { background: #2d1b69; }
-  .btn-ghost {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid #d1d5db;
-    color: rgba(255,255,255,0.7);
-  }
-  .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+/* VERIFIED FOOTER */
+.verified-footer{text-align:center;padding:16px;font-size:11px;color:var(--muted);
+  display:flex;align-items:center;justify-content:center;gap:6px}
+.vcheck{width:16px;height:16px;background:#10b981;border-radius:50%;display:inline-flex;
+  align-items:center;justify-content:center;color:#fff;font-size:9px}
 
-  /* ─── PRINT ─── */
-  @media print {
-    body { background: #fff; }
-    .bg-canvas, header, .search-section, .action-row { display: none !important; }
-    .warranty-card { box-shadow: none; }
-    main { padding: 0; max-width: 100%; }
-  }
+/* BUTTONS */
+.btn{padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;
+  font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;border:none;
+  transition:all .15s;display:inline-flex;align-items:center;gap:7px;text-decoration:none}
+.btn-primary{background:#29abe2;color:#fff}
+.btn-primary:hover{background:#1a90c8}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--muted)}
+.btn-ghost:hover{border-color:#29abe2;color:#29abe2}
 
-  /* ─── RESPONSIVE ─── */
-  @media(max-width: 520px) {
-    .card-header, .card-body { padding: 28px 24px; }
-    .card-body .info-item:nth-child(odd) { padding-right: 16px; }
-    .card-body .info-item:nth-child(even) { padding-left: 16px; }
-    .timeline-section, .desc-section { padding-left: 24px; padding-right: 24px; }
-    .card-footer { padding: 20px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
-    .search-title { font-size: 26px; }
-  }
+/* RTL support */
+[dir=rtl]{text-align:right}
+
+/* PRINT */
+@media print{
+  .header,.search-card,.lang-btns,.tabs-nav,.pdf-actions,.verified-footer{display:none!important}
+  .tabs-body{border:none;padding:0}
+  .tab-pane{display:block!important}
+  .container{max-width:100%;padding:0}
+}
 </style>
 </head>
 <body>
 
-<div class="bg-canvas"></div>
-
-<header>
-  <img src="data:image/jpeg;base64,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" alt="EMKA Logo" id="logo-img" style="height:48px;width:auto">
-  <div class="lang-switcher">
+<header class="header">
+  <div class="header-brand">
+    <div>
+      <div class="brand-name">EM<span>KA</span></div>
+      <div class="brand-sub" id="h-sub">Garanti Sorgulama</div>
+    </div>
+  </div>
+  <div class="lang-btns">
     <button class="lang-btn active" onclick="setLang('tr')">TR</button>
     <button class="lang-btn" onclick="setLang('en')">EN</button>
     <button class="lang-btn" onclick="setLang('ar')">AR</button>
   </div>
 </header>
 
-<main>
+<div class="container">
+
   <!-- SEARCH -->
-  <section class="search-section">
-    <div class="search-eyebrow" data-i18n="eyebrow">Dijital Garanti Sistemi</div>
-    <h1 class="search-title">
-      <span data-i18n="title1">Garantinizi</span><br>
-      <em data-i18n="title2">Anında Doğrulayın</em>
-    </h1>
-    <p class="search-sub" data-i18n="subtitle">Seri numarası veya garanti kodu girin</p>
-    <div class="search-box">
-      <input type="text" id="search-input" data-i18n-placeholder="placeholder"
-        placeholder="Örn: GAR-2024-001 veya seri no"
-        onkeydown="if(event.key==='Enter')doSearch()">
-      <button class="search-btn" onclick="doSearch()" data-i18n="search">SORGULA</button>
+  <div class="search-card" id="search-card">
+    <div class="search-title" id="s-title">Garanti Belgesi Sorgula</div>
+    <div class="search-sub" id="s-sub">Garanti kodu, seri numarası veya doğrulama kodu girin</div>
+    <div class="search-row">
+      <input type="text" id="s-input" class="search-input" placeholder="EK26-001-XXXXXX" autocomplete="off">
+      <button class="search-btn" id="s-btn" onclick="doSearch()">
+        <span id="s-btn-txt">SORGULA</span>
+      </button>
     </div>
-  </section>
-
-  <!-- LOADING -->
-  <div id="state-loading">
-    <div class="loader"></div>
-    <p data-i18n="loading">Kayıt aranıyor...</p>
+    <div id="s-err" style="margin-top:12px;font-size:13px;color:#ef4444;display:none"></div>
   </div>
 
-  <!-- NOT FOUND -->
-  <div id="state-notfound">
-    <div class="notfound-icon">🔍</div>
-    <h3 data-i18n="nf-title">Kayıt Bulunamadı</h3>
-    <p data-i18n="nf-sub">Bu numara ile kayıtlı bir garanti belgesi yok.</p>
+  <!-- STATE: LOADING -->
+  <div class="state" id="state-loading" style="display:none">
+    <div class="spin"></div>
   </div>
 
-  <!-- RESULT -->
-  <div id="state-result">
-    <div class="warranty-card">
-      <div class="card-header">
-        <div class="card-header-inner">
-          <div class="card-badge">
-            <div class="card-badge-dot"></div>
-            <span data-i18n="official">Resmi Garanti Belgesi</span>
-          </div>
-          <div class="card-product-name" id="res-product">—</div>
-          <div class="card-model" id="res-model">—</div>
-          <div class="card-status-bar">
-            <div class="status-pill" id="res-status-pill">—</div>
-            <div class="status-days" id="res-days">—</div>
-          </div>
-        </div>
-      </div>
+  <!-- STATE: NOT FOUND -->
+  <div class="state" id="state-notfound" style="display:none">
+    <div class="state-icon">🔍</div>
+    <div class="state-title" id="nf-title">Kayıt Bulunamadı</div>
+    <div class="state-sub" id="nf-sub">Girdiğiniz koda ait garanti kaydı bulunamadı. Kodu kontrol edin.</div>
+  </div>
 
-      <div class="card-body">
-        <div class="info-grid">
-          <div class="info-item">
-            <div class="info-label" data-i18n="lbl-customer">Müşteri</div>
-            <div class="info-value" id="res-customer">—</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label" data-i18n="lbl-serial">Seri Numarası</div>
-            <div class="info-value mono" id="res-serial">—</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label" data-i18n="lbl-start">Satış Tarihi</div>
-            <div class="info-value" id="res-start">—</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label" data-i18n="lbl-end">Garanti Bitiş</div>
-            <div class="info-value" id="res-end">—</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label" data-i18n="lbl-dealer">Yetkili Satıcı</div>
-            <div class="info-value" id="res-dealer">—</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label" data-i18n="lbl-duration">Garanti Süresi</div>
-            <div class="info-value" id="res-duration">—</div>
-          </div>
-        </div>
-      </div>
+  <!-- WARRANTY CARD -->
+  <div class="warranty-card" id="warranty-card">
 
-      <div class="timeline-section">
-        <div class="timeline-label" data-i18n="lbl-timeline">Garanti Süresi</div>
-        <div class="timeline-bar-wrap">
-          <div class="timeline-bar-fill" id="res-bar" style="width:0%"></div>
+    <div class="wcard-header">
+      <div id="wc-photo-area"></div>
+      <div class="wcard-info">
+        <div class="wcard-product" id="wc-product">—</div>
+        <div class="wcard-model" id="wc-model">—</div>
+        <div class="wcard-badges">
+          <span class="badge badge-code" id="wc-code">—</span>
+          <span class="badge" id="wc-status-badge">—</span>
         </div>
-        <div class="timeline-dates">
-          <span id="res-bar-start">—</span>
-          <span id="res-bar-end">—</span>
-        </div>
-      </div>
-
-      <div class="desc-section" id="res-desc-section" style="display:none">
-        <div class="desc-label" data-i18n="lbl-desc">Kapsam</div>
-        <div class="desc-text" id="res-desc">—</div>
-      </div>
-
-      <div class="card-footer">
-        <div class="verified-badge">
-          <div class="verified-icon">✓</div>
-          <div class="verified-text">
-            <strong data-i18n="verified">Doğrulandı</strong>
-            <span id="res-verify-time">—</span>
+        <div class="progress-wrap" id="wc-progress-wrap">
+          <div class="progress-lbl">
+            <span id="wc-start-lbl">—</span>
+            <span id="wc-end-lbl">—</span>
           </div>
-        </div>
-        <div class="warranty-id">
-          <span data-i18n="lbl-code">Garanti Kodu</span>
-          <span id="res-id">—</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="wc-progress-fill" style="width:0%"></div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="action-row">
-      <button class="action-btn btn-primary" onclick="window.print()" data-i18n="btn-print">🖨 Yazdır / PDF</button>
-      <button class="action-btn btn-ghost" onclick="resetSearch()" data-i18n="btn-new">↩ Yeni Sorgulama</button>
+    <div class="tabs-nav" id="tabs-nav">
+      <button class="tab-btn active" data-tab="garanti" id="tab-btn-garanti">Garanti</button>
+      <button class="tab-btn" data-tab="belge" id="tab-btn-belge">Belge</button>
+      <button class="tab-btn" data-tab="servis" id="tab-btn-servis">Servis</button>
+      <button class="tab-btn" data-tab="iletisim" id="tab-btn-iletisim">İletişim</button>
     </div>
-  </div>
-</main>
 
+    <div class="tabs-body">
+
+      <!-- TAB: GARANTİ -->
+      <div class="tab-pane active" id="tab-garanti">
+        <div class="sec-hdr" id="g-sec1">Garanti Bilgileri</div>
+        <table class="info-table">
+          <tr><td class="ilbl" id="g-lbl-code">Belge No</td><td class="ival mono" id="g-code">—</td></tr>
+          <tr><td class="ilbl" id="g-lbl-product">Ürün</td><td class="ival" id="g-product">—</td></tr>
+          <tr><td class="ilbl" id="g-lbl-model">Model</td><td class="ival mono" id="g-model">—</td></tr>
+          <tr><td class="ilbl" id="g-lbl-serial">Seri No</td><td class="ival mono" id="g-serial">—</td></tr>
+          <tr><td class="ilbl" id="g-lbl-sale">Satış Tarihi</td><td class="ival" id="g-sale">—</td></tr>
+          <tr><td class="ilbl" id="g-lbl-start">Garanti Başlangıç</td><td class="ival" id="g-start">—</td></tr>
+          <tr><td class="ilbl" id="g-lbl-end">Garanti Bitiş</td><td class="ival" id="g-end">—</td></tr>
+          <tr><td class="ilbl" id="g-lbl-status">Durum</td><td class="ival" id="g-status">—</td></tr>
+          <tr><td class="ilbl" id="g-lbl-dealer">Satıcı</td><td class="ival" id="g-dealer">—</td></tr>
+          <tr><td class="ilbl" id="g-lbl-customer">Müşteri</td><td class="ival" id="g-customer">—</td></tr>
+        </table>
+      </div>
+
+      <!-- TAB: BELGE -->
+      <div class="tab-pane" id="tab-belge">
+        <div id="belge-content">
+          <div class="sec-hdr" id="b-sec1">Garanti Belgesi</div>
+          <div id="b-doc-wrap">
+            <div style="text-align:center;padding:40px;color:var(--muted);font-size:13px" id="b-no-doc">Bu ürüne ait garanti belgesi henüz yüklenmemiştir.</div>
+          </div>
+          <div class="pdf-actions" id="b-doc-actions" style="display:none">
+            <a id="b-view-btn" href="#" target="_blank" class="btn btn-primary">📄 <span id="b-view-lbl">Belgeyi Görüntüle</span></a>
+            <a id="b-dl-btn" href="#" download class="btn btn-ghost">⬇️ <span id="b-dl-lbl">İndir</span></a>
+          </div>
+          <div style="margin-top:24px">
+            <div class="sec-hdr" id="b-sec2">Garanti Şartları</div>
+            <div class="terms-box" id="b-terms">—</div>
+          </div>
+          <div class="disclaimer-box" id="b-disclaimer">—</div>
+        </div>
+      </div>
+
+      <!-- TAB: SERVİS -->
+      <div class="tab-pane" id="tab-servis">
+        <div class="sec-hdr" id="s-sec1">Servis Geçmişi</div>
+        <div id="servis-list"></div>
+      </div>
+
+      <!-- TAB: İLETİŞİM -->
+      <div class="tab-pane" id="tab-iletisim">
+        <div class="sec-hdr" id="c-sec1">Firma Bilgisi</div>
+        <div class="contact-grid">
+          <div class="contact-item"><div class="contact-lbl" id="c-lbl-company">Firma</div><div class="contact-val">EMKA Kuyumculuk Malzeme ve Makinaları</div></div>
+          <div class="contact-item"><div class="contact-lbl" id="c-lbl-address">Adres</div><div class="contact-val">Kapalıçarşı, İstanbul, Türkiye</div></div>
+          <div class="contact-item"><div class="contact-lbl" id="c-lbl-phone">Telefon</div><div class="contact-val"><a href="tel:+90212000000">+90 212 000 00 00</a></div></div>
+          <div class="contact-item"><div class="contact-lbl" id="c-lbl-email">E-posta</div><div class="contact-val"><a href="mailto:info@emkakuyumculuk.com">info@emkakuyumculuk.com</a></div></div>
+          <div class="contact-item"><div class="contact-lbl" id="c-lbl-web">Web</div><div class="contact-val"><a href="https://emkakuyumculuk.com" target="_blank">emkakuyumculuk.com</a></div></div>
+          <div class="contact-item"><div class="contact-lbl" id="c-lbl-hours">Çalışma Saatleri</div><div class="contact-val" id="c-hours">Pazartesi – Cumartesi, 09:00 – 18:00</div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="verified-footer">
+      <span class="vcheck">✓</span>
+      <span id="v-footer">Bu belge EMKA Garanti Sistemi tarafından doğrulanmıştır.</span>
+      <button class="btn btn-ghost" style="padding:6px 14px;font-size:11px;margin-left:8px" onclick="window.print()" id="print-btn">🖨️ Yazdır</button>
+    </div>
+
+  </div><!-- /warranty-card -->
+
+</div><!-- /container -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-/* ══════════════════════════════════════════════
-   CONFIG — Bunu doldurun
-══════════════════════════════════════════════ */
-const CONFIG = {
-  // GitHub raw URL — kurulumdan sonra güncellenecek
-  // Örnek: https://raw.githubusercontent.com/KULLANICI/REPO/main/data/warranties.json
-  DATA_URL: 'data/warranties.json',
-  COMPANY_NAME: 'Şirket Adı',
+const SB_URL='https://obbxxkzmnujtozxczgfm.supabase.co';
+const SB_KEY='sb_publishable_xY037ZoljAKp_mPOKh6HJA_ZCYfcuxc';
+const sb=window.supabase.createClient(SB_URL,SB_KEY);
+
+let currentLang='tr';
+let currentData=null;
+
+// ═══════════ TRANSLATIONS ═══════════
+const T={
+  tr:{
+    h_sub:'Garanti Sorgulama',
+    s_title:'Garanti Belgesi Sorgula',
+    s_sub:'Garanti kodu, seri numarası veya doğrulama kodu girin',
+    s_placeholder:'EK26-001-XXXXXX',
+    s_btn:'SORGULA',
+    nf_title:'Kayıt Bulunamadı',
+    nf_sub:'Girdiğiniz koda ait garanti kaydı bulunamadı. Kodu kontrol edin.',
+    tab_garanti:'Garanti',tab_belge:'Belge',tab_servis:'Servis',tab_iletisim:'İletişim',
+    g_sec1:'Garanti Bilgileri',
+    g_code:'Belge No',g_product:'Ürün',g_model:'Model',g_serial:'Seri No',
+    g_sale:'Satış Tarihi',g_start:'Garanti Başlangıç',g_end:'Garanti Bitiş',
+    g_status:'Durum',g_dealer:'Satıcı',g_customer:'Müşteri',
+    status_active:'✅ Aktif',status_expired:'❌ Sona Erdi',status_warn:'⚠️ Yakında Bitiyor',
+    months_left:' ay kaldı',
+    b_sec1:'Garanti Belgesi',b_sec2:'Garanti Şartları',
+    b_no_doc:'Bu ürüne ait garanti belgesi henüz yüklenmemiştir.',
+    b_view:'Belgeyi Görüntüle',b_dl:'İndir',
+    b_no_terms:'Garanti şartları belirtilmemiştir.',
+    disclaimer:'Bu belge EMKA tarafından dijital ortamda düzenlenmiştir. Garanti yalnızca üretim ve işçilik hatalarını kapsar. Yanlış kullanım, yetkisiz onarım, fiziksel hasar ve sarf malzemeleri kapsam dışındadır.',
+    s_sec1:'Servis Geçmişi',
+    s_no:'Bu garanti kaydına ait servis geçmişi bulunmamaktadır.',
+    s_date:'Servis Tarihi',s_tech:'Teknisyen',s_desc:'Açıklama',s_parts:'Değiştirilen Parçalar',
+    c_sec1:'Firma Bilgisi',
+    c_company:'Firma',c_address:'Adres',c_phone:'Telefon',c_email:'E-posta',c_web:'Web',c_hours:'Çalışma Saatleri',
+    c_hours_val:'Pazartesi – Cumartesi, 09:00 – 18:00',
+    v_footer:'Bu belge EMKA Garanti Sistemi tarafından doğrulanmıştır.',
+    print_btn:'🖨️ Yazdır',
+  },
+  en:{
+    h_sub:'Warranty Verification',
+    s_title:'Verify Your Warranty',
+    s_sub:'Enter your warranty code, serial number, or verification code',
+    s_placeholder:'EK26-001-XXXXXX',
+    s_btn:'VERIFY',
+    nf_title:'Record Not Found',
+    nf_sub:'No warranty record found for the code you entered. Please check the code and try again.',
+    tab_garanti:'Warranty',tab_belge:'Document',tab_servis:'Service',tab_iletisim:'Contact',
+    g_sec1:'Warranty Details',
+    g_code:'Certificate No',g_product:'Product',g_model:'Model',g_serial:'Serial Number',
+    g_sale:'Purchase Date',g_start:'Warranty Start',g_end:'Warranty Expiry',
+    g_status:'Status',g_dealer:'Dealer',g_customer:'Customer',
+    status_active:'✅ Valid',status_expired:'❌ Expired',status_warn:'⚠️ Expiring Soon',
+    months_left:' months remaining',
+    b_sec1:'Warranty Certificate',b_sec2:'Warranty Terms & Conditions',
+    b_no_doc:'No warranty document has been uploaded for this product yet.',
+    b_view:'View Document',b_dl:'Download',
+    b_no_terms:'Warranty terms have not been specified.',
+    disclaimer:'This certificate has been digitally issued by EMKA. The warranty covers manufacturing and workmanship defects only. Misuse, unauthorized repair, physical damage, and consumable parts are excluded from coverage.',
+    s_sec1:'Service History',
+    s_no:'No service records found for this warranty.',
+    s_date:'Service Date',s_tech:'Technician',s_desc:'Description',s_parts:'Parts Replaced',
+    c_sec1:'Company Information',
+    c_company:'Company',c_address:'Address',c_phone:'Phone',c_email:'Email',c_web:'Website',c_hours:'Business Hours',
+    c_hours_val:'Monday – Saturday, 09:00 – 18:00',
+    v_footer:'This certificate has been verified by EMKA Warranty System.',
+    print_btn:'🖨️ Print',
+  },
+  ar:{
+    h_sub:'التحقق من الضمان',
+    s_title:'استعلام عن الضمان',
+    s_sub:'أدخل رمز الضمان أو الرقم التسلسلي أو رمز التحقق',
+    s_placeholder:'EK26-001-XXXXXX',
+    s_btn:'تحقق',
+    nf_title:'لم يتم العثور على السجل',
+    nf_sub:'لم يتم العثور على سجل ضمان للرمز الذي أدخلته. يرجى التحقق من الرمز والمحاولة مرة أخرى.',
+    tab_garanti:'الضمان',tab_belge:'الوثيقة',tab_servis:'الخدمة',tab_iletisim:'التواصل',
+    g_sec1:'تفاصيل الضمان',
+    g_code:'رقم الشهادة',g_product:'المنتج',g_model:'الموديل',g_serial:'الرقم التسلسلي',
+    g_sale:'تاريخ الشراء',g_start:'بداية الضمان',g_end:'انتهاء الضمان',
+    g_status:'الحالة',g_dealer:'الموزع',g_customer:'العميل',
+    status_active:'✅ ساري',status_expired:'❌ منتهي الصلاحية',status_warn:'⚠️ ينتهي قريباً',
+    months_left:' أشهر متبقية',
+    b_sec1:'وثيقة الضمان',b_sec2:'شروط وأحكام الضمان',
+    b_no_doc:'لم يتم تحميل وثيقة الضمان لهذا المنتج بعد.',
+    b_view:'عرض الوثيقة',b_dl:'تحميل',
+    b_no_terms:'لم يتم تحديد شروط الضمان.',
+    disclaimer:'تم إصدار هذه الشهادة رقمياً من قِبَل EMKA. يسري الضمان فقط على عيوب التصنيع والتشغيل. يُستثنى من الضمان سوء الاستخدام والإصلاح غير المرخص والأضرار الجسدية وقطع الاستهلاك.',
+    s_sec1:'سجل الخدمة',
+    s_no:'لا توجد سجلات خدمة لهذا الضمان.',
+    s_date:'تاريخ الخدمة',s_tech:'الفني',s_desc:'الوصف',s_parts:'القطع المستبدلة',
+    c_sec1:'معلومات الشركة',
+    c_company:'الشركة',c_address:'العنوان',c_phone:'الهاتف',c_email:'البريد الإلكتروني',c_web:'الموقع',c_hours:'ساعات العمل',
+    c_hours_val:'الاثنين – السبت، 09:00 – 18:00',
+    v_footer:'تم التحقق من هذه الشهادة بواسطة نظام ضمان EMKA.',
+    print_btn:'🖨️ طباعة',
+  }
 };
 
-/* ══════════════════════════════════════════════
-   i18n
-══════════════════════════════════════════════ */
-const LANGS = {
-  tr: {
-    eyebrow:'Dijital Garanti Sistemi', title1:'Garantinizi', title2:'Anında Doğrulayın',
-    subtitle:'Seri numarası veya garanti kodu girin',
-    placeholder:'Örn: GAR-2024-001 veya seri no',
-    search:'SORGULA', loading:'Kayıt aranıyor...',
-    'nf-title':'Kayıt Bulunamadı', 'nf-sub':'Bu numara ile kayıtlı garanti belgesi bulunamadı.',
-    official:'Resmi Garanti Belgesi',
-    'lbl-customer':'Müşteri','lbl-serial':'Seri Numarası',
-    'lbl-start':'Satış Tarihi','lbl-end':'Garanti Bitiş',
-    'lbl-dealer':'Yetkili Satıcı','lbl-duration':'Garanti Süresi',
-    'lbl-timeline':'Süre Görselleştirme','lbl-desc':'Kapsam',
-    verified:'Doğrulandı','lbl-code':'Garanti Kodu',
-    'btn-print':'🖨 Yazdır / PDF','btn-new':'↩ Yeni Sorgulama',
-    active:'✓ Aktif Garanti', expired:'✕ Garanti Sona Erdi', expiring:'⚠ Yakında Bitiyor',
-    'days-left':'{n} gün kaldı','days-ago':'{n} gün önce sona erdi',
-    'verified-at':'Doğrulanma: {t}', year:'Yıl', month:'Ay',
-  },
-  en: {
-    eyebrow:'Digital Warranty System', title1:'Verify Your', title2:'Warranty Instantly',
-    subtitle:'Enter serial number or warranty code',
-    placeholder:'E.g: WAR-2024-001 or serial no',
-    search:'VERIFY', loading:'Looking up record...',
-    'nf-title':'Not Found', 'nf-sub':'No warranty record found with this number.',
-    official:'Official Warranty Certificate',
-    'lbl-customer':'Customer','lbl-serial':'Serial Number',
-    'lbl-start':'Purchase Date','lbl-end':'Warranty End',
-    'lbl-dealer':'Authorized Dealer','lbl-duration':'Warranty Period',
-    'lbl-timeline':'Timeline','lbl-desc':'Coverage',
-    verified:'Verified','lbl-code':'Warranty Code',
-    'btn-print':'🖨 Print / PDF','btn-new':'↩ New Search',
-    active:'✓ Active Warranty', expired:'✕ Warranty Expired', expiring:'⚠ Expiring Soon',
-    'days-left':'{n} days remaining','days-ago':'Expired {n} days ago',
-    'verified-at':'Verified: {t}', year:'Year', month:'Month',
-  },
-  ar: {
-    eyebrow:'نظام الضمان الرقمي', title1:'تحقق من', title2:'ضمانك الآن',
-    subtitle:'أدخل الرقم التسلسلي أو رمز الضمان',
-    placeholder:'مثال: WAR-2024-001',
-    search:'بحث', loading:'جارٍ البحث...',
-    'nf-title':'غير موجود', 'nf-sub':'لم يتم العثور على ضمان بهذا الرقم.',
-    official:'شهادة الضمان الرسمية',
-    'lbl-customer':'العميل','lbl-serial':'الرقم التسلسلي',
-    'lbl-start':'تاريخ الشراء','lbl-end':'انتهاء الضمان',
-    'lbl-dealer':'الوكيل المعتمد','lbl-duration':'مدة الضمان',
-    'lbl-timeline':'الجدول الزمني','lbl-desc':'التغطية',
-    verified:'تم التحقق','lbl-code':'رمز الضمان',
-    'btn-print':'🖨 طباعة','btn-new':'↩ بحث جديد',
-    active:'✓ الضمان فعّال', expired:'✕ انتهى الضمان', expiring:'⚠ ينتهي قريباً',
-    'days-left':'يتبقى {n} يوم','days-ago':'انتهى منذ {n} يوم',
-    'verified-at':'وقت التحقق: {t}', year:'سنة', month:'شهر',
-  },
-};
-
-let currentLang = 'tr';
-
-function setLang(lang) {
-  currentLang = lang;
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.lang-btn[onclick*="'${lang}'"]`).classList.add('active');
-  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-  const t = LANGS[lang];
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const k = el.dataset.i18n;
-    if (t[k]) el.textContent = t[k];
-  });
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    const k = el.dataset.i18nPlaceholder;
-    if (t[k]) el.placeholder = t[k];
-  });
-  /* logo is static image, no update needed */
+// ═══════════ LANGUAGE ═══════════
+function setLang(lang){
+  currentLang=lang;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.toLowerCase()===lang));
+  document.documentElement.lang=lang;
+  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  applyTranslations();
+  if(currentData)renderData(currentData);
 }
-
-/* ══════════════════════════════════════════════
-   DATA
-══════════════════════════════════════════════ */
-let warranties = null;
-
-async function loadData() {
-  if (warranties) return warranties;
-  const r = await fetch(CONFIG.DATA_URL + '?v=' + Date.now());
-  if (!r.ok) throw new Error('data error');
-  warranties = await r.json();
-  return warranties;
+function t(k){return T[currentLang][k]||T['tr'][k]||k;}
+function applyTranslations(){
+  const s=t;
+  set('h-sub',s('h_sub'));
+  set('s-title',s('s_title'));
+  set('s-sub',s('s_sub'));
+  document.getElementById('s-input').placeholder=s('s_placeholder');
+  set('s-btn-txt',s('s_btn'));
+  set('nf-title',s('nf_title'));
+  set('nf-sub',s('nf_sub'));
+  set('tab-btn-garanti',s('tab_garanti'));
+  set('tab-btn-belge',s('tab_belge'));
+  set('tab-btn-servis',s('tab_servis'));
+  set('tab-btn-iletisim',s('tab_iletisim'));
+  set('g-sec1',s('g_sec1'));
+  set('g-lbl-code',s('g_code'));set('g-lbl-product',s('g_product'));
+  set('g-lbl-model',s('g_model'));set('g-lbl-serial',s('g_serial'));
+  set('g-lbl-sale',s('g_sale'));set('g-lbl-start',s('g_start'));
+  set('g-lbl-end',s('g_end'));set('g-lbl-status',s('g_status'));
+  set('g-lbl-dealer',s('g_dealer'));set('g-lbl-customer',s('g_customer'));
+  set('b-sec1',s('b_sec1'));set('b-sec2',s('b_sec2'));
+  set('b-view-lbl',s('b_view'));set('b-dl-lbl',s('b_dl'));
+  set('s-sec1',s('s_sec1'));
+  set('c-sec1',s('c_sec1'));
+  set('c-lbl-company',s('c_company'));set('c-lbl-address',s('c_address'));
+  set('c-lbl-phone',s('c_phone'));set('c-lbl-email',s('c_email'));
+  set('c-lbl-web',s('c_web'));set('c-lbl-hours',s('c_hours'));
+  set('c-hours',s('c_hours_val'));
+  set('v-footer',s('v_footer'));
+  set('print-btn',s('print_btn'));
 }
+function set(id,val){const e=document.getElementById(id);if(e)e.textContent=val;}
 
-/* ══════════════════════════════════════════════
-   SEARCH
-══════════════════════════════════════════════ */
-function showState(s) {
-  ['loading','notfound','result'].forEach(id => {
-    document.getElementById('state-'+id).style.display = 'none';
-  });
-  if (s) document.getElementById('state-'+s).style.display = 'block';
-}
-
-async function doSearch() {
-  const q = document.getElementById('search-input').value.trim().toUpperCase();
-  if (!q) return;
-  showState('loading');
-  try {
-    const data = await loadData();
-    const found = data.find(w =>
-      w.id?.toUpperCase() === q ||
-      w.serial?.toUpperCase() === q
-    );
-    if (!found) { showState('notfound'); return; }
-    renderResult(found);
-    showState('result');
-  } catch(e) {
-    showState('notfound');
-  }
-}
-
-function resetSearch() {
-  showState(null);
-  document.getElementById('search-input').value = '';
-  warranties = null;
-}
-
-/* ══════════════════════════════════════════════
-   RENDER
-══════════════════════════════════════════════ */
-function fmt(dateStr) {
-  if (!dateStr) return '—';
-  const d = new Date(dateStr);
-  return d.toLocaleDateString(
-    currentLang === 'ar' ? 'ar-SA' : currentLang === 'en' ? 'en-GB' : 'tr-TR',
-    { day:'2-digit', month:'long', year:'numeric' }
-  );
-}
-
-function renderResult(w) {
-  const t = LANGS[currentLang];
-  const now = new Date();
-  const start = new Date(w.sale_date);
-  const end = new Date(w.warranty_end);
-  const totalMs = end - start;
-  const passedMs = now - start;
-  const pct = Math.min(100, Math.max(0, (passedMs / totalMs) * 100));
-  const daysLeft = Math.ceil((end - now) / 86400000);
-
-  document.getElementById('res-product').textContent = w.product_name || '—';
-  document.getElementById('res-model').textContent = w.model ? `Model: ${w.model}` : '';
-  document.getElementById('res-customer').textContent = w.customer_name || '—';
-  document.getElementById('res-serial').textContent = w.serial || '—';
-  document.getElementById('res-start').textContent = fmt(w.sale_date);
-  document.getElementById('res-end').textContent = fmt(w.warranty_end);
-  document.getElementById('res-dealer').textContent = w.dealer || CONFIG.COMPANY_NAME;
-  document.getElementById('res-id').textContent = w.id || '—';
-
-  // Duration
-  const months = w.warranty_months || 24;
-  const durText = months >= 12
-    ? `${months/12} ${t.year}`
-    : `${months} ${t.month}`;
-  document.getElementById('res-duration').textContent = durText;
-
-  // Status
-  const pill = document.getElementById('res-status-pill');
-  const bar = document.getElementById('res-bar');
-  const daysEl = document.getElementById('res-days');
-  if (daysLeft > 30) {
-    pill.className = 'status-pill status-active';
-    pill.textContent = t.active;
-    bar.className = 'timeline-bar-fill';
-    daysEl.textContent = t['days-left'].replace('{n}', daysLeft);
-  } else if (daysLeft > 0) {
-    pill.className = 'status-pill status-warning';
-    pill.textContent = t.expiring;
-    bar.className = 'timeline-bar-fill warn';
-    daysEl.textContent = t['days-left'].replace('{n}', daysLeft);
-  } else {
-    pill.className = 'status-pill status-expired';
-    pill.textContent = t.expired;
-    bar.className = 'timeline-bar-fill expired';
-    daysEl.textContent = t['days-ago'].replace('{n}', Math.abs(daysLeft));
-  }
-  setTimeout(() => { bar.style.width = pct + '%'; }, 100);
-
-  // Timeline labels
-  document.getElementById('res-bar-start').textContent = fmt(w.sale_date);
-  document.getElementById('res-bar-end').textContent = fmt(w.warranty_end);
-
-  // Description
-  const descSec = document.getElementById('res-desc-section');
-  if (w.description) {
-    descSec.style.display = 'block';
-    document.getElementById('res-desc').textContent = w.description;
-  } else {
-    descSec.style.display = 'none';
-  }
-
-  // Verify time
-  const now2 = new Date();
-  document.getElementById('res-verify-time').textContent = t['verified-at'].replace('{t}',
-    now2.toLocaleTimeString(currentLang === 'en' ? 'en-GB' : 'tr-TR', {hour:'2-digit',minute:'2-digit'})
-  );
-}
-
-/* ══════════════════════════════════════════════
-   AUTO-SEARCH from URL param
-══════════════════════════════════════════════ */
-window.addEventListener('DOMContentLoaded', () => {
-  setLang('tr');
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id') || params.get('warranty');
-  if (id) {
-    document.getElementById('search-input').value = id;
+// ═══════════ INIT: read URL param ═══════════
+window.addEventListener('DOMContentLoaded',()=>{
+  const params=new URLSearchParams(window.location.search);
+  const token=params.get('id')||params.get('token')||'';
+  if(token){
+    document.getElementById('s-input').value=token.toUpperCase();
     doSearch();
   }
-  // Set company name
-  /* logo is static image, no update needed */
+  applyTranslations();
 });
+
+// ═══════════ SEARCH ═══════════
+async function doSearch(){
+  const val=document.getElementById('s-input').value.trim();
+  if(!val){document.getElementById('s-err').textContent='Lütfen bir kod girin.';document.getElementById('s-err').style.display='block';return;}
+  document.getElementById('s-err').style.display='none';
+  document.getElementById('s-btn').disabled=true;
+  showState('loading');
+
+  const {data,error}=await sb.rpc('get_warranty_public',{p_token:val});
+
+  document.getElementById('s-btn').disabled=false;
+
+  if(error||!data){showState('notfound');return;}
+
+  currentData=data;
+  renderData(data);
+  showState('warranty');
+}
+document.getElementById('s-input').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});
+
+// ═══════════ SHOW STATE ═══════════
+function showState(s){
+  document.getElementById('state-loading').style.display=s==='loading'?'block':'none';
+  document.getElementById('state-notfound').style.display=s==='notfound'?'block':'none';
+  document.getElementById('warranty-card').style.display=s==='warranty'?'block':'none';
+}
+
+// ═══════════ RENDER ═══════════
+function renderData(data){
+  const {warranty:w,product:p,customer:c,service_records:svc}=data;
+  const lang=currentLang;
+
+  // Product name
+  const pname=(lang==='en'?p.name_en:lang==='ar'?p.name_ar:p.name_tr)||p.name_tr||'—';
+
+  // Header
+  document.getElementById('wc-product').textContent=pname;
+  document.getElementById('wc-model').textContent=p.model||'';
+  document.getElementById('wc-code').textContent=w.warranty_code;
+
+  // Photo
+  const photoArea=document.getElementById('wc-photo-area');
+  if(p.photo_url){
+    photoArea.innerHTML=`<img src="${p.photo_url}" class="wcard-photo" alt="${pname}">`;
+  } else {
+    photoArea.innerHTML=`<div class="wcard-photo-placeholder">🔧</div>`;
+  }
+
+  // Status
+  const now=new Date();
+  const endDate=new Date(w.warranty_end);
+  const startDate=new Date(w.warranty_start||w.sale_date);
+  const totalDays=Math.max((endDate-startDate)/86400000,1);
+  const elapsed=(now-startDate)/86400000;
+  const pct=Math.min(Math.max((elapsed/totalDays)*100,0),100);
+  const daysLeft=Math.ceil((endDate-now)/86400000);
+
+  let statusClass='badge-active';
+  let statusTxt=t('status_active');
+  let fillClass='';
+  if(daysLeft<=0){statusClass='badge-expired';statusTxt=t('status_expired');fillClass='expired';}
+  else if(daysLeft<=30){statusClass='badge-warn';statusTxt=t('status_warn');fillClass='warn';}
+
+  document.getElementById('wc-status-badge').className='badge '+statusClass;
+  document.getElementById('wc-status-badge').textContent=statusTxt;
+  document.getElementById('wc-progress-fill').style.width=pct+'%';
+  document.getElementById('wc-progress-fill').className='progress-fill '+(fillClass||'');
+  document.getElementById('wc-start-lbl').textContent=fd(w.warranty_start,lang);
+  document.getElementById('wc-end-lbl').textContent=fd(w.warranty_end,lang);
+
+  // TAB: GARANTI
+  document.getElementById('g-code').textContent=w.warranty_code||'—';
+  document.getElementById('g-product').textContent=pname;
+  document.getElementById('g-model').textContent=p.model||'—';
+  document.getElementById('g-serial').textContent=w.serial_number||'—';
+  document.getElementById('g-sale').textContent=fd(w.sale_date,lang);
+  document.getElementById('g-start').textContent=fd(w.warranty_start,lang);
+  document.getElementById('g-end').textContent=fd(w.warranty_end,lang);
+  document.getElementById('g-status').innerHTML=`<span class="badge ${statusClass}">${statusTxt}</span>`;
+  if(daysLeft>0){
+    const mo=Math.floor(daysLeft/30);
+    const extra=mo>0?` (${mo}${t('months_left')})`:'';
+    document.getElementById('g-status').innerHTML+=`<span style="font-size:12px;color:var(--muted);margin-left:8px">${extra}</span>`;
+  }
+  document.getElementById('g-dealer').textContent=w.dealer||'—';
+  document.getElementById('g-customer').textContent=`${c.name||'—'}${c.city?' — '+c.city:''}`;
+
+  // TAB: BELGE
+  const docUrl=p.warranty_doc_url;
+  const docWrap=document.getElementById('b-doc-wrap');
+  const docActions=document.getElementById('b-doc-actions');
+  const noDoc=document.getElementById('b-no-doc');
+
+  if(docUrl){
+    noDoc.style.display='none';
+    if(docUrl.toLowerCase().endsWith('.pdf')){
+      docWrap.innerHTML=`<iframe src="${docUrl}" class="pdf-frame"></iframe>`;
+    } else {
+      docWrap.innerHTML=`<div style="text-align:center;padding:20px"><a href="${docUrl}" target="_blank" class="btn btn-primary">📄 ${t('b_view')}</a></div>`;
+    }
+    docActions.style.display='flex';
+    document.getElementById('b-view-btn').href=docUrl;
+    document.getElementById('b-dl-btn').href=docUrl;
+  } else {
+    noDoc.textContent=t('b_no_doc');
+    noDoc.style.display='block';
+    docActions.style.display='none';
+    docWrap.innerHTML='';
+  }
+
+  const terms=(lang==='en'?p.warranty_terms_en:lang==='ar'?p.warranty_terms_ar:p.warranty_terms_tr)||p.warranty_terms_tr;
+  document.getElementById('b-terms').textContent=terms||t('b_no_terms');
+  document.getElementById('b-terms').dir=lang==='ar'?'rtl':'ltr';
+  document.getElementById('b-disclaimer').textContent=t('disclaimer');
+
+  // TAB: SERVİS
+  const sList=document.getElementById('servis-list');
+  if(!svc||svc.length===0){
+    sList.innerHTML=`<div class="no-service">${t('s_no')}</div>`;
+  } else {
+    sList.innerHTML=svc.map(r=>`
+      <div class="service-item">
+        <div class="service-item-header">
+          <div>
+            <div class="service-date">📅 ${fd(r.service_date,lang)}</div>
+            ${r.technician?`<div class="service-tech">👤 ${r.technician}</div>`:''}
+          </div>
+        </div>
+        <div class="service-desc">${r.description}</div>
+        ${r.parts_changed?`<div class="service-parts">🔩 ${r.parts_changed}</div>`:''}
+      </div>`).join('');
+  }
+}
+
+// ═══════════ TABS ═══════════
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ═══════════ FORMAT DATE ═══════════
+function fd(d,lang){
+  if(!d)return'—';
+  const date=new Date(d);
+  if(lang==='en') return date.toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  if(lang==='ar') return date.toLocaleDateString('ar-SA',{day:'2-digit',month:'long',year:'numeric'});
+  return date.toLocaleDateString('tr-TR',{day:'2-digit',month:'long',year:'numeric'});
+}
 </script>
 </body>
 </html>

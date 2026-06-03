@@ -3,627 +3,371 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Garanti Admin Paneli</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>EMKA Garanti Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-:root {
-  --brand:#1a2332; --accent:#29abe2; --accent2:#1a2332;
-  --bg:#f0f2f5; --surface:#ffffff;
-  --surface2:#f8f9fb; --border:rgba(0,0,0,0.08);
-  --text:#1a2332; --muted:#6b7280;
-  --success:#10b981; --warn:#f59e0b; --danger:#ef4444;
-  --radius:14px; --radius-sm:8px;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#1a2332;--accent:#29abe2;--bg:#f0f2f5;--surface:#fff;
+  --border:#e5e7eb;--text:#1a2332;--muted:#6b7280;
+  --success:#10b981;--warn:#f59e0b;--danger:#ef4444;
+  --radius:12px;--shadow:0 1px 3px rgba(0,0,0,.08);
 }
-*{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
 /* LOGIN */
-#login-screen{
-  display:flex;align-items:center;justify-content:center;
-  min-height:100vh;
-  background: radial-gradient(ellipse at top, rgba(41,171,226,0.15) 0%, transparent 60%),
-              radial-gradient(ellipse at bottom left, rgba(26,35,50,0.3) 0%, transparent 60%),
-              #0f1520;
-}
-.login-card{
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:24px;
-  padding:48px 40px;
-  width:100%;max-width:400px;
-  text-align:center;
-}
-.login-logo{
-  font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:28px;font-weight:800;
-  margin-bottom:8px;
-}
-.login-logo span{color:var(--accent)}
-.login-sub{font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:36px;display:block}
-.login-card input{
-  width:100%;padding:14px 18px;
-  background:rgba(255,255,255,0.1);
-  border:1px solid rgba(255,255,255,0.2);
-  border-radius:10px;color:#fff;
-  font-size:15px;font-family:'Plus Jakarta Sans',sans-serif;
-  margin-bottom:12px;outline:none;
-  transition:border-color 0.2s;
-}
-.login-card input:focus{border-color:var(--accent)}
-.login-card input::placeholder{color:rgba(255,255,255,0.4)}
-.login-btn{
-  width:100%;padding:15px;
-  background:#29abe2;border:none;border-radius:10px;
-  color:#fff;font-size:14px;font-weight:700;
-  font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;letter-spacing:1px;
-  cursor:pointer;transition:background 0.2s;margin-top:4px;
-}
-.login-btn:hover{background:#1a90c8}
-.login-err{
-  background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);
-  border-radius:8px;padding:10px 14px;font-size:13px;color:#fca5a5;
-  margin-top:12px;display:none;
-}
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#0f1520 0%,#1a2d4a 100%)}
+.login-box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+  border-radius:20px;padding:44px 40px;width:380px;backdrop-filter:blur(20px)}
+.lbrand{text-align:center;margin-bottom:32px}
+.lbrand-name{font-size:34px;font-weight:800;letter-spacing:-1px;color:#fff}
+.lbrand-name span{color:#29abe2}
+.lbrand-sub{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:4px}
+.llabel{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  color:rgba(255,255,255,.4);display:block;margin-bottom:6px;margin-top:16px}
+.linput{width:100%;padding:12px 14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  border-radius:10px;color:#fff;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;
+  outline:none;transition:border-color .2s}
+.linput:focus{border-color:#29abe2}
+.linput::placeholder{color:rgba(255,255,255,.25)}
+.lbtn{width:100%;padding:13px;background:#29abe2;border:none;border-radius:10px;color:#fff;
+  font-size:14px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;
+  letter-spacing:1px;text-transform:uppercase;cursor:pointer;margin-top:24px;transition:background .2s}
+.lbtn:hover{background:#1a90c8}
+.lbtn:disabled{background:rgba(255,255,255,.2);cursor:not-allowed}
+.lerr{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:8px;
+  padding:10px 14px;font-size:13px;color:#fca5a5;margin-top:12px;display:none}
 
-/* LAYOUT */
+/* APP LAYOUT */
 #app{display:none}
-.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
 
 /* SIDEBAR */
-.sidebar{
-  background:#1a2332;
-  border-right:1px solid rgba(255,255,255,0.08);
-  padding:28px 20px;
-  display:flex;flex-direction:column;
-  position:sticky;top:0;height:100vh;overflow-y:auto;
-}
-.sidebar-logo{
-  font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;
-  padding:0 8px;margin-bottom:36px;color:#fff;
-}
-.sidebar-logo span{color:#29abe2}
-.nav-label{
-  font-size:10px;font-weight:600;letter-spacing:2px;
-  color:rgba(255,255,255,0.35);text-transform:uppercase;
-  padding:0 8px;margin-bottom:8px;margin-top:16px;
-}
-.nav-item{
-  display:flex;align-items:center;gap:10px;
-  padding:10px 12px;border-radius:10px;
-  cursor:pointer;transition:all 0.15s;
-  font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);
-  margin-bottom:2px;
-}
-.nav-item:hover{background:rgba(255,255,255,0.1);color:#fff}
-.nav-item.active{background:rgba(41,171,226,0.2);color:#29abe2}
-.nav-icon{font-size:16px;width:20px;text-align:center}
-.sidebar-footer{margin-top:auto;padding-top:20px;border-top:1px solid var(--border)}
-.sidebar-footer p{font-size:11px;color:rgba(255,255,255,0.3);padding:0 8px}
-.logout-btn{
-  width:100%;padding:10px;margin-top:10px;
-  background:transparent;border:1px solid rgba(255,255,255,0.15);
-  border-radius:8px;color:rgba(255,255,255,0.5);
-  font-size:12px;cursor:pointer;transition:all 0.2s;
-  font-family:'Plus Jakarta Sans',sans-serif;
-}
-.logout-btn:hover{border-color:var(--danger);color:var(--danger)}
+.sidebar{background:var(--brand);display:flex;flex-direction:column;padding:24px 14px;
+  position:sticky;top:0;height:100vh;overflow-y:auto}
+.sbrand{padding:0 8px;margin-bottom:32px}
+.sbrand-name{font-size:22px;font-weight:800;letter-spacing:-.5px;color:#fff}
+.sbrand-name span{color:#29abe2}
+.sbrand-sub{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:2px}
+.snav-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,.25);padding:0 8px;margin:20px 0 6px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;
+  font-size:13px;font-weight:600;color:rgba(255,255,255,.55);cursor:pointer;
+  transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:'Plus Jakarta Sans',sans-serif}
+.nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav-item.active{background:rgba(41,171,226,.2);color:#29abe2}
+.sfooter{margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.08)}
+.suser{font-size:11px;color:rgba(255,255,255,.35);padding:0 8px;margin-bottom:10px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logout-btn{width:100%;padding:9px 10px;background:none;border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;color:rgba(255,255,255,.4);font-size:12px;font-weight:600;cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s}
+.logout-btn:hover{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#fca5a5}
 
-/* MAIN CONTENT */
-.content{padding:36px 40px;overflow-y:auto}
+/* MAIN */
+.main{padding:32px 36px;overflow-y:auto}
 .page{display:none}
 .page.active{display:block}
-.page-header{margin-bottom:32px}
-.page-title{
-  font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:26px;
-  margin-bottom:6px;color:#1a2332;letter-spacing:-0.3px;
-}
-.page-sub{font-size:14px;color:#6b7280}
+.page-hdr{margin-bottom:28px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.page-title{font-size:26px;font-weight:800;letter-spacing:-.3px}
+.page-sub{font-size:14px;color:var(--muted);margin-top:3px}
 
-/* STAT CARDS */
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
-.stat-card{
-  background:#fff;border:1px solid #e5e7eb;
-  border-radius:var(--radius);padding:20px 22px;
-}
-.stat-card-label{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#9ca3af;margin-bottom:12px}
-.stat-card-value{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:32px;font-weight:800;line-height:1}
-.stat-card-sub{font-size:12px;color:var(--muted);margin-top:6px}
-.stat-accent{color:var(--accent)}
-.stat-success{color:var(--success)}
-.stat-warn{color:var(--warn)}
+/* STAT GRID */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px 22px;box-shadow:var(--shadow)}
+.stat-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px}
+.stat-val{font-size:32px;font-weight:800;line-height:1}
+.blue{color:#29abe2}.green{color:#10b981}.amber{color:#f59e0b}.red{color:#ef4444}
 
-/* TABLES */
-.table-wrap{
-  background:#fff;border:1px solid #e5e7eb;
-  border-radius:var(--radius);overflow:hidden;
-}
-.table-toolbar{
-  padding:16px 20px;display:flex;align-items:center;gap:12px;
-  border-bottom:1px solid #e5e7eb;
-}
-.table-search{
-  flex:1;padding:9px 14px;
-  background:#f9fafb;border:1px solid #e5e7eb;
-  border-radius:8px;color:#1a2332;font-size:13px;
-  font-family:'Plus Jakarta Sans',sans-serif;outline:none;
-}
-.table-search:focus{border-color:#29abe2}
-.table-search::placeholder{color:#9ca3af}
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
+.card-hdr{padding:14px 20px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.card-title{font-size:14px;font-weight:700;flex:1}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
-th{
-  padding:12px 16px;text-align:left;
-  font-size:10px;font-weight:700;letter-spacing:1.5px;
-  color:#6b7280;text-transform:uppercase;
-  border-bottom:1px solid #e5e7eb;
-}
-td{
-  padding:14px 16px;font-size:13px;color:#1a2332;font-weight:500;
-  border-bottom:1px solid #f3f4f6;
-}
+th{padding:11px 14px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:13px 14px;font-size:13px;font-weight:500;color:var(--text);border-bottom:1px solid #f3f4f6}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#f9fafb}
-.badge{
-  display:inline-block;padding:3px 10px;border-radius:20px;
-  font-size:11px;font-weight:600;
-}
-.badge-active{background:rgba(16,185,129,0.15);color:#6ee7b7}
-.badge-expired{background:rgba(239,68,68,0.15);color:#fca5a5}
-.badge-warn{background:rgba(245,158,11,0.15);color:#fde68a}
-.tbl-action{
-  background:none;border:1px solid #e5e7eb;
-  border-radius:6px;padding:5px 10px;font-size:11px;
-  color:#6b7280;cursor:pointer;
-  transition:all 0.15s;font-family:'Plus Jakarta Sans',sans-serif;
-  margin-left:4px;
-}
-.tbl-action:hover{border-color:#29abe2;color:#29abe2}
-.tbl-action.del:hover{border-color:var(--danger);color:var(--danger)}
-.empty-row td{text-align:center;padding:48px;color:var(--muted);font-size:13px}
+.erow td{text-align:center;color:var(--muted);font-size:13px;padding:40px}
 
-/* FORMS */
-.form-card{
-  background:#fff;border:1px solid #e5e7eb;
-  border-radius:var(--radius);padding:32px;margin-bottom:24px;
-}
-.form-title{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;font-weight:700;margin-bottom:24px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.form-group{display:flex;flex-direction:column;gap:6px}
-.form-group.full{grid-column:1/-1}
-label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#6b7280}
-input[type=text],input[type=date],input[type=number],select,textarea{
-  padding:11px 14px;
-  background:#f9fafb;border:1px solid #e5e7eb;
-  border-radius:8px;color:#1a2332;font-size:13px;
-  font-family:'Plus Jakarta Sans',sans-serif;outline:none;
-  transition:border-color 0.2s;
-}
-input:focus,select:focus,textarea:focus{border-color:rgba(233,69,96,0.6)}
-input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.2)}
-select option{background:#1a1a2e;color:#fff}
+/* INPUTS */
+.sinput{flex:1;min-width:180px;padding:9px 14px;background:#f9fafb;border:1px solid var(--border);
+  border-radius:8px;color:var(--text);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none}
+.sinput:focus{border-color:#29abe2;background:#fff}
+.sinput::placeholder{color:var(--muted)}
+
+/* BUTTONS */
+.btn{padding:9px 18px;border-radius:8px;font-size:13px;font-weight:700;
+  font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;border:none;
+  transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:#29abe2;color:#fff}
+.btn-primary:hover{background:#1a90c8}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--muted)}
+.btn-ghost:hover{border-color:#29abe2;color:#29abe2}
+.btn-sm{padding:5px 11px;font-size:11px;border-radius:6px}
+.btn-danger{background:none;border:1px solid #fecaca;color:#ef4444}
+.btn-danger:hover{background:#fef2f2}
+
+/* BADGES */
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.badge-active{background:#d1fae5;color:#065f46}
+.badge-expired{background:#fee2e2;color:#991b1b}
+.badge-warn{background:#fef3c7;color:#92400e}
+.m12{background:#fef3c7;color:#92400e}
+.m24{background:#d1fae5;color:#065f46}
+.m36{background:#dbeafe;color:#1e40af}
+.cat-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.ci0{background:#fce7f3;color:#9d174d}.ci1{background:#dbeafe;color:#1e40af}
+.ci2{background:#d1fae5;color:#065f46}.ci3{background:#fef3c7;color:#92400e}
+.ci4{background:#f3e8ff;color:#6b21a8}.ci5{background:#fee2e2;color:#991b1b}
+.ci6{background:#cffafe;color:#155e75}.ci7{background:#ffedd5;color:#9a3412}
+.ci8{background:#fdf4ff;color:#701a75}.ci9{background:#e0e7ff;color:#3730a3}
+.ci10{background:#f0fdf4;color:#14532d}
+
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.5);
+  align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
+.modal.open{display:flex}
+.mcard{background:#fff;border-radius:16px;width:100%;max-width:580px;padding:32px;position:relative;margin:auto}
+.mcard-lg{max-width:700px}
+.mtitle{font-size:18px;font-weight:800;color:var(--text);margin-bottom:24px}
+.mclose{position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;
+  color:var(--muted);cursor:pointer;padding:4px;line-height:1}
+.mclose:hover{color:var(--text)}
+
+/* FORM */
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fg{display:flex;flex-direction:column;gap:6px}
+.fg.full{grid-column:1/-1}
+label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+input[type=text],input[type=email],input[type=tel],input[type=date],
+input[type=number],input[type=password],select,textarea{
+  padding:10px 12px;background:#f9fafb;border:1.5px solid var(--border);
+  border-radius:8px;color:var(--text);font-size:13px;
+  font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border-color .15s;width:100%}
+input:focus,select:focus,textarea:focus{border-color:#29abe2;background:#fff}
+input:disabled{opacity:.5;cursor:not-allowed}
 textarea{resize:vertical;min-height:80px}
-.form-actions{display:flex;gap:12px;margin-top:8px}
-.btn{
-  padding:12px 24px;border-radius:10px;border:none;
-  font-size:13px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;
-  letter-spacing:0.5px;cursor:pointer;transition:all 0.2s;
-}
-.btn-accent{background:#29abe2;color:#fff}
-.btn-accent:hover{background:#1a90c8}
-.btn-outline{
-  background:transparent;color:rgba(255,255,255,0.5);
-  border:1px solid rgba(255,255,255,0.1);
-}
-.btn-outline:hover{border-color:rgba(255,255,255,0.3);color:#fff}
-.btn-success{background:var(--success);color:#fff}
-.btn-success:hover{background:#059669}
+.factions{display:flex;gap:10px;margin-top:24px;justify-content:flex-end}
 
-/* ALERTS */
-.alert{
-  padding:12px 16px;border-radius:10px;font-size:13px;
-  margin-bottom:16px;display:none;
-}
-.alert-success{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.2);color:#6ee7b7}
-.alert-error{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.2);color:#fca5a5}
-
-
-/* CATEGORY COLORS */
-.cat-badge {
-  display:inline-block; padding:2px 10px; border-radius:20px;
-  font-size:10px; font-weight:700; letter-spacing:0.3px;
-}
-.cat-cila      { background:#fce7f3; color:#9d174d; }
-.cat-eritme    { background:#fef3c7; color:#92400e; }
-.cat-istim     { background:#dbeafe; color:#1e40af; }
-.cat-rodaj     { background:#d1fae5; color:#065f46; }
-.cat-lavabo    { background:#e0e7ff; color:#3730a3; }
-.cat-hidrozon  { background:#fef9c3; color:#854d0e; }
-.cat-kaynak    { background:#fee2e2; color:#991b1b; }
-.cat-kurutma   { background:#f3e8ff; color:#6b21a8; }
-.cat-kumlama   { background:#ffedd5; color:#9a3412; }
-.cat-manyetik  { background:#cffafe; color:#155e75; }
-.cat-vakumlu   { background:#f0fdf4; color:#14532d; }
-.cat-silindir  { background:#fdf4ff; color:#701a75; }
-.cat-ultrasonik{ background:#eff6ff; color:#1d4ed8; }
-.cat-diger     { background:#f1f5f9; color:#475569; }
-
-/* WARRANTY MONTHS */
-.wmonths-12 { background:#fef3c7; color:#92400e; font-weight:700; }
-.wmonths-24 { background:#d1fae5; color:#065f46; font-weight:700; }
-
-/* EDIT PRODUCT MODAL */
-#edit-product-modal {
-  display:none; position:fixed; inset:0; z-index:1000;
-  background:rgba(0,0,0,0.7); align-items:center; justify-content:center;
-}
-#edit-product-modal.open { display:flex; }
-.edit-modal-card {
-  background:#fff; border:1px solid #e5e7eb;
-  border-radius:20px; padding:32px; width:100%; max-width:480px;
-  position:relative;
-}
-.edit-modal-title {
-  font-family:'Plus Jakarta Sans',sans-serif;font-weight:800; font-size:18px; font-weight:800;
-  color:#fff; margin-bottom:24px;
-}
-.edit-modal-close {
-  position:absolute; top:16px; right:16px;
-  background:none; border:none; color:#9ca3af;
-  font-size:20px; cursor:pointer; line-height:1;
-}
-.edit-modal-close:hover { color:#fff; }
+/* FILE UPLOAD */
+.fupload{border:2px dashed var(--border);border-radius:8px;padding:18px;text-align:center;
+  cursor:pointer;transition:border-color .15s;color:var(--muted);font-size:13px}
+.fupload:hover{border-color:#29abe2;color:#29abe2}
+.fprev{margin-top:6px;font-size:12px;color:var(--muted)}
 
 /* QR MODAL */
-.modal-overlay{
-  display:none;position:fixed;inset:0;z-index:100;
-  background:rgba(0,0,0,0.7);
-  align-items:center;justify-content:center;
-}
-.modal-overlay.open{display:flex}
-.modal{
-  background:#1a1a2e;border:1px solid rgba(255,255,255,0.1);
-  border-radius:20px;padding:36px;
-  width:90%;max-width:420px;text-align:center;
-}
-.modal h3{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;font-weight:700;margin-bottom:8px}
-.modal p{font-size:13px;color:var(--muted);margin-bottom:24px}
-#qr-display{
-  background:#fff;border-radius:12px;
-  padding:20px;display:inline-block;margin-bottom:20px;
-}
-.modal-btns{display:flex;gap:10px;justify-content:center}
-.modal-url{
-  font-size:11px;color:var(--muted);word-break:break-all;
-  background:rgba(255,255,255,0.04);border-radius:8px;
-  padding:10px 12px;margin-bottom:16px;text-align:left;
-  font-family:'IBM Plex Mono',monospace;
-}
+#modal-qr .mcard{max-width:340px;text-align:center}
+.qr-code-txt{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text);
+  background:#f3f4f6;padding:8px 14px;border-radius:6px;margin:12px 0;word-break:break-all}
+.qr-url-txt{font-size:11px;color:var(--muted);margin-bottom:16px;word-break:break-all}
 
-/* GITHUB SAVE STATUS */
-.save-status{
-  display:flex;align-items:center;gap:8px;
-  font-size:12px;color:var(--muted);
-  padding:8px 14px;background:var(--surface);
-  border:1px solid var(--border);border-radius:8px;
-  width:fit-content;
-}
-.save-dot{width:8px;height:8px;border-radius:50%;background:var(--success)}
-.save-dot.syncing{background:var(--warn);animation:pulse 1s ease-in-out infinite}
-.save-dot.error{background:var(--danger)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+/* TOAST */
+#toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--brand);color:#fff;
+  padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;
+  box-shadow:0 4px 20px rgba(0,0,0,.2);transform:translateY(100px);opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.ok{background:#10b981}
+#toast.err{background:#ef4444}
 
-/* SETTINGS */
-.settings-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-.settings-note{font-size:12px;color:var(--muted);margin-top:4px}
+/* MONO */
+.mono{font-family:'IBM Plex Mono',monospace;font-size:12px}
 
-@media(max-width:900px){
-  .layout{grid-template-columns:1fr}
-  .sidebar{display:none}
-  .stat-grid{grid-template-columns:1fr 1fr}
-  .form-grid{grid-template-columns:1fr}
-}
+/* PHOTO THUMB */
+.pthumb{width:38px;height:38px;object-fit:cover;border-radius:6px;border:1px solid var(--border)}
+
+/* LOADING SPINNER */
+.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SECTION DIVIDER */
+.sdiv{height:1px;background:var(--border);margin:20px 0}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- ═══════════════════ LOGIN ═══════════════════ -->
 <div id="login-screen">
-  <div class="login-card">
-    <div class="login-logo"><span style="color:#fff;font-size:32px;font-weight:800;letter-spacing:-1px">EM<span style="color:#29abe2">KA</span></span></div>
-    <div class="login-sub">Yönetim paneline erişim</div>
-    <input type="password" id="login-pass" placeholder="Şifre" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn" onclick="doLogin()">GİRİŞ YAP</button>
-    <div class="login-err" id="login-err">Hatalı şifre</div>
+  <div class="login-box">
+    <div class="lbrand">
+      <div class="lbrand-name">EM<span>KA</span></div>
+      <div class="lbrand-sub">Garanti Yönetim Sistemi</div>
+    </div>
+    <label class="llabel">E-posta</label>
+    <input type="email" id="l-email" class="linput" placeholder="admin@emka.com" autocomplete="email">
+    <label class="llabel">Şifre</label>
+    <input type="password" id="l-pass" class="linput" placeholder="••••••••" autocomplete="current-password">
+    <button class="lbtn" id="l-btn" onclick="doLogin()">GİRİŞ YAP</button>
+    <div class="lerr" id="l-err"></div>
   </div>
 </div>
 
-<!-- APP -->
+<!-- ═══════════════════ APP ═══════════════════ -->
 <div id="app">
   <div class="layout">
-
-    <!-- SIDEBAR -->
     <aside class="sidebar">
-      <div class="sidebar-logo"><span style="color:#fff;font-size:20px;font-weight:800;letter-spacing:-0.5px">EM<span style="color:#29abe2">KA</span></span><span style="color:rgba(255,255,255,0.35);font-size:9px;display:block;letter-spacing:2px;text-transform:uppercase;margin-top:2px">Garanti Sistemi</span></div>
-
-      <div class="nav-label">Yönetim</div>
-      <div class="nav-item active" onclick="showPage('dashboard')">
-        <span class="nav-icon">📊</span> Dashboard
+      <div class="sbrand">
+        <div class="sbrand-name">EM<span>KA</span></div>
+        <div class="sbrand-sub">Garanti Sistemi</div>
       </div>
-      <div class="nav-item" onclick="showPage('warranties')">
-        <span class="nav-icon">📋</span> Garanti Kayıtları
-      </div>
-      <div class="nav-item" onclick="showPage('products')">
-        <span class="nav-icon">📦</span> Ürün Kataloğu
-      </div>
-      <div class="nav-item" onclick="showPage('add-warranty')">
-        <span class="nav-icon">➕</span> Yeni Garanti
-      </div>
-      <div class="nav-item" onclick="showPage('add-product')">
-        <span class="nav-icon">📦</span> Yeni Ürün
-      </div>
-
-      <div class="nav-label">Sistem</div>
-      <div class="nav-item" onclick="showPage('settings')">
-        <span class="nav-icon">⚙️</span> Ayarlar
-      </div>
-
-      <div class="sidebar-footer">
-        <div id="save-status-sidebar" class="save-status">
-          <div class="save-dot" id="save-dot"></div>
-          <span id="save-text">Bağlı</span>
-        </div>
-        <button class="logout-btn" onclick="doLogout()">Çıkış Yap</button>
+      <div class="snav-lbl">Yönetim</div>
+      <button class="nav-item active" data-page="dashboard">📊 Dashboard</button>
+      <button class="nav-item" data-page="warranties">🛡️ Garanti Kayıtları</button>
+      <button class="nav-item" data-page="customers">👥 Müşteriler</button>
+      <div class="snav-lbl">Katalog</div>
+      <button class="nav-item" data-page="products">📦 Ürün Kataloğu</button>
+      <button class="nav-item" data-page="categories">🏷️ Kategoriler</button>
+      <div class="snav-lbl">Servis</div>
+      <button class="nav-item" data-page="service">🔧 Servis Kayıtları</button>
+      <div class="snav-lbl">Sistem</div>
+      <button class="nav-item" data-page="settings">⚙️ Ayarlar</button>
+      <div class="sfooter">
+        <div class="suser" id="s-email">—</div>
+        <button class="logout-btn" onclick="doLogout()">🚪 Çıkış Yap</button>
       </div>
     </aside>
 
-    <!-- CONTENT -->
-    <main class="content">
+    <main class="main">
 
       <!-- DASHBOARD -->
       <div id="page-dashboard" class="page active">
-        <div class="page-header">
-          <div class="page-title">Dashboard</div>
-          <div class="page-sub" id="dash-date">—</div>
+        <div class="page-hdr">
+          <div><div class="page-title">Dashboard</div><div class="page-sub" id="dash-date"></div></div>
+          <button class="btn btn-primary" onclick="navigate('warranties');openModal('warranty')">+ Yeni Garanti</button>
         </div>
         <div class="stat-grid">
-          <div class="stat-card">
-            <div class="stat-card-label">Toplam Garanti</div>
-            <div class="stat-card-value" id="stat-total">0</div>
-            <div class="stat-card-sub">kayıt</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-label">Aktif</div>
-            <div class="stat-card-value stat-success" id="stat-active">0</div>
-            <div class="stat-card-sub">geçerli garanti</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-label">Bu ay bitiyor</div>
-            <div class="stat-card-value stat-warn" id="stat-expiring">0</div>
-            <div class="stat-card-sub">30 gün içinde</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-label">Ürün Çeşidi</div>
-            <div class="stat-card-value stat-accent" id="stat-products">0</div>
-            <div class="stat-card-sub">katalogda</div>
-          </div>
+          <div class="stat-card"><div class="stat-lbl">Toplam Garanti</div><div class="stat-val blue" id="st-total">—</div></div>
+          <div class="stat-card"><div class="stat-lbl">Aktif</div><div class="stat-val green" id="st-active">—</div></div>
+          <div class="stat-card"><div class="stat-lbl">Bu Ay Bitiyor</div><div class="stat-val amber" id="st-expiring">—</div></div>
+          <div class="stat-card"><div class="stat-lbl">Süresi Dolan</div><div class="stat-val red" id="st-expired">—</div></div>
         </div>
-
-        <div class="table-wrap">
-          <div class="table-toolbar">
-            <span style="font-size:13px;font-weight:600">Son Eklenen Garantiler</span>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>Kod</th><th>Ürün</th><th>Müşteri</th><th>Bitiş</th><th>Durum</th>
-              </tr>
-            </thead>
-            <tbody id="dash-table">
-              <tr class="empty-row"><td colspan="5">Henüz kayıt yok</td></tr>
-            </tbody>
-          </table>
+        <div class="card">
+          <div class="card-hdr"><div class="card-title">Son Garanti Kayıtları</div></div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Kod</th><th>Ürün</th><th>Müşteri</th><th>Bitiş</th><th>Durum</th><th></th></tr></thead>
+            <tbody id="dash-tbl"><tr class="erow"><td colspan="6">Yükleniyor...</td></tr></tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-title">⚠️ Bu Ay Biten Garantiler</div></div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Kod</th><th>Ürün</th><th>Müşteri</th><th>Bitiş Tarihi</th><th></th></tr></thead>
+            <tbody id="expiring-tbl"><tr class="erow"><td colspan="5">—</td></tr></tbody>
+          </table></div>
         </div>
       </div>
 
-      <!-- WARRANTY LIST -->
+      <!-- WARRANTIES -->
       <div id="page-warranties" class="page">
-        <div class="page-header">
-          <div class="page-title">Garanti Kayıtları</div>
-          <div class="page-sub">Tüm garanti belgelerini görüntüle ve yönet</div>
+        <div class="page-hdr">
+          <div><div class="page-title">Garanti Kayıtları</div><div class="page-sub">Tüm garanti belgeleri</div></div>
+          <button class="btn btn-primary" onclick="openModal('warranty')">+ Yeni Garanti</button>
         </div>
-        <div class="table-wrap">
-          <div class="table-toolbar">
-            <input class="table-search" type="text" placeholder="Ara (müşteri, kod, seri no...)" oninput="filterWarranties(this.value)">
-            <button class="btn btn-accent" onclick="showPage('add-warranty')" style="white-space:nowrap;padding:9px 18px">+ Yeni Garanti</button>
+        <div class="card">
+          <div class="card-hdr">
+            <input class="sinput" placeholder="Kod, müşteri, ürün, seri no ara..." oninput="filterTbl('w-tbl',this.value,[0,1,2,3])">
           </div>
-          <table>
-            <thead>
-              <tr><th>Kod</th><th>Ürün</th><th>Müşteri</th><th>Satış</th><th>Bitiş</th><th>Durum</th><th>İşlem</th></tr>
-            </thead>
-            <tbody id="warranty-table">
-              <tr class="empty-row"><td colspan="7">Yükleniyor...</td></tr>
-            </tbody>
-          </table>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Kod</th><th>Ürün</th><th>Müşteri</th><th>Seri No</th><th>Bitiş</th><th>Durum</th><th>İşlem</th></tr></thead>
+            <tbody id="w-tbl"><tr class="erow"><td colspan="7">Yükleniyor...</td></tr></tbody>
+          </table></div>
         </div>
       </div>
 
-      <!-- PRODUCT LIST -->
+      <!-- CUSTOMERS -->
+      <div id="page-customers" class="page">
+        <div class="page-hdr">
+          <div><div class="page-title">Müşteriler</div><div class="page-sub">Müşteri veritabanı</div></div>
+          <button class="btn btn-primary" onclick="openModal('customer')">+ Yeni Müşteri</button>
+        </div>
+        <div class="card">
+          <div class="card-hdr">
+            <input class="sinput" placeholder="İsim, telefon, şehir ara..." oninput="filterTbl('c-tbl',this.value,[0,1,2])">
+          </div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>İsim</th><th>Telefon</th><th>Şehir</th><th>Ülke</th><th>Garanti</th><th>İşlem</th></tr></thead>
+            <tbody id="c-tbl"><tr class="erow"><td colspan="6">Yükleniyor...</td></tr></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS -->
       <div id="page-products" class="page">
-        <div class="page-header">
-          <div class="page-title">Ürün Kataloğu</div>
-          <div class="page-sub">Garanti oluşturulabilecek ürünler</div>
+        <div class="page-hdr">
+          <div><div class="page-title">Ürün Kataloğu</div><div class="page-sub">Makine ve ekipman kataloğu</div></div>
+          <button class="btn btn-primary" onclick="openModal('product')">+ Yeni Ürün</button>
         </div>
-        <div class="table-wrap">
-          <div class="table-toolbar">
-            <input class="table-search" type="text" placeholder="Ürün ara..." oninput="filterProducts(this.value)">
-            <button class="btn btn-accent" onclick="showPage('add-product')" style="white-space:nowrap;padding:9px 18px">+ Yeni Ürün</button>
+        <div class="card">
+          <div class="card-hdr">
+            <input class="sinput" placeholder="Ürün adı, model, kategori ara..." oninput="filterTbl('p-tbl',this.value,[1,2,3])">
           </div>
-          <table>
-            <thead>
-              <tr><th>ID</th><th>Ürün Adı</th><th>Kategori</th><th>Standart Garanti</th><th>İşlem</th></tr>
-            </thead>
-            <tbody id="product-table">
-              <tr class="empty-row"><td colspan="5">Yükleniyor...</td></tr>
-            </tbody>
-          </table>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Foto</th><th>Ürün Adı (TR)</th><th>Model</th><th>Kategori</th><th>Garanti</th><th>Belge</th><th>İşlem</th></tr></thead>
+            <tbody id="p-tbl"><tr class="erow"><td colspan="7">Yükleniyor...</td></tr></tbody>
+          </table></div>
         </div>
       </div>
 
-      <!-- ADD WARRANTY -->
-      <div id="page-add-warranty" class="page">
-        <div class="page-header">
-          <div class="page-title">Yeni Garanti Kaydı</div>
-          <div class="page-sub">Satış sonrası garanti belgesi oluştur</div>
+      <!-- CATEGORIES -->
+      <div id="page-categories" class="page">
+        <div class="page-hdr">
+          <div><div class="page-title">Kategoriler</div><div class="page-sub">Ürün kategorileri</div></div>
+          <button class="btn btn-primary" onclick="openModal('category')">+ Yeni Kategori</button>
         </div>
-        <div class="alert alert-success" id="wform-ok">✓ Garanti başarıyla kaydedildi ve GitHub'a yüklendi.</div>
-        <div class="alert alert-error" id="wform-err">✕ Kayıt sırasında hata oluştu. Ayarları kontrol edin.</div>
-        <div class="form-card">
-          <div class="form-title">Müşteri & Ürün Bilgileri</div>
-          <div class="form-grid">
-            <div class="form-group">
-              <label>Garanti Kodu *</label>
-              <input type="text" id="w-id" placeholder="Otomatik üretilecek (değiştirilebilir)">
-            </div>
-            <div class="form-group">
-              <label>Ürün *</label>
-              <select id="w-product" onchange="fillWarrantyMonths()">
-                <option value="">-- Ürün seçin --</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Seri Numarası</label>
-              <input type="text" id="w-serial" placeholder="Makine seri no">
-            </div>
-            <div class="form-group">
-              <label>Model</label>
-              <input type="text" id="w-model" placeholder="Ürün modeli">
-            </div>
-            <div class="form-group">
-              <label>Müşteri Adı *</label>
-              <input type="text" id="w-customer" oninput="updateWarrantyIdFromCustomer()" placeholder="Ad Soyad / Firma">
-            </div>
-            <div class="form-group">
-              <label>Müşteri Tel / E-posta</label>
-              <input type="text" id="w-contact" placeholder="İletişim bilgisi">
-            </div>
-            <div class="form-group">
-              <label>Satış Tarihi *</label>
-              <input type="date" id="w-start">
-            </div>
-            <div class="form-group">
-              <label>Garanti Süresi (Ay) *</label>
-              <input type="number" id="w-months" value="24" min="1" max="120" onchange="calcEnd()">
-            </div>
-            <div class="form-group">
-              <label>Garanti Bitiş (otomatik)</label>
-              <input type="date" id="w-end" readonly style="opacity:0.5">
-            </div>
-            <div class="form-group">
-              <label>Yetkili Satıcı</label>
-              <input type="text" id="w-dealer" placeholder="Varsayılan: şirket adı">
-            </div>
-            <div class="form-group full">
-              <label>Kapsam / Notlar</label>
-              <textarea id="w-desc" placeholder="Garanti kapsamı, özel koşullar..."></textarea>
-            </div>
-          </div>
-          <div class="form-actions">
-            <button class="btn btn-accent" onclick="saveWarranty()">💾 Kaydet & GitHub'a Yükle</button>
-            <button class="btn btn-outline" onclick="resetWForm()">Temizle</button>
-          </div>
+        <div class="card">
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>TR</th><th>EN</th><th>AR</th><th>Sıra</th><th>İşlem</th></tr></thead>
+            <tbody id="cat-tbl"><tr class="erow"><td colspan="5">Yükleniyor...</td></tr></tbody>
+          </table></div>
         </div>
       </div>
 
-      <!-- ADD PRODUCT -->
-      <div id="page-add-product" class="page">
-        <div class="page-header">
-          <div class="page-title">Yeni Ürün</div>
-          <div class="page-sub">Ürün kataloğuna ekle</div>
+      <!-- SERVICE -->
+      <div id="page-service" class="page">
+        <div class="page-hdr">
+          <div><div class="page-title">Servis Kayıtları</div><div class="page-sub">Tüm servis ve bakım kayıtları</div></div>
+          <button class="btn btn-primary" onclick="openModal('service')">+ Yeni Servis Kaydı</button>
         </div>
-        <div class="alert alert-success" id="pform-ok">✓ Ürün başarıyla eklendi.</div>
-        <div class="alert alert-error" id="pform-err">✕ Hata oluştu.</div>
-        <div class="form-card">
-          <div class="form-title">Ürün Bilgileri</div>
-          <div class="form-grid">
-            <div class="form-group">
-              <label>Ürün ID *</label>
-              <input type="text" id="p-id" placeholder="Otomatik üretilecek">
-            </div>
-            <div class="form-group">
-              <label>Ürün Adı *</label>
-              <input type="text" id="p-name" placeholder="Ürün / Makine adı">
-            </div>
-            <div class="form-group">
-              <label>Kategori</label>
-              <input type="text" id="p-category" placeholder="Örn: Tekstil Makinesi">
-            </div>
-            <div class="form-group">
-              <label>Standart Garanti (Ay)</label>
-              <input type="number" id="p-months" value="24" min="1">
-            </div>
-            <div class="form-group full">
-              <label>Açıklama</label>
-              <textarea id="p-desc" placeholder="Ürün açıklaması, teknik bilgiler..."></textarea>
-            </div>
+        <div class="card">
+          <div class="card-hdr">
+            <input class="sinput" placeholder="Garanti kodu, açıklama, teknisyen ara..." oninput="filterTbl('s-tbl',this.value,[0,1,2,3])">
           </div>
-          <div class="form-actions">
-            <button class="btn btn-accent" onclick="saveProduct()">💾 Kaydet & GitHub'a Yükle</button>
-            <button class="btn btn-outline" onclick="resetPForm()">Temizle</button>
-          </div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Garanti</th><th>Ürün</th><th>Müşteri</th><th>Tarih</th><th>Açıklama</th><th>Teknisyen</th><th>Ücret</th><th>İşlem</th></tr></thead>
+            <tbody id="s-tbl"><tr class="erow"><td colspan="8">Yükleniyor...</td></tr></tbody>
+          </table></div>
         </div>
       </div>
 
       <!-- SETTINGS -->
       <div id="page-settings" class="page">
-        <div class="page-header">
-          <div class="page-title">Ayarlar</div>
-          <div class="page-sub">GitHub ve sistem yapılandırması</div>
+        <div class="page-hdr"><div><div class="page-title">Ayarlar</div></div></div>
+        <div class="card" style="max-width:480px">
+          <div class="card-hdr"><div class="card-title">🔑 Şifre Değiştir</div></div>
+          <div style="padding:24px">
+            <div class="fgrid">
+              <div class="fg full"><label>Yeni Şifre</label><input type="password" id="np1" placeholder="En az 8 karakter"></div>
+              <div class="fg full"><label>Şifre Tekrar</label><input type="password" id="np2" placeholder="Tekrar girin"></div>
+            </div>
+            <div class="factions"><button class="btn btn-primary" onclick="changePass()">Şifreyi Güncelle</button></div>
+          </div>
         </div>
-        <div class="form-card">
-          <div class="form-title">🔧 GitHub Bağlantısı</div>
-          <div class="settings-row">
-            <div class="form-group">
-              <label>GitHub Kullanıcı Adı</label>
-              <input type="text" id="cfg-user" placeholder="kullaniciadi">
-            </div>
-            <div class="form-group">
-              <label>Repository Adı</label>
-              <input type="text" id="cfg-repo" placeholder="garanti-sistemi">
-            </div>
-            <div class="form-group">
-              <label>GitHub Token (PAT)</label>
-              <input type="text" id="cfg-token" placeholder="ghp_xxxxxxxxxxxx">
-              <div class="settings-note">GitHub → Settings → Developer Settings → Personal Access Tokens → Fine-grained → repo write yetkisi ver</div>
-            </div>
-            <div class="form-group">
-              <label>Şirket Adı</label>
-              <input type="text" id="cfg-company" placeholder="Şirketinizin adı">
-            </div>
-            <div class="form-group">
-              <label>Garanti Doğrulama URL</label>
-              <input type="text" id="cfg-url" placeholder="https://garanti.siteniz.com/verify.html">
-              <div class="settings-note">QR kodlar bu URL'e yönlendirilir</div>
-            </div>
-            <div class="form-group">
-              <label>Admin Şifresi (değiştir)</label>
-              <input type="text" id="cfg-pass" placeholder="Boş bırakırsanız değişmez">
-            </div>
+        <div class="card" style="max-width:480px">
+          <div class="card-hdr"><div class="card-title">💾 Veri Yedekleme</div></div>
+          <div style="padding:24px">
+            <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Tüm garanti, müşteri ve servis kayıtlarını JSON olarak indir.</p>
+            <button class="btn btn-ghost" onclick="exportData()">⬇️ JSON Yedek İndir</button>
           </div>
-          <div class="form-actions">
-            <button class="btn btn-accent" onclick="saveSettings()">💾 Ayarları Kaydet</button>
-            <button class="btn btn-success" onclick="testConnection()">🔗 Bağlantıyı Test Et</button>
-          </div>
-          <div class="alert alert-success" id="cfg-ok" style="margin-top:16px">✓ Ayarlar kaydedildi.</div>
-          <div class="alert alert-error" id="cfg-err" style="margin-top:16px">✕ GitHub bağlantısı başarısız.</div>
-        </div>
-
-        <div class="form-card">
-          <div class="form-title">📥 Veri Yönetimi</div>
-          <div class="form-actions">
-            <button class="btn btn-outline" onclick="exportData()">📥 JSON Olarak İndir (Yedek)</button>
-            <button class="btn btn-outline" onclick="importData()">📤 JSON Yükle (Geri Yükle)</button>
-          </div>
-          <input type="file" id="import-file" accept=".json" style="display:none" onchange="handleImport(event)">
         </div>
       </div>
 
@@ -631,620 +375,638 @@ textarea{resize:vertical;min-height:80px}
   </div>
 </div>
 
-<!-- QR MODAL -->
-<div class="modal-overlay" id="qr-modal">
-  <div class="modal">
-    <h3>📱 QR Kod</h3>
-    <p id="qr-subtitle">Müşteri bu kodu tarayarak garantisini görebilir</p>
-    <div id="qr-display"></div>
-    <div class="modal-url" id="qr-url-text">—</div>
-    <div class="modal-btns">
-      <button class="btn btn-accent" onclick="downloadQR()">İndir (PNG)</button>
-      <button class="btn btn-outline" onclick="closeQR()">Kapat</button>
+<!-- ════ MODAL: WARRANTY ════ -->
+<div class="modal" id="modal-warranty">
+  <div class="mcard mcard-lg">
+    <button class="mclose" onclick="closeModal('warranty')">✕</button>
+    <div class="mtitle" id="w-modal-title">Yeni Garanti Kaydı</div>
+    <div class="fgrid">
+      <div class="fg"><label>Garanti Kodu</label><input type="text" id="w-code" disabled placeholder="Otomatik üretilir"></div>
+      <div class="fg"><label>Seri Numarası</label><input type="text" id="w-serial" placeholder="SN-XXXX"></div>
+      <div class="fg full"><label>Ürün *</label>
+        <select id="w-product" onchange="onProductChange()"><option value="">— Ürün seçin —</option></select>
+      </div>
+      <div class="fg full"><label>Müşteri *</label>
+        <select id="w-customer" onchange="onCustChange()">
+          <option value="">— Müşteri seçin —</option>
+          <option value="__new__">➕ Yeni müşteri ekle</option>
+        </select>
+      </div>
+      <div id="new-cust-fields" style="display:none;grid-column:1/-1">
+        <div class="fgrid" style="border:1px solid #e0f0fb;border-radius:10px;padding:16px;background:#f0f9ff">
+          <div class="fg"><label>Müşteri Adı *</label><input type="text" id="nc-name" placeholder="Ad Soyad"></div>
+          <div class="fg"><label>Telefon</label><input type="tel" id="nc-phone" placeholder="+90 5XX XXX XX XX"></div>
+          <div class="fg"><label>Şehir</label><input type="text" id="nc-city" placeholder="İstanbul"></div>
+          <div class="fg"><label>Ülke</label><input type="text" id="nc-country" value="TR"></div>
+        </div>
+      </div>
+      <div class="fg"><label>Satış Tarihi *</label><input type="date" id="w-sdate" onchange="calcEnd()"></div>
+      <div class="fg"><label>Garanti Süresi (ay)</label><input type="number" id="w-months" value="24" min="1" max="120" onchange="calcEnd()"></div>
+      <div class="fg"><label>Garanti Başlangıç</label><input type="date" id="w-start"></div>
+      <div class="fg"><label>Garanti Bitiş</label><input type="date" id="w-end"></div>
+      <div class="fg full"><label>Bayi / Satıcı</label><input type="text" id="w-dealer" value="EMKA Kuyumculuk Malzeme ve Makinaları"></div>
+      <div class="fg"><label>Fiyat (₺)</label><input type="number" id="w-price" placeholder="0.00" step="0.01"></div>
+      <div class="fg"><label>Ödeme Durumu</label>
+        <select id="w-payment"><option value="">—</option><option value="paid">Ödendi</option><option value="partial">Kısmi</option><option value="pending">Bekliyor</option></select>
+      </div>
+      <div class="fg full"><label>İç Not (müşteriye görünmez)</label><textarea id="w-note" placeholder="Dahili notlar..."></textarea></div>
+    </div>
+    <div class="factions">
+      <button class="btn btn-ghost" onclick="closeModal('warranty')">İptal</button>
+      <button class="btn btn-primary" onclick="saveWarranty()">💾 Kaydet</button>
     </div>
   </div>
 </div>
 
+<!-- ════ MODAL: CUSTOMER ════ -->
+<div class="modal" id="modal-customer">
+  <div class="mcard">
+    <button class="mclose" onclick="closeModal('customer')">✕</button>
+    <div class="mtitle" id="c-modal-title">Yeni Müşteri</div>
+    <div class="fgrid">
+      <div class="fg full"><label>Ad Soyad *</label><input type="text" id="c-name" placeholder="Mehmet Yılmaz"></div>
+      <div class="fg"><label>Telefon</label><input type="tel" id="c-phone" placeholder="+90 5XX XXX XX XX"></div>
+      <div class="fg"><label>E-posta</label><input type="email" id="c-email" placeholder="ornek@mail.com"></div>
+      <div class="fg"><label>Şehir</label><input type="text" id="c-city" placeholder="İstanbul"></div>
+      <div class="fg"><label>Ülke</label><input type="text" id="c-country" value="TR"></div>
+      <div class="fg full"><label>Notlar</label><textarea id="c-notes" placeholder="Müşteri notları..."></textarea></div>
+    </div>
+    <div class="factions">
+      <button class="btn btn-ghost" onclick="closeModal('customer')">İptal</button>
+      <button class="btn btn-primary" onclick="saveCustomer()">💾 Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: PRODUCT ════ -->
+<div class="modal" id="modal-product">
+  <div class="mcard mcard-lg">
+    <button class="mclose" onclick="closeModal('product')">✕</button>
+    <div class="mtitle" id="p-modal-title">Yeni Ürün</div>
+    <div class="fgrid">
+      <div class="fg full"><label>Kategori</label><select id="p-cat"></select></div>
+      <div class="fg"><label>Ürün Adı (TR) *</label><input type="text" id="p-tr" placeholder="Ultrasonic Temizlik Makinesi"></div>
+      <div class="fg"><label>Ürün Adı (EN)</label><input type="text" id="p-en" placeholder="Ultrasonic Cleaning Machine"></div>
+      <div class="fg full"><label>Ürün Adı (AR)</label><input type="text" id="p-ar" placeholder="ماكينة التنظيف" dir="rtl"></div>
+      <div class="fg"><label>Model</label><input type="text" id="p-model" placeholder="UTS-3000 Pro"></div>
+      <div class="fg"><label>Standart Garanti (ay)</label><input type="number" id="p-months" value="24" min="1"></div>
+      <div class="fg full"><label>Ürün Açıklaması (TR)</label><textarea id="p-desc" placeholder="Kısa açıklama..."></textarea></div>
+      <div class="fg full"><label>Garanti Şartları (TR)</label><textarea id="p-terms-tr" rows="4" placeholder="Garanti şartları ve koşulları..."></textarea></div>
+      <div class="fg full"><label>Garanti Şartları (EN)</label><textarea id="p-terms-en" rows="4" placeholder="Warranty terms and conditions..."></textarea></div>
+      <div class="fg full"><label>Garanti Şartları (AR)</label><textarea id="p-terms-ar" rows="4" placeholder="شروط وأحكام الضمان..." dir="rtl"></textarea></div>
+      <div class="fg full">
+        <label>Ürün Fotoğrafı</label>
+        <div class="fupload" onclick="document.getElementById('p-photo-file').click()">📷 Fotoğraf yükle (JPG/PNG, max 2MB)</div>
+        <input type="file" id="p-photo-file" accept="image/*" style="display:none" onchange="prevFile(this,'p-photo-prev')">
+        <div class="fprev" id="p-photo-prev"></div>
+        <input type="hidden" id="p-photo-url">
+      </div>
+      <div class="fg full">
+        <label>Garanti Belgesi (PDF)</label>
+        <div class="fupload" onclick="document.getElementById('p-doc-file').click()">📄 PDF yükle (max 10MB)</div>
+        <input type="file" id="p-doc-file" accept=".pdf" style="display:none" onchange="prevFile(this,'p-doc-prev')">
+        <div class="fprev" id="p-doc-prev"></div>
+        <input type="hidden" id="p-doc-url">
+      </div>
+    </div>
+    <div class="factions">
+      <button class="btn btn-ghost" onclick="closeModal('product')">İptal</button>
+      <button class="btn btn-primary" onclick="saveProduct()">💾 Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: CATEGORY ════ -->
+<div class="modal" id="modal-category">
+  <div class="mcard">
+    <button class="mclose" onclick="closeModal('category')">✕</button>
+    <div class="mtitle" id="cat-modal-title">Yeni Kategori</div>
+    <div class="fgrid">
+      <div class="fg full"><label>Kategori Adı (TR) *</label><input type="text" id="cat-tr" placeholder="Cila Makineleri"></div>
+      <div class="fg full"><label>Kategori Adı (EN)</label><input type="text" id="cat-en" placeholder="Polishing Machines"></div>
+      <div class="fg full"><label>Kategori Adı (AR)</label><input type="text" id="cat-ar" placeholder="ماكينات التلميع" dir="rtl"></div>
+      <div class="fg full"><label>Sıra No</label><input type="number" id="cat-ord" value="0"></div>
+    </div>
+    <div class="factions">
+      <button class="btn btn-ghost" onclick="closeModal('category')">İptal</button>
+      <button class="btn btn-primary" onclick="saveCategory()">💾 Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: SERVICE ════ -->
+<div class="modal" id="modal-service">
+  <div class="mcard">
+    <button class="mclose" onclick="closeModal('service')">✕</button>
+    <div class="mtitle" id="sr-modal-title">Yeni Servis Kaydı</div>
+    <div class="fgrid">
+      <div class="fg full"><label>Garanti Kaydı *</label><select id="sr-warr"><option value="">— Garanti seçin —</option></select></div>
+      <div class="fg"><label>Servis Tarihi *</label><input type="date" id="sr-date"></div>
+      <div class="fg"><label>Teknisyen</label><input type="text" id="sr-tech" placeholder="Teknisyen adı"></div>
+      <div class="fg full"><label>Açıklama *</label><textarea id="sr-desc" placeholder="Yapılan işlem, arıza açıklaması..."></textarea></div>
+      <div class="fg full"><label>Değiştirilen Parçalar</label><textarea id="sr-parts" placeholder="Parça adları..."></textarea></div>
+      <div class="fg"><label>Servis Ücreti (₺)</label><input type="number" id="sr-cost" placeholder="0.00" step="0.01"></div>
+    </div>
+    <div class="factions">
+      <button class="btn btn-ghost" onclick="closeModal('service')">İptal</button>
+      <button class="btn btn-primary" onclick="saveService()">💾 Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: QR ════ -->
+<div class="modal" id="modal-qr">
+  <div class="mcard" style="max-width:360px;text-align:center">
+    <button class="mclose" onclick="closeModal('qr')">✕</button>
+    <div class="mtitle">QR Kod & Link</div>
+    <div id="qr-box" style="display:flex;justify-content:center;margin:16px 0"></div>
+    <div class="qr-code-txt" id="qr-code-txt"></div>
+    <div class="qr-url-txt" id="qr-url-txt"></div>
+    <div style="display:flex;gap:8px;justify-content:center">
+      <button class="btn btn-primary btn-sm" onclick="dlQR()">⬇️ QR İndir</button>
+      <button class="btn btn-ghost btn-sm" onclick="cpLink()">🔗 Link Kopyala</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-/* ═══════════════════════════════════════════
-   STORAGE — localStorage ile basit yerel db
-   GitHub API ile uzak senkronizasyon
-═══════════════════════════════════════════ */
-const LS = {
-  get: k => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch { return null; } },
-  set: (k, v) => localStorage.setItem(k, JSON.stringify(v)),
-};
+const SB_URL = 'https://obbxxkzmnujtozxczgfm.supabase.co';
+const SB_KEY = 'sb_publishable_xY037ZoljAKp_mPOKh6HJA_ZCYfcuxc';
+const VERIFY_URL = 'https://garanti.emkakuyumculuk.com/verify.html?id=';
+const sb = window.supabase.createClient(SB_URL, SB_KEY);
 
-function getConfig() {
-  return LS.get('cfg') || {
-    user: '', repo: '', token: '', company: 'Şirket Adı',
-    url: '', pass: btoa('admin123'),
-  };
+let WS=[], CS=[], PS=[], CATS=[];
+let EID = {warranty:null,customer:null,product:null,category:null,service:null};
+let curQR = '';
+
+// ═══════════ AUTH ═══════════
+async function doLogin() {
+  const email=document.getElementById('l-email').value.trim();
+  const pass=document.getElementById('l-pass').value;
+  const btn=document.getElementById('l-btn');
+  const err=document.getElementById('l-err');
+  err.style.display='none';
+  btn.disabled=true; btn.innerHTML='<span class="spin"></span>';
+  const {error}=await sb.auth.signInWithPassword({email,password:pass});
+  btn.disabled=false; btn.innerHTML='GİRİŞ YAP';
+  if(error){err.textContent='Giriş başarısız. E-posta veya şifrenizi kontrol edin.';err.style.display='block';}
 }
-function getWarranties() { return LS.get('warranties') || []; }
-function getProducts() { return LS.get('products') || []; }
-
-/* ═══════════════════════════════════════════
-   LOGIN
-═══════════════════════════════════════════ */
-function doLogin() {
-  const pass = document.getElementById('login-pass').value;
-  const cfg = getConfig();
-  const stored = cfg.pass || btoa('admin123');
-  if (btoa(pass) === stored || pass === atob(stored)) {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    initApp();
+async function doLogout(){await sb.auth.signOut();}
+async function changePass(){
+  const p1=document.getElementById('np1').value;
+  const p2=document.getElementById('np2').value;
+  if(p1.length<8)return toast('Şifre en az 8 karakter olmalı','err');
+  if(p1!==p2)return toast('Şifreler eşleşmiyor','err');
+  const {error}=await sb.auth.updateUser({password:p1});
+  if(error)toast('Hata: '+error.message,'err');
+  else{toast('Şifre güncellendi','ok');document.getElementById('np1').value='';document.getElementById('np2').value='';}
+}
+document.getElementById('l-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+sb.auth.onAuthStateChange(async(event,session)=>{
+  if(session){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').style.display='block';
+    document.getElementById('s-email').textContent=session.user.email;
+    await reloadAll();
+    loadDash();
   } else {
-    document.getElementById('login-err').style.display = 'block';
-    setTimeout(() => document.getElementById('login-err').style.display = 'none', 3000);
+    document.getElementById('login-screen').style.display='flex';
+    document.getElementById('app').style.display='none';
   }
-}
-function doLogout() {
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('login-pass').value = '';
-}
+});
 
-/* ═══════════════════════════════════════════
-   NAV
-═══════════════════════════════════════════ */
-function showPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  const items = document.querySelectorAll('.nav-item');
-  items.forEach(i => { if (i.getAttribute('onclick')?.includes("'"+name+"'")) i.classList.add('active'); });
-  if (name === 'warranties') renderWarrantyTable(getWarranties());
-  if (name === 'products') renderProductTable(getProducts());
-  if (name === 'dashboard') renderDashboard();
-  if (name === 'settings') loadSettingsForm();
-  if (name === 'add-warranty') { generateWarrantyId(); fillProductSelect(); setTodayDate(); }
-  if (name === 'add-product') generateProductId();
+// ═══════════ NAVIGATION ═══════════
+function navigate(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  document.querySelector(`[data-page="${p}"]`)?.classList.add('active');
+  if(p==='dashboard')loadDash();
+  if(p==='warranties')renderW();
+  if(p==='customers')renderC();
+  if(p==='products')renderP();
+  if(p==='categories')renderCat();
+  if(p==='service')loadService();
 }
+document.querySelectorAll('.nav-item[data-page]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.page)));
 
-/* ═══════════════════════════════════════════
-   INIT
-═══════════════════════════════════════════ */
-function initApp() {
-  renderDashboard();
-  fillProductSelect();
-  generateWarrantyId();
-  generateProductId();
-  setTodayDate();
+// ═══════════ DATA LOAD ═══════════
+async function reloadAll(){
+  const [w,c,p,cat]=await Promise.all([
+    sb.from('warranties').select('*,products(name_tr,model),customers(name)').order('created_at',{ascending:false}),
+    sb.from('customers').select('*').order('name'),
+    sb.from('products').select('*,categories(name_tr)').order('name_tr'),
+    sb.from('categories').select('*').order('sort_order')
+  ]);
+  WS=w.data||[]; CS=c.data||[]; PS=p.data||[]; CATS=cat.data||[];
 }
 
-function renderDashboard() {
-  const ws = getWarranties();
-  const ps = getProducts();
-  const now = new Date();
-  const active = ws.filter(w => new Date(w.warranty_end) > now).length;
-  const expiring = ws.filter(w => {
-    const d = new Date(w.warranty_end);
-    return d > now && (d - now) < 30*86400000;
-  }).length;
-  document.getElementById('stat-total').textContent = ws.length;
-  document.getElementById('stat-active').textContent = active;
-  document.getElementById('stat-expiring').textContent = expiring;
-  document.getElementById('stat-products').textContent = ps.length;
-  document.getElementById('dash-date').textContent = new Date().toLocaleDateString('tr-TR', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+// ═══════════ DASHBOARD ═══════════
+function loadDash(){
+  document.getElementById('dash-date').textContent=new Date().toLocaleDateString('tr-TR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const now=new Date(), in30=new Date(+now+30*86400000);
+  const active=WS.filter(w=>new Date(w.warranty_end)>now);
+  const expiring=WS.filter(w=>{const e=new Date(w.warranty_end);return e>now&&e<=in30;});
+  const expired=WS.filter(w=>new Date(w.warranty_end)<=now);
+  document.getElementById('st-total').textContent=WS.length;
+  document.getElementById('st-active').textContent=active.length;
+  document.getElementById('st-expiring').textContent=expiring.length;
+  document.getElementById('st-expired').textContent=expired.length;
+  const mkRow=(w)=>`<tr><td class="mono">${w.warranty_code}</td><td>${w.products?.name_tr||'—'}</td><td>${w.customers?.name||'—'}</td><td>${fd(w.warranty_end)}</td><td>${sbadge(w.warranty_end)}</td><td><button class="btn btn-ghost btn-sm" onclick="showQR('${w.public_token}','${w.warranty_code}')">QR/Link</button></td></tr>`;
+  document.getElementById('dash-tbl').innerHTML=WS.slice(0,8).map(mkRow).join('')||'<tr class="erow"><td colspan="6">Henüz garanti kaydı yok</td></tr>';
+  document.getElementById('expiring-tbl').innerHTML=expiring.map(w=>`<tr><td class="mono">${w.warranty_code}</td><td>${w.products?.name_tr||'—'}</td><td>${w.customers?.name||'—'}</td><td>${fd(w.warranty_end)}</td><td><button class="btn btn-ghost btn-sm" onclick="showQR('${w.public_token}','${w.warranty_code}')">QR/Link</button></td></tr>`).join('')||'<tr class="erow"><td colspan="5">Bu ay biten garanti yok</td></tr>';
+}
 
-  const tbody = document.getElementById('dash-table');
-  const recent = [...ws].sort((a,b) => b._created - a._created).slice(0, 8);
-  if (!recent.length) {
-    tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Henüz garanti kaydı yok</td></tr>';
-    return;
-  }
-  tbody.innerHTML = recent.map(w => {
-    const end = new Date(w.warranty_end);
-    const left = Math.ceil((end - now) / 86400000);
+// ═══════════ RENDER TABLES ═══════════
+function renderW(){
+  document.getElementById('w-tbl').innerHTML=WS.length?WS.map(w=>`<tr>
+    <td class="mono">${w.warranty_code}</td><td>${w.products?.name_tr||'—'}</td>
+    <td>${w.customers?.name||'—'}</td><td class="mono">${w.serial_number||'—'}</td>
+    <td>${fd(w.warranty_end)}</td><td>${sbadge(w.warranty_end)}</td>
+    <td style="white-space:nowrap">
+      <button class="btn btn-ghost btn-sm" onclick="showQR('${w.public_token}','${w.warranty_code}')">QR</button>
+      <button class="btn btn-ghost btn-sm" onclick="openModal('warranty','${w.id}')">Düzenle</button>
+      <button class="btn btn-danger btn-sm" onclick="delRec('warranties','${w.id}')">Sil</button>
+    </td></tr>`).join(''):'<tr class="erow"><td colspan="7">Garanti kaydı bulunamadı</td></tr>';
+}
+function renderC(){
+  document.getElementById('c-tbl').innerHTML=CS.length?CS.map(c=>{
+    const n=WS.filter(w=>w.customer_id===c.id).length;
+    return `<tr><td>${c.name}</td><td>${c.phone||'—'}</td><td>${c.city||'—'}</td><td>${c.country||'—'}</td><td>${n}</td>
+    <td style="white-space:nowrap">
+      <button class="btn btn-ghost btn-sm" onclick="openModal('customer','${c.id}')">Düzenle</button>
+      <button class="btn btn-danger btn-sm" onclick="delRec('customers','${c.id}')">Sil</button>
+    </td></tr>`;}).join(''):'<tr class="erow"><td colspan="6">Müşteri bulunamadı</td></tr>';
+}
+function renderP(){
+  document.getElementById('p-tbl').innerHTML=PS.length?PS.map((p,i)=>{
+    const ci=CATS.findIndex(c=>c.id===p.category_id)%11;
     return `<tr>
-      <td style="font-family:'IBM Plex Mono',monospace;font-size:12px">${w.id}</td>
-      <td>${w.product_name || '—'}</td>
-      <td>${w.customer_name || '—'}</td>
-      <td>${fmtDate(w.warranty_end)}</td>
-      <td>${statusBadge(left)}</td>
-    </tr>`;
-  }).join('');
+      <td>${p.photo_url?`<img src="${p.photo_url}" class="pthumb">`:'—'}</td>
+      <td>${p.name_tr}</td><td class="mono">${p.model||'—'}</td>
+      <td>${p.categories?`<span class="cat-badge ci${ci}">${p.categories.name_tr}</span>`:'—'}</td>
+      <td><span class="badge ${p.warranty_months<=12?'m12':p.warranty_months<=24?'m24':'m36'}">${p.warranty_months} ay</span></td>
+      <td>${p.warranty_doc_url?`<a href="${p.warranty_doc_url}" target="_blank" style="color:#29abe2;font-size:12px">📄 Görüntüle</a>`:'—'}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-ghost btn-sm" onclick="openModal('product','${p.id}')">Düzenle</button>
+        <button class="btn btn-danger btn-sm" onclick="delRec('products','${p.id}')">Sil</button>
+      </td></tr>`;}).join(''):'<tr class="erow"><td colspan="7">Ürün bulunamadı</td></tr>';
+}
+function renderCat(){
+  document.getElementById('cat-tbl').innerHTML=CATS.length?CATS.map(c=>`<tr>
+    <td>${c.name_tr}</td><td>${c.name_en||'—'}</td><td dir="rtl">${c.name_ar||'—'}</td><td>${c.sort_order}</td>
+    <td style="white-space:nowrap">
+      <button class="btn btn-ghost btn-sm" onclick="openModal('category','${c.id}')">Düzenle</button>
+      <button class="btn btn-danger btn-sm" onclick="delRec('categories','${c.id}')">Sil</button>
+    </td></tr>`).join(''):'<tr class="erow"><td colspan="5">Kategori bulunamadı</td></tr>';
+}
+async function loadService(){
+  const {data}=await sb.from('service_records')
+    .select('*,warranties(warranty_code,products(name_tr),customers(name))')
+    .order('service_date',{ascending:false});
+  const recs=data||[];
+  document.getElementById('s-tbl').innerHTML=recs.length?recs.map(r=>`<tr>
+    <td class="mono">${r.warranties?.warranty_code||'—'}</td>
+    <td>${r.warranties?.products?.name_tr||'—'}</td>
+    <td>${r.warranties?.customers?.name||'—'}</td>
+    <td>${fd(r.service_date)}</td><td>${r.description}</td>
+    <td>${r.technician||'—'}</td>
+    <td class="mono">${r.cost?'₺'+Number(r.cost).toLocaleString('tr-TR'):'—'}</td>
+    <td style="white-space:nowrap">
+      <button class="btn btn-ghost btn-sm" onclick="openModal('service','${r.id}')">Düzenle</button>
+      <button class="btn btn-danger btn-sm" onclick="delRec('service_records','${r.id}')">Sil</button>
+    </td></tr>`).join(''):'<tr class="erow"><td colspan="8">Servis kaydı bulunamadı</td></tr>';
 }
 
-function statusBadge(daysLeft) {
-  if (daysLeft > 30) return `<span class="badge badge-active">Aktif</span>`;
-  if (daysLeft > 0) return `<span class="badge badge-warn">⚠ ${daysLeft}g</span>`;
-  return `<span class="badge badge-expired">Sona Erdi</span>`;
-}
+// ═══════════ OPEN MODAL ═══════════
+async function openModal(type, id=null){
+  EID[type]=id;
+  const clear=ids=>ids.forEach(i=>{const e=document.getElementById(i);if(e)e.value='';});
 
-function fmtDate(d) {
-  if (!d) return '—';
-  return new Date(d).toLocaleDateString('tr-TR', {day:'2-digit',month:'2-digit',year:'numeric'});
-}
-
-/* ═══════════════════════════════════════════
-   WARRANTY TABLE
-═══════════════════════════════════════════ */
-let wFilter = '';
-function filterWarranties(v) { wFilter = v.toLowerCase(); renderWarrantyTable(getWarranties()); }
-
-function renderWarrantyTable(ws) {
-  const now = new Date();
-  let filtered = ws;
-  if (wFilter) filtered = ws.filter(w =>
-    (w.id||'').toLowerCase().includes(wFilter) ||
-    (w.customer_name||'').toLowerCase().includes(wFilter) ||
-    (w.serial||'').toLowerCase().includes(wFilter) ||
-    (w.product_name||'').toLowerCase().includes(wFilter)
-  );
-  const tbody = document.getElementById('warranty-table');
-  if (!filtered.length) {
-    tbody.innerHTML = '<tr class="empty-row"><td colspan="7">Kayıt bulunamadı</td></tr>';
-    return;
-  }
-  tbody.innerHTML = filtered.map(w => {
-    const left = Math.ceil((new Date(w.warranty_end) - now) / 86400000);
-    return `<tr>
-      <td style="font-family:'IBM Plex Mono',monospace;font-size:12px">${w.id}</td>
-      <td>${w.product_name||'—'}</td>
-      <td>${w.customer_name||'—'}</td>
-      <td>${fmtDate(w.sale_date)}</td>
-      <td>${fmtDate(w.warranty_end)}</td>
-      <td>${statusBadge(left)}</td>
-      <td>
-        <button class="tbl-action" onclick="showQR('${w.id}')">QR</button>
-        <button class="tbl-action" onclick="copyLink('${w.id}')">Link</button>
-        <button class="tbl-action del" onclick="deleteWarranty('${w.id}')">Sil</button>
-      </td>
-    </tr>`;
-  }).join('');
-}
-
-/* ═══════════════════════════════════════════
-   PRODUCT TABLE
-═══════════════════════════════════════════ */
-let pFilter = '';
-function filterProducts(v) { pFilter = v.toLowerCase(); renderProductTable(getProducts()); }
-
-
-function getCategoryClass(cat) {
-  if (!cat) return 'cat-diger';
-  const c = cat.toLowerCase();
-  if (c.includes('cila')) return 'cat-cila';
-  if (c.includes('eritme') || c.includes('ocak')) return 'cat-eritme';
-  if (c.includes('istim')) return 'cat-istim';
-  if (c.includes('rodaj')) return 'cat-rodaj';
-  if (c.includes('lavabo')) return 'cat-lavabo';
-  if (c.includes('hidrozon')) return 'cat-hidrozon';
-  if (c.includes('kaynak')) return 'cat-kaynak';
-  if (c.includes('kurutma')) return 'cat-kurutma';
-  if (c.includes('kumlama')) return 'cat-kumlama';
-  if (c.includes('manyetik')) return 'cat-manyetik';
-  if (c.includes('vakum')) return 'cat-vakumlu';
-  if (c.includes('silindir')) return 'cat-silindir';
-  if (c.includes('ultrasonik') || c.includes('yıkama')) return 'cat-ultrasonik';
-  return 'cat-diger';
-}
-function getMonthsClass(m) {
-  const n = parseInt(m) || 24;
-  if (n <= 12) return 'wmonths-12';
-  return 'wmonths-24';
-}
-
-function renderProductTable(ps) {
-  let filtered = ps;
-  if (pFilter) filtered = ps.filter(p =>
-    (p.name||'').toLowerCase().includes(pFilter) ||
-    (p.category||'').toLowerCase().includes(pFilter)
-  );
-  const tbody = document.getElementById('product-table');
-  if (!filtered.length) {
-    tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Ürün bulunamadı</td></tr>';
-    return;
-  }
-  tbody.innerHTML = filtered.map(p => `<tr>
-    <td style="font-family:'IBM Plex Mono',monospace;font-size:12px">${p.id}</td>
-    <td>${p.name||'—'}</td>
-    <td><span class="cat-badge ${getCategoryClass(p.category)}">${p.category||'—'}</span></td>
-    <td><span class="badge cat-badge ${getMonthsClass(p.warranty_months)}">${p.warranty_months||24} ay</span></td>
-    <td>
-      <button class="tbl-action" onclick="openEditProduct('${p.id}')">Düzenle</button>
-      <button class="tbl-action del" onclick="deleteProduct('${p.id}')">Sil</button>
-    </td>
-  </tr>`).join('');
-}
-
-/* ═══════════════════════════════════════════
-   WARRANTY FORM
-═══════════════════════════════════════════ */
-function generateWarrantyId() {
-  const ws = getWarranties();
-  const year = String(new Date().getFullYear()).slice(-2);
-  const num = String(ws.length + 1).padStart(3, '0');
-  document.getElementById('w-id').value = `EK${year}-${num}`;
-}
-function updateWarrantyIdFromCustomer() {
-  const ws = getWarranties();
-  const customerEl = document.getElementById('w-customer');
-  if (!customerEl) return;
-  const customer = customerEl.value.trim();
-  const year = String(new Date().getFullYear()).slice(-2);
-  const num = String(ws.length + 1).padStart(3, '0');
-  if (customer.length >= 2) {
-    const initials = customer.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,3);
-    document.getElementById('w-id').value = `EK${year}-${initials}${num}`;
-  } else {
-    document.getElementById('w-id').value = `EK${year}-${num}`;
-  }
-}
-function setTodayDate() {
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('w-start').value = today;
-  calcEnd();
-}
-function fillProductSelect() {
-  const ps = getProducts();
-  const sel = document.getElementById('w-product');
-  sel.innerHTML = '<option value="">-- Ürün seçin --</option>' +
-    ps.map(p => `<option value="${p.id}" data-months="${p.warranty_months||24}" data-name="${p.name}">${p.name} (${p.category||''})</option>`).join('');
-}
-function fillWarrantyMonths() {
-  const sel = document.getElementById('w-product');
-  const opt = sel.selectedOptions[0];
-  if (opt && opt.dataset.months) {
-    document.getElementById('w-months').value = opt.dataset.months;
-    calcEnd();
-  }
-}
-function calcEnd() {
-  const start = document.getElementById('w-start').value;
-  const months = parseInt(document.getElementById('w-months').value) || 24;
-  if (!start) return;
-  const d = new Date(start);
-  d.setMonth(d.getMonth() + months);
-  document.getElementById('w-end').value = d.toISOString().split('T')[0];
-}
-
-async function saveWarranty() {
-  const sel = document.getElementById('w-product');
-  const opt = sel.selectedOptions[0];
-  const w = {
-    id: document.getElementById('w-id').value.trim(),
-    product_id: sel.value,
-    product_name: opt ? opt.dataset.name : sel.options[sel.selectedIndex]?.text,
-    serial: document.getElementById('w-serial').value.trim(),
-    model: document.getElementById('w-model').value.trim(),
-    customer_name: document.getElementById('w-customer').value.trim(),
-    customer_contact: document.getElementById('w-contact').value.trim(),
-    sale_date: document.getElementById('w-start').value,
-    warranty_months: parseInt(document.getElementById('w-months').value),
-    warranty_end: document.getElementById('w-end').value,
-    dealer: document.getElementById('w-dealer').value.trim() || getConfig().company,
-    description: document.getElementById('w-desc').value.trim(),
-    _created: Date.now(),
-  };
-  if (!w.id || !w.customer_name || !w.sale_date) {
-    alert('Lütfen zorunlu alanları doldurun (*)');
-    return;
-  }
-  const ws = getWarranties();
-  if (ws.find(x => x.id === w.id)) {
-    alert('Bu garanti kodu zaten mevcut!');
-    return;
-  }
-  ws.push(w);
-  LS.set('warranties', ws);
-  showAlert('wform-ok', 'wform-err');
-
-  // GitHub sync
-  setSaveStatus('syncing', 'GitHub\'a yükleniyor...');
-  const ok = await githubSave('data/warranties.json', ws);
-  setSaveStatus(ok ? 'ok' : 'error', ok ? 'Senkronize' : 'Bağlantı hatası');
-
-  resetWForm();
-  generateWarrantyId();
-}
-
-function resetWForm() {
-  ['w-id','w-serial','w-model','w-customer','w-contact','w-desc','w-dealer'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  document.getElementById('w-product').value = '';
-  document.getElementById('w-months').value = '24';
-  setTodayDate();
-  generateWarrantyId();
-}
-
-function deleteWarranty(id) {
-  if (!confirm(`"${id}" garantisini silmek istiyor musunuz?`)) return;
-  let ws = getWarranties().filter(w => w.id !== id);
-  LS.set('warranties', ws);
-  renderWarrantyTable(ws);
-  githubSave('data/warranties.json', ws);
-}
-
-/* ═══════════════════════════════════════════
-   PRODUCT FORM
-═══════════════════════════════════════════ */
-function generateProductId() {
-  const ps = getProducts();
-  document.getElementById('p-id').value = `PRD-${String(ps.length + 1).padStart(3, '0')}`;
-}
-
-async function saveProduct() {
-  const p = {
-    id: document.getElementById('p-id').value.trim(),
-    name: document.getElementById('p-name').value.trim(),
-    category: document.getElementById('p-category').value.trim(),
-    warranty_months: parseInt(document.getElementById('p-months').value) || 24,
-    description: document.getElementById('p-desc').value.trim(),
-    _created: Date.now(),
-  };
-  if (!p.id || !p.name) { alert('ID ve Ürün Adı zorunlu!'); return; }
-  const ps = getProducts();
-  if (ps.find(x => x.id === p.id)) { alert('Bu ürün ID zaten mevcut!'); return; }
-  ps.push(p);
-  LS.set('products', ps);
-  showAlert('pform-ok', 'pform-err');
-  setSaveStatus('syncing', 'GitHub\'a yükleniyor...');
-  const ok = await githubSave('data/products.json', ps);
-  setSaveStatus(ok ? 'ok' : 'error', ok ? 'Senkronize' : 'Bağlantı hatası');
-  resetPForm();
-  generateProductId();
-  fillProductSelect();
-}
-
-function resetPForm() {
-  ['p-id','p-name','p-category','p-desc'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('p-months').value = '24';
-  generateProductId();
-}
-
-function openEditProduct(id) {
-  const ps = getProducts();
-  const p = ps.find(x => x.id === id);
-  if (!p) return;
-  document.getElementById('ep-id').value = p.id;
-  document.getElementById('ep-name').value = p.name || '';
-  document.getElementById('ep-category').value = p.category || '';
-  document.getElementById('ep-months').value = p.warranty_months || 24;
-  document.getElementById('ep-desc').value = p.description || '';
-  document.getElementById('edit-product-modal').classList.add('open');
-}
-
-function closeEditProduct() {
-  document.getElementById('edit-product-modal').classList.remove('open');
-}
-
-async function saveEditProduct() {
-  const id = document.getElementById('ep-id').value;
-  const ps = getProducts();
-  const idx = ps.findIndex(x => x.id === id);
-  if (idx === -1) return;
-  ps[idx] = {
-    ...ps[idx],
-    name: document.getElementById('ep-name').value.trim(),
-    category: document.getElementById('ep-category').value.trim(),
-    warranty_months: parseInt(document.getElementById('ep-months').value) || 24,
-    description: document.getElementById('ep-desc').value.trim(),
-  };
-  LS.set('products', ps);
-  renderProductTable(ps);
-  fillProductSelect();
-  closeEditProduct();
-  setSaveStatus('syncing', 'GitHub\'a yükleniyor...');
-  const ok = await githubSave('data/products.json', ps);
-  setSaveStatus(ok ? 'ok' : 'error', ok ? 'Senkronize' : 'Bağlantı hatası');
-}
-
-function deleteProduct(id) {
-  if (!confirm('Ürünü silmek istiyor musunuz?')) return;
-  let ps = getProducts().filter(p => p.id !== id);
-  LS.set('products', ps);
-  renderProductTable(ps);
-  githubSave('data/products.json', ps);
-}
-
-/* ═══════════════════════════════════════════
-   QR
-═══════════════════════════════════════════ */
-function showQR(id) {
-  const cfg = getConfig();
-  const url = `${cfg.url || window.location.origin + '/verify.html'}?id=${id}`;
-  document.getElementById('qr-url-text').textContent = url;
-  document.getElementById('qr-display').innerHTML = '';
-  new QRCode(document.getElementById('qr-display'), {
-    text: url, width: 200, height: 200,
-    colorDark: '#1a1a2e', colorLight: '#ffffff',
-    correctLevel: QRCode.CorrectLevel.H,
-  });
-  document.getElementById('qr-modal').classList.add('open');
-}
-function closeQR() { document.getElementById('qr-modal').classList.remove('open'); }
-
-function downloadQR() {
-  const img = document.querySelector('#qr-display img') || document.querySelector('#qr-display canvas');
-  if (!img) return;
-  const a = document.createElement('a');
-  if (img.tagName === 'CANVAS') {
-    a.href = img.toDataURL('image/png');
-  } else {
-    a.href = img.src;
-  }
-  a.download = 'garanti-qr.png';
-  a.click();
-}
-
-function copyLink(id) {
-  const cfg = getConfig();
-  const url = `${cfg.url || window.location.origin + '/verify.html'}?id=${id}`;
-  navigator.clipboard.writeText(url).then(() => {
-    alert('Link kopyalandı:\n' + url);
-  });
-}
-
-/* ═══════════════════════════════════════════
-   SETTINGS
-═══════════════════════════════════════════ */
-function loadSettingsForm() {
-  const cfg = getConfig();
-  document.getElementById('cfg-user').value = cfg.user || '';
-  document.getElementById('cfg-repo').value = cfg.repo || '';
-  document.getElementById('cfg-token').value = cfg.token || '';
-  document.getElementById('cfg-company').value = cfg.company || '';
-  document.getElementById('cfg-url').value = cfg.url || '';
-}
-
-function saveSettings() {
-  const cfg = getConfig();
-  cfg.user = document.getElementById('cfg-user').value.trim();
-  cfg.repo = document.getElementById('cfg-repo').value.trim();
-  cfg.token = document.getElementById('cfg-token').value.trim();
-  cfg.company = document.getElementById('cfg-company').value.trim();
-  cfg.url = document.getElementById('cfg-url').value.trim();
-  const newPass = document.getElementById('cfg-pass').value;
-  if (newPass) cfg.pass = btoa(newPass);
-  LS.set('cfg', cfg);
-  showAlert('cfg-ok', 'cfg-err');
-}
-
-async function testConnection() {
-  const cfg = getConfig();
-  if (!cfg.user || !cfg.repo || !cfg.token) {
-    showAlert('cfg-err', 'cfg-ok'); return;
-  }
-  setSaveStatus('syncing', 'Test ediliyor...');
-  const r = await fetch(`https://api.github.com/repos/${cfg.user}/${cfg.repo}`, {
-    headers: { Authorization: `token ${cfg.token}` }
-  });
-  if (r.ok) {
-    showAlert('cfg-ok', 'cfg-err');
-    setSaveStatus('ok', 'Bağlı');
-    document.getElementById('cfg-ok').textContent = '✓ GitHub bağlantısı başarılı! Repository erişimi var.';
-  } else {
-    showAlert('cfg-err', 'cfg-ok');
-    setSaveStatus('error', 'Bağlantı hatası');
-  }
-}
-
-/* ═══════════════════════════════════════════
-   GITHUB API
-═══════════════════════════════════════════ */
-async function githubSave(path, data) {
-  const cfg = getConfig();
-  if (!cfg.user || !cfg.repo || !cfg.token) return false;
-  try {
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-    // Get current SHA if file exists
-    let sha = '';
-    const check = await fetch(
-      `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${path}`,
-      { headers: { Authorization: `token ${cfg.token}` } }
-    );
-    if (check.ok) {
-      const j = await check.json();
-      sha = j.sha;
-    }
-    const body = {
-      message: `[garanti-admin] Güncellendi: ${path} — ${new Date().toLocaleString('tr-TR')}`,
-      content,
-    };
-    if (sha) body.sha = sha;
-    const r = await fetch(
-      `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${path}`,
-      {
-        method: 'PUT',
-        headers: { Authorization: `token ${cfg.token}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+  if(type==='warranty'){
+    document.getElementById('w-modal-title').textContent=id?'Garanti Düzenle':'Yeni Garanti Kaydı';
+    const pSel=document.getElementById('w-product');
+    pSel.innerHTML='<option value="">— Ürün seçin —</option>'+PS.map(p=>`<option value="${p.id}">${p.name_tr}${p.model?' — '+p.model:''}</option>`).join('');
+    const cSel=document.getElementById('w-customer');
+    cSel.innerHTML='<option value="">— Müşteri seçin —</option>'+CS.map(c=>`<option value="${c.id}">${c.name}${c.city?' ('+c.city+')':''}</option>`).join('')+'<option value="__new__">➕ Yeni müşteri ekle</option>';
+    document.getElementById('new-cust-fields').style.display='none';
+    if(id){
+      const w=WS.find(x=>x.id===id);
+      if(w){
+        document.getElementById('w-code').value=w.warranty_code;
+        document.getElementById('w-serial').value=w.serial_number||'';
+        document.getElementById('w-product').value=w.product_id||'';
+        document.getElementById('w-customer').value=w.customer_id||'';
+        document.getElementById('w-sdate').value=w.sale_date||'';
+        document.getElementById('w-start').value=w.warranty_start||'';
+        document.getElementById('w-end').value=w.warranty_end||'';
+        document.getElementById('w-months').value=w.warranty_months||24;
+        document.getElementById('w-dealer').value=w.dealer||'';
+        document.getElementById('w-price').value=w.price||'';
+        document.getElementById('w-payment').value=w.payment_status||'';
+        document.getElementById('w-note').value=w.internal_note||'';
       }
-    );
-    return r.ok;
-  } catch { return false; }
-}
+    } else {
+      clear(['w-serial','w-price','w-note']);
+      document.getElementById('w-code').value='';
+      document.getElementById('w-product').value='';
+      document.getElementById('w-customer').value='';
+      document.getElementById('w-months').value='24';
+      document.getElementById('w-payment').value='';
+      document.getElementById('w-dealer').value='EMKA Kuyumculuk Malzeme ve Makinaları';
+      document.getElementById('w-sdate').value=new Date().toISOString().split('T')[0];
+      calcEnd();
+    }
+  }
 
-/* ═══════════════════════════════════════════
-   EXPORT / IMPORT
-═══════════════════════════════════════════ */
-function exportData() {
-  const blob = new Blob([JSON.stringify({
-    warranties: getWarranties(),
-    products: getProducts(),
-    exported: new Date().toISOString(),
-  }, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `garanti-yedek-${new Date().toISOString().split('T')[0]}.json`;
-  a.click();
-}
+  if(type==='customer'){
+    document.getElementById('c-modal-title').textContent=id?'Müşteri Düzenle':'Yeni Müşteri';
+    if(id){const c=CS.find(x=>x.id===id);if(c){['name','phone','email','city','country','notes'].forEach(f=>{document.getElementById('c-'+f).value=c[f]||'';});}}
+    else clear(['c-name','c-phone','c-email','c-city','c-notes']);
+  }
 
-function importData() { document.getElementById('import-file').click(); }
-function handleImport(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const r = new FileReader();
-  r.onload = ev => {
-    try {
-      const d = JSON.parse(ev.target.result);
-      if (d.warranties) LS.set('warranties', d.warranties);
-      if (d.products) LS.set('products', d.products);
-      alert(`✓ İçe aktarıldı:\n${(d.warranties||[]).length} garanti\n${(d.products||[]).length} ürün`);
-      renderDashboard();
-    } catch { alert('Geçersiz dosya formatı!'); }
+  if(type==='product'){
+    document.getElementById('p-modal-title').textContent=id?'Ürün Düzenle':'Yeni Ürün';
+    document.getElementById('p-cat').innerHTML='<option value="">— Kategori seçin —</option>'+CATS.map(c=>`<option value="${c.id}">${c.name_tr}</option>`).join('');
+    if(id){
+      const p=PS.find(x=>x.id===id);
+      if(p){
+        document.getElementById('p-cat').value=p.category_id||'';
+        document.getElementById('p-tr').value=p.name_tr||'';
+        document.getElementById('p-en').value=p.name_en||'';
+        document.getElementById('p-ar').value=p.name_ar||'';
+        document.getElementById('p-model').value=p.model||'';
+        document.getElementById('p-months').value=p.warranty_months||24;
+        document.getElementById('p-desc').value=p.description_tr||'';
+        document.getElementById('p-terms-tr').value=p.warranty_terms_tr||'';
+        document.getElementById('p-terms-en').value=p.warranty_terms_en||'';
+        document.getElementById('p-terms-ar').value=p.warranty_terms_ar||'';
+        document.getElementById('p-photo-url').value=p.photo_url||'';
+        document.getElementById('p-doc-url').value=p.warranty_doc_url||'';
+        document.getElementById('p-photo-prev').textContent=p.photo_url?'✓ Mevcut fotoğraf var':'';
+        document.getElementById('p-doc-prev').textContent=p.warranty_doc_url?'✓ Mevcut belge var':'';
+      }
+    } else {
+      clear(['p-tr','p-en','p-ar','p-model','p-desc','p-terms-tr','p-terms-en','p-terms-ar','p-photo-url','p-doc-url']);
+      document.getElementById('p-months').value='24';
+      document.getElementById('p-photo-prev').textContent='';
+      document.getElementById('p-doc-prev').textContent='';
+      document.getElementById('p-photo-file').value='';
+      document.getElementById('p-doc-file').value='';
+    }
+  }
+
+  if(type==='category'){
+    document.getElementById('cat-modal-title').textContent=id?'Kategori Düzenle':'Yeni Kategori';
+    if(id){const c=CATS.find(x=>x.id===id);if(c){document.getElementById('cat-tr').value=c.name_tr;document.getElementById('cat-en').value=c.name_en||'';document.getElementById('cat-ar').value=c.name_ar||'';document.getElementById('cat-ord').value=c.sort_order||0;}}
+    else clear(['cat-tr','cat-en','cat-ar']);
+  }
+
+  if(type==='service'){
+    document.getElementById('sr-modal-title').textContent=id?'Servis Kaydı Düzenle':'Yeni Servis Kaydı';
+    document.getElementById('sr-warr').innerHTML='<option value="">— Garanti seçin —</option>'+WS.map(w=>`<option value="${w.id}">${w.warranty_code} — ${w.customers?.name||''} — ${w.products?.name_tr||''}</option>`).join('');
+    if(id){
+      const {data}=await sb.from('service_records').select('*').eq('id',id).single();
+      if(data){
+        document.getElementById('sr-warr').value=data.warranty_id;
+        document.getElementById('sr-date').value=data.service_date;
+        document.getElementById('sr-tech').value=data.technician||'';
+        document.getElementById('sr-desc').value=data.description;
+        document.getElementById('sr-parts').value=data.parts_changed||'';
+        document.getElementById('sr-cost').value=data.cost||'';
+      }
+    } else {
+      clear(['sr-tech','sr-desc','sr-parts','sr-cost']);
+      document.getElementById('sr-warr').value='';
+      document.getElementById('sr-date').value=new Date().toISOString().split('T')[0];
+    }
+  }
+
+  document.getElementById('modal-'+type).classList.add('open');
+}
+function closeModal(t){document.getElementById('modal-'+t).classList.remove('open');EID[t]=null;}
+
+// ═══════════ SAVE ═══════════
+async function saveWarranty(){
+  const pid=document.getElementById('w-product').value;
+  const cid=document.getElementById('w-customer').value;
+  if(!pid)return toast('Ürün seçin','err');
+  let finalCid=cid;
+  if(cid==='__new__'){
+    const name=document.getElementById('nc-name').value.trim();
+    if(!name)return toast('Müşteri adı gerekli','err');
+    const {data:nc,error:ce}=await sb.from('customers').insert({
+      name,phone:document.getElementById('nc-phone').value.trim(),
+      city:document.getElementById('nc-city').value.trim(),
+      country:document.getElementById('nc-country').value.trim()||'TR'
+    }).select().single();
+    if(ce)return toast('Müşteri eklenemedi','err');
+    finalCid=nc.id; CS.push(nc);
+  }
+  if(!finalCid)return toast('Müşteri seçin','err');
+  const sd=document.getElementById('w-sdate').value;
+  if(!sd)return toast('Satış tarihi gerekli','err');
+
+  let code=document.getElementById('w-code').value;
+  let token='';
+  if(!EID.warranty){
+    const cust=CS.find(c=>c.id===finalCid);
+    const seq=WS.length+1;
+    code=genCode(cust?.name||'',seq);
+    token=genToken(seq);
+  }
+
+  const payload={
+    product_id:pid,customer_id:finalCid,
+    serial_number:document.getElementById('w-serial').value.trim(),
+    sale_date:sd,
+    warranty_start:document.getElementById('w-start').value||sd,
+    warranty_end:document.getElementById('w-end').value,
+    warranty_months:parseInt(document.getElementById('w-months').value)||24,
+    dealer:document.getElementById('w-dealer').value.trim(),
+    price:parseFloat(document.getElementById('w-price').value)||null,
+    payment_status:document.getElementById('w-payment').value,
+    internal_note:document.getElementById('w-note').value.trim(),
+    status:'active',
   };
-  r.readAsText(file);
+  if(!EID.warranty){payload.warranty_code=code;payload.public_token=token;}
+
+  const {error}=EID.warranty?
+    await sb.from('warranties').update(payload).eq('id',EID.warranty):
+    await sb.from('warranties').insert(payload);
+  if(error)return toast('Hata: '+error.message,'err');
+  toast(EID.warranty?'Güncellendi':'Garanti kaydedildi','ok');
+  closeModal('warranty');
+  await reloadAll(); renderW();
 }
 
-/* ═══════════════════════════════════════════
-   HELPERS
-═══════════════════════════════════════════ */
-function showAlert(okId, errId) {
-  const ok = document.getElementById(okId);
-  const err = document.getElementById(errId);
-  if (err) err.style.display = 'none';
-  if (ok) {
-    ok.style.display = 'block';
-    setTimeout(() => ok.style.display = 'none', 4000);
+async function saveCustomer(){
+  const name=document.getElementById('c-name').value.trim();
+  if(!name)return toast('Müşteri adı gerekli','err');
+  const payload={name,phone:document.getElementById('c-phone').value.trim(),email:document.getElementById('c-email').value.trim(),city:document.getElementById('c-city').value.trim(),country:document.getElementById('c-country').value.trim()||'TR',notes:document.getElementById('c-notes').value.trim()};
+  const {error}=EID.customer?await sb.from('customers').update(payload).eq('id',EID.customer):await sb.from('customers').insert(payload);
+  if(error)return toast('Hata: '+error.message,'err');
+  toast(EID.customer?'Müşteri güncellendi':'Müşteri eklendi','ok');
+  closeModal('customer'); await reloadAll(); renderC();
+}
+
+async function saveProduct(){
+  const nameTr=document.getElementById('p-tr').value.trim();
+  if(!nameTr)return toast('Ürün adı (TR) gerekli','err');
+
+  let photoUrl=document.getElementById('p-photo-url').value;
+  const pf=document.getElementById('p-photo-file').files[0];
+  if(pf){
+    const ext=pf.name.split('.').pop();
+    const path=`${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const {error:ue}=await sb.storage.from('product-photos').upload(path,pf,{upsert:true});
+    if(ue)return toast('Fotoğraf yüklenemedi: '+ue.message,'err');
+    const {data:ud}=sb.storage.from('product-photos').getPublicUrl(path);
+    photoUrl=ud.publicUrl;
+  }
+
+  let docUrl=document.getElementById('p-doc-url').value;
+  const df=document.getElementById('p-doc-file').files[0];
+  if(df){
+    const path=`${Date.now()}-${Math.random().toString(36).slice(2)}.pdf`;
+    const {error:ue}=await sb.storage.from('warranty-docs').upload(path,df,{upsert:true});
+    if(ue)return toast('Belge yüklenemedi: '+ue.message,'err');
+    const {data:ud}=sb.storage.from('warranty-docs').getPublicUrl(path);
+    docUrl=ud.publicUrl;
+  }
+
+  const payload={
+    category_id:document.getElementById('p-cat').value||null,
+    name_tr:nameTr,name_en:document.getElementById('p-en').value.trim(),name_ar:document.getElementById('p-ar').value.trim(),
+    model:document.getElementById('p-model').value.trim(),
+    warranty_months:parseInt(document.getElementById('p-months').value)||24,
+    description_tr:document.getElementById('p-desc').value.trim(),
+    warranty_terms_tr:document.getElementById('p-terms-tr').value.trim(),
+    warranty_terms_en:document.getElementById('p-terms-en').value.trim(),
+    warranty_terms_ar:document.getElementById('p-terms-ar').value.trim(),
+    photo_url:photoUrl,warranty_doc_url:docUrl,
+  };
+  const {error}=EID.product?await sb.from('products').update(payload).eq('id',EID.product):await sb.from('products').insert(payload);
+  if(error)return toast('Hata: '+error.message,'err');
+  toast(EID.product?'Ürün güncellendi':'Ürün eklendi','ok');
+  closeModal('product'); await reloadAll(); renderP();
+}
+
+async function saveCategory(){
+  const tr=document.getElementById('cat-tr').value.trim();
+  if(!tr)return toast('Türkçe isim gerekli','err');
+  const payload={name_tr:tr,name_en:document.getElementById('cat-en').value.trim(),name_ar:document.getElementById('cat-ar').value.trim(),sort_order:parseInt(document.getElementById('cat-ord').value)||0};
+  const {error}=EID.category?await sb.from('categories').update(payload).eq('id',EID.category):await sb.from('categories').insert(payload);
+  if(error)return toast('Hata: '+error.message,'err');
+  toast(EID.category?'Kategori güncellendi':'Kategori eklendi','ok');
+  closeModal('category'); await reloadAll(); renderCat();
+}
+
+async function saveService(){
+  const wid=document.getElementById('sr-warr').value;
+  const desc=document.getElementById('sr-desc').value.trim();
+  if(!wid)return toast('Garanti seçin','err');
+  if(!desc)return toast('Açıklama gerekli','err');
+  const payload={warranty_id:wid,service_date:document.getElementById('sr-date').value,description:desc,technician:document.getElementById('sr-tech').value.trim(),parts_changed:document.getElementById('sr-parts').value.trim(),cost:parseFloat(document.getElementById('sr-cost').value)||null};
+  const {error}=EID.service?await sb.from('service_records').update(payload).eq('id',EID.service):await sb.from('service_records').insert(payload);
+  if(error)return toast('Hata: '+error.message,'err');
+  toast(EID.service?'Güncellendi':'Servis kaydı eklendi','ok');
+  closeModal('service'); loadService();
+}
+
+// ═══════════ DELETE ═══════════
+async function delRec(table,id){
+  if(!confirm('Silmek istediğinizden emin misiniz?'))return;
+  const {error}=await sb.from(table).delete().eq('id',id);
+  if(error)return toast('Silinemedi: '+error.message,'err');
+  toast('Silindi','ok');
+  await reloadAll();
+  const ap=document.querySelector('.page.active')?.id?.replace('page-','');
+  if(ap)navigate(ap);
+}
+
+// ═══════════ QR ═══════════
+function showQR(token,code){
+  curQR=token;
+  const url=VERIFY_URL+token;
+  document.getElementById('qr-code-txt').textContent=code;
+  document.getElementById('qr-url-txt').textContent=url;
+  const box=document.getElementById('qr-box');
+  box.innerHTML='';
+  new QRCode(box,{text:url,width:200,height:200,correctLevel:QRCode.CorrectLevel.M});
+  document.getElementById('modal-qr').classList.add('open');
+}
+function dlQR(){
+  const c=document.querySelector('#qr-box canvas');if(!c)return;
+  const a=document.createElement('a');a.download=`qr-${curQR}.png`;a.href=c.toDataURL();a.click();
+}
+function cpLink(){
+  navigator.clipboard.writeText(VERIFY_URL+curQR).then(()=>toast('Link kopyalandı','ok'));
+}
+
+// ═══════════ HELPERS ═══════════
+function onCustChange(){document.getElementById('new-cust-fields').style.display=document.getElementById('w-customer').value==='__new__'?'block':'none';}
+function onProductChange(){
+  const p=PS.find(x=>x.id===document.getElementById('w-product').value);
+  if(p){document.getElementById('w-months').value=p.warranty_months||24;calcEnd();}
+}
+function calcEnd(){
+  const sd=document.getElementById('w-sdate').value;
+  const mo=parseInt(document.getElementById('w-months').value)||24;
+  if(sd){
+    document.getElementById('w-start').value=sd;
+    const e=new Date(sd);e.setMonth(e.getMonth()+mo);
+    document.getElementById('w-end').value=e.toISOString().split('T')[0];
   }
 }
-
-function setSaveStatus(state, text) {
-  const dot = document.getElementById('save-dot');
-  const txt = document.getElementById('save-text');
-  if (!dot || !txt) return;
-  dot.className = 'save-dot' + (state === 'syncing' ? ' syncing' : state === 'error' ? ' error' : '');
-  txt.textContent = text;
+function genCode(name,seq){
+  const y=new Date().getFullYear().toString().slice(-2);
+  const ini=(name||'GEN').split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,3).padEnd(3,'X');
+  return `EK${y}-${ini}${String(seq).padStart(3,'0')}`;
 }
+function genToken(seq){
+  const y=new Date().getFullYear().toString().slice(-2);
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let s='';for(let i=0;i<6;i++)s+=chars[Math.floor(Math.random()*chars.length)];
+  return `EK${y}-${String(seq).padStart(3,'0')}-${s}`;
+}
+function sbadge(end){
+  const d=Math.ceil((new Date(end)-new Date())/86400000);
+  if(d>30)return'<span class="badge badge-active">Aktif</span>';
+  if(d>0)return`<span class="badge badge-warn">⚠ ${d}g</span>`;
+  return'<span class="badge badge-expired">Sona Erdi</span>';
+}
+function fd(d){if(!d)return'—';return new Date(d).toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric'});}
+function filterTbl(id,q,cols){
+  q=q.toLowerCase();
+  document.querySelectorAll('#'+id+' tr:not(.erow)').forEach(r=>{
+    const cells=r.querySelectorAll('td');
+    r.style.display=(!q||cols.some(i=>cells[i]?.textContent.toLowerCase().includes(q)))?'':'none';
+  });
+}
+function prevFile(inp,prevId){const f=inp.files[0];if(f)document.getElementById(prevId).textContent=`✓ ${f.name} (${(f.size/1024).toFixed(0)} KB)`;}
+function toast(msg,type=''){
+  const t=document.getElementById('toast');t.textContent=msg;t.className='show '+type;
+  setTimeout(()=>t.className='',3000);
+}
+async function exportData(){
+  const [w,c,s]=await Promise.all([
+    sb.from('warranties').select('*,products(name_tr),customers(*)'),
+    sb.from('customers').select('*'),
+    sb.from('service_records').select('*')
+  ]);
+  const blob=new Blob([JSON.stringify({warranties:w.data,customers:c.data,service:s.data,exported:new Date().toISOString()},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`emka-yedek-${new Date().toISOString().split('T')[0]}.json`;a.click();
+  toast('Yedek indirildi','ok');
+}
+document.querySelectorAll('.modal').forEach(m=>{
+  m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id.replace('modal-',''));});
+});
 </script>
-<!-- EDIT PRODUCT MODAL -->
-<div id="edit-product-modal">
-  <div class="edit-modal-card">
-    <button class="edit-modal-close" onclick="closeEditProduct()">✕</button>
-    <div class="edit-modal-title">✏️ Ürünü Düzenle</div>
-    <div class="form-grid">
-      <div class="form-group">
-        <label>Ürün ID</label>
-        <input type="text" id="ep-id" disabled style="opacity:0.4">
-      </div>
-      <div class="form-group">
-        <label>Garanti Süresi (Ay)</label>
-        <input type="number" id="ep-months" value="24" min="1" max="120">
-      </div>
-      <div class="form-group full">
-        <label>Ürün Adı *</label>
-        <input type="text" id="ep-name">
-      </div>
-      <div class="form-group full">
-        <label>Kategori</label>
-        <input type="text" id="ep-category">
-      </div>
-      <div class="form-group full">
-        <label>Açıklama</label>
-        <textarea id="ep-desc" rows="3"></textarea>
-      </div>
-    </div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="btn btn-accent" onclick="saveEditProduct()" style="flex:1">💾 Kaydet</button>
-      <button class="btn" onclick="closeEditProduct()" style="flex:0 0 auto;padding:12px 20px">İptal</button>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
