@@ -1464,8 +1464,16 @@ function editW(id){
   document.getElementById('w-dealer').value=w.dealer||'';
   document.getElementById('w-customer').value=w.customer_id||'';
   document.getElementById('w-items-list').innerHTML='';
-  (w.warranty_items||[]).forEach(it=>addItemRow(it.product_id,it.quantity,it.serial_number));
-  if(!(w.warranty_items||[]).length)addItemRow();
+  const wItems=w.warranty_items||[];
+  if(wItems.length>0){
+    // Eski format: warranty_items üzerinden
+    wItems.forEach(it=>addItemRow(it.product_id,it.quantity,it.serial_number));
+  } else if(w.product_id){
+    // Yeni format: toplu satıştan oluşturulan, product_id doğrudan warranty'de
+    addItemRow(w.product_id,1,w.serial_no||'');
+  } else {
+    addItemRow();
+  }
   document.getElementById('w-prices-list').innerHTML='';
   (w.prices||[]).forEach(p=>addPriceRow('w-prices-list',p.currency,p.amount));
   if(!(w.prices||[]).length)addPriceRow('w-prices-list');
@@ -1561,7 +1569,15 @@ async function saveWarranty(){try{
   else{const {data:nw,error}=await sb.from('warranties').insert(payload).select().single();if(error)return toast('Kayıt hatası: '+error.message,'err');wid=nw.id;}
   if(wid){
     await sb.from('warranty_items').delete().eq('warranty_id',wid);
-    if(items.length){const {error:ie}=await sb.from('warranty_items').insert(items.map(i=>({...i,warranty_id:wid})));if(ie)toast('Ürün kayıt hatası','err');}
+    if(items.length){
+      const {error:ie}=await sb.from('warranty_items').insert(items.map(i=>({...i,warranty_id:wid})));
+      if(ie)toast('Ürün kayıt hatası','err');
+      // product_id ve serial_no'yu da güncelle (yeni format uyumu)
+      await sb.from('warranties').update({
+        product_id:items[0].product_id||null,
+        serial_no:items[0].serial_number||null
+      }).eq('id',wid);
+    }
   }
   toast(EID.warranty?'Garanti güncellendi':'Garanti eklendi','ok');closeModal('warranty');await reloadAll();
   const ap=document.querySelector('.page.active')?.id?.replace('page-','');if(ap==='warranties')renderW();else if(ap==='dashboard')loadDash();
