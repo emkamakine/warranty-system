@@ -610,7 +610,7 @@ a{text-decoration:none;color:inherit}
     <div class="hdr-logo">
       <div class="logo-badge">EMKA</div>
       <div>
-        <div class="logo-text-name" id="logo-name">Kuyumcu Malzeme ve Makinaları</div>
+        <div class="logo-text-name" id="logo-name">EMKA Kuyumculuk Malzeme ve Makinaları</div>
         <div class="logo-text-sub" id="logo-sub">Garanti Sorgulama Sistemi</div>
       </div>
     </div>
@@ -783,7 +783,7 @@ a{text-decoration:none;color:inherit}
     <div class="siblings-card">
       <div class="siblings-hdr">
         <div class="siblings-title">📦 <span id="sib-title">Bu Satıştaki Diğer Garanti Belgeleri</span></div>
-        <a id="sib-order-link" href="#" target="_blank" class="siblings-sale-link">🔗 <span id="sib-order-lbl">Tüm Siparişi Görüntüle</span></a>
+        <a id="sib-order-link" href="#" target="_blank" class="siblings-sale-link">🔗 <span id="sib-order-lbl">Tüm Siparisi Görüntüle</span></a>
       </div>
       <div class="siblings-tbl">
         <table>
@@ -797,8 +797,8 @@ a{text-decoration:none;color:inherit}
 </div><!-- /container -->
 
 <footer class="site-footer">
-  <div><span class="sf-brand">EM<span>KA</span></span> <span style="font-size:11px;color:rgba(255,255,255,.35);margin-left:6px" id="sf-sub">Kuyumcu Malzeme ve Makinaları</span></div>
-  <div class="sf-copy" id="sf-copy">© 2026 EMKA Kuyumcu Malzeme ve Makinaları. Tüm hakları saklıdır.</div>
+  <div><span class="sf-brand">EM<span>KA</span></span> <span style="font-size:11px;color:rgba(255,255,255,.35);margin-left:6px" id="sf-sub">EMKA Kuyumculuk Malzeme ve Makinaları</span></div>
+  <div class="sf-copy" id="sf-copy">© 2026 EMKA Kuyumculuk Malzeme ve Makinaları. Tüm hakları saklıdır.</div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
@@ -809,7 +809,7 @@ const SB_KEY='sb_publishable_xY037ZoljAKp_mPOKh6HJA_ZCYfcuxc';
 const sb=window.supabase.createClient(SB_URL,SB_KEY);
 
 const CO={
-  name:'EMKA Kuyumcu Malzeme ve Makinaları',
+  name:'EMKA Kuyumculuk Malzeme ve Makinaları',
   phone:'+90 544 255 17 16',
   wa:'+905442551716',
   email:'kadiraygoren@emkakuyumculuk.com',
@@ -864,10 +864,10 @@ tr:{
   v_footer:'Bu belge EMKA Garanti Sistemi tarafından doğrulanmıştır.',
   v_date:'Sorgu tarihi:',
   sib_title:'Bu Satıştaki Diğer Garanti Belgeleri',
-  sib_order_lbl:'Tüm Siparişi Görüntüle',
+  sib_order_lbl:'Tüm Siparisi Görüntüle',
   sib_view:'Görüntüle',
   sth_product:'Ürün',sth_serial:'Seri No',sth_wno:'Garanti No',sth_status:'Durum',sth_expiry:'Bitiş',sth_action:'İşlem',
-  sf_copy:'© 2026 EMKA Kuyumcu Malzeme ve Makinaları. Tüm hakları saklıdır.',
+  sf_copy:'© 2026 EMKA Kuyumculuk Malzeme ve Makinaları. Tüm hakları saklıdır.',
 },
 en:{
   eyebrow:'Digital Warranty Verification',hero_h1:'Digital Warranty',
@@ -913,7 +913,7 @@ en:{
   sib_order_lbl:'View Full Order',
   sib_view:'View',
   sth_product:'Product',sth_serial:'Serial No',sth_wno:'Warranty No',sth_status:'Status',sth_expiry:'Expiry',sth_action:'Action',
-  sf_copy:'© 2026 EMKA Kuyumcu Malzeme ve Makinaları. All rights reserved.',
+  sf_copy:'© 2026 EMKA Kuyumculuk Malzeme ve Makinaları. All rights reserved.',
 },
 ar:{
   eyebrow:'التحقق من الضمان الرقمي',hero_h1:'شهادة الضمان',
@@ -959,7 +959,7 @@ ar:{
   sib_order_lbl:'عرض الطلب الكامل',
   sib_view:'عرض',
   sth_product:'المنتج',sth_serial:'الرقم التسلسلي',sth_wno:'رقم الضمان',sth_status:'الحالة',sth_expiry:'انتهاء',sth_action:'إجراء',
-  sf_copy:'© 2026 EMKA Kuyumcu Malzeme ve Makinaları. جميع الحقوق محفوظة.',
+  sf_copy:'© 2026 EMKA Kuyumculuk Malzeme ve Makinaları. جميع الحقوق محفوظة.',
 }};
 function t(k){return T[L]?.[k]??T.tr[k]??k}
 
@@ -1159,7 +1159,7 @@ function renderData(data){
   const cpPhoto=fp.photo_url?`<img src="${fp.photo_url}" class="cert-pphoto" alt="${pname}">`:`<div class="cert-pphoto-ph">🔧</div>`;
   document.getElementById('cert-wrap').innerHTML=`
     <div class="cert-hdr">
-      <div class="cert-hdr-brand"><div class="cert-brand-name">EM<span>KA</span></div><div class="cert-brand-sub">Kuyumcu Malzeme ve Makinaları</div></div>
+      <div class="cert-hdr-brand"><div class="cert-brand-name">EM<span>KA</span></div><div class="cert-brand-sub">EMKA Kuyumculuk Malzeme ve Makinaları</div></div>
       <div class="cert-hdr-title"><div class="ct">${t('cert_title')}</div><div class="cs">${t('cert_sub')}</div></div>
       <div class="cert-seal"><div style="font-size:20px">🛡️</div><div style="font-size:8px;letter-spacing:1px;color:rgba(255,255,255,.45);margin-top:2px">EMKA</div></div>
     </div>
