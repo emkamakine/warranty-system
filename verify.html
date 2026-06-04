@@ -580,6 +580,26 @@ a{text-decoration:none;color:inherit}
   .belge-layout{padding:0}
   body{background:#fff}
 }
+
+/* SIBLINGS */
+.siblings-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;margin-top:24px}
+.siblings-hdr{background:linear-gradient(135deg,var(--brand) 0%,var(--brand2) 100%);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.siblings-title{font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
+.siblings-sale-link{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:7px;padding:5px 12px;font-size:11px;font-weight:700;color:rgba(255,255,255,.8);text-decoration:none;transition:background .15s}
+.siblings-sale-link:hover{background:rgba(255,255,255,.2)}
+.siblings-tbl table{width:100%;border-collapse:collapse}
+.siblings-tbl th{padding:8px 14px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);background:#fafbfc}
+.siblings-tbl td{padding:12px 14px;font-size:13px;border-bottom:1px solid #f1f5f9;color:var(--text)}
+.siblings-tbl tr:last-child td{border-bottom:none}
+.siblings-tbl tr:hover td{background:#f9fafb}
+.sib-act{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:7px;font-size:11px;font-weight:700;background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;text-decoration:none;transition:all .15s}
+.sib-act:hover{background:#dbeafe}
+/* CERT QR */
+.cert-qr-row{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:16px}
+.cert-qr-info{flex:1}
+.cert-qr-info-title{font-size:12px;font-weight:700;color:var(--sub);margin-bottom:4px}
+.cert-qr-info-url{font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace;word-break:break-all}
+.cert-qr-code{flex-shrink:0}
 </style>
 </head>
 <body>
@@ -700,6 +720,13 @@ a{text-decoration:none;color:inherit}
         <div class="belge-layout">
           <div class="sec-hdr"><span class="sec-icon">📄</span><span id="b-sec1">Garanti Belgesi</span></div>
           <div class="cert-wrap" id="cert-wrap"></div>
+          <div id="cert-qr-row" class="cert-qr-row" style="display:none">
+            <div class="cert-qr-info">
+              <div class="cert-qr-info-title" id="cqr-title">Bu belgenin QR kodu</div>
+              <div class="cert-qr-info-url" id="cqr-url"></div>
+            </div>
+            <div class="cert-qr-code" id="cert-qr-box"></div>
+          </div>
           <div class="cert-actions" id="cert-actions"></div>
           <div class="sec-hdr"><span class="sec-icon">📋</span><span id="b-terms-lbl">Garanti Şartları</span></div>
           <div class="terms-cols">
@@ -751,6 +778,22 @@ a{text-decoration:none;color:inherit}
     </div>
   </div><!-- /w-card -->
 
+  <!-- SIBLINGS -->
+  <div id="siblings-section" style="display:none">
+    <div class="siblings-card">
+      <div class="siblings-hdr">
+        <div class="siblings-title">📦 <span id="sib-title">Bu Satıştaki Diğer Garanti Belgeleri</span></div>
+        <a id="sib-order-link" href="#" target="_blank" class="siblings-sale-link">🔗 <span id="sib-order-lbl">Tüm Siparişi Görüntüle</span></a>
+      </div>
+      <div class="siblings-tbl">
+        <table>
+          <thead><tr><th id="sth-product">Ürün</th><th id="sth-serial">Seri No</th><th id="sth-wno">Garanti No</th><th id="sth-status">Durum</th><th id="sth-expiry">Bitiş</th><th id="sth-action">İşlem</th></tr></thead>
+          <tbody id="siblings-tbl-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </div><!-- /container -->
 
 <footer class="site-footer">
@@ -759,6 +802,7 @@ a{text-decoration:none;color:inherit}
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 const SB_URL='https://obbxxkzmnujtozxczgfm.supabase.co';
 const SB_KEY='sb_publishable_xY037ZoljAKp_mPOKh6HJA_ZCYfcuxc';
@@ -791,7 +835,7 @@ tr:{
   g_sec1:'Garanti Bilgileri',g_products_lbl:'Ürünler',
   g_qa_lbl:'Hızlı İşlemler',g_svc_lbl:'Servis Geçmişi',g_svc_all:'Tümünü Gör →',g_contact_lbl:'EMKA İletişim',
   lbl_product:'Ürün Adı',lbl_model:'Model',lbl_serial:'Seri Numarası',lbl_code:'Belge Numarası',
-  lbl_verify:'Doğrulama Kodu',lbl_sale:'Satış Tarihi',lbl_start:'Garanti Başlangıç',
+  lbl_warranty_no:'Garanti No',lbl_serial_no:'Seri No',lbl_verify:'Doğrulama Kodu',lbl_sale:'Satış Tarihi',lbl_start:'Garanti Başlangıç',
   lbl_end:'Garanti Bitiş',lbl_duration:'Garanti Süresi',lbl_status:'Durum',
   lbl_customer:'Müşteri',lbl_dealer:'Satıcı',lbl_price:'Satış Tutarı',
   dur_unit:'ay',
@@ -806,7 +850,7 @@ tr:{
   cert_cf_code:'Belge No',cert_cf_serial:'Seri No',cert_cf_cust:'Müşteri',cert_cf_dealer:'Satıcı',
   cert_start:'Garanti Başlangıç',cert_end:'Garanti Bitiş',cert_verified:'DOĞRULANDI',
   cert_issued:'Belge Tarihi',
-  ca_pdf:'PDF İndir',ca_print:'Yazdır',ca_open:'Belgeyi Aç',
+  ca_pdf:'PDF İndir',ca_print:'Yazdır',ca_open:'Belgeyi Aç',ca_manual:'Kullanım Kılavuzu',cqr_title:'QR Kod — Garanti Doğrulama',
   tc_cov_title:'Garanti Kapsamı',
   tc_cov_text:'Bu ürün, üretim ve işçilik hatalarına karşı garanti kapsamındadır. Garanti süresi boyunca oluşan üretim kaynaklı arızalar ücretsiz olarak giderilecektir.',
   tc_exc_title:'Garanti Dışı Durumlar',
@@ -819,6 +863,10 @@ tr:{
   c_call:'Ara',c_wa:'WhatsApp',c_mail:'E-posta Gönder',c_web:'Web Sitesi',c_maps:'Haritalar',
   v_footer:'Bu belge EMKA Garanti Sistemi tarafından doğrulanmıştır.',
   v_date:'Sorgu tarihi:',
+  sib_title:'Bu Satıştaki Diğer Garanti Belgeleri',
+  sib_order_lbl:'Tüm Siparişi Görüntüle',
+  sib_view:'Görüntüle',
+  sth_product:'Ürün',sth_serial:'Seri No',sth_wno:'Garanti No',sth_status:'Durum',sth_expiry:'Bitiş',sth_action:'İşlem',
   sf_copy:'© 2026 EMKA Kuyumcu Malzeme ve Makinaları. Tüm hakları saklıdır.',
 },
 en:{
@@ -833,7 +881,7 @@ en:{
   g_sec1:'Warranty Details',g_products_lbl:'Products',
   g_qa_lbl:'Quick Actions',g_svc_lbl:'Service History',g_svc_all:'View All →',g_contact_lbl:'EMKA Contact',
   lbl_product:'Product',lbl_model:'Model',lbl_serial:'Serial Number',lbl_code:'Document No',
-  lbl_verify:'Verification Code',lbl_sale:'Purchase Date',lbl_start:'Warranty Start',
+  lbl_warranty_no:'Warranty No',lbl_serial_no:'Serial No',lbl_verify:'Verification Code',lbl_sale:'Purchase Date',lbl_start:'Warranty Start',
   lbl_end:'Warranty Expiry',lbl_duration:'Warranty Period',lbl_status:'Status',
   lbl_customer:'Customer',lbl_dealer:'Dealer',lbl_price:'Purchase Price',
   dur_unit:'months',
@@ -848,7 +896,7 @@ en:{
   cert_cf_code:'Document No',cert_cf_serial:'Serial No',cert_cf_cust:'Customer',cert_cf_dealer:'Dealer',
   cert_start:'Warranty Start',cert_end:'Warranty Expiry',cert_verified:'VERIFIED',
   cert_issued:'Issue Date',
-  ca_pdf:'Download PDF',ca_print:'Print',ca_open:'Open Document',
+  ca_pdf:'Download PDF',ca_print:'Print',ca_open:'Open Document',ca_manual:'User Manual',cqr_title:'QR Code — Warranty Verification',
   tc_cov_title:'Warranty Coverage',
   tc_cov_text:'This product is covered against manufacturing and workmanship defects. Production defects occurring during the warranty period will be repaired free of charge.',
   tc_exc_title:'Warranty Exclusions',
@@ -861,6 +909,10 @@ en:{
   c_call:'Call',c_wa:'WhatsApp',c_mail:'Send Email',c_web:'Website',c_maps:'Maps',
   v_footer:'This certificate has been verified by EMKA Warranty System.',
   v_date:'Query date:',
+  sib_title:'Other Warranty Certificates in This Order',
+  sib_order_lbl:'View Full Order',
+  sib_view:'View',
+  sth_product:'Product',sth_serial:'Serial No',sth_wno:'Warranty No',sth_status:'Status',sth_expiry:'Expiry',sth_action:'Action',
   sf_copy:'© 2026 EMKA Kuyumcu Malzeme ve Makinaları. All rights reserved.',
 },
 ar:{
@@ -875,7 +927,7 @@ ar:{
   g_sec1:'تفاصيل الضمان',g_products_lbl:'المنتجات',
   g_qa_lbl:'إجراءات سريعة',g_svc_lbl:'سجل الخدمة',g_svc_all:'عرض الكل ←',g_contact_lbl:'تواصل مع EMKA',
   lbl_product:'المنتج',lbl_model:'الموديل',lbl_serial:'الرقم التسلسلي',lbl_code:'رقم الوثيقة',
-  lbl_verify:'رمز التحقق',lbl_sale:'تاريخ الشراء',lbl_start:'بداية الضمان',
+  lbl_warranty_no:'رقم الضمان',lbl_serial_no:'الرقم التسلسلي',lbl_verify:'رمز التحقق',lbl_sale:'تاريخ الشراء',lbl_start:'بداية الضمان',
   lbl_end:'انتهاء الضمان',lbl_duration:'مدة الضمان',lbl_status:'الحالة',
   lbl_customer:'العميل',lbl_dealer:'الموزع',lbl_price:'سعر الشراء',
   dur_unit:'شهر',
@@ -890,7 +942,7 @@ ar:{
   cert_cf_code:'رقم الوثيقة',cert_cf_serial:'الرقم التسلسلي',cert_cf_cust:'العميل',cert_cf_dealer:'الموزع',
   cert_start:'بداية الضمان',cert_end:'انتهاء الضمان',cert_verified:'موثّق',
   cert_issued:'تاريخ الإصدار',
-  ca_pdf:'تحميل PDF',ca_print:'طباعة',ca_open:'فتح الوثيقة',
+  ca_pdf:'تحميل PDF',ca_print:'طباعة',ca_open:'فتح الوثيقة',ca_manual:'دليل المستخدم',cqr_title:'رمز QR — التحقق من الضمان',
   tc_cov_title:'نطاق الضمان',
   tc_cov_text:'يشمل الضمان هذا المنتج ضد عيوب التصنيع والتشغيل. سيتم إصلاح الأعطال الناتجة عن الإنتاج خلال فترة الضمان مجاناً.',
   tc_exc_title:'استثناءات الضمان',
@@ -903,6 +955,10 @@ ar:{
   c_call:'اتصال',c_wa:'واتساب',c_mail:'إرسال بريد',c_web:'الموقع',c_maps:'الخرائط',
   v_footer:'تم التحقق من هذه الشهادة بواسطة نظام ضمان EMKA.',
   v_date:'تاريخ الاستعلام:',
+  sib_title:'شهادات الضمان الأخرى في هذا الطلب',
+  sib_order_lbl:'عرض الطلب الكامل',
+  sib_view:'عرض',
+  sth_product:'المنتج',sth_serial:'الرقم التسلسلي',sth_wno:'رقم الضمان',sth_status:'الحالة',sth_expiry:'انتهاء',sth_action:'إجراء',
   sf_copy:'© 2026 EMKA Kuyumcu Malzeme ve Makinaları. جميع الحقوق محفوظة.',
 }};
 function t(k){return T[L]?.[k]??T.tr[k]??k}
@@ -927,6 +983,8 @@ function applyT(){
     tc_cov_title:'tc-cov-title',tc_exc_title:'tc-exc-title',tc_notice:'tc-notice',
     s_sec1:'s-sec1',c_sec1:'c-sec1',c_addr_lbl:'c-addr-lbl',c_maps_lnk:'c-maps-lnk',
     v_footer:'v-footer',sf_copy:'sf-copy',
+    sib_title:'sib-title',sib_order_lbl:'sib-order-lbl',
+    sth_product:'sth-product',sth_serial:'sth-serial',sth_wno:'sth-wno',sth_status:'sth-status',sth_expiry:'sth-expiry',sth_action:'sth-action',
   };
   Object.entries(ids).forEach(([k,id])=>{const e=document.getElementById(id);if(e)e.textContent=t(k);});
 }
@@ -988,10 +1046,12 @@ function renderData(data){
     ?`<img src="${fp.photo_url}" class="w-photo" alt="${pname}"><div class="w-verified-dot">✓</div>`
     :`<div class="w-photo-ph">🔧</div><div class="w-verified-dot">✓</div>`;
 
+  const warrantyNo=w.warranty_no||w.warranty_code;
+  const serialNo=w.serial_no||(fi.serial_number)||null;
   const chips=[
-    `<div class="w-chip"><div class="w-chip-lbl">${t('lbl_code')}</div><div class="w-chip-val">${w.warranty_code}</div></div>`,
-    fi.serial_number?`<div class="w-chip"><div class="w-chip-lbl">${t('lbl_serial')}</div><div class="w-chip-val">${fi.serial_number}</div></div>`:'',
-    `<div class="w-chip"><div class="w-chip-lbl">${t('lbl_verify')}</div><div class="w-chip-val">${w.warranty_code}</div></div>`,
+    warrantyNo?`<div class="w-chip"><div class="w-chip-lbl">${t('lbl_warranty_no')}</div><div class="w-chip-val">${warrantyNo}</div></div>`:'',
+    serialNo?`<div class="w-chip"><div class="w-chip-lbl">${t('lbl_serial_no')}</div><div class="w-chip-val">${serialNo}</div></div>`:'',
+    `<div class="w-chip"><div class="w-chip-lbl">${t('lbl_verify')}</div><div class="w-chip-val">${w.public_token}</div></div>`,
   ].filter(Boolean).join('');
   document.getElementById('w-main-info').innerHTML=`
     <div class="w-product-name">${pname}</div>
@@ -1024,10 +1084,12 @@ function renderData(data){
 
   const rows=[
     [t('lbl_product'),pname,null,null],
+    [t('lbl_warranty_no'),warrantyNo,'mono',null],
+    serialNo?[t('lbl_serial_no'),serialNo,'mono',null]:null,
     [t('lbl_model'),fp.model||'—','mono',null],
     [t('lbl_serial'),fi.serial_number||'—','mono',null],
     [t('lbl_code'),w.warranty_code,'mono',null],
-    [t('lbl_verify'),w.warranty_code,'mono link',null],
+    [t('lbl_verify'),w.public_token,'mono link',null],
     [t('lbl_sale'),fd(w.sale_date),null,null],
     [t('lbl_start'),fd(w.warranty_start),null,null],
     [t('lbl_end'),fd(w.warranty_end),null,null],
@@ -1037,7 +1099,7 @@ function renderData(data){
     [t('lbl_dealer'),w.dealer||CO.name,null,null],
     ...(priceHtml?[[t('lbl_price'),null,null,`<div class="prices-display">${priceHtml}</div>`]]:[]),
   ];
-  document.getElementById('g-info-grid').innerHTML=rows.map(([lbl,val,cls,html])=>
+  document.getElementById('g-info-grid').innerHTML=rows.filter(Boolean).map(([lbl,val,cls,html])=>
     `<div class="ic"><div class="ic-lbl">${lbl}</div><div class="ic-val${cls?' '+cls:''}">${html||(val||'—')}</div></div>`
   ).join('');
 
@@ -1114,12 +1176,25 @@ function renderData(data){
       <div class="cert-verified-badge">✓ ${t('cert_verified')}</div>
     </div>`;
 
+  const manualUrl=fp.manual_url||null;
   document.getElementById('cert-actions').innerHTML=[
     docUrl?`<a href="${docUrl}" download class="cert-act-btn cab-primary">⬇️ ${t('ca_pdf')}</a>`:'',
     `<button class="cert-act-btn cab-ghost" onclick="window.print()">🖨️ ${t('ca_print')}</button>`,
     docUrl?`<a href="${docUrl}" target="_blank" class="cert-act-btn cab-ghost">🔗 ${t('ca_open')}</a>`:'',
+    manualUrl?`<a href="${manualUrl}" target="_blank" class="cert-act-btn cab-ghost">📖 ${t('ca_manual')}</a>`:'',
   ].filter(Boolean).join('');
 
+  /* Belge sekmesi QR */
+  const certQRRow=document.getElementById('cert-qr-row');
+  const certQRBox=document.getElementById('cert-qr-box');
+  const verifyUrl='https://garanti.emkakuyumculuk.com/verify.html?id='+w.public_token;
+  if(certQRRow&&certQRBox){
+    certQRRow.style.display='flex';
+    document.getElementById('cqr-title').textContent=t('cqr_title');
+    document.getElementById('cqr-url').textContent=verifyUrl;
+    certQRBox.innerHTML='';
+    try{new QRCode(certQRBox,{text:verifyUrl,width:90,height:90,correctLevel:QRCode.CorrectLevel.M});}catch(e){}
+  }
   const termsKey=L==='en'?'warranty_terms_en':L==='ar'?'warranty_terms_ar':'warranty_terms_tr';
   const customTerms=fp[termsKey]||fp.warranty_terms_tr;
   document.getElementById('tc-cov-title').textContent=t('tc_cov_title');
@@ -1171,6 +1246,45 @@ function renderData(data){
   document.getElementById('c-maps-lnk').href=CO.mapsUrl;
   document.getElementById('c-maps-lnk').textContent=t('c_maps_lnk');
   document.getElementById('v-date').textContent=t('v_date')+' '+fd(new Date().toISOString());
+
+  /* ── SIBLINGS ── */
+  const siblings=data.siblings||[];
+  const saleData=data.sale||null;
+  const sibSec=document.getElementById('siblings-section');
+  const ORDER_BASE='https://garanti.emkakuyumculuk.com/order.html?id=';
+  const VERIFY_BASE='https://garanti.emkakuyumculuk.com/verify.html?id=';
+  if(sibSec){
+    if(siblings.length>0){
+      sibSec.style.display='block';
+      document.getElementById('sib-title').textContent=t('sib_title');
+      document.getElementById('sib-order-lbl').textContent=t('sib_order_lbl');
+      ['sth_product','sth_serial','sth_wno','sth_status','sth_expiry','sth_action'].forEach(k=>{
+        const e=document.getElementById(k);if(e)e.textContent=t(k);
+      });
+      if(saleData?.public_order_token){
+        document.getElementById('sib-order-link').href=ORDER_BASE+saleData.public_order_token;
+        document.getElementById('sib-order-link').style.display='inline-flex';
+      } else {
+        document.getElementById('sib-order-link').style.display='none';
+      }
+      const sibStatus=end=>{
+        const d=Math.ceil((new Date(end)-now)/86400000);
+        if(d<=0)return'<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;background:var(--dan-bg);color:var(--dan-text)">✕ '+t('status_expired')+'</span>';
+        if(d<=30)return'<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;background:var(--warn-bg);color:var(--warn-text)">⚠ '+t('status_warn')+'</span>';
+        return'<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;background:var(--ok-bg);color:var(--ok-text)">● '+t('status_active')+'</span>';
+      };
+      document.getElementById('siblings-tbl-body').innerHTML=siblings.map(s=>`<tr>
+        <td style="font-weight:600">${esc(s.product_name||'—')}</td>
+        <td><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">${esc(s.serial_no||'—')}</span></td>
+        <td><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600">${esc(s.warranty_no||'—')}</span></td>
+        <td>${sibStatus(s.warranty_end)}</td>
+        <td style="white-space:nowrap">${fd(s.warranty_end)}</td>
+        <td><a href="${VERIFY_BASE}${esc(s.public_token)}" target="_blank" class="sib-act">🔍 ${t('sib_view')}</a></td>
+      </tr>`).join('');
+    } else {
+      sibSec.style.display='none';
+    }
+  }
 }
 
 /* ════ TABS ════ */
