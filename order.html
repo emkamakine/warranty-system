@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMKA Sipariş Garanti Belgesi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#0f1c2e;--brand2:#1a3150;
+  --accent:#29abe2;--accent2:#1a90c8;
+  --bg:#f1f5f9;--surface:#fff;
+  --border:#e2e8f0;--border2:#f8fafc;
+  --text:#0f172a;--sub:#475569;--muted:#94a3b8;
+  --ok:#059669;--ok-bg:#ecfdf5;--ok-text:#065f46;--ok-b:#a7f3d0;
+  --warn:#b45309;--warn-bg:#fffbeb;--warn-text:#78350f;--warn-b:#fcd34d;
+  --danger:#dc2626;--dan-bg:#fef2f2;--dan-text:#7f1d1d;
+  --r:12px;--sh:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
+  --sh-md:0 4px 6px -1px rgba(0,0,0,.08),0 2px 4px -2px rgba(0,0,0,.04);
+  --sh-lg:0 10px 15px -3px rgba(0,0,0,.08),0 4px 6px -4px rgba(0,0,0,.04);
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+
+/* HEADER */
+.site-header{background:var(--brand);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:100}
+.site-header-inner{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px;gap:16px}
+.hdr-logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-badge{background:var(--accent);color:#fff;font-size:14px;font-weight:800;padding:5px 10px;border-radius:7px;letter-spacing:-.3px}
+.logo-name{font-size:15px;font-weight:800;color:#fff;letter-spacing:-.3px}
+.logo-sub{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:1px}
+.hdr-center{text-align:center}
+.hdr-center-t{font-size:13px;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:.5px}
+.hdr-center-s{font-size:10px;color:rgba(255,255,255,.3)}
+.hdr-lang{display:flex;gap:3px}
+.lang-btn{padding:5px 11px;border-radius:6px;border:1px solid rgba(255,255,255,.14);background:none;color:rgba(255,255,255,.4);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.lang-btn.active,.lang-btn:hover{background:rgba(41,171,226,.2);border-color:rgba(41,171,226,.5);color:#fff}
+
+/* CONTAINER */
+.container{max-width:1100px;margin:0 auto;padding:32px 24px}
+
+/* STATES */
+.state{text-align:center;padding:80px 20px}
+.spin{display:inline-block;width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.state-icon{font-size:52px;margin-bottom:16px}
+.state-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:8px}
+.state-sub{font-size:14px;color:var(--sub);max-width:440px;margin:0 auto}
+
+/* SEARCH BOX */
+.search-wrap{max-width:520px;margin:0 auto 32px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:6px 6px 6px 20px;display:flex;gap:8px;box-shadow:var(--sh-lg)}
+.search-wrap input{flex:1;border:none;outline:none;background:none;font-size:14px;font-family:'IBM Plex Mono',monospace;color:var(--text);letter-spacing:.5px}
+.search-wrap input::placeholder{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;letter-spacing:0;color:var(--muted)}
+.search-btn{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s;white-space:nowrap}
+.search-btn:hover{background:var(--accent2)}
+.search-btn:disabled{background:var(--muted);cursor:not-allowed}
+.s-err{font-size:13px;color:var(--danger);margin-top:8px;text-align:center;display:none}
+
+/* ORDER CARD */
+.order-card{background:var(--surface);border-radius:var(--r);box-shadow:var(--sh-lg);border:1px solid var(--border);overflow:hidden;margin-bottom:24px}
+
+/* ORDER HEADER */
+.order-hdr{background:linear-gradient(140deg,var(--brand) 0%,var(--brand2) 100%);padding:24px 28px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.order-hdr-left{}
+.order-eyebrow{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px}
+.order-saleno{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.5px;font-family:'IBM Plex Mono',monospace;margin-bottom:6px}
+.order-meta{display:flex;gap:10px;flex-wrap:wrap}
+.order-chip{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:5px 12px;font-size:12px;color:rgba(255,255,255,.7);font-weight:600}
+.order-hdr-right{text-align:right}
+.order-count-val{font-size:32px;font-weight:800;color:#fff;line-height:1}
+.order-count-lbl{font-size:11px;color:rgba(255,255,255,.35);margin-top:3px}
+.order-verified{display:inline-flex;align-items:center;gap:6px;background:var(--ok-bg);border:1px solid var(--ok-b);border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700;color:var(--ok-text);margin-top:8px}
+
+/* TABLE SECTION */
+.order-body{padding:0}
+.tbl-filter{padding:12px 20px;background:#fafbfc;border-bottom:1px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.tbl-filter input,.tbl-filter select{padding:6px 10px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:inherit;outline:none;color:var(--text);background:#fff}
+.tbl-filter input:focus,.tbl-filter select:focus{border-color:var(--accent)}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{padding:10px 16px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;background:#fafbfc}
+td{padding:14px 16px;font-size:13px;color:var(--text);border-bottom:1px solid #f1f5f9;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f9fafb}
+
+/* PRODUCT CELL */
+.prod-cell{display:flex;align-items:center;gap:10px}
+.prod-thumb{width:40px;height:40px;object-fit:cover;border-radius:8px;border:1px solid var(--border);flex-shrink:0}
+.prod-thumb-ph{width:40px;height:40px;border-radius:8px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:16px;border:1px solid var(--border);flex-shrink:0}
+.prod-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.3}
+.prod-model{font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace;margin-top:2px}
+
+/* STATUS BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
+.b-active{background:var(--ok-bg);color:var(--ok-text)}
+.b-warn{background:var(--warn-bg);color:var(--warn-text)}
+.b-expired{background:var(--dan-bg);color:var(--dan-text)}
+
+/* MONO */
+.mono{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500}
+
+/* ACTIONS */
+.act-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:7px;font-size:12px;font-weight:700;border:1px solid var(--border);background:#fff;color:var(--accent);cursor:pointer;font-family:inherit;transition:all .15s;text-decoration:none;white-space:nowrap}
+.act-btn:hover{background:#f0f9ff;border-color:var(--accent)}
+.act-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.act-btn-primary:hover{background:var(--accent2)}
+
+/* SUMMARY FOOTER */
+.order-footer{background:#f8fafc;border-top:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.order-footer-left{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.footer-check{width:18px;height:18px;background:var(--ok);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;flex-shrink:0}
+.order-footer-right{font-size:12px;color:var(--muted)}
+
+/* CONTACT */
+.contact-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;box-shadow:var(--sh);display:flex;gap:20px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:24px}
+.contact-card-left{display:flex;gap:14px;flex-wrap:wrap}
+.contact-item{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--sub)}
+.contact-item a{color:var(--accent);font-weight:600}
+.contact-badge{font-size:11px;font-weight:700;color:rgba(255,255,255,.7);background:var(--brand);border-radius:6px;padding:4px 10px}
+
+/* SITE FOOTER */
+.site-footer{background:var(--brand);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-top:8px}
+.sf-brand{font-size:14px;font-weight:800;color:rgba(255,255,255,.7)}
+.sf-brand span{color:var(--accent)}
+.sf-copy{font-size:11px;color:rgba(255,255,255,.3)}
+
+@media(max-width:768px){
+  .container{padding:16px}
+  .site-header-inner{padding:0 16px} .hdr-center{display:none}
+  .order-hdr{flex-direction:column}
+  .order-hdr-right{text-align:left}
+  th,td{padding:9px 12px}
+  .contact-card{flex-direction:column}
+  .site-footer{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <div class="hdr-logo">
+      <div class="logo-badge">EMKA</div>
+      <div>
+        <div class="logo-name" id="logo-name">Kuyumcu Malzeme ve Makinalar&#305;</div>
+        <div class="logo-sub" id="logo-sub">Sipari&#351; Garanti Belgesi</div>
+      </div>
+    </div>
+    <div class="hdr-center">
+      <div class="hdr-center-t" id="hdr-t">EMKA S&#304;PAR&#304;&#350; GARANTi S&#304;STEM&#304;</div>
+      <div class="hdr-center-s">garanti.emkakuyumculuk.com</div>
+    </div>
+    <div class="hdr-lang">
+      <button class="lang-btn active" onclick="setLang('tr')">TR</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('ar')">AR</button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div id="search-section" style="text-align:center;padding:40px 0 24px">
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px">&#127863; Sipari&#351; Garanti Sorgulama</div>
+    <div style="font-size:28px;font-weight:800;letter-spacing:-.5px;color:var(--text);margin-bottom:8px" id="search-title">Sipari&#351; Garanti Belgesi</div>
+    <div style="font-size:14px;color:var(--sub);margin-bottom:28px" id="search-sub">Sipari&#351; numaras&#305; ile t&#252;m garanti belgelerinizi g&#246;r&#252;nt&#252;leyin.</div>
+    <div class="search-wrap">
+      <input type="text" id="s-input" placeholder="SALE-2026-1001" style="text-transform:uppercase" autocomplete="off">
+      <button class="search-btn" id="s-btn" onclick="doSearch()"><span id="s-btn-txt">SORGULA</span></button>
+    </div>
+    <div class="s-err" id="s-err"></div>
+  </div>
+
+  <div class="state" id="st-loading" style="display:none"><div class="spin"></div></div>
+
+  <div class="state" id="st-notfound" style="display:none">
+    <div class="state-icon">&#128269;</div>
+    <div class="state-title" id="nf-title">Sipari&#351; Bulunamad&#305;</div>
+    <div class="state-sub" id="nf-sub">Girdi&#287;iniz koda ait sipari&#351; kayd&#305; bulunamad&#305;. Kodu kontrol ederek tekrar deneyin.</div>
+  </div>
+
+  <div id="order-section" style="display:none">
+
+    <div class="order-card">
+      <div class="order-hdr">
+        <div class="order-hdr-left">
+          <div class="order-eyebrow" id="oh-eyebrow">Sipari&#351; Garanti Belgesi</div>
+          <div class="order-saleno" id="oh-saleno">SALE-2026-1001</div>
+          <div class="order-meta" id="oh-meta"></div>
+        </div>
+        <div class="order-hdr-right">
+          <div class="order-count-val" id="oh-count">0</div>
+          <div class="order-count-lbl" id="oh-count-lbl">Garanti Belgesi</div>
+          <div><div class="order-verified">&#10003; <span id="oh-verified">DO&#286;RULANDI</span></div></div>
+        </div>
+      </div>
+      <div class="order-body">
+        <div class="tbl-filter">
+          <input type="text" id="tbl-search" placeholder="&#220;r&#252;n, seri no, garanti no..." oninput="filterTable()">
+          <select id="tbl-status" onchange="filterTable()">
+            <option value="" id="fs-all">T&#252;m Durumlar</option>
+            <option value="active" id="fs-active">Aktif</option>
+            <option value="warn" id="fs-warn">Yak&#305;nda Bitiyor</option>
+            <option value="expired" id="fs-expired">S&#252;resi Doldu</option>
+          </select>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead id="tbl-head"></thead>
+            <tbody id="tbl-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="order-footer">
+        <div class="order-footer-left"><div class="footer-check">&#10003;</div><span id="of-verified">Bu belge EMKA Garanti Sistemi taraf&#305;ndan do&#287;rulanm&#305;&#351;t&#305;r.</span></div>
+        <div class="order-footer-right" id="of-date"></div>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-card-left">
+        <div class="contact-item">&#128222; <a href="tel:+905442551716" id="c-phone">+90 544 255 17 16</a></div>
+        <div class="contact-item">&#128172; <a href="https://wa.me/905442551716" target="_blank" id="c-wa">WhatsApp</a></div>
+        <div class="contact-item">&#9993;&#65039; <a href="mailto:kadiraygoren@emkakuyumculuk.com" id="c-email">kadiraygoren@emkakuyumculuk.com</a></div>
+        <div class="contact-item">&#127760; <a href="https://emkakuyumculuk.com" target="_blank" id="c-web">emkakuyumculuk.com</a></div>
+      </div>
+      <div class="contact-badge">EMKA</div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div><span class="sf-brand">EM<span>KA</span></span> <span style="font-size:11px;color:rgba(255,255,255,.35);margin-left:6px">Kuyumcu Malzeme ve Makinalar&#305;</span></div>
+  <div class="sf-copy" id="sf-copy">&#169; 2026 EMKA Kuyumcu Malzeme ve Makinalar&#305;</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const SB_URL='https://obbxxkzmnujtozxczgfm.supabase.co';
+const SB_KEY='sb_publishable_xY037ZoljAKp_mPOKh6HJA_ZCYfcuxc';
+const sb=window.supabase.createClient(SB_URL,SB_KEY);
+const VERIFY_BASE='https://garanti.emkakuyumculuk.com/verify.html?id=';
+let L='tr', DATA=null;
+
+const T={
+tr:{
+  logo_sub:'Siparis Garanti Belgesi',
+  search_title:'Siparis Garanti Belgesi',
+  search_sub:'Siparis numarasi ile tum garanti belgelerinizi goruntuleyin.',
+  s_btn:'SORGULA',s_err_empty:'Lutfen bir siparis numarasi girin.',
+  nf_title:'Siparis Bulunamadi',nf_sub:'Girdiginiz koda ait siparis kaydi bulunamadi.',
+  oh_eyebrow:'Siparis Garanti Belgesi',
+  oh_count_lbl:'Garanti Belgesi',oh_verified:'DOGRULANDI',
+  th_product:'Urun',th_model:'Model',th_serial:'Seri No',
+  th_warranty_no:'Garanti No',th_status:'Durum',th_expiry:'Garanti Bitis',th_action:'Islem',
+  fs_all:'Tum Durumlar',fs_active:'Aktif',fs_warn:'Yakinda Bitiyor',fs_expired:'Suresi Doldu',
+  s_active:'AKTIF',s_warn:'YAKINDA BITIYOR',s_expired:'SURESI DOLDU',
+  btn_view:'Garanti Belgesini Ac',
+  of_verified:'Bu belge EMKA Garanti Sistemi tarafindan dogrulanmistir.',
+  of_date:'Sorgu tarihi:',
+  empty:'Garanti kaydı bulunamadi.',
+},
+en:{
+  logo_sub:'Order Warranty Certificate',
+  search_title:'Order Warranty Certificate',
+  search_sub:'View all warranty certificates for your order using the order number.',
+  s_btn:'SEARCH',s_err_empty:'Please enter an order number.',
+  nf_title:'Order Not Found',nf_sub:'No order record found for the entered code.',
+  oh_eyebrow:'Order Warranty Certificate',
+  oh_count_lbl:'Warranty Certificate',oh_verified:'VERIFIED',
+  th_product:'Product',th_model:'Model',th_serial:'Serial No',
+  th_warranty_no:'Warranty No',th_status:'Status',th_expiry:'Warranty Expiry',th_action:'Action',
+  fs_all:'All Statuses',fs_active:'Active',fs_warn:'Expiring Soon',fs_expired:'Expired',
+  s_active:'VALID',s_warn:'EXPIRING SOON',s_expired:'EXPIRED',
+  btn_view:'View Warranty',
+  of_verified:'This document has been verified by EMKA Warranty System.',
+  of_date:'Query date:',
+  empty:'No warranty records found.',
+},
+ar:{
+  logo_sub:'شهادة ضمان الطلب',
+  search_title:'شهادة ضمان الطلب',
+  search_sub:'اعرض جميع شهادات الضمان الخاصة بطلبك باستخدام رقم الطلب.',
+  s_btn:'بحث',s_err_empty:'الرجاء إدخال رقم الطلب.',
+  nf_title:'الطلب غير موجود',nf_sub:'لم يتم العثور على سجل للرمز الذي أدخلته.',
+  oh_eyebrow:'شهادة ضمان الطلب',
+  oh_count_lbl:'شهادة ضمان',oh_verified:'موثق',
+  th_product:'المنتج',th_model:'الموديل',th_serial:'الرقم التسلسلي',
+  th_warranty_no:'رقم الضمان',th_status:'الحالة',th_expiry:'انتهاء الضمان',th_action:'إجراء',
+  fs_all:'جميع الحالات',fs_active:'ساري',fs_warn:'ينتهي قريباً',fs_expired:'منتهي',
+  s_active:'ساري',s_warn:'ينتهي قريباً',s_expired:'منتهي الصلاحية',
+  btn_view:'عرض الضمان',
+  of_verified:'تم التحقق من هذه الوثيقة بواسطة نظام ضمان EMKA.',
+  of_date:'تاريخ الاستعلام:',
+  empty:'لا توجد سجلات ضمان.',
+}};
+
+function t(k){return T[L]?.[k]??T.tr[k]??k}
+
+function setLang(l){
+  L=l;
+  document.documentElement.lang=l;
+  document.documentElement.dir=l==='ar'?'rtl':'ltr';
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.toLowerCase()===l));
+  applyT();
+  if(DATA)renderOrder(DATA);
+}
+
+function applyT(){
+  const ids={
+    logo_sub:'logo-sub',search_title:'search-title',search_sub:'search-sub',
+    s_btn:'s-btn-txt',nf_title:'nf-title',nf_sub:'nf-sub',
+    oh_count_lbl:'oh-count-lbl',oh_verified:'oh-verified',
+    fs_all:'fs-all',fs_active:'fs-active',fs_warn:'fs-warn',fs_expired:'fs-expired',
+    of_verified:'of-verified',
+  };
+  Object.entries(ids).forEach(([k,id])=>{const e=document.getElementById(id);if(e)e.textContent=t(k);});
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  applyT();
+  const p=new URLSearchParams(window.location.search);
+  const tok=p.get('id')||p.get('token')||'';
+  if(tok){document.getElementById('s-input').value=tok.toUpperCase();doSearch();}
+});
+document.addEventListener('DOMContentLoaded',()=>{
+  const inp=document.getElementById('s-input');
+  if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});
+});
+
+async function doSearch(){
+  const val=document.getElementById('s-input').value.trim();
+  const err=document.getElementById('s-err');
+  if(!val){err.textContent=t('s_err_empty');err.style.display='block';return;}
+  err.style.display='none';
+  document.getElementById('s-btn').disabled=true;
+  ss('loading');
+  const {data,error}=await sb.rpc('get_order_public',{p_token:val});
+  document.getElementById('s-btn').disabled=false;
+  if(error||!data||!data.sale){ss('notfound');return;}
+  DATA=data;renderOrder(data);ss('order');
+}
+
+function ss(state){
+  document.getElementById('search-section').style.display=state==='search'?'block':'none';
+  document.getElementById('st-loading').style.display=state==='loading'?'block':'none';
+  document.getElementById('st-notfound').style.display=state==='notfound'?'block':'none';
+  document.getElementById('order-section').style.display=state==='order'?'block':'none';
+  if(state!=='search')document.getElementById('search-section').style.display='none';
+}
+
+function wSt(endDate){
+  const d=Math.ceil((new Date(endDate)-new Date())/86400000);
+  if(d<=0)return'expired';if(d<=30)return'warn';return'active';
+}
+function wBadge(endDate){
+  const s=wSt(endDate);
+  const d=Math.ceil((new Date(endDate)-new Date())/86400000);
+  if(s==='active')return`<span class="badge b-active">&#10003; ${t('s_active')}</span>`;
+  if(s==='warn')return`<span class="badge b-warn">&#9888; ${t('s_warn')} (${d}g)</span>`;
+  return`<span class="badge b-expired">&#10005; ${t('s_expired')}</span>`;
+}
+function fd(d){if(!d)return'—';return new Date(d).toLocaleDateString(L==='en'?'en-GB':L==='ar'?'ar-SA':'tr-TR',{day:'2-digit',month:'long',year:'numeric'});}
+function esc(s){if(s==null)return'';const t=document.createElement('span');t.textContent=String(s);return t.innerHTML;}
+
+function renderOrder(data){
+  const {sale:s,customer:c,warranties:ws}=data;
+  const wArr=ws||[];
+
+  document.getElementById('oh-eyebrow').textContent=t('oh_eyebrow');
+  document.getElementById('oh-saleno').textContent=s.sale_no||'—';
+  document.getElementById('oh-count').textContent=wArr.length;
+  document.getElementById('oh-count-lbl').textContent=t('oh_count_lbl');
+  document.getElementById('oh-verified').textContent=t('oh_verified');
+
+  const meta=[];
+  if(c?.name)meta.push(`<div class="order-chip">&#128100; ${esc(c.name)}${c.city?' &mdash; '+esc(c.city):''}</div>`);
+  if(s.sale_date)meta.push(`<div class="order-chip">&#128197; ${fd(s.sale_date)}</div>`);
+  if(s.country)meta.push(`<div class="order-chip">&#127760; ${esc(s.country)}</div>`);
+  document.getElementById('oh-meta').innerHTML=meta.join('');
+
+  document.getElementById('tbl-head').innerHTML=`<tr>
+    <th>${t('th_product')}</th>
+    <th>${t('th_serial')}</th>
+    <th>${t('th_warranty_no')}</th>
+    <th>${t('th_status')}</th>
+    <th>${t('th_expiry')}</th>
+    <th>${t('th_action')}</th>
+  </tr>`;
+
+  renderTableRows(wArr);
+
+  document.getElementById('of-date').textContent=t('of_date')+' '+fd(new Date().toISOString());
+}
+
+function renderTableRows(wArr){
+  const q=(document.getElementById('tbl-search')?.value||'').toLowerCase();
+  const fs=document.getElementById('tbl-status')?.value||'';
+  const filtered=wArr.filter(w=>{
+    if(fs&&wSt(w.warranty_end)!==fs)return false;
+    if(q){
+      const pname=(L==='en'?w.product?.name_en:L==='ar'?w.product?.name_ar:null)||w.product?.name_tr||'';
+      if(!`${pname} ${w.serial_no||''} ${w.warranty_no||''}`.toLowerCase().includes(q))return false;
+    }
+    return true;
+  });
+  document.getElementById('tbl-body').innerHTML=filtered.map(w=>{
+    const p=w.product||{};
+    const pname=(L==='en'?p.name_en:L==='ar'?p.name_ar:null)||p.name_tr||'—';
+    const photo=p.photo_url
+      ?`<img src="${esc(p.photo_url)}" class="prod-thumb" alt="">`
+      :`<div class="prod-thumb-ph">&#128230;</div>`;
+    return`<tr>
+      <td><div class="prod-cell">${photo}<div>
+        <div class="prod-name">${esc(pname)}</div>
+        ${p.model?`<div class="prod-model">${esc(p.model)}</div>`:''}
+      </div></div></td>
+      <td><span class="mono">${esc(w.serial_no||'—')}</span></td>
+      <td><span class="mono" style="font-weight:600">${esc(w.warranty_no||'—')}</span></td>
+      <td>${wBadge(w.warranty_end)}</td>
+      <td style="white-space:nowrap">${fd(w.warranty_end)}</td>
+      <td><a href="${VERIFY_BASE}${esc(w.public_token)}" target="_blank" class="act-btn act-btn-primary">&#128220; ${t('btn_view')}</a></td>
+    </tr>`;
+  }).join('')||`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">${t('empty')}</td></tr>`;
+}
+
+function filterTable(){
+  if(DATA?.warranties)renderTableRows(DATA.warranties);
+}
+</script>
+</body>
+</html>
