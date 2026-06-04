@@ -144,12 +144,12 @@ tr:hover td{background:#f9fafb}
     <div class="hdr-logo">
       <div class="logo-badge">EMKA</div>
       <div>
-        <div class="logo-name" id="logo-name">Kuyumcu Malzeme ve Makinalar&#305;</div>
-        <div class="logo-sub" id="logo-sub">Sipari&#351; Garanti Belgesi</div>
+        <div class="logo-name" id="logo-name">EMKA Kuyumculuk Malzeme ve Makinaları</div>
+        <div class="logo-sub" id="logo-sub">Sipariş Garanti Belgesi</div>
       </div>
     </div>
     <div class="hdr-center">
-      <div class="hdr-center-t" id="hdr-t">EMKA S&#304;PAR&#304;&#350; GARANTi S&#304;STEM&#304;</div>
+      <div class="hdr-center-t" id="hdr-t">EMKA SİPARİŞ GARANTİ SİSTEMİ</div>
       <div class="hdr-center-s">garanti.emkakuyumculuk.com</div>
     </div>
     <div class="hdr-lang">
@@ -163,9 +163,9 @@ tr:hover td{background:#f9fafb}
 <div class="container">
 
   <div id="search-section" style="text-align:center;padding:40px 0 24px">
-    <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px">&#127863; Sipari&#351; Garanti Sorgulama</div>
-    <div style="font-size:28px;font-weight:800;letter-spacing:-.5px;color:var(--text);margin-bottom:8px" id="search-title">Sipari&#351; Garanti Belgesi</div>
-    <div style="font-size:14px;color:var(--sub);margin-bottom:28px" id="search-sub">Sipari&#351; numaras&#305; ile t&#252;m garanti belgelerinizi g&#246;r&#252;nt&#252;leyin.</div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px">🍷 Sipariş Garanti Sorgulama</div>
+    <div style="font-size:28px;font-weight:800;letter-spacing:-.5px;color:var(--text);margin-bottom:8px" id="search-title">Sipariş Garanti Belgesi</div>
+    <div style="font-size:14px;color:var(--sub);margin-bottom:28px" id="search-sub">Sipariş numarası ile tüm garanti belgelerinizi görüntüleyin.</div>
     <div class="search-wrap">
       <input type="text" id="s-input" placeholder="SALE-2026-1001" style="text-transform:uppercase" autocomplete="off">
       <button class="search-btn" id="s-btn" onclick="doSearch()"><span id="s-btn-txt">SORGULA</span></button>
@@ -176,9 +176,9 @@ tr:hover td{background:#f9fafb}
   <div class="state" id="st-loading" style="display:none"><div class="spin"></div></div>
 
   <div class="state" id="st-notfound" style="display:none">
-    <div class="state-icon">&#128269;</div>
-    <div class="state-title" id="nf-title">Sipari&#351; Bulunamad&#305;</div>
-    <div class="state-sub" id="nf-sub">Girdi&#287;iniz koda ait sipari&#351; kayd&#305; bulunamad&#305;. Kodu kontrol ederek tekrar deneyin.</div>
+    <div class="state-icon">🔍</div>
+    <div class="state-title" id="nf-title">Sipariş Bulunamadı</div>
+    <div class="state-sub" id="nf-sub">Girdiğiniz koda ait sipariş kaydı bulunamadı. Kodu kontrol ederek tekrar deneyin.</div>
   </div>
 
   <div id="order-section" style="display:none">
@@ -186,24 +186,24 @@ tr:hover td{background:#f9fafb}
     <div class="order-card">
       <div class="order-hdr">
         <div class="order-hdr-left">
-          <div class="order-eyebrow" id="oh-eyebrow">Sipari&#351; Garanti Belgesi</div>
+          <div class="order-eyebrow" id="oh-eyebrow">Sipariş Garanti Belgesi</div>
           <div class="order-saleno" id="oh-saleno">SALE-2026-1001</div>
           <div class="order-meta" id="oh-meta"></div>
         </div>
         <div class="order-hdr-right">
           <div class="order-count-val" id="oh-count">0</div>
           <div class="order-count-lbl" id="oh-count-lbl">Garanti Belgesi</div>
-          <div><div class="order-verified">&#10003; <span id="oh-verified">DO&#286;RULANDI</span></div></div>
+          <div><div class="order-verified">✓ <span id="oh-verified">DOĞRULANDI</span></div></div>
         </div>
       </div>
       <div class="order-body">
         <div class="tbl-filter">
-          <input type="text" id="tbl-search" placeholder="&#220;r&#252;n, seri no, garanti no..." oninput="filterTable()">
+          <input type="text" id="tbl-search" placeholder="Ürün, seri no, garanti no..." oninput="filterTable()">
           <select id="tbl-status" onchange="filterTable()">
-            <option value="" id="fs-all">T&#252;m Durumlar</option>
+            <option value="" id="fs-all">Tüm Durumlar</option>
             <option value="active" id="fs-active">Aktif</option>
-            <option value="warn" id="fs-warn">Yak&#305;nda Bitiyor</option>
-            <option value="expired" id="fs-expired">S&#252;resi Doldu</option>
+            <option value="warn" id="fs-warn">Yakında Bitiyor</option>
+            <option value="expired" id="fs-expired">Süresi Doldu</option>
           </select>
         </div>
         <div class="tbl-wrap">
@@ -214,17 +214,17 @@ tr:hover td{background:#f9fafb}
         </div>
       </div>
       <div class="order-footer">
-        <div class="order-footer-left"><div class="footer-check">&#10003;</div><span id="of-verified">Bu belge EMKA Garanti Sistemi taraf&#305;ndan do&#287;rulanm&#305;&#351;t&#305;r.</span></div>
+        <div class="order-footer-left"><div class="footer-check">✓</div><span id="of-verified">Bu belge EMKA Garanti Sistemi tarafından doğrulanmıştır.</span></div>
         <div class="order-footer-right" id="of-date"></div>
       </div>
     </div>
 
     <div class="contact-card">
       <div class="contact-card-left">
-        <div class="contact-item">&#128222; <a href="tel:+905442551716" id="c-phone">+90 544 255 17 16</a></div>
-        <div class="contact-item">&#128172; <a href="https://wa.me/905442551716" target="_blank" id="c-wa">WhatsApp</a></div>
-        <div class="contact-item">&#9993;&#65039; <a href="mailto:kadiraygoren@emkakuyumculuk.com" id="c-email">kadiraygoren@emkakuyumculuk.com</a></div>
-        <div class="contact-item">&#127760; <a href="https://emkakuyumculuk.com" target="_blank" id="c-web">emkakuyumculuk.com</a></div>
+        <div class="contact-item">📞 <a href="tel:+905442551716" id="c-phone">+90 544 255 17 16</a></div>
+        <div class="contact-item">💬 <a href="https://wa.me/905442551716" target="_blank" id="c-wa">WhatsApp</a></div>
+        <div class="contact-item">✉️ <a href="mailto:kadiraygoren@emkakuyumculuk.com" id="c-email">kadiraygoren@emkakuyumculuk.com</a></div>
+        <div class="contact-item">🌐 <a href="https://emkakuyumculuk.com" target="_blank" id="c-web">emkakuyumculuk.com</a></div>
       </div>
       <div class="contact-badge">EMKA</div>
     </div>
@@ -233,8 +233,8 @@ tr:hover td{background:#f9fafb}
 </div>
 
 <footer class="site-footer">
-  <div><span class="sf-brand">EM<span>KA</span></span> <span style="font-size:11px;color:rgba(255,255,255,.35);margin-left:6px">Kuyumcu Malzeme ve Makinalar&#305;</span></div>
-  <div class="sf-copy" id="sf-copy">&#169; 2026 EMKA Kuyumcu Malzeme ve Makinalar&#305;</div>
+  <div><span class="sf-brand">EM<span>KA</span></span> <span style="font-size:11px;color:rgba(255,255,255,.35);margin-left:6px">EMKA Kuyumculuk Malzeme ve Makinaları</span></div>
+  <div class="sf-copy" id="sf-copy">© 2026 EMKA Kuyumculuk Malzeme ve Makinaları</div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
@@ -247,19 +247,19 @@ let L='tr', DATA=null;
 
 const T={
 tr:{
-  logo_sub:'Siparis Garanti Belgesi',
-  search_title:'Siparis Garanti Belgesi',
-  search_sub:'Siparis numarasi ile tum garanti belgelerinizi goruntuleyin.',
-  s_btn:'SORGULA',s_err_empty:'Lutfen bir siparis numarasi girin.',
-  nf_title:'Siparis Bulunamadi',nf_sub:'Girdiginiz koda ait siparis kaydi bulunamadi.',
-  oh_eyebrow:'Siparis Garanti Belgesi',
-  oh_count_lbl:'Garanti Belgesi',oh_verified:'DOGRULANDI',
-  th_product:'Urun',th_model:'Model',th_serial:'Seri No',
-  th_warranty_no:'Garanti No',th_status:'Durum',th_expiry:'Garanti Bitis',th_action:'Islem',
-  fs_all:'Tum Durumlar',fs_active:'Aktif',fs_warn:'Yakinda Bitiyor',fs_expired:'Suresi Doldu',
+  logo_sub:'Sipariş Garanti Belgesi',
+  search_title:'Sipariş Garanti Belgesi',
+  search_sub:'Sipariş numarası ile tüm garanti belgelerinizi görüntüleyin.',
+  s_btn:'SORGULA',s_err_empty:'Lütfen bir sipariş numarası girin.',
+  nf_title:'Sipariş Bulunamadı',nf_sub:'Girdiğiniz koda ait sipariş kaydı bulunamadı.',
+  oh_eyebrow:'Sipariş Garanti Belgesi',
+  oh_count_lbl:'Garanti Belgesi',oh_verified:'DOĞRULANDI',
+  th_product:'Ürün',th_model:'Model',th_serial:'Seri No',
+  th_warranty_no:'Garanti No',th_status:'Durum',th_expiry:'Garanti Bitiş',th_action:'Islem',
+  fs_all:'Tüm Durumlar',fs_active:'Aktif',fs_warn:'Yakında Bitiyor',fs_expired:'Süresi Doldu',
   s_active:'AKTIF',s_warn:'YAKINDA BITIYOR',s_expired:'SURESI DOLDU',
   btn_view:'Garanti Belgesini Ac',
-  of_verified:'Bu belge EMKA Garanti Sistemi tarafindan dogrulanmistir.',
+  of_verified:'Bu belge EMKA Garanti Sistemi tarafından doğrulanmıştır.',
   of_date:'Sorgu tarihi:',
   empty:'Garanti kaydı bulunamadi.',
 },
@@ -359,9 +359,9 @@ function wSt(endDate){
 function wBadge(endDate){
   const s=wSt(endDate);
   const d=Math.ceil((new Date(endDate)-new Date())/86400000);
-  if(s==='active')return`<span class="badge b-active">&#10003; ${t('s_active')}</span>`;
-  if(s==='warn')return`<span class="badge b-warn">&#9888; ${t('s_warn')} (${d}g)</span>`;
-  return`<span class="badge b-expired">&#10005; ${t('s_expired')}</span>`;
+  if(s==='active')return`<span class="badge b-active">✓ ${t('s_active')}</span>`;
+  if(s==='warn')return`<span class="badge b-warn">⚠ ${t('s_warn')} (${d}g)</span>`;
+  return`<span class="badge b-expired">✕ ${t('s_expired')}</span>`;
 }
 function fd(d){if(!d)return'—';return new Date(d).toLocaleDateString(L==='en'?'en-GB':L==='ar'?'ar-SA':'tr-TR',{day:'2-digit',month:'long',year:'numeric'});}
 function esc(s){if(s==null)return'';const t=document.createElement('span');t.textContent=String(s);return t.innerHTML;}
@@ -377,9 +377,9 @@ function renderOrder(data){
   document.getElementById('oh-verified').textContent=t('oh_verified');
 
   const meta=[];
-  if(c?.name)meta.push(`<div class="order-chip">&#128100; ${esc(c.name)}${c.city?' &mdash; '+esc(c.city):''}</div>`);
-  if(s.sale_date)meta.push(`<div class="order-chip">&#128197; ${fd(s.sale_date)}</div>`);
-  if(s.country)meta.push(`<div class="order-chip">&#127760; ${esc(s.country)}</div>`);
+  if(c?.name)meta.push(`<div class="order-chip">👤 ${esc(c.name)}${c.city?' &mdash; '+esc(c.city):''}</div>`);
+  if(s.sale_date)meta.push(`<div class="order-chip">📅 ${fd(s.sale_date)}</div>`);
+  if(s.country)meta.push(`<div class="order-chip">🌐 ${esc(s.country)}</div>`);
   document.getElementById('oh-meta').innerHTML=meta.join('');
 
   document.getElementById('tbl-head').innerHTML=`<tr>
@@ -412,7 +412,7 @@ function renderTableRows(wArr){
     const pname=(L==='en'?p.name_en:L==='ar'?p.name_ar:null)||p.name_tr||'—';
     const photo=p.photo_url
       ?`<img src="${esc(p.photo_url)}" class="prod-thumb" alt="">`
-      :`<div class="prod-thumb-ph">&#128230;</div>`;
+      :`<div class="prod-thumb-ph">📦</div>`;
     return`<tr>
       <td><div class="prod-cell">${photo}<div>
         <div class="prod-name">${esc(pname)}</div>
@@ -422,7 +422,7 @@ function renderTableRows(wArr){
       <td><span class="mono" style="font-weight:600">${esc(w.warranty_no||'—')}</span></td>
       <td>${wBadge(w.warranty_end)}</td>
       <td style="white-space:nowrap">${fd(w.warranty_end)}</td>
-      <td><a href="${VERIFY_BASE}${esc(w.public_token)}" target="_blank" class="act-btn act-btn-primary">&#128220; ${t('btn_view')}</a></td>
+      <td><a href="${VERIFY_BASE}${esc(w.public_token)}" target="_blank" class="act-btn act-btn-primary">📜 ${t('btn_view')}</a></td>
     </tr>`;
   }).join('')||`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">${t('empty')}</td></tr>`;
 }
