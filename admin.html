@@ -866,7 +866,7 @@ async function reloadAll(){
       sb.from('products').select('*,categories(*)').order('name_tr'),
       sb.from('categories').select('*').order('sort_order'),
       sb.from('service_records').select('*,warranty:warranties(warranty_code,customer_id,customers(*))').order('service_date',{ascending:false}),
-      sb.from('sales').select('*,customers(name,city,country)').order('created_at',{ascending:false}),
+      sb.from('sales').select('*').order('created_at',{ascending:false}),
     ]);
     const errs=[wR,cR,pR,catR,sR,salR].map((r,i)=>r.error?['Garanti','Musteri','Urun','Kategori','Servis','Satis'][i]+': '+r.error.message:null).filter(Boolean);
     if(errs.length){toast('Yukleme hatasi: '+errs[0],'err');console.error('reloadAll errors:',errs);}
@@ -925,12 +925,12 @@ function loadDash(){
   const dtSales=document.getElementById('dash-sales-tbl');
   if(dtSales){
     const wCount=id=>WS.filter(w=>w.sale_id===id).length;
-    dtSales.innerHTML=SALES.slice(0,5).map(s=>`<tr>
+    dtSales.innerHTML=SALES.slice(0,5).map(s=>{const sc2=CS.find(c=>c.id===s.customer_id)||{};return`<tr>
       <td><span class="mono" style="font-weight:700">${esc(s.sale_no||'—')}</span></td>
-      <td>${esc(s.customers?.name||'—')}</td>
+      <td>${esc(sc2.name||'—')}</td>
       <td>${fd(s.sale_date)}</td>
       <td><span class="badge b-blue">${wCount(s.id)} garanti</span></td>
-    </tr>`).join('')||'<tr class="erow"><td colspan="4">Henüz satış yok</td></tr>';
+    </tr>`;}).join('')||'<tr class="erow"><td colspan="4">Henüz satış yok</td></tr>';
   }
   const endOfMonth=new Date(now.getFullYear(),now.getMonth()+1,0);
   const exp=WS.filter(w=>{const d=new Date(w.warranty_end);return d>=now&&d<=endOfMonth;}).sort((a,b)=>new Date(a.warranty_end)-new Date(b.warranty_end));
@@ -1159,9 +1159,11 @@ function renderSales(){
   if(lbl)lbl.textContent=`${list.length} / ${SALES.length} satış`;
   const wCount=id=>WS.filter(w=>w.sale_id===id).length;
   const ORDER_URL='https://garanti.emkakuyumculuk.com/order.html?id=';
-  document.getElementById('sales-tbl').innerHTML=list.map(s=>`<tr>
+  document.getElementById('sales-tbl').innerHTML=list.map(s=>{
+    const sc=CS.find(c=>c.id===s.customer_id)||{};
+    return`<tr>
     <td><span class="mono" style="font-weight:700">${esc(s.sale_no||'—')}</span></td>
-    <td><b>${esc(s.customers?.name||'—')}</b>${s.customers?.city?`<br><span style="font-size:11px;color:var(--muted)">${esc(s.customers.city)}</span>`:''}</td>
+    <td><b>${esc(sc.name||'—')}</b>${sc.city?`<br><span style="font-size:11px;color:var(--muted)">${esc(sc.city)}</span>`:''}</td>
     <td>${fd(s.sale_date)}</td>
     <td>${esc(s.country||'—')}</td>
     <td><span class="badge b-blue">${wCount(s.id)} garanti</span></td>
@@ -1171,7 +1173,8 @@ function renderSales(){
       <button class="btn-xs bl" onclick="navigator.clipboard.writeText('${ORDER_URL}${s.public_order_token}').then(()=>toast('Link kopyalandı','ok'))">Kopyala</button>
       <button class="btn-xs bd" onclick="delRec('sales','${s.id}')">🗑</button>
     </div></td>
-  </tr>`).join('')||'<tr class="erow"><td colspan="6">Satış bulunamadı</td></tr>';
+  </tr>`;
+  }).join('')||'<tr class="erow"><td colspan="6">Satış bulunamadı</td></tr>';
 }
 function clearSalesF(){['sales-search','sales-f-from','sales-f-to'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});renderSales();}
 
@@ -1352,7 +1355,7 @@ async function saveSale(){try{
       </div>
     </div>`;
   }
-  if(actEl)actEl.innerHTML='<button class="btn btn-ghost" onclick="closeModal(\'sale\')">Kapat</button>';
+  if(actEl){actEl.innerHTML='';const bc=document.createElement('button');bc.className='btn btn-ghost';bc.textContent='Kapat';bc.onclick=()=>closeModal('sale');actEl.appendChild(bc);}
   toast(saleNo+' — '+createdCount+' garanti oluşturuldu','ok');
 }catch(e){toast('JS Hatası: '+e.message,'err');console.error('saveSale',e);
   const btn=document.querySelector('#sale-actions .btn-primary');
@@ -1431,7 +1434,11 @@ function genRandStr(n){
     document.getElementById('sale-note').value='';
     document.getElementById('sale-products-list').innerHTML='';
     document.getElementById('sale-result').style.display='none';
-    document.getElementById('sale-actions').innerHTML='<button class="btn btn-ghost" onclick="closeModal(\'sale\')">İptal</button><button class="btn btn-primary" onclick="saveSale()">🛒 Satışı Kaydet ve Garantileri Oluştur</button>';
+    const saEl=document.getElementById('sale-actions');
+    if(saEl){saEl.innerHTML='';
+      const b1=document.createElement('button');b1.className='btn btn-ghost';b1.textContent='İptal';b1.onclick=()=>closeModal('sale');saEl.appendChild(b1);
+      const b2=document.createElement('button');b2.className='btn btn-primary';b2.innerHTML='🛒 Satışı Kaydet ve Garantileri Oluştur';b2.onclick=()=>saveSale();saEl.appendChild(b2);
+    }
     document.getElementById('sale-total-summary').style.display='none';
     addSaleProdRow();
   }
