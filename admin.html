@@ -859,21 +859,23 @@ document.querySelectorAll('.nav-item[data-page]').forEach(b=>b.addEventListener(
 
 // ═══ DATA LOAD ═══
 async function reloadAll(){
-  try{
-    const [wR,cR,pR,catR,sR,salR]=await Promise.all([
-      sb.from('warranties').select('*,warranty_items(*,product:products(*)),customers(*)').order('created_at',{ascending:false}),
-      sb.from('customers').select('*').order('name'),
-      sb.from('products').select('*,categories(*)').order('name_tr'),
-      sb.from('categories').select('*').order('sort_order'),
-      sb.from('service_records').select('*,warranty:warranties(warranty_code,customer_id,customers(*))').order('service_date',{ascending:false}),
-      sb.from('sales').select('*').order('created_at',{ascending:false}),
-    ]);
-    const errs=[wR,cR,pR,catR,sR,salR].map((r,i)=>r.error?['Garanti','Musteri','Urun','Kategori','Servis','Satis'][i]+': '+r.error.message:null).filter(Boolean);
-    if(errs.length){toast('Yukleme hatasi: '+errs[0],'err');console.error('reloadAll errors:',errs);}
-    WS=wR.data||[];CS=cR.data||[];PS=pR.data||[];CATS=catR.data||[];SVCS=sR.data||[];SALES=salR.data||[];
-    if(salR.error)console.error('sales error:',salR.error);
-    fillCatFilters();fillCountryFilter();
-  }catch(e){toast('Baglanti hatasi: '+e.message,'err');console.error('reloadAll:',e);}
+  console.log('[EMKA] reloadAll başladı');
+  async function qry(table,sel,ord){
+    try{
+      const {data,error}=await sb.from(table).select(sel).order(ord,{ascending:false});
+      if(error){console.error('[EMKA] sorgu hatası',table,error.message);return[];}
+      console.log('[EMKA]',table,data?.length,'kayıt');
+      return data||[];
+    }catch(e){console.error('[EMKA] istisna',table,e.message);return[];}
+  }
+  WS=await qry('warranties','*,warranty_items(*,product:products(*)),customers(*)','created_at');
+  CS=await qry('customers','*','name');
+  PS=await qry('products','*,categories(*)','name_tr');
+  CATS=await qry('categories','*','sort_order');
+  SVCS=await qry('service_records','*,warranty:warranties(warranty_code,customer_id,customers(*))','service_date');
+  try{const {data}=await sb.from('sales').select('*').order('created_at',{ascending:false});SALES=data||[];}catch(e){SALES=[];console.warn('[EMKA] sales sorgusu başarısız:',e.message);}
+  console.log('[EMKA] reloadAll tamamlandı. WS:',WS.length,'CS:',CS.length,'PS:',PS.length);
+  fillCatFilters();fillCountryFilter();
 }
 function fillCatFilters(){
   ['w-f-cat','p-f-cat'].forEach(id=>{
