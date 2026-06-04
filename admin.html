@@ -1239,8 +1239,7 @@ function countSerials(idx){
   const cnt=document.getElementById('serial-count-'+idx);
   const row=document.getElementById('spr-'+idx);
   if(!ta||!cnt||!row)return;
-  const lines=ta.value.split('
-').map(l=>l.trim()).filter(Boolean);
+  const lines=ta.value.split('\n').map(l=>l.trim()).filter(Boolean);
   const qty=parseInt(row.querySelector('.spr-qty').value)||1;
   cnt.textContent=lines.length+' / '+qty;
   cnt.className='sale-serial-count'+(lines.length===qty?' ok':lines.length>qty?' bad':'');
@@ -1317,8 +1316,7 @@ async function saveSale(){try{
     const qty=parseInt(row.querySelector('.spr-qty').value)||1;
     const wmonths=parseInt(row.querySelector('.spr-months').value)||24;
     const ta=row.querySelector('.sale-serial-ta');
-    const serials=(ta?.value||'').split('
-').map(l=>l.trim()).filter(Boolean);
+    const serials=(ta?.value||'').split('\n').map(l=>l.trim()).filter(Boolean);
     for(let i=0;i<qty;i++){
       const {data:wNo,error:wNoErr}=await sb.rpc('generate_warranty_no');
       if(wNoErr){errors.push('warranty_no: '+wNoErr.message);continue;}
@@ -1354,7 +1352,7 @@ async function saveSale(){try{
       </div>
     </div>`;
   }
-  if(actEl)actEl.innerHTML='<button class="btn btn-ghost" onclick="closeModal('sale')">Kapat</button>';
+  if(actEl)actEl.innerHTML='<button class="btn btn-ghost" onclick="closeModal(\'sale\')">Kapat</button>';
   toast(saleNo+' — '+createdCount+' garanti oluşturuldu','ok');
 }catch(e){toast('JS Hatası: '+e.message,'err');console.error('saveSale',e);
   const btn=document.querySelector('#sale-actions .btn-primary');
