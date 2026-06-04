@@ -1006,10 +1006,22 @@ async function doSearch(){
   err.style.display='none';
   document.getElementById('s-btn').disabled=true;
   ss('loading');
-  const {data,error}=await sb.rpc('get_warranty_public',{p_token:val});
+  let data, error;
+  try{
+    const res=await sb.rpc('get_warranty_public',{p_token:val});
+    data=res.data; error=res.error;
+  }catch(e){
+    document.getElementById('s-btn').disabled=false;
+    ss('notfound');return;
+  }
   document.getElementById('s-btn').disabled=false;
   if(error||!data){ss('notfound');return;}
-  D=data;renderData(data);ss('warranty');
+  try{
+    D=data;renderData(data);ss('warranty');
+  }catch(e){
+    console.error('renderData hatası:',e);
+    ss('notfound');
+  }
 }
 
 function ss(state){
@@ -1025,7 +1037,8 @@ function renderData(data){
   const {warranty:w,items,customer:c,service_records:svc}=data;
   const items2=items||[];
   const fi=items2[0]||{};
-  const fp=fi.product||{};
+  // Toplu satış garantileri product_id ile gelir, warranty_items boş olabilir
+  const fp=fi.product||data.product||{};
   const pname=(L==='en'?fp.name_en:L==='ar'?fp.name_ar:fp.name_tr)||fp.name_tr||'—';
   const now=new Date();
   const endD=new Date(w.warranty_end);
@@ -1295,6 +1308,8 @@ function switchTab(tab){
 }
 
 /* ════ UTILS ════ */
+function esc(s){if(s==null)return'';const el=document.createElement('span');el.textContent=String(s);return el.innerHTML;}
+function shareW(code){const url=window.location.href;if(navigator.share)navigator.share({title:'EMKA Garanti: '+code,url});else navigator.clipboard.writeText(url).then(()=>alert('Link kopyalandı!'));}
 function fd(d){
   if(!d)return'—';
   const dt=new Date(d);
