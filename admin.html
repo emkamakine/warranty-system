@@ -59,10 +59,10 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .page{display:none}
 .page.active{display:block}
 .page-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:22px}
-.page-title{font-size:22px;font-weight:800;letter-spacing:-.4px}
+.page-title{font-size:23px;font-weight:800;letter-spacing:-.4px}
 .page-sub{font-size:13px;color:var(--muted);margin-top:3px}
 /* STAT CARDS */
-.stat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:22px}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
 .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh)}
 .stat-icon{font-size:18px;margin-bottom:8px}
 .stat-lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
@@ -76,7 +76,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
 th{padding:9px 13px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;background:#fafbfc}
-td{padding:11px 13px;font-size:13px;font-weight:500;color:var(--text);border-bottom:1px solid var(--border2)}
+td{padding:11px 13px;font-size:13.5px;font-weight:500;color:var(--text);border-bottom:1px solid var(--border2)}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#f9fafb}
 .erow td{text-align:center;color:var(--muted);font-size:13px;padding:44px;font-weight:400}
@@ -191,6 +191,22 @@ textarea{resize:vertical;min-height:72px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--sub);cursor:pointer;margin-bottom:14px;padding:4px 0}
 .back-btn:hover{color:var(--text)}
+
+/* SALE PRODUCT ROWS */
+.sale-prod-row{background:#f8fafc;border:1px solid var(--border);border-radius:9px;padding:14px;margin-bottom:10px}
+.sale-prod-top{display:grid;grid-template-columns:1fr 90px 90px auto;gap:8px;align-items:center;margin-bottom:8px}
+.sale-serial-wrap{display:none}
+.sale-serial-wrap.open{display:block}
+.sale-serial-lbl{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;display:flex;align-items:center;justify-content:space-between}
+.sale-serial-ta{width:100%;padding:8px 12px;background:#fff;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-family:'IBM Plex Mono',monospace;resize:vertical;min-height:72px;outline:none;color:var(--text)}
+.sale-serial-ta:focus{border-color:var(--accent)}
+.sale-serial-count{font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;background:#f1f5f9;color:var(--sub)}
+.sale-serial-count.ok{background:var(--ok-bg);color:var(--ok-text)}
+.sale-serial-count.bad{background:var(--dan-bg);color:var(--dan-text)}
+/* SAVE RESULT */
+.sale-result-card{background:#f0fdf4;border:1.5px solid #a7f3d0;border-radius:10px;padding:16px;margin-top:14px}
+.sale-result-title{font-size:13px;font-weight:700;color:var(--ok-text);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sale-result-links{display:flex;gap:8px;flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -226,6 +242,8 @@ textarea{resize:vertical;min-height:72px}
   <div class="snav-lbl">Katalog</div>
   <button class="nav-item" data-page="products">📦 Ürün Kataloğu</button>
   <button class="nav-item" data-page="categories">🏷️ Kategoriler</button>
+  <div class="snav-lbl">Satış</div>
+  <button class="nav-item" data-page="sales">🛒 Satışlar</button>
   <div class="snav-lbl">Servis</div>
   <button class="nav-item" data-page="service">🔧 Servis Kayıtları</button>
   <div class="snav-lbl">Sistem</div>
@@ -244,12 +262,14 @@ textarea{resize:vertical;min-height:72px}
     <button class="btn btn-primary" onclick="navigate('warranties');openModal('warranty')">+ Yeni Garanti</button>
   </div>
   <div class="stat-grid">
-    <div class="stat-card"><div class="stat-icon">🛡️</div><div class="stat-lbl">Toplam</div><div class="stat-val c-accent" id="st-total">—</div></div>
-    <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-lbl">Aktif</div><div class="stat-val c-ok" id="st-active">—</div></div>
+    <div class="stat-card"><div class="stat-icon">🛡️</div><div class="stat-lbl">Toplam Garanti</div><div class="stat-val c-accent" id="st-total">—</div></div>
+    <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-lbl">Aktif Garanti</div><div class="stat-val c-ok" id="st-active">—</div></div>
     <div class="stat-card"><div class="stat-icon">⚠️</div><div class="stat-lbl">Bu Ay Bitiyor</div><div class="stat-val c-warn" id="st-expiring">—</div></div>
     <div class="stat-card"><div class="stat-icon">❌</div><div class="stat-lbl">Süresi Dolan</div><div class="stat-val c-danger" id="st-expired">—</div></div>
-    <div class="stat-card"><div class="stat-icon">🔧</div><div class="stat-lbl">Bekleyen Servis</div><div class="stat-val c-blue" id="st-svc-pending">—</div></div>
-    <div class="stat-card"><div class="stat-icon">🚫</div><div class="stat-lbl">Garanti Dışı Servis</div><div class="stat-val c-sub" id="st-svc-out">—</div></div>
+    <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-lbl">Bugün Oluşturulan</div><div class="stat-val c-accent" id="st-today">—</div></div>
+    <div class="stat-card"><div class="stat-icon">📆</div><div class="stat-lbl">Bu Ay Oluşturulan</div><div class="stat-val c-blue" id="st-this-month">—</div></div>
+    <div class="stat-card"><div class="stat-icon">🔧</div><div class="stat-lbl">Bekleyen Servis</div><div class="stat-val" style="color:#7c3aed" id="st-svc-pending">—</div></div>
+    <div class="stat-card"><div class="stat-icon">🌍</div><div class="stat-lbl">Yurtdışı Müşteri</div><div class="stat-val c-sub" id="st-intl">—</div></div>
   </div>
   <div class="card">
     <div class="card-hdr"><div class="card-title">Son Garanti Kayıtları</div><button class="btn btn-ghost" style="font-size:12px;padding:5px 11px" onclick="navigate('warranties')">Tümünü Gör →</button></div>
@@ -261,7 +281,7 @@ textarea{resize:vertical;min-height:72px}
   <div class="card">
     <div class="card-hdr"><div class="card-title">⚠️ Bu Ay Biten Garantiler</div></div>
     <div class="tbl-wrap"><table>
-      <thead><tr><th>Kod</th><th>Ürün</th><th>Müşteri</th><th>Bitiş</th><th>Kalan</th><th>İşlemler</th></tr></thead>
+      <thead><tr><th>Garanti No</th><th>Ürün</th><th>Müşteri</th><th>Bitiş</th><th>Kalan</th><th>İşlem</th></tr></thead>
       <tbody id="expiring-tbl"><tr class="erow"><td colspan="6">—</td></tr></tbody>
     </table></div>
   </div>
@@ -284,7 +304,7 @@ textarea{resize:vertical;min-height:72px}
       <button class="btn btn-ghost" style="font-size:11px;padding:5px 11px" onclick="clearWF()">× Temizle</button>
     </div>
     <div class="tbl-wrap"><table>
-      <thead><tr><th>Kod</th><th>Ürün(ler)</th><th>Müşteri</th><th>Tutar</th><th>Satış</th><th>Bitiş</th><th>Durum</th><th>İşlemler</th></tr></thead>
+      <thead><tr><th>Garanti No</th><th>Seri No</th><th>Ürün</th><th>Müşteri</th><th>Tutar</th><th>Satış</th><th>Bitiş</th><th>Durum</th><th>İşlem</th></tr></thead>
       <tbody id="w-tbl"><tr class="erow"><td colspan="8">Yükleniyor...</td></tr></tbody>
     </table></div>
   </div>
@@ -324,6 +344,7 @@ textarea{resize:vertical;min-height:72px}
       <input class="sinput" style="max-width:240px" placeholder="Ürün adı, model..." oninput="renderP(this.value)">
       <select id="p-f-cat" onchange="renderP()"><option value="">Tüm Kategoriler</option></select>
       <select id="p-f-active" onchange="renderP()"><option value="">Tüm Durum</option><option value="1">Aktif</option><option value="0">Pasif</option></select>
+      <select id="p-sort" onchange="renderP()"><option value="name">İsme Göre</option><option value="model">Model Kodu</option><option value="category">Kategoriye Göre</option><option value="usage">Kullanım</option></select>
     </div>
     <div class="tbl-wrap"><table>
       <thead><tr><th>Foto</th><th>Ürün Adı (TR)</th><th>Model</th><th>Kategori</th><th>Garanti</th><th>Belgeler</th><th>Durum</th><th>Kullanım</th><th>İşlemler</th></tr></thead>
@@ -340,7 +361,7 @@ textarea{resize:vertical;min-height:72px}
   </div>
   <div class="card">
     <div class="tbl-wrap"><table>
-      <thead><tr><th>Türkçe</th><th>English</th><th>العربية</th><th>Sıra</th><th>İşlemler</th></tr></thead>
+      <thead><tr><th>Türkçe</th><th>English</th><th>العربية</th><th>Varsayılan Garanti</th><th>Durum</th><th>Sıra</th><th>İşlemler</th></tr></thead>
       <tbody id="cat-tbl"><tr class="erow"><td colspan="5">Yükleniyor...</td></tr></tbody>
     </table></div>
   </div>
@@ -361,6 +382,27 @@ textarea{resize:vertical;min-height:72px}
     <div class="tbl-wrap"><table>
       <thead><tr><th>Garanti</th><th>Müşteri</th><th>Tarih / Teslim</th><th>Açıklama</th><th>Teknisyen</th><th>Durum</th><th>Görünürlük</th><th>Ücret</th><th>İşlemler</th></tr></thead>
       <tbody id="s-tbl"><tr class="erow"><td colspan="9">Yükleniyor...</td></tr></tbody>
+    </table></div>
+  </div>
+</div>
+
+
+<!-- SALES -->
+<div id="page-sales" class="page">
+  <div class="page-hdr">
+    <div><div class="page-title">Satışlar</div><div class="page-sub" id="sales-count-lbl">—</div></div>
+    <button class="btn btn-primary" onclick="openModal('sale')">+ Yeni Satış</button>
+  </div>
+  <div class="card">
+    <div class="fbar">
+      <input class="sinput" style="max-width:260px" id="sales-search" placeholder="Satış no, müşteri, ülke..." oninput="renderSales()">
+      <input type="date" id="sales-f-from" title="Başlangıç tarihi" onchange="renderSales()">
+      <input type="date" id="sales-f-to" title="Bitiş tarihi" onchange="renderSales()">
+      <button class="btn btn-ghost" style="font-size:11px;padding:5px 11px" onclick="clearSalesF()">× Temizle</button>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Satış No</th><th>Müşteri</th><th>Tarih</th><th>Ülke</th><th>Garanti Sayısı</th><th>İşlemler</th></tr></thead>
+      <tbody id="sales-tbl"><tr class="erow"><td colspan="6">Yükleniyor...</td></tr></tbody>
     </table></div>
   </div>
 </div>
@@ -558,7 +600,13 @@ textarea{resize:vertical;min-height:72px}
       <div class="fg full"><label>Kategori Adı (TR) *</label><input type="text" id="cat-tr"></div>
       <div class="fg full"><label>Kategori Adı (EN)</label><input type="text" id="cat-en"></div>
       <div class="fg full"><label>Kategori Adı (AR)</label><input type="text" id="cat-ar" dir="rtl"></div>
-      <div class="fg full"><label>Sıra No</label><input type="number" id="cat-ord" value="0"></div>
+      <div class="fg"><label>Varsayılan Garanti (ay)</label><input type="number" id="cat-months" value="24" min="1" max="120"></div>
+      <div class="fg"><label>Sıra No</label><input type="number" id="cat-ord" value="0"></div>
+      <div class="fg full">
+        <label>Durum</label>
+        <div class="tgl-row"><label class="tgl"><input type="checkbox" id="cat-active" checked><span class="tgl-sl"></span></label><span class="tgl-lbl">Aktif (katalogda görünür)</span></div>
+      </div>
+      <div class="fg full"><label>Varsayılan Garanti Şartı (TR)</label><textarea id="cat-terms-tr" rows="2" placeholder="Bu kategorideki ürünler için varsayılan garanti şartı..."></textarea></div>
     </div>
     <div class="factions">
       <button class="btn btn-ghost" onclick="closeModal('category')">İptal</button>
@@ -605,6 +653,59 @@ textarea{resize:vertical;min-height:72px}
   </div>
 </div>
 
+
+<!-- MODAL: SALE -->
+<div class="modal" id="modal-sale">
+  <div class="mcard mcard-lg" style="max-width:820px">
+    <button class="mclose" onclick="closeModal('sale')">✕</button>
+    <div class="mtitle" id="sale-modal-title">Yeni Satış Oluştur</div>
+    <div class="fgrid">
+      <div class="fg full">
+        <label>Müşteri *</label>
+        <select id="sale-customer" onchange="onSaleCustChange()">
+          <option value="">— Müşteri seçin —</option>
+          <option value="__new__">➕ Yeni müşteri ekle</option>
+        </select>
+      </div>
+      <div id="sale-new-cust" style="display:none;grid-column:1/-1">
+        <div class="fgrid" style="border:1px solid #e0f0fb;border-radius:9px;padding:13px;background:#f0f9ff">
+          <div class="fg"><label>Ad Soyad *</label><input type="text" id="snc-name"></div>
+          <div class="fg"><label>Firma Adı</label><input type="text" id="snc-firm"></div>
+          <div class="fg"><label>Telefon</label><input type="tel" id="snc-phone"></div>
+          <div class="fg"><label>WhatsApp</label><input type="tel" id="snc-wa"></div>
+          <div class="fg"><label>Şehir</label><input type="text" id="snc-city"></div>
+          <div class="fg"><label>Ülke</label><input type="text" id="snc-country" value="TR"></div>
+        </div>
+      </div>
+      <div class="fg"><label>Satış Tarihi *</label><input type="date" id="sale-date"></div>
+      <div class="fg"><label>Para Birimi (iç)</label>
+        <select id="sale-currency"><option>TRY</option><option>USD</option><option>EUR</option><option>GBP</option></select>
+      </div>
+      <div class="fg"><label>Ülke</label><input type="text" id="sale-country" placeholder="TR"></div>
+      <div class="fg full"><label>İç Not (müşteriye görünmez)</label><textarea id="sale-note" placeholder="İç notlar..."></textarea></div>
+      <div class="fg full">
+        <label style="display:flex;justify-content:space-between;align-items:center">
+          <span>Ürünler *</span>
+          <span style="font-size:11px;color:var(--muted);font-weight:500;text-transform:none;letter-spacing:0">Her ürün için ayrı garanti kaydı oluşturulur</span>
+        </label>
+        <div id="sale-products-list" style="margin-top:6px"></div>
+        <button type="button" class="add-btn" style="margin-top:6px" onclick="addSaleProdRow()">+ Ürün Ekle</button>
+      </div>
+      <div class="fg full" id="sale-total-summary" style="display:none">
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:9px;padding:12px 16px;display:flex;align-items:center;gap:10px">
+          <span style="font-size:16px">🛡️</span>
+          <span id="sale-total-txt" style="font-size:13px;font-weight:600;color:#1e40af"></span>
+        </div>
+      </div>
+    </div>
+    <div id="sale-result" style="display:none"></div>
+    <div class="factions" id="sale-actions">
+      <button class="btn btn-ghost" onclick="closeModal('sale')">İptal</button>
+      <button class="btn btn-primary" onclick="saveSale()">🛒 Satışı Kaydet ve Garantileri Oluştur</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL: QR -->
 <div class="modal" id="modal-qr">
   <div class="mcard" style="max-width:340px;text-align:center">
@@ -620,7 +721,7 @@ textarea{resize:vertical;min-height:72px}
   </div>
 </div>
 
-<div style="position:fixed;right:10px;bottom:8px;z-index:9999;font-size:10px;color:#94a3b8;background:rgba(255,255,255,.85);padding:3px 7px;border-radius:6px;border:1px solid #e2e8f0">v2026.06.03-fix1</div>
+<div style="position:fixed;right:10px;bottom:8px;z-index:9999;font-size:10px;color:#94a3b8;background:rgba(255,255,255,.85);padding:3px 7px;border-radius:6px;border:1px solid #e2e8f0">v2026.06-oturum-e</div>
 <div id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -629,8 +730,8 @@ const SB_URL='https://obbxxkzmnujtozxczgfm.supabase.co';
 const SB_KEY='sb_publishable_xY037ZoljAKp_mPOKh6HJA_ZCYfcuxc';
 const sb=window.supabase.createClient(SB_URL,SB_KEY);
 let VERIFY_URL='https://garanti.emkakuyumculuk.com/verify.html?id=';
-let WS=[],CS=[],PS=[],CATS=[],SVCS=[];
-let EID={warranty:null,customer:null,product:null,category:null,service:null};
+let WS=[],CS=[],PS=[],CATS=[],SVCS=[],SALES=[];
+let EID={warranty:null,customer:null,product:null,category:null,service:null,sale:null};
 let curQR='';
 
 // ═══ SETTINGS ═══
@@ -659,7 +760,7 @@ async function saveSettings(){
 }
 
 // ═══ AUTH / BOOTSTRAP ═══
-const ADMIN_VERSION='v2026.06.03-fix1';
+const ADMIN_VERSION='v2026.06-oturum-e';
 let ADMIN_BOOTED=false;
 
 function showLogin(){
@@ -750,7 +851,7 @@ function navigate(p){
   document.querySelectorAll('.nav-item[data-page]').forEach(x=>x.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
   const nb=document.querySelector(`[data-page="${p}"]`);if(nb)nb.classList.add('active');
-  const map={dashboard:loadDash,warranties:renderW,customers:renderC,products:renderP,categories:renderCat,service:renderSvc};
+  const map={dashboard:loadDash,warranties:renderW,customers:renderC,products:renderP,categories:renderCat,service:renderSvc,sales:renderSales};
   if(map[p])map[p]();
   window.scrollTo(0,0);
 }
@@ -759,16 +860,18 @@ document.querySelectorAll('.nav-item[data-page]').forEach(b=>b.addEventListener(
 // ═══ DATA LOAD ═══
 async function reloadAll(){
   try{
-    const [wR,cR,pR,catR,sR]=await Promise.all([
+    const [wR,cR,pR,catR,sR,salR]=await Promise.all([
       sb.from('warranties').select('*,warranty_items(*,product:products(*)),customers(*)').order('created_at',{ascending:false}),
       sb.from('customers').select('*').order('name'),
       sb.from('products').select('*,categories(*)').order('name_tr'),
       sb.from('categories').select('*').order('sort_order'),
       sb.from('service_records').select('*,warranty:warranties(warranty_code,customer_id,customers(*))').order('service_date',{ascending:false}),
+      sb.from('sales').select('*,customers(name,city,country)').order('created_at',{ascending:false}),
     ]);
-    const errs=[wR,cR,pR,catR,sR].map((r,i)=>r.error?['Garanti','Musteri','Urun','Kategori','Servis'][i]+': '+r.error.message:null).filter(Boolean);
+    const errs=[wR,cR,pR,catR,sR,salR].map((r,i)=>r.error?['Garanti','Musteri','Urun','Kategori','Servis','Satis'][i]+': '+r.error.message:null).filter(Boolean);
     if(errs.length){toast('Yukleme hatasi: '+errs[0],'err');console.error('reloadAll errors:',errs);}
-    WS=wR.data||[];CS=cR.data||[];PS=pR.data||[];CATS=catR.data||[];SVCS=sR.data||[];
+    WS=wR.data||[];CS=cR.data||[];PS=pR.data||[];CATS=catR.data||[];SVCS=sR.data||[];SALES=salR.data||[];
+    if(salR.error)console.error('sales error:',salR.error);
     fillCatFilters();fillCountryFilter();
   }catch(e){toast('Baglanti hatasi: '+e.message,'err');console.error('reloadAll:',e);}
 }
@@ -794,20 +897,49 @@ function fillCountryFilter(){
 function loadDash(){
   const now=new Date();
   document.getElementById('dash-date').textContent=now.toLocaleDateString('tr-TR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const todayStr=new Date().toISOString().split('T')[0];
+  const thisMonthStr=new Date().toISOString().slice(0,7);
   document.getElementById('st-total').textContent=WS.length;
   document.getElementById('st-active').textContent=WS.filter(w=>wSt(w)==='active').length;
   document.getElementById('st-expiring').textContent=WS.filter(w=>wSt(w)==='warn').length;
   document.getElementById('st-expired').textContent=WS.filter(w=>wSt(w)==='expired').length;
+  document.getElementById('st-today').textContent=WS.filter(w=>(w.created_at||'').startsWith(todayStr)).length;
+  document.getElementById('st-this-month').textContent=WS.filter(w=>(w.created_at||'').startsWith(thisMonthStr)).length;
   document.getElementById('st-svc-pending').textContent=SVCS.filter(s=>s.status==='pending'||s.status==='in_review').length;
-  document.getElementById('st-svc-out').textContent=SVCS.filter(s=>s.status==='out_of_warranty').length;
-  document.getElementById('dash-tbl').innerHTML=WS.slice(0,8).map(w=>wTr(w,true)).join('')||'<tr class="erow"><td colspan="6">Henüz kayıt yok</td></tr>';
+  document.getElementById('st-intl').textContent=CS.filter(c=>c.country&&c.country!=='TR'&&c.country!=='Türkiye').length;
+  document.getElementById('dash-tbl').innerHTML=WS.slice(0,6).map(w=>{
+    const items=w.warranty_items||[];
+    const pn=w.product_id
+      ?(PS.find(p=>p.id===w.product_id)?.name_tr||'—')
+      :(items[0]?.product?.name_tr||'—');
+    const wno=w.warranty_no||w.warranty_code||'—';
+    return`<tr>
+      <td><span class="mono" style="font-weight:700">${esc(wno)}</span></td>
+      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(pn)}</td>
+      <td>${esc(w.customers?.name||'—')}</td>
+      <td style="white-space:nowrap">${fd(w.warranty_end)}</td>
+      <td>${wBadge(w)}</td>
+      <td><div class="act"><button class="btn-xs bq" onclick="showQR('${w.public_token}','${w.warranty_no||w.warranty_code}')">📲</button><button class="btn-xs bl" onclick="cpLink('${w.public_token}')">🔗</button><button class="btn-xs be" onclick="navigate('warranties');editW('${w.id}')">✏️</button></div></td>
+    </tr>`;
+  }).join('')||'<tr class="erow"><td colspan="6">Henüz kayıt yok</td></tr>';
+  const dtSales=document.getElementById('dash-sales-tbl');
+  if(dtSales){
+    const wCount=id=>WS.filter(w=>w.sale_id===id).length;
+    dtSales.innerHTML=SALES.slice(0,5).map(s=>`<tr>
+      <td><span class="mono" style="font-weight:700">${esc(s.sale_no||'—')}</span></td>
+      <td>${esc(s.customers?.name||'—')}</td>
+      <td>${fd(s.sale_date)}</td>
+      <td><span class="badge b-blue">${wCount(s.id)} garanti</span></td>
+    </tr>`).join('')||'<tr class="erow"><td colspan="4">Henüz satış yok</td></tr>';
+  }
   const endOfMonth=new Date(now.getFullYear(),now.getMonth()+1,0);
   const exp=WS.filter(w=>{const d=new Date(w.warranty_end);return d>=now&&d<=endOfMonth;}).sort((a,b)=>new Date(a.warranty_end)-new Date(b.warranty_end));
   document.getElementById('expiring-tbl').innerHTML=exp.map(w=>{
     const dl=Math.ceil((new Date(w.warranty_end)-now)/86400000);
     const items=w.warranty_items||[];
     const pn=items[0]?.product?.name_tr||'—';
-    return`<tr><td><span class="mono">${esc(w.warranty_code)}</span></td><td>${esc(pn)}${items.length>1?' <span style="font-size:10px;color:var(--muted)">+'+( items.length-1)+'</span>':''}</td><td>${esc(w.customers?.name||'—')}</td><td>${fd(w.warranty_end)}</td><td><span class="badge b-warn">⚠ ${dl}g</span></td><td><div class="act">${actBtns(w)}</div></td></tr>`;
+    const wno2=w.warranty_no||w.warranty_code||'—';
+    return`<tr><td><span class="mono" style="font-weight:700">${esc(wno2)}</span></td><td>${esc(pn)}${items.length>1?' <span style="font-size:10px;color:var(--muted)">+'+( items.length-1)+'</span>':''}</td><td>${esc(w.customers?.name||'—')}</td><td>${fd(w.warranty_end)}</td><td><span class="badge b-warn">⚠ ${dl}g</span></td><td><div class="act">${actBtns(w)}</div></td></tr>`;
   }).join('')||'<tr class="erow"><td colspan="6">Bu ay biten garanti yok</td></tr>';
 }
 
@@ -946,6 +1078,17 @@ function renderP(q=''){
     if(q&&!`${p.name_tr||''} ${p.name_en||''} ${p.model||''} ${p.categories?.name_tr||''}`.toLowerCase().includes(q))return false;
     return true;
   });
+  const sortBy=document.getElementById('p-sort')?.value||'name';
+  list.sort((a,b)=>{
+    if(sortBy==='model')return(a.model||'').localeCompare(b.model||'');
+    if(sortBy==='category')return(a.categories?.name_tr||'').localeCompare(b.categories?.name_tr||'');
+    if(sortBy==='usage'){
+      const ua=WS.filter(w=>w.warranty_items?.some(i=>i.product_id===a.id)).length;
+      const ub=WS.filter(w=>w.warranty_items?.some(i=>i.product_id===b.id)).length;
+      return ub-ua;
+    }
+    return(a.name_tr||'').localeCompare(b.name_tr||'');
+  });
   document.getElementById('p-tbl').innerHTML=list.map((p,i)=>{
     const uc=WS.filter(w=>w.warranty_items?.some(it=>it.product_id===p.id)).length;
     const ci=CATS.findIndex(c=>c.id===p.category_id)%11;
@@ -958,7 +1101,18 @@ function renderP(q=''){
 
 // ═══ CATEGORIES ═══
 function renderCat(){
-  document.getElementById('cat-tbl').innerHTML=CATS.map((c,i)=>`<tr><td><span class="badge ci${i%11}">${esc(c.name_tr)}</span></td><td>${esc(c.name_en||'—')}</td><td dir="rtl">${esc(c.name_ar||'—')}</td><td>${c.sort_order??0}</td><td><div class="act"><button class="btn-xs be" onclick="editCat('${c.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('categories','${c.id}')">🗑</button></div></td></tr>`).join('')||'<tr class="erow"><td colspan="5">—</td></tr>';
+  document.getElementById('cat-tbl').innerHTML=CATS.map((c,i)=>{
+    const active=c.is_active!==false;
+    return`<tr>
+      <td><span class="badge ci${i%11}">${esc(c.name_tr)}</span></td>
+      <td>${esc(c.name_en||'—')}</td>
+      <td dir="rtl">${esc(c.name_ar||'—')}</td>
+      <td><span class="badge b-neutral">${c.default_warranty_months||24} ay</span></td>
+      <td><span class="badge ${active?'b-active':'b-neutral'}">${active?'✓ Aktif':'Pasif'}</span></td>
+      <td>${c.sort_order??0}</td>
+      <td><div class="act"><button class="btn-xs be" onclick="editCat('${c.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('categories','${c.id}')">🗑</button></div></td>
+    </tr>`;
+  }).join('')||'<tr class="erow"><td colspan="7">—</td></tr>';
 }
 
 // ═══ SERVICE ═══
@@ -989,6 +1143,235 @@ function renderSvc(q=''){
 // ═══ OPEN MODALS ═══
 function openModal(name,keepEID=false){
   if(!keepEID)EID[name]=null;
+
+// ═══ SALES ═══
+function renderSales(){
+  const q=(document.getElementById('sales-search')?.value||'').toLowerCase();
+  const ff=document.getElementById('sales-f-from')?.value||'';
+  const ft=document.getElementById('sales-f-to')?.value||'';
+  const list=SALES.filter(s=>{
+    if(ff&&s.sale_date<ff)return false;
+    if(ft&&s.sale_date>ft)return false;
+    if(q&&!`${s.sale_no||''} ${s.customers?.name||''} ${s.country||''}`.toLowerCase().includes(q))return false;
+    return true;
+  });
+  const lbl=document.getElementById('sales-count-lbl');
+  if(lbl)lbl.textContent=`${list.length} / ${SALES.length} satış`;
+  const wCount=id=>WS.filter(w=>w.sale_id===id).length;
+  const ORDER_URL='https://garanti.emkakuyumculuk.com/order.html?id=';
+  document.getElementById('sales-tbl').innerHTML=list.map(s=>`<tr>
+    <td><span class="mono" style="font-weight:700">${esc(s.sale_no||'—')}</span></td>
+    <td><b>${esc(s.customers?.name||'—')}</b>${s.customers?.city?`<br><span style="font-size:11px;color:var(--muted)">${esc(s.customers.city)}</span>`:''}</td>
+    <td>${fd(s.sale_date)}</td>
+    <td>${esc(s.country||'—')}</td>
+    <td><span class="badge b-blue">${wCount(s.id)} garanti</span></td>
+    <td><div class="act">
+      <a href="${ORDER_URL}${s.public_order_token}" target="_blank" class="btn-xs bv">🔗 Sipariş</a>
+      <button class="btn-xs bq" onclick="showOrderQR('${s.public_order_token}','${s.sale_no}')">📲 QR</button>
+      <button class="btn-xs bl" onclick="navigator.clipboard.writeText('${ORDER_URL}${s.public_order_token}').then(()=>toast('Link kopyalandı','ok'))">Kopyala</button>
+      <button class="btn-xs bd" onclick="delRec('sales','${s.id}')">🗑</button>
+    </div></td>
+  </tr>`).join('')||'<tr class="erow"><td colspan="6">Satış bulunamadı</td></tr>';
+}
+function clearSalesF(){['sales-search','sales-f-from','sales-f-to'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});renderSales();}
+
+function showOrderQR(token,saleNo){
+  if(!token){toast('Token bulunamadı','err');return;}
+  curQR=token;
+  const url='https://garanti.emkakuyumculuk.com/order.html?id='+token;
+  document.getElementById('qr-code-txt').textContent=saleNo;
+  document.getElementById('qr-url-txt').textContent=url;
+  const box=document.getElementById('qr-box');box.innerHTML='';
+  new QRCode(box,{text:url,width:200,height:200,correctLevel:QRCode.CorrectLevel.M});
+  document.getElementById('modal-qr').classList.add('open');
+}
+
+function addSaleProdRow(pid='',months=24){
+  const idx=Date.now();
+  const div=document.createElement('div');
+  div.className='sale-prod-row';
+  div.id='spr-'+idx;
+  const opts=PS.map(p=>`<option value="${p.id}" data-months="${p.warranty_months||24}"${p.id===pid?' selected':''}>${esc(p.name_tr||'')}${p.model?' ('+p.model+')':''}</option>`).join('');
+  div.innerHTML=`
+    <div class="sale-prod-top">
+      <select class="spr-prod" onchange="onSprProdChange('${idx}')">
+        <option value="">— Ürün seçin —</option>${opts}
+      </select>
+      <input type="number" class="spr-qty" min="1" max="999" value="1" placeholder="Adet" oninput="onSprQtyChange('${idx}')" style="padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;width:100%">
+      <input type="number" class="spr-months" min="1" max="120" value="${months}" placeholder="Garanti (ay)" style="padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;width:100%">
+      <button type="button" class="rm-btn" onclick="document.getElementById('spr-${idx}').remove();updateSaleTotal()">✕</button>
+    </div>
+    <div class="sale-serial-wrap" id="serial-wrap-${idx}">
+      <div class="sale-serial-lbl">
+        <span>Seri Numaraları <span style="font-weight:400;color:var(--muted)">(opsiyonel, her satır = 1 seri no)</span></span>
+        <span class="sale-serial-count" id="serial-count-${idx}">0 / 1</span>
+      </div>
+      <textarea class="sale-serial-ta" id="serial-ta-${idx}" placeholder="Her satıra bir seri no&#10;CILA-2026-0001&#10;CILA-2026-0002" oninput="countSerials('${idx}')"></textarea>
+    </div>`;
+  document.getElementById('sale-products-list').appendChild(div);
+  updateSaleTotal();
+}
+
+function onSprProdChange(idx){
+  const row=document.getElementById('spr-'+idx);
+  if(!row)return;
+  const sel=row.querySelector('.spr-prod');
+  const opt=sel.options[sel.selectedIndex];
+  const m=opt?.getAttribute('data-months')||24;
+  row.querySelector('.spr-months').value=m;
+  const qty=parseInt(row.querySelector('.spr-qty').value)||1;
+  const wrap=document.getElementById('serial-wrap-'+idx);
+  if(wrap)wrap.className='sale-serial-wrap'+(qty>0?' open':'');
+  countSerials(idx);updateSaleTotal();
+}
+
+function onSprQtyChange(idx){
+  const row=document.getElementById('spr-'+idx);
+  if(!row)return;
+  const qty=parseInt(row.querySelector('.spr-qty').value)||0;
+  const wrap=document.getElementById('serial-wrap-'+idx);
+  if(wrap)wrap.className='sale-serial-wrap'+(qty>0?' open':'');
+  countSerials(idx);updateSaleTotal();
+}
+
+function countSerials(idx){
+  const ta=document.getElementById('serial-ta-'+idx);
+  const cnt=document.getElementById('serial-count-'+idx);
+  const row=document.getElementById('spr-'+idx);
+  if(!ta||!cnt||!row)return;
+  const lines=ta.value.split('
+').map(l=>l.trim()).filter(Boolean);
+  const qty=parseInt(row.querySelector('.spr-qty').value)||1;
+  cnt.textContent=lines.length+' / '+qty;
+  cnt.className='sale-serial-count'+(lines.length===qty?' ok':lines.length>qty?' bad':'');
+}
+
+function updateSaleTotal(){
+  const rows=[...document.querySelectorAll('.sale-prod-row')];
+  let total=0;
+  rows.forEach(r=>{
+    const pid=r.querySelector('.spr-prod')?.value;
+    if(pid)total+=parseInt(r.querySelector('.spr-qty')?.value)||0;
+  });
+  const sec=document.getElementById('sale-total-summary');
+  const txt=document.getElementById('sale-total-txt');
+  if(sec&&txt){
+    sec.style.display=total>0?'block':'none';
+    txt.textContent=`Bu satışta toplam ${total} fiziksel makine için ${total} ayrı garanti belgesi oluşturulacak.`;
+  }
+}
+
+function onSaleCustChange(){
+  const v=document.getElementById('sale-customer')?.value;
+  const sec=document.getElementById('sale-new-cust');
+  if(sec)sec.style.display=v==='__new__'?'block':'none';
+}
+
+async function saveSale(){try{
+  const custVal=document.getElementById('sale-customer').value;
+  if(!custVal)return toast('Müşteri seçin','err');
+  const sdate=document.getElementById('sale-date').value;
+  if(!sdate)return toast('Satış tarihi gerekli','err');
+
+  const rows=[...document.querySelectorAll('.sale-prod-row')].filter(r=>r.querySelector('.spr-prod')?.value);
+  if(!rows.length)return toast('En az bir ürün ekleyin','err');
+
+  const btn=document.querySelector('#sale-actions .btn-primary');
+  if(btn){btn.disabled=true;btn.innerHTML='<span class="spin"></span> Kaydediliyor...';}
+
+  let custId=custVal;
+  if(custVal==='__new__'){
+    const nm=document.getElementById('snc-name').value.trim();
+    if(!nm){if(btn){btn.disabled=false;btn.innerHTML='🛒 Satışı Kaydet ve Garantileri Oluştur';}return toast('Müşteri adı gerekli','err');}
+    const {data:nc,error:ce}=await sb.from('customers').insert({
+      name:nm,firma_adi:document.getElementById('snc-firm').value.trim()||null,
+      phone:document.getElementById('snc-phone').value.trim()||null,
+      whatsapp:document.getElementById('snc-wa').value.trim()||null,
+      city:document.getElementById('snc-city').value.trim()||null,
+      country:document.getElementById('snc-country').value.trim()||'TR',
+    }).select().single();
+    if(ce){if(btn){btn.disabled=false;btn.innerHTML='🛒 Satışı Kaydet ve Garantileri Oluştur';}return toast('Müşteri eklenemedi: '+ce.message,'err');}
+    custId=nc.id;
+  }
+
+  // Satış no ve token üret
+  const {data:sNoData,error:snErr}=await sb.rpc('generate_sale_no');
+  if(snErr){if(btn){btn.disabled=false;btn.innerHTML='🛒 Satışı Kaydet ve Garantileri Oluştur';}return toast('Satış no üretilemedi','err');}
+  const saleNo=sNoData;
+  const orderToken=genOrderToken(saleNo);
+
+  // Satış kaydı oluştur
+  const {data:sale,error:sErr}=await sb.from('sales').insert({
+    sale_no:saleNo,public_order_token:orderToken,customer_id:custId,
+    sale_date:sdate,country:document.getElementById('sale-country').value.trim()||null,
+    currency:document.getElementById('sale-currency').value||'TRY',
+    internal_note:document.getElementById('sale-note').value.trim()||null,
+  }).select().single();
+  if(sErr){if(btn){btn.disabled=false;btn.innerHTML='🛒 Satışı Kaydet ve Garantileri Oluştur';}return toast('Satış kaydı hatası: '+sErr.message,'err');}
+
+  // Her ürün için garantiler oluştur
+  const custObj=CS.find(c=>c.id===custId);
+  let createdCount=0,errors=[];
+  for(const row of rows){
+    const pid=row.querySelector('.spr-prod').value;
+    const qty=parseInt(row.querySelector('.spr-qty').value)||1;
+    const wmonths=parseInt(row.querySelector('.spr-months').value)||24;
+    const ta=row.querySelector('.sale-serial-ta');
+    const serials=(ta?.value||'').split('
+').map(l=>l.trim()).filter(Boolean);
+    for(let i=0;i<qty;i++){
+      const {data:wNo,error:wNoErr}=await sb.rpc('generate_warranty_no');
+      if(wNoErr){errors.push('warranty_no: '+wNoErr.message);continue;}
+      const pToken=wNo+'-'+genRandStr(6);
+      const wstart=sdate;
+      const wend=(()=>{const d=new Date(sdate);d.setMonth(d.getMonth()+wmonths);return d.toISOString().split('T')[0];})();
+      const {error:wErr}=await sb.from('warranties').insert({
+        warranty_no:wNo,warranty_code:wNo,public_token:pToken,
+        sale_id:sale.id,product_id:pid,customer_id:custId,
+        serial_no:serials[i]||null,sale_date:sdate,
+        warranty_start:wstart,warranty_end:wend,warranty_months:wmonths,
+      });
+      if(wErr)errors.push(wNo+': '+wErr.message);
+      else createdCount++;
+    }
+  }
+
+  if(btn){btn.disabled=false;btn.innerHTML='🛒 Satışı Kaydet ve Garantileri Oluştur';}
+  await reloadAll();renderSales();
+
+  const ORDER_URL='https://garanti.emkakuyumculuk.com/order.html?id=';
+  const resultEl=document.getElementById('sale-result');
+  const actEl=document.getElementById('sale-actions');
+  if(resultEl){
+    resultEl.style.display='block';
+    resultEl.innerHTML=`<div class="sale-result-card">
+      <div class="sale-result-title">✅ Satış oluşturuldu: ${esc(saleNo)} — ${createdCount} garanti belgesi</div>
+      ${errors.length?`<div style="color:var(--danger);font-size:12px;margin-bottom:8px">⚠️ ${errors.length} hata: ${errors.slice(0,3).join(', ')}</div>`:''}
+      <div class="sale-result-links">
+        <a href="${ORDER_URL}${orderToken}" target="_blank" class="btn btn-primary" style="font-size:12px;padding:6px 14px">🔗 Sipariş Sayfası</a>
+        <button class="btn btn-ghost" style="font-size:12px;padding:6px 14px" onclick="showOrderQR('${orderToken}','${saleNo}')">📲 QR Kod</button>
+        <button class="btn btn-ghost" style="font-size:12px;padding:6px 14px" onclick="navigator.clipboard.writeText('${ORDER_URL}${orderToken}').then(()=>toast('Link kopyalandı','ok'))">🔗 Link Kopyala</button>
+      </div>
+    </div>`;
+  }
+  if(actEl)actEl.innerHTML='<button class="btn btn-ghost" onclick="closeModal('sale')">Kapat</button>';
+  toast(saleNo+' — '+createdCount+' garanti oluşturuldu','ok');
+}catch(e){toast('JS Hatası: '+e.message,'err');console.error('saveSale',e);
+  const btn=document.querySelector('#sale-actions .btn-primary');
+  if(btn){btn.disabled=false;btn.innerHTML='🛒 Satışı Kaydet ve Garantileri Oluştur';}
+}}
+
+function genOrderToken(saleNo){
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let s='';for(let i=0;i<8;i++)s+=chars[Math.floor(Math.random()*chars.length)];
+  return'ORD-'+s;
+}
+function genRandStr(n){
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let s='';for(let i=0;i<n;i++)s+=chars[Math.floor(Math.random()*chars.length)];
+  return s;
+}
+
   if(name==='warranty'){
     document.getElementById('w-modal-title').textContent='Yeni Garanti Kaydı';
     ['w-code','w-start','w-end','w-note'].forEach(id=>document.getElementById(id).value='');
@@ -1022,7 +1405,9 @@ function openModal(name,keepEID=false){
   }
   if(name==='category'){
     document.getElementById('cat-modal-title').textContent='Yeni Kategori';
-    ['cat-tr','cat-en','cat-ar'].forEach(id=>document.getElementById(id).value='');
+    ['cat-tr','cat-en','cat-ar','cat-terms-tr'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('cat-months').value=24;
+    document.getElementById('cat-active').checked=true;
     document.getElementById('cat-ord').value=0;
   }
   if(name==='service'){
@@ -1034,6 +1419,23 @@ function openModal(name,keepEID=false){
     const wSel=document.getElementById('sr-warr');
     wSel.innerHTML='<option value="">— Garanti seçin —</option>';
     WS.forEach(w=>{const o=document.createElement('option');o.value=w.id;o.textContent=`${w.warranty_code} – ${w.customers?.name||'?'} (${fd(w.warranty_end)})`;wSel.appendChild(o);});
+  }
+  if(name==='sale'){
+    document.getElementById('sale-modal-title').textContent='Yeni Satış Oluştur';
+    document.getElementById('sale-customer').innerHTML='<option value="">— Müşteri seçin —</option><option value="__new__">➕ Yeni müşteri ekle</option>';
+    CS.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=`${c.name}${c.firma_adi?' ('+c.firma_adi+')':''}${c.city?' – '+c.city:''}`;document.getElementById('sale-customer').appendChild(o);});
+    document.getElementById('sale-new-cust').style.display='none';
+    ['snc-name','snc-firm','snc-phone','snc-wa','snc-city'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+    document.getElementById('snc-country').value='TR';
+    document.getElementById('sale-date').value=new Date().toISOString().split('T')[0];
+    document.getElementById('sale-currency').value='TRY';
+    document.getElementById('sale-country').value='';
+    document.getElementById('sale-note').value='';
+    document.getElementById('sale-products-list').innerHTML='';
+    document.getElementById('sale-result').style.display='none';
+    document.getElementById('sale-actions').innerHTML='<button class="btn btn-ghost" onclick="closeModal(\'sale\')">İptal</button><button class="btn btn-primary" onclick="saveSale()">🛒 Satışı Kaydet ve Garantileri Oluştur</button>';
+    document.getElementById('sale-total-summary').style.display='none';
+    addSaleProdRow();
   }
   document.getElementById('modal-'+name).classList.add('open');
 }
@@ -1092,6 +1494,9 @@ function editCat(id){
   document.getElementById('cat-modal-title').textContent='Kategori Düzenle';
   document.getElementById('cat-tr').value=c.name_tr||'';document.getElementById('cat-en').value=c.name_en||'';
   document.getElementById('cat-ar').value=c.name_ar||'';document.getElementById('cat-ord').value=c.sort_order||0;
+  document.getElementById('cat-months').value=c.default_warranty_months||24;
+  document.getElementById('cat-active').checked=c.is_active!==false;
+  document.getElementById('cat-terms-tr').value=c.default_terms_tr||'';
 }
 function editSvc(id){
   const s=SVCS.find(x=>x.id===id);if(!s)return;
@@ -1177,7 +1582,16 @@ async function saveProduct(){try{
   }catch(e){toast('JS Hatası: '+e.message,'err');console.error('saveProduct',e);}}
 async function saveCategory(){
   const tr=document.getElementById('cat-tr').value.trim();if(!tr)return toast('Türkçe isim gerekli','err');
-  const {error}=EID.category?await sb.from('categories').update({name_tr:tr,name_en:document.getElementById('cat-en').value.trim()||null,name_ar:document.getElementById('cat-ar').value.trim()||null,sort_order:parseInt(document.getElementById('cat-ord').value)||0}).eq('id',EID.category):await sb.from('categories').insert({name_tr:tr,name_en:document.getElementById('cat-en').value.trim()||null,name_ar:document.getElementById('cat-ar').value.trim()||null,sort_order:parseInt(document.getElementById('cat-ord').value)||0});
+  const catPayload={
+    name_tr:tr,
+    name_en:document.getElementById('cat-en').value.trim()||null,
+    name_ar:document.getElementById('cat-ar').value.trim()||null,
+    sort_order:parseInt(document.getElementById('cat-ord').value)||0,
+    default_warranty_months:parseInt(document.getElementById('cat-months').value)||24,
+    is_active:document.getElementById('cat-active').checked,
+    default_terms_tr:document.getElementById('cat-terms-tr').value.trim()||null,
+  };
+  const {error}=EID.category?await sb.from('categories').update(catPayload).eq('id',EID.category):await sb.from('categories').insert(catPayload);
   if(error)return toast('Hata: '+error.message,'err');
   toast(EID.category?'Güncellendi':'Eklendi','ok');closeModal('category');await reloadAll();renderCat();
 }
