@@ -815,6 +815,44 @@ p,span,div{-webkit-font-smoothing:antialiased}
   .tab-btn{white-space:nowrap;font-size:13px;padding:11px 16px}
 }
 
+
+/* ─── PHOTO BÜYÜTME ─── */
+.w-photo{width:140px !important;height:140px !important;object-fit:cover;border-radius:12px;cursor:pointer;transition:opacity .2s}
+.w-photo:hover{opacity:.88}
+.w-photo-ph{width:140px !important;height:140px !important;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px;background:#f1f5f9;border:1px solid #e2e8f0}
+
+/* ─── PROGRESS BAR KALINLAŞTIRMA ─── */
+.prog-bar{height:10px !important;border-radius:6px !important;background:#e2e8f0 !important}
+.prog-fill{height:10px !important;border-radius:6px !important}
+
+/* ─── TAB PİLL TASARIMI ─── */
+.w-tabs{display:flex;gap:4px;padding:6px 6px;background:#f1f5f9;border-bottom:1px solid #e2e8f0;flex-wrap:wrap}
+.tab-btn{padding:9px 18px !important;border-radius:8px !important;font-size:13.5px !important;font-weight:600 !important;color:#475569 !important;background:transparent;border:1.5px solid transparent !important;display:inline-flex;align-items:center;gap:6px;transition:all .15s;cursor:pointer}
+.tab-btn:hover{background:#e2e8f0 !important;color:#0d1b2a !important}
+.tab-btn.active{background:#fff !important;color:#0f1c2e !important;border-color:#cbd5e1 !important;font-weight:700 !important;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.tab-btn svg{width:16px;height:16px;opacity:.7}
+.tab-btn.active svg{opacity:1}
+
+/* ─── CHİP OKUNABILIRLIK ─── */
+.w-chip{background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;padding:10px 16px}
+.w-chip-lbl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#64748b;margin-bottom:4px}
+.w-chip-val{font-size:15px;font-weight:700;color:#0d1b2a;letter-spacing:-.2px}
+
+/* ─── BİLGİ IZGARA ─── */
+.g-lbl{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#64748b;margin-bottom:3px}
+.g-val{font-size:15px;font-weight:700;color:#0d1b2a}
+.g-val.mono{font-size:13.5px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px}
+
+/* ─── LIGHTBOX ─── */
+#photo-lb{display:none;position:fixed;inset:0;background:rgba(5,12,20,.92);z-index:9999;align-items:center;justify-content:center;cursor:pointer}
+#photo-lb.open{display:flex}
+#photo-lb-img{max-width:88vw;max-height:88vh;object-fit:contain;border-radius:10px;box-shadow:0 24px 80px rgba(0,0,0,.6);cursor:default}
+#photo-lb-close{position:fixed;top:18px;right:18px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);color:#fff;font-size:16px;cursor:pointer;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;transition:background .15s;z-index:10000}
+#photo-lb-close:hover{background:rgba(255,255,255,.28)}
+
+/* ─── BADGES ─── */
+.badge{font-size:12px !important;font-weight:700 !important;padding:5px 12px !important;border-radius:20px !important}
+
 </style>
 </head>
 <body>
@@ -1599,6 +1637,20 @@ function shareW(code){
   if(navigator.share)navigator.share({title:'EMKA Garanti: '+code,url});
   else navigator.clipboard.writeText(url).then(()=>{alert('Link kopyalandı!');});
 }
+
+function openPhotoLb(src){
+  if(!src)return;
+  var img=document.getElementById('photo-lb-img');
+  var lb=document.getElementById('photo-lb');
+  if(img&&lb){img.src=src;lb.classList.add('open');document.body.style.overflow='hidden';}
+}
 </script>
+
+<!-- PHOTO LIGHTBOX -->
+<div id="photo-lb" onclick="closePhotoLb()">
+  <img id="photo-lb-img" src="" alt="" onclick="event.stopPropagation()">
+  <button id="photo-lb-close" onclick="closePhotoLb()">&#10005;</button>
+</div>
+
 </body>
 </html>
