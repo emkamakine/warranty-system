@@ -853,6 +853,41 @@ p,span,div{-webkit-font-smoothing:antialiased}
 /* ─── BADGES ─── */
 .badge{font-size:12px !important;font-weight:700 !important;padding:5px 12px !important;border-radius:20px !important}
 
+
+/* ─── PRINT: SADECE GARANTİ BELGESİ ─── */
+@media print {
+  body * { visibility: hidden !important; }
+  #certificatePrintArea,
+  #certificatePrintArea * { visibility: visible !important; }
+  #certificatePrintArea {
+    position: absolute !important;
+    left: 0 !important; top: 0 !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 20px !important;
+  }
+}
+
+
+/* ─── PROGRESS DATES OKUNABİLİRLİK ─── */
+.w-prog-date { font-size: 12px !important; color: rgba(255,255,255,.72) !important; font-weight: 600 !important; }
+.w-prog-date span { font-size: 10px !important; color: rgba(255,255,255,.42) !important; letter-spacing: .8px; margin-top: 2px; display: block; }
+
+/* ─── CERT HDR OKUNABILIRLIK ─── */
+.cert-brand-sub { font-size: 10px !important; color: rgba(255,255,255,.58) !important; letter-spacing: 1.5px; margin-top: 3px; }
+.cert-hdr-title .cs { font-size: 9.5px !important; color: rgba(255,255,255,.52) !important; letter-spacing: 1.5px; margin-top: 4px; }
+.cert-seal { color: rgba(255,255,255,.78) !important; font-size: 10px !important; }
+.cert-seal > div { opacity: .85; }
+
+/* ─── KOYU ZEMİN KÜÇÜK YAZILARI ─── */
+.w-chip-lbl { color: rgba(255,255,255,.55) !important; font-size: 10px !important; font-weight: 700 !important; letter-spacing: 1.2px; }
+.w-chip-val { color: rgba(255,255,255,.92) !important; font-size: 13px !important; font-weight: 700 !important; }
+.w-status-lbl-text { color: rgba(255,255,255,.52) !important; font-size: 9px !important; letter-spacing: 1.5px; }
+.w-remaining-unit { color: rgba(255,255,255,.45) !important; font-size: 10px !important; letter-spacing: 1px; }
+.w-duration-text { color: rgba(255,255,255,.62) !important; font-size: 12px !important; }
+.w-duration-text span { color: rgba(255,255,255,.88) !important; }
+
 </style>
 </head>
 <body>
@@ -930,8 +965,8 @@ p,span,div{-webkit-font-smoothing:antialiased}
     <!-- TABS -->
     <div class="w-tabs">
       <button class="tab-btn active" data-tab="garanti"><span class="tab-icon"><svg width="16" height="16" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span id="tl-garanti">Garanti</span></button>
-      <button class="tab-btn" data-tab="belge"><span class="tab-icon"><svg width="16" height="16" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span><span id="tl-belge">Belge</span></button>
-      <button class="tab-btn" data-tab="belgeler"><span class="tab-icon"><svg width="16" height="16" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span id="tl-belgeler">Belgeler</span></button>
+      <button class="tab-btn" data-tab="belge"><span class="tab-icon"><svg width="16" height="16" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span><span id="tl-belge">Garanti Belgesi</span></button>
+      <button class="tab-btn" data-tab="belgeler"><span class="tab-icon"><svg width="16" height="16" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span id="tl-belgeler">Dokümanlar</span></button>
       <button class="tab-btn" data-tab="servis"><span class="tab-icon"><svg width="16" height="16" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><span id="tl-servis">Servis Geçmişi</span></button>
       <button class="tab-btn" data-tab="iletisim"><span class="tab-icon"><svg width="16" height="16" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 1 1 0 0 1-.23 1.06L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a1 1 0 0 1 1.06-.23 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg></span><span id="tl-iletisim">İletişim</span></button>
     </div>
@@ -973,7 +1008,7 @@ p,span,div{-webkit-font-smoothing:antialiased}
       <div class="tab-pane" id="tab-belge">
         <div class="belge-layout">
           <div class="sec-hdr"><span class="sec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span id="b-sec1">Garanti Belgesi</span></div>
-          <div class="cert-wrap" id="cert-wrap"></div>
+          <div class="cert-wrap" id="cert-wrap"><div id="certificatePrintArea"></div><!-- /certificatePrintArea -->
           <div id="cert-qr-row" class="cert-qr-row" style="display:none">
             <div class="cert-qr-info">
               <div class="cert-qr-info-title" id="cqr-title">QR Kod — Garanti Doğrulama</div><div style="font-size:11.5px;color:var(--muted);line-height:1.55;margin-top:4px">Bu kodu okutarak garanti belgesinin EMKA sistemi üzerinden doğruluğunu kontrol edebilirsiniz.</div>
@@ -1097,7 +1132,7 @@ tr:{
   g_sec1:'Garanti Bilgileri',g_products_lbl:'Ürünler',
   g_qa_lbl:'Hızlı İşlemler',g_svc_lbl:'Servis Geçmişi',g_svc_all:'Tümünü Gör →',g_contact_lbl:'EMKA İletişim',
   lbl_product:'Ürün Adı',lbl_model:'Model',lbl_serial:'Seri Numarası',lbl_code:'Belge Numarası',
-  lbl_warranty_no:'Garanti No',lbl_serial_no:'Seri No',lbl_verify:'Doğrulama Kodu',lbl_sale:'Satış Tarihi',lbl_start:'Garanti Başlangıç',
+  lbl_warranty_no:'Garanti Belge No',lbl_serial_no:'Seri No',lbl_verify:'Doğrulama Kodu',lbl_sale:'Satış Tarihi',lbl_start:'Garanti Başlangıç',
   lbl_end:'Garanti Bitiş',lbl_duration:'Garanti Süresi',lbl_status:'Durum',
   lbl_customer:'Müşteri',lbl_dealer:'Satıcı',lbl_price:'Satış Tutarı',
   dur_unit:'ay',
@@ -1123,7 +1158,7 @@ tr:{
   svc_parts_lbl:'Değiştirilen Parçalar',
   c_sec1:'EMKA İletişim',c_addr_lbl:'Adres',c_maps_lnk:'Haritada Görüntüle',
   c_call:'Ara',c_wa:'WhatsApp',c_mail:'E-posta Gönder',c_web:'Web Sitesi',c_maps:'Haritalar',
-  tl_belgeler:'Belgeler',bl_sec1:'Ekli Belgeler',
+  tl_belgeler:'Dokümanlar',bl_sec1:'Ekli Belgeler',
   bl_warranty:'Garanti Belgesi',bl_manual:'Kullanım Kılavuzu',
   bl_view:'Görüntüle',bl_download:'İndir',bl_none:'Bu ürün için dijital belge eklenmemiştir.',
   v_footer:'Bu belge EMKA Garanti Sistemi tarafından doğrulanmıştır.',
@@ -1146,7 +1181,7 @@ en:{
   g_sec1:'Warranty Details',g_products_lbl:'Products',
   g_qa_lbl:'Quick Actions',g_svc_lbl:'Service History',g_svc_all:'View All →',g_contact_lbl:'EMKA Contact',
   lbl_product:'Product',lbl_model:'Model',lbl_serial:'Serial Number',lbl_code:'Document No',
-  lbl_warranty_no:'Warranty No',lbl_serial_no:'Serial No',lbl_verify:'Verification Code',lbl_sale:'Purchase Date',lbl_start:'Warranty Start',
+  lbl_warranty_no:'Warranty Doc No',lbl_serial_no:'Serial No',lbl_verify:'Verification Code',lbl_sale:'Purchase Date',lbl_start:'Warranty Start',
   lbl_end:'Warranty Expiry',lbl_duration:'Warranty Period',lbl_status:'Status',
   lbl_customer:'Customer',lbl_dealer:'Dealer',lbl_price:'Purchase Price',
   dur_unit:'months',
@@ -1195,7 +1230,7 @@ ar:{
   g_sec1:'تفاصيل الضمان',g_products_lbl:'المنتجات',
   g_qa_lbl:'إجراءات سريعة',g_svc_lbl:'سجل الخدمة',g_svc_all:'عرض الكل ←',g_contact_lbl:'تواصل مع EMKA',
   lbl_product:'المنتج',lbl_model:'الموديل',lbl_serial:'الرقم التسلسلي',lbl_code:'رقم الوثيقة',
-  lbl_warranty_no:'رقم الضمان',lbl_serial_no:'الرقم التسلسلي',lbl_verify:'رمز التحقق',lbl_sale:'تاريخ الشراء',lbl_start:'بداية الضمان',
+  lbl_warranty_no:'رقم وثيقة الضمان',lbl_serial_no:'الرقم التسلسلي',lbl_verify:'رمز التحقق',lbl_sale:'تاريخ الشراء',lbl_start:'بداية الضمان',
   lbl_end:'انتهاء الضمان',lbl_duration:'مدة الضمان',lbl_status:'الحالة',
   lbl_customer:'العميل',lbl_dealer:'الموزع',lbl_price:'سعر الشراء',
   dur_unit:'شهر',
@@ -1221,7 +1256,7 @@ ar:{
   svc_parts_lbl:'القطع المستبدلة',
   c_sec1:'تواصل مع EMKA',c_addr_lbl:'العنوان',c_maps_lnk:'عرض على الخريطة',
   c_call:'اتصال',c_wa:'واتساب',c_mail:'إرسال بريد',c_web:'الموقع',c_maps:'الخرائط',
-  tl_belgeler:'الوثائق',bl_sec1:'المستندات المرفقة',
+  tl_belgeler:'الوثائق والمستندات',bl_sec1:'المستندات المرفقة',
   bl_warranty:'شهادة الضمان',bl_manual:'دليل المستخدم',
   bl_view:'عرض',bl_download:'تنزيل',bl_none:'لم يتم إضافة وثائق رقمية لهذا المنتج.',
   v_footer:'تم التحقق من هذه الشهادة بواسطة نظام ضمان EMKA.',
@@ -1278,20 +1313,39 @@ async function doSearch(){
   err.style.display='none';
   document.getElementById('s-btn').disabled=true;
   ss('loading');
-  let data, error;
+  let data=null, error=null;
   try{
+    // 1. Önce public_token ile dene (yeni format: EK26-1001-XXXXXX)
     const res=await sb.rpc('get_warranty_public',{p_token:val});
     data=res.data; error=res.error;
   }catch(e){
     document.getElementById('s-btn').disabled=false;
     ss('notfound');return;
   }
+
+  // 2. Bulamazsa warranty_code veya warranty_no ile geri uyumlu arama
+  if(error||!data){
+    try{
+      const fallback=await sb.from('warranties')
+        .select('public_token')
+        .or('warranty_code.eq.'+val+',warranty_no.eq.'+val)
+        .limit(1);
+      if(fallback.data&&fallback.data.length>0&&fallback.data[0].public_token){
+        const tok=fallback.data[0].public_token;
+        const res2=await sb.rpc('get_warranty_public',{p_token:tok});
+        data=res2.data; error=res2.error;
+      }
+    }catch(e2){
+      console.warn('Fallback arama hatasi:',e2.message);
+    }
+  }
+
   document.getElementById('s-btn').disabled=false;
   if(error||!data){ss('notfound');return;}
   try{
     D=data;renderData(data);ss('warranty');
   }catch(e){
-    console.error('renderData hatası:',e);
+    console.error('renderData hatasi:',e);
     ss('notfound');
   }
 }
@@ -1369,11 +1423,9 @@ function renderData(data){
 
   const rows=[
     [t('lbl_product'),pname,null,null],
+    [t('lbl_model'),fp.model||'—','mono',null],
     [t('lbl_warranty_no'),warrantyNo,'mono',null],
     serialNo?[t('lbl_serial_no'),serialNo,'mono',null]:null,
-    [t('lbl_model'),fp.model||'—','mono',null],
-    [t('lbl_serial'),fi.serial_number||'—','mono',null],
-    [t('lbl_code'),w.warranty_code,'mono',null],
     [t('lbl_verify'),w.public_token,'mono link',null],
     [t('lbl_sale'),fd(w.sale_date),null,null],
     [t('lbl_start'),fd(w.warranty_start),null,null],
