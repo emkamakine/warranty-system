@@ -1649,6 +1649,16 @@ function openPhotoLb(src){
     document.body.style.overflow='hidden';
   }catch(e){console.warn('lightbox hatasi:',e);}
 }
+function closePhotoLb(){
+  try{
+    var lb=document.getElementById('photo-lb');
+    if(lb){lb.style.display='none';}
+    var img=document.getElementById('photo-lb-img');
+    if(img)img.src='';
+    document.body.style.overflow='';
+  }catch(e){}
+}
+
 
 // Event delegation: w-photo class'ına tıklamayı yakala
 document.addEventListener('click', function(e){
