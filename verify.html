@@ -600,6 +600,221 @@ a{text-decoration:none;color:inherit}
 .cert-qr-info-title{font-size:12px;font-weight:700;color:var(--sub);margin-bottom:4px}
 .cert-qr-info-url{font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace;word-break:break-all}
 .cert-qr-code{flex-shrink:0}
+
+/* DOCUMENT LIST IN VERIFY */
+.docs-section{margin-top:8px}
+.docs-group{margin-bottom:16px}
+.docs-group-title{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--sub);margin-bottom:8px;display:flex;align-items:center;gap:6px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.doc-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--border2)}
+.doc-row:last-child{border-bottom:none}
+.doc-row-left{display:flex;align-items:center;gap:10px}
+.doc-row-icon{font-size:20px}
+.doc-row-title{font-size:13px;font-weight:600;color:var(--text)}
+.doc-row-lang{font-size:11px;color:var(--muted);margin-top:2px}
+.doc-row-actions{display:flex;gap:6px;flex-shrink:0}
+.doc-act-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:7px;font-size:12px;font-weight:700;border:1px solid var(--border);background:#fff;color:var(--accent);cursor:pointer;font-family:inherit;transition:all .15s;text-decoration:none}
+.doc-act-btn:hover{background:#f0f9ff;border-color:var(--accent)}
+.doc-empty{font-size:13px;color:var(--muted);padding:12px 0;font-style:italic}
+
+/* ═══ DESIGN OVERRIDES v2 ═══ */
+:root{
+  --brand:#0b1929; --brand2:#132540;
+  --accent:#1a6fa8; --accent2:#155d8f;
+  --bg:#f5f6f8; --surface:#fff;
+  --border:#dce1ea; --border2:#eef0f4;
+  --text:#0d1b2a; --sub:#3d4f63; --muted:#6b7a8d;
+  --ok:#166534; --ok-bg:#dcfce7; --ok-text:#14532d; --ok-border:#86efac;
+  --warn:#92400e; --warn-bg:#fef3c7; --warn-text:#78350f; --warn-border:#fbbf24;
+  --danger:#991b1b; --dan-bg:#fee2e2; --dan-text:#7f1d1d; --dan-border:#fca5a5;
+  --r:10px; --r-lg:14px;
+  --sh:0 1px 4px rgba(13,27,42,.07),0 1px 2px rgba(13,27,42,.04);
+  --sh-md:0 4px 12px rgba(13,27,42,.08),0 2px 4px rgba(13,27,42,.04);
+  --sh-lg:0 12px 28px rgba(13,27,42,.10),0 4px 8px rgba(13,27,42,.05);
+}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:15px;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
+/* Header */
+.site-header{background:var(--brand);border-bottom:1px solid rgba(255,255,255,.07)}
+.logo-badge{background:var(--accent);font-size:14px;padding:5px 11px}
+.logo-text-name{font-size:14px;color:rgba(255,255,255,.92)}
+/* Product header */
+.w-photo{width:120px;height:120px;border-radius:12px;border:2px solid rgba(255,255,255,.15);box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.w-photo-ph{width:120px;height:120px;border-radius:12px;font-size:36px}
+.w-verified-dot{width:28px;height:28px;bottom:-6px;right:-6px;border-width:3px}
+.w-product-name{font-size:22px;font-weight:800;letter-spacing:-.5px}
+.w-product-model{font-size:13px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px}
+.w-chip{padding:8px 14px;border-radius:8px}
+.w-chip-lbl{font-size:9px;letter-spacing:1.5px}
+.w-chip-val{font-size:12px;font-family:'IBM Plex Mono',monospace}
+.w-status-pill{padding:9px 18px;font-size:12px;font-weight:700;border-radius:30px}
+.w-remaining-val{font-size:28px;font-weight:800}
+/* Tabs */
+.w-tabs{background:var(--surface);border-bottom:2px solid var(--border2)}
+.tab-btn{padding:15px 22px;font-size:13.5px;font-weight:600;color:var(--sub);gap:7px;transition:all .15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:700}
+.ico{display:inline-block;vertical-align:middle;flex-shrink:0}
+/* Table */
+.info-grid{border:1px solid var(--border);border-radius:10px}
+.ic{padding:13px 18px}
+.ic-lbl{font-size:10px;font-weight:700;letter-spacing:1.2px;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.ic-val{font-size:14px;font-weight:600;color:var(--text)}
+.ic-val.mono{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--accent)}
+/* Badge */
+.badge{font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px}
+.b-active{background:var(--ok-bg);color:var(--ok-text);border:1px solid var(--ok-border)}
+.b-warn{background:var(--warn-bg);color:var(--warn-text);border:1px solid var(--warn-border)}
+.b-expired{background:var(--dan-bg);color:var(--dan-text);border:1px solid var(--dan-border)}
+.b-neutral{background:#f1f5f9;color:var(--sub);border:1px solid var(--border)}
+/* Certificate */
+.cert-wrap{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--sh-md)}
+.cert-hdr{background:linear-gradient(140deg,var(--brand) 0%,var(--brand2) 100%);padding:22px 28px}
+.cert-body{padding:26px 28px}
+.cert-pname{font-size:18px;font-weight:800;color:var(--text)}
+.cert-pmodel{font-size:12.5px;color:var(--accent);font-family:'IBM Plex Mono',monospace}
+.cig-field-lbl{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.cig-field-val{font-size:14px;font-weight:600;color:var(--text)}
+.cig-field-val.mono{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent)}
+.cdb-label{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.cdb-val{font-size:16px;font-weight:800;color:var(--text)}
+/* QR row */
+.cert-qr-row{background:#f8fafc;border:1.5px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:18px}
+.cert-qr-info-title{font-size:12px;font-weight:700;color:var(--sub);margin-bottom:5px}
+.cert-qr-info-url{font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace;word-break:break-all}
+/* Action buttons */
+.cert-act-btn{padding:11px 20px;border-radius:8px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:8px}
+.cab-primary{background:var(--accent);color:#fff;border:none}
+.cab-primary:hover{background:var(--accent2)}
+.cab-ghost{background:var(--surface);border:1.5px solid var(--border);color:var(--sub)}
+.cab-ghost:hover{border-color:var(--accent);color:var(--accent)}
+/* Service history */
+.svc-card{border:1.5px solid var(--border);border-radius:10px;overflow:hidden}
+.svc-card-head{background:#f8fafc;padding:12px 18px;border-bottom:1px solid var(--border)}
+.svc-date-box{background:var(--brand);border-radius:8px;padding:7px 12px}
+.svc-date-day{font-size:19px;font-weight:800}
+.svc-head-title{font-size:14px;font-weight:700;color:var(--text)}
+.svc-head-tech{font-size:12px;color:var(--muted)}
+.svc-card-body{padding:15px 18px}
+.svc-desc{font-size:14px;line-height:1.7;color:var(--text)}
+.svc-parts{border-left:3px solid var(--accent);background:#f8fafc;border-radius:0 8px 8px 0;padding:10px 15px}
+.svc-parts-lbl{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.svc-parts-text{font-size:13px;color:var(--text)}
+/* Contact buttons */
+.contact-btn{padding:16px 20px;border-radius:10px;border:1.5px solid var(--border);transition:all .2s}
+.contact-btn:hover{border-color:var(--accent);box-shadow:var(--sh-md);transform:translateY(-1px)}
+.cbl-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.cbl-val{font-size:14px;font-weight:700;color:var(--text)}
+.contact-address{background:#f8fafc;border:1.5px solid var(--border);border-radius:10px;padding:18px 20px}
+.ca-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.ca-text{font-size:14px;color:var(--text);line-height:1.6;margin-bottom:8px}
+/* Siblings */
+.siblings-card{border:1.5px solid var(--border);border-radius:12px}
+.siblings-hdr{padding:16px 22px}
+.siblings-title{font-size:14px;font-weight:700}
+.siblings-tbl th{font-size:10px;font-weight:700;letter-spacing:1.2px;color:var(--muted);padding:10px 14px}
+.siblings-tbl td{font-size:14px;padding:12px 14px}
+/* Doc section */
+.docs-group-title{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--sub)}
+.doc-row-title{font-size:14px;font-weight:600;color:var(--text)}
+.doc-row-lang{font-size:12px;color:var(--muted)}
+.doc-act-btn{padding:7px 14px;border-radius:7px;font-size:13px;font-weight:600;border:1.5px solid var(--border);color:var(--accent);display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+.doc-act-btn:hover{background:#eff6ff;border-color:var(--accent)}
+/* Progress bar */
+.w-prog-bar{height:5px;background:rgba(255,255,255,.12);border-radius:3px}
+/* W-footer */
+.w-footer{padding:15px 28px}
+.wf-left{font-size:12.5px;color:var(--muted)}
+.wf-right{font-size:12px;color:var(--muted)}
+/* Search */
+.search-form-wrap{border-radius:12px;box-shadow:var(--sh-lg);border:1.5px solid var(--border2)}
+.search-form-wrap input{font-size:15px}
+.search-btn-wrap{padding:11px 24px;font-size:13.5px;font-weight:700;border-radius:9px;background:var(--accent)}
+.search-btn-wrap:hover{background:var(--accent2)}
+.trust-card{border:1.5px solid var(--border);box-shadow:none;transition:all .2s}
+.trust-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.trust-title{font-size:14px;font-weight:700;color:var(--text)}
+.trust-sub{font-size:13px;color:var(--sub);line-height:1.6}
+/* Site footer */
+.site-footer{padding:18px 28px}
+/* Sections */
+.sec-hdr{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--sub);padding-bottom:12px;margin-bottom:18px}
+.garanti-main{padding:26px 28px 26px 30px}
+.garanti-sidebar{padding:22px 22px;background:#fafbfc}
+.belge-layout,.servis-layout,.contact-layout{padding:26px 30px}
+/* Garanti sidebar */
+.qa-btn{font-size:12.5px;font-weight:600;color:var(--sub);gap:6px;padding:12px 8px;border:1.5px solid var(--border);border-radius:9px;transition:all .15s}
+.qa-btn:hover{background:#eff6ff;border-color:var(--accent);color:var(--accent)}
+.mini-contact-item{font-size:13px;padding:9px 0}
+.mci-val{color:var(--accent);font-weight:600;font-size:13px}
+/* W-card border */
+.w-card{border-radius:14px;border:1.5px solid var(--border)}
+/* Info cell odd */
+.ic:nth-child(odd){background:#fafbfc}
+/* Mobile improvements */
+@media(max-width:768px){
+  .w-hdr-top{flex-direction:column;gap:16px}
+  .w-status-col{text-align:left}
+  .w-product-name{font-size:19px}
+  .tab-btn{padding:13px 16px;font-size:13px}
+  .garanti-main{padding:18px}
+  .garanti-sidebar{padding:18px}
+  .belge-layout,.servis-layout,.contact-layout{padding:18px}
+  .cert-body{padding:18px 20px}
+  .cert-hdr{padding:18px 20px}
+}
+
+/* ═══ EMKA PUBLIC DESIGN OVERRIDE ═══ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+body{font-family:'Inter',-apple-system,sans-serif;font-size:15px;color:#0d1b2a}
+:root{
+  --text:#0d1b2a;--sub:#374151;--muted:#6b7280;
+  --accent:#1a7ec8;--accent2:#155fa0;
+  --brand:#0f1c2e;--brand2:#1a3150;
+  --ok:#059669;--ok-bg:#d1fae5;--ok-text:#065f46;--ok-b:#a7f3d0;
+  --warn-bg:#fef3c7;--warn-text:#92400e;--warn-b:#fcd34d;
+  --dan-bg:#fee2e2;--dan-text:#991b1b;
+}
+/* Tab butonlar */
+.tab-btn{font-size:14px;font-weight:600;padding:13px 20px;display:flex;align-items:center;gap:7px;color:#374151;border-bottom:2px solid transparent}
+.tab-btn.active{color:#0d1b2a;font-weight:700;border-bottom-color:var(--accent)}
+.tab-btn svg{opacity:.7}
+.tab-btn.active svg{opacity:1}
+/* Chip okunabilirliği */
+.w-chip-lbl{font-size:10px;font-weight:700;letter-spacing:1px;color:#6b7280}
+.w-chip-val{font-size:14px;font-weight:700;color:#0d1b2a}
+/* Bilgi ızgarası */
+.g-lbl{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#6b7280}
+.g-val{font-size:14.5px;font-weight:600;color:#0d1b2a}
+/* Garanti durumu badge */
+.badge{font-size:12px;font-weight:700;padding:5px 12px;border-radius:20px}
+/* Belge butonları */
+.cert-act-btn{font-size:13px;font-weight:600;padding:9px 18px;border-radius:8px;display:inline-flex;align-items:center;gap:6px}
+/* Siblings */
+.sib-act{font-size:12px;font-weight:600;padding:6px 13px}
+/* Section başlıkları */
+.sec-hdr{font-size:13px;font-weight:700;letter-spacing:.5px;color:#374151;margin-bottom:16px}
+/* İletişim butonları */
+.c-btn{font-size:13.5px;font-weight:600}
+/* Tüm metinler koyu */
+p,span,div{-webkit-font-smoothing:antialiased}
+/* QR area */
+.cert-qr-info-title{font-size:12px;font-weight:700;color:#374151;margin-bottom:5px}
+.cert-qr-info-url{font-size:11.5px;color:#6b7280;font-family:'IBM Plex Mono',monospace;word-break:break-all;line-height:1.5}
+/* Siblings tablo */
+.siblings-tbl th{font-size:10px;font-weight:700;letter-spacing:1px;color:#374151;background:#f9fafb}
+.siblings-tbl td{font-size:13.5px;color:#0d1b2a;padding:11px 14px}
+/* Doc rows */
+.doc-row-title{font-size:14px;font-weight:600;color:#0d1b2a}
+.doc-row-lang{font-size:12px;color:#6b7280;margin-top:2px}
+.doc-act-btn{font-size:12.5px;font-weight:600}
+/* Site footer */
+.sf-brand{font-size:14px;font-weight:800}
+/* Mobil tab scroll */
+@media(max-width:640px){
+  .w-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;justify-content:flex-start}
+  .w-tabs::-webkit-scrollbar{display:none}
+  .tab-btn{white-space:nowrap;font-size:13px;padding:11px 16px}
+}
+
 </style>
 </head>
 <body>
@@ -631,7 +846,7 @@ a{text-decoration:none;color:inherit}
   <!-- ════ SEARCH PAGE ════ -->
   <div id="search-page" class="search-page">
     <div class="search-hero">
-      <div class="search-eyebrow">🛡️ <span id="eyebrow">Dijital Garanti Doğrulama</span></div>
+      <div class="search-eyebrow"><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span id="eyebrow">Dijital Garanti Doğrulama</span></div>
       <h1 class="search-h1">EMKA <span id="hero-h1">Dijital Garanti</span> Belgesi</h1>
       <p class="search-subtitle" id="hero-sub">Garanti kodu, seri numarası veya QR kod ile ürününüzün garanti durumunu kontrol edin.</p>
       <div class="search-form-wrap">
@@ -641,16 +856,16 @@ a{text-decoration:none;color:inherit}
       <div class="s-err-msg" id="s-err"></div>
     </div>
     <div class="trust-grid">
-      <div class="trust-card"><div class="trust-icon">🛡️</div><div class="trust-title" id="tc1t">Orijinal Ürün Doğrulama</div><div class="trust-sub" id="tc1s">EMKA ürününüzün orijinalliğini anında doğrulayın.</div></div>
-      <div class="trust-card"><div class="trust-icon">⏱️</div><div class="trust-title" id="tc2t">Garanti Süresi Kontrolü</div><div class="trust-sub" id="tc2s">Garanti başlangıç ve bitiş tarihlerini görün.</div></div>
-      <div class="trust-card"><div class="trust-icon">🔧</div><div class="trust-title" id="tc3t">Servis Geçmişi</div><div class="trust-sub" id="tc3s">Ürününüze yapılan teknik servis kayıtlarını görüntüleyin.</div></div>
+      <div class="trust-card"><div class="trust-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="trust-title" id="tc1t">Orijinal Ürün Doğrulama</div><div class="trust-sub" id="tc1s">EMKA ürününüzün orijinalliğini anında doğrulayın.</div></div>
+      <div class="trust-card"><div class="trust-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 28 14"/></svg></div><div class="trust-title" id="tc2t">Garanti Süresi Kontrolü</div><div class="trust-sub" id="tc2s">Garanti başlangıç ve bitiş tarihlerini görün.</div></div>
+      <div class="trust-card"><div class="trust-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div><div class="trust-title" id="tc3t">Servis Geçmişi</div><div class="trust-sub" id="tc3s">Ürününüze yapılan teknik servis kayıtlarını görüntüleyin.</div></div>
     </div>
   </div>
 
   <!-- ════ STATES ════ -->
   <div class="state" id="st-loading" style="display:none"><div class="spin"></div></div>
   <div class="state" id="st-notfound" style="display:none">
-    <div class="state-icon">🔍</div>
+    <div class="state-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
     <div class="state-title" id="nf-title">Kayıt Bulunamadı</div>
     <div class="state-sub" id="nf-sub">Girdiğiniz koda ait garanti kaydı bulunamadı. Kodu kontrol ederek tekrar deneyin.</div>
   </div>
@@ -676,10 +891,11 @@ a{text-decoration:none;color:inherit}
 
     <!-- TABS -->
     <div class="w-tabs">
-      <button class="tab-btn active" data-tab="garanti"><span class="tab-icon">🛡️</span><span id="tl-garanti">Garanti</span></button>
-      <button class="tab-btn" data-tab="belge"><span class="tab-icon">📄</span><span id="tl-belge">Belge</span></button>
-      <button class="tab-btn" data-tab="servis"><span class="tab-icon">🔧</span><span id="tl-servis">Servis Geçmişi</span></button>
-      <button class="tab-btn" data-tab="iletisim"><span class="tab-icon">📞</span><span id="tl-iletisim">İletişim</span></button>
+      <button class="tab-btn active" data-tab="garanti"><span class="tab-icon"><svg width="16" height="16" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span id="tl-garanti">Garanti</span></button>
+      <button class="tab-btn" data-tab="belge"><span class="tab-icon"><svg width="16" height="16" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span><span id="tl-belge">Belge</span></button>
+      <button class="tab-btn" data-tab="belgeler"><span class="tab-icon"><svg width="16" height="16" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span id="tl-belgeler">Belgeler</span></button>
+      <button class="tab-btn" data-tab="servis"><span class="tab-icon"><svg width="16" height="16" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><span id="tl-servis">Servis Geçmişi</span></button>
+      <button class="tab-btn" data-tab="iletisim"><span class="tab-icon"><svg width="16" height="16" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 1 1 0 0 1-.23 1.06L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a1 1 0 0 1 1.06-.23 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg></span><span id="tl-iletisim">İletişim</span></button>
     </div>
 
     <div class="w-body">
@@ -688,27 +904,27 @@ a{text-decoration:none;color:inherit}
       <div class="tab-pane active" id="tab-garanti">
         <div class="garanti-layout">
           <div class="garanti-main">
-            <div class="sec-hdr"><span class="sec-icon">🛡️</span><span id="g-sec1">Garanti Bilgileri</span></div>
+            <div class="sec-hdr"><span class="sec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span id="g-sec1">Garanti Bilgileri</span></div>
             <div class="info-grid" id="g-info-grid"></div>
             <div id="g-products-sec" style="display:none;margin-top:22px">
-              <div class="sec-hdr"><span class="sec-icon">📦</span><span id="g-products-lbl">Ürünler</span></div>
+              <div class="sec-hdr"><span class="sec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span><span id="g-products-lbl">Ürünler</span></div>
               <div class="products-list" id="g-products-list"></div>
             </div>
           </div>
           <div class="garanti-sidebar">
             <div class="qa-wrap">
-              <div class="sec-hdr" style="font-size:10px"><span class="sec-icon">⚡</span><span id="g-qa-lbl">Hızlı İşlemler</span></div>
+              <div class="sec-hdr" style="font-size:10px"><span class="sec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span id="g-qa-lbl">Hızlı İşlemler</span></div>
               <div class="qa-grid" id="qa-grid"></div>
             </div>
             <div class="mini-svc-wrap">
               <div class="sec-hdr" style="font-size:10px">
-                <span class="sec-icon">🔧</span><span id="g-svc-lbl">Servis Geçmişi</span>
+                <span class="sec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><span id="g-svc-lbl">Servis Geçmişi</span>
                 <span class="view-all-link" id="g-svc-all" onclick="switchTab('servis')">Tümünü Gör →</span>
               </div>
               <div id="mini-svc-list"></div>
             </div>
             <div>
-              <div class="sec-hdr" style="font-size:10px"><span class="sec-icon">📞</span><span id="g-contact-lbl">EMKA İletişim</span></div>
+              <div class="sec-hdr" style="font-size:10px"><span class="sec-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 1 1 0 0 1-.23 1.06L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a1 1 0 0 1 1.06-.23 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg></span><span id="g-contact-lbl">EMKA İletişim</span></div>
               <div id="mini-contact-list"></div>
             </div>
           </div>
@@ -718,17 +934,17 @@ a{text-decoration:none;color:inherit}
       <!-- BELGE TAB -->
       <div class="tab-pane" id="tab-belge">
         <div class="belge-layout">
-          <div class="sec-hdr"><span class="sec-icon">📄</span><span id="b-sec1">Garanti Belgesi</span></div>
+          <div class="sec-hdr"><span class="sec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span id="b-sec1">Garanti Belgesi</span></div>
           <div class="cert-wrap" id="cert-wrap"></div>
           <div id="cert-qr-row" class="cert-qr-row" style="display:none">
             <div class="cert-qr-info">
-              <div class="cert-qr-info-title" id="cqr-title">Bu belgenin QR kodu</div>
+              <div class="cert-qr-info-title" id="cqr-title">QR Kod — Garanti Doğrulama</div><div style="font-size:11.5px;color:var(--muted);line-height:1.55;margin-top:4px">Bu kodu okutarak garanti belgesinin EMKA sistemi üzerinden doğruluğunu kontrol edebilirsiniz.</div>
               <div class="cert-qr-info-url" id="cqr-url"></div>
             </div>
             <div class="cert-qr-code" id="cert-qr-box"></div>
           </div>
           <div class="cert-actions" id="cert-actions"></div>
-          <div class="sec-hdr"><span class="sec-icon">📋</span><span id="b-terms-lbl">Garanti Şartları</span></div>
+          <div class="sec-hdr"><span class="sec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span><span id="b-terms-lbl">Garanti Şartları</span></div>
           <div class="terms-cols">
             <div class="terms-card tc-ok">
               <div class="tc-head"><div class="tc-title tc-title-ok" id="tc-cov-title">Garanti Kapsamı</div><div class="tc-badge tcb-ok">✓</div></div>
@@ -746,10 +962,18 @@ a{text-decoration:none;color:inherit}
         </div>
       </div>
 
+      <!-- BELGELER TAB -->
+      <div class="tab-pane" id="tab-belgeler">
+        <div style="padding:24px 28px">
+          <div class="sec-hdr"><span class="sec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span><span id="bl-sec1">Ekli Belgeler</span></div>
+          <div id="bl-content"><div class="doc-empty">Bu ürün için dijital belge eklenmemiştir.</div></div>
+        </div>
+      </div>
+
       <!-- SERVİS TAB -->
       <div class="tab-pane" id="tab-servis">
         <div class="servis-layout">
-          <div class="sec-hdr"><span class="sec-icon">🔧</span><span id="s-sec1">Servis Geçmişi</span></div>
+          <div class="sec-hdr"><span class="sec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><span id="s-sec1">Servis Geçmişi</span></div>
           <div id="servis-timeline"></div>
         </div>
       </div>
@@ -757,14 +981,14 @@ a{text-decoration:none;color:inherit}
       <!-- İLETİŞİM TAB -->
       <div class="tab-pane" id="tab-iletisim">
         <div class="contact-layout">
-          <div class="sec-hdr"><span class="sec-icon">📞</span><span id="c-sec1">EMKA İletişim</span></div>
+          <div class="sec-hdr"><span class="sec-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 1 1 0 0 1-.23 1.06L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a1 1 0 0 1 1.06-.23 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg></span><span id="c-sec1">EMKA İletişim</span></div>
           <div class="contact-grid" id="contact-grid"></div>
           <div class="contact-address">
-            <div class="ca-icon">📍</div>
+            <div class="ca-icon"><svg width="18" height="18" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
             <div>
               <div class="ca-label" id="c-addr-lbl">Adres</div>
               <div class="ca-text" id="c-addr-text">Alemdar Mahallesi, Himaye-i Etfal Sokak, No: 6/A, Fatih, İstanbul, Türkiye</div>
-              <a href="https://maps.google.com/?q=Alemdar+Mahallesi+Himaye-i+Etfal+Sokak+6A+Fatih+Istanbul" target="_blank" class="ca-maps-link" id="c-maps-lnk">🗺️ Haritada Görüntüle</a>
+              <a href="https://maps.google.com/?q=Alemdar+Mahallesi+Himaye-i+Etfal+Sokak+6A+Fatih+Istanbul" target="_blank" class="ca-maps-link" id="c-maps-lnk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Haritada Görüntüle</a>
             </div>
           </div>
         </div>
@@ -782,8 +1006,8 @@ a{text-decoration:none;color:inherit}
   <div id="siblings-section" style="display:none">
     <div class="siblings-card">
       <div class="siblings-hdr">
-        <div class="siblings-title">📦 <span id="sib-title">Bu Satıştaki Diğer Garanti Belgeleri</span></div>
-        <a id="sib-order-link" href="#" target="_blank" class="siblings-sale-link">🔗 <span id="sib-order-lbl">Tüm Siparisi Görüntüle</span></a>
+        <div class="siblings-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> <span id="sib-title">Bu Satıştaki Diğer Garanti Belgeleri</span></div>
+        <a id="sib-order-link" href="#" target="_blank" class="siblings-sale-link"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> <span id="sib-order-lbl">Tüm Siparisi Görüntüle</span></a>
       </div>
       <div class="siblings-tbl">
         <table>
@@ -859,8 +1083,11 @@ tr:{
   s_sec1:'Servis Geçmişi',s_empty_title:'Servis Kaydı Bulunmuyor',s_empty_sub:'Bu garanti kaydına ait servis geçmişi bulunmamaktadır.',
   svc_done:'TAMAMLANDI',svc_pending:'İNCELEMEDE',svc_out:'GARANTİ DIŞI',
   svc_parts_lbl:'Değiştirilen Parçalar',
-  c_sec1:'EMKA İletişim',c_addr_lbl:'Adres',c_maps_lnk:'🗺️ Haritada Görüntüle',
+  c_sec1:'EMKA İletişim',c_addr_lbl:'Adres',c_maps_lnk:'Haritada Görüntüle',
   c_call:'Ara',c_wa:'WhatsApp',c_mail:'E-posta Gönder',c_web:'Web Sitesi',c_maps:'Haritalar',
+  tl_belgeler:'Belgeler',bl_sec1:'Ekli Belgeler',
+  bl_warranty:'Garanti Belgesi',bl_manual:'Kullanım Kılavuzu',
+  bl_view:'Görüntüle',bl_download:'İndir',bl_none:'Bu ürün için dijital belge eklenmemiştir.',
   v_footer:'Bu belge EMKA Garanti Sistemi tarafından doğrulanmıştır.',
   v_date:'Sorgu tarihi:',
   sib_title:'Bu Satıştaki Diğer Garanti Belgeleri',
@@ -905,8 +1132,11 @@ en:{
   s_sec1:'Service History',s_empty_title:'No Service Records',s_empty_sub:'No service records found for this warranty.',
   svc_done:'COMPLETED',svc_pending:'UNDER REVIEW',svc_out:'OUT OF WARRANTY',
   svc_parts_lbl:'Parts Replaced',
-  c_sec1:'EMKA Contact',c_addr_lbl:'Address',c_maps_lnk:'🗺️ View on Maps',
+  c_sec1:'EMKA Contact',c_addr_lbl:'Address',c_maps_lnk:'View on Maps',
   c_call:'Call',c_wa:'WhatsApp',c_mail:'Send Email',c_web:'Website',c_maps:'Maps',
+  tl_belgeler:'Documents',bl_sec1:'Attached Documents',
+  bl_warranty:'Warranty Certificate',bl_manual:'User Manual',
+  bl_view:'View',bl_download:'Download',bl_none:'No digital documents have been added for this product.',
   v_footer:'This certificate has been verified by EMKA Warranty System.',
   v_date:'Query date:',
   sib_title:'Other Warranty Certificates in This Order',
@@ -951,8 +1181,11 @@ ar:{
   s_sec1:'سجل الخدمة',s_empty_title:'لا توجد سجلات خدمة',s_empty_sub:'لا توجد سجلات خدمة لهذا الضمان.',
   svc_done:'مكتمل',svc_pending:'قيد المراجعة',svc_out:'خارج الضمان',
   svc_parts_lbl:'القطع المستبدلة',
-  c_sec1:'تواصل مع EMKA',c_addr_lbl:'العنوان',c_maps_lnk:'🗺️ عرض على الخريطة',
+  c_sec1:'تواصل مع EMKA',c_addr_lbl:'العنوان',c_maps_lnk:'عرض على الخريطة',
   c_call:'اتصال',c_wa:'واتساب',c_mail:'إرسال بريد',c_web:'الموقع',c_maps:'الخرائط',
+  tl_belgeler:'الوثائق',bl_sec1:'المستندات المرفقة',
+  bl_warranty:'شهادة الضمان',bl_manual:'دليل المستخدم',
+  bl_view:'عرض',bl_download:'تنزيل',bl_none:'لم يتم إضافة وثائق رقمية لهذا المنتج.',
   v_footer:'تم التحقق من هذه الشهادة بواسطة نظام ضمان EMKA.',
   v_date:'تاريخ الاستعلام:',
   sib_title:'شهادات الضمان الأخرى في هذا الطلب',
@@ -983,6 +1216,7 @@ function applyT(){
     tc_cov_title:'tc-cov-title',tc_exc_title:'tc-exc-title',tc_notice:'tc-notice',
     s_sec1:'s-sec1',c_sec1:'c-sec1',c_addr_lbl:'c-addr-lbl',c_maps_lnk:'c-maps-lnk',
     v_footer:'v-footer',sf_copy:'sf-copy',
+    tl_belgeler:'tl-belgeler',bl_sec1:'bl-sec1',
     sib_title:'sib-title',sib_order_lbl:'sib-order-lbl',
     sth_product:'sth-product',sth_serial:'sth-serial',sth_wno:'sth-wno',sth_status:'sth-status',sth_expiry:'sth-expiry',sth_action:'sth-action',
   };
@@ -1057,7 +1291,7 @@ function renderData(data){
   /* ── HEADER ── */
   document.getElementById('w-photo-area').innerHTML=fp.photo_url
     ?`<img src="${fp.photo_url}" class="w-photo" alt="${pname}"><div class="w-verified-dot">✓</div>`
-    :`<div class="w-photo-ph">🔧</div><div class="w-verified-dot">✓</div>`;
+    :`<div class="w-photo-ph"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div><div class="w-verified-dot">✓</div>`;
 
   const warrantyNo=w.warranty_no||w.warranty_code;
   const serialNo=w.serial_no||(fi.serial_number)||null;
@@ -1079,7 +1313,7 @@ function renderData(data){
     <div class="w-status-lbl-text">${t('remaining')}</div>
     <div class="w-status-pill ${sPillC}">${sIcon} ${sTxt}</div>
     <div>${remHtml}</div>
-    <div class="w-duration-row"><span style="font-size:11px">🛡️</span><span class="w-duration-text">${t('duration_lbl')}: <span>${w.warranty_months||'—'} ${t('dur_unit')}</span></span></div>`;
+    <div class="w-duration-row"><span style="display:inline-flex;align-items:center;vertical-align:middle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span class="w-duration-text">${t('duration_lbl')}: <span>${w.warranty_months||'—'} ${t('dur_unit')}</span></span></div>`;
 
   const pf=document.getElementById('wp-fill');
   pf.style.width=pct+'%'; pf.className='w-prog-fill '+pfC;
@@ -1122,7 +1356,7 @@ function renderData(data){
       const pr=item.product||{};
       const nm=(L==='en'?pr.name_en:L==='ar'?pr.name_ar:pr.name_tr)||pr.name_tr||'—';
       return`<div class="product-row">
-        ${pr.photo_url?`<img src="${pr.photo_url}" class="product-thumb" alt="${nm}">`:`<div class="product-thumb-ph">📦</div>`}
+        ${pr.photo_url?`<img src="${pr.photo_url}" class="product-thumb" alt="${nm}">`:`<div class="product-thumb-ph"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>`}
         <div style="flex:1"><div class="product-info-name">${nm}</div><div class="product-info-model">${pr.model||''}</div></div>
         ${item.quantity>1?`<span class="qty-badge">${t('qty')}: ${item.quantity}</span>`:''}
         ${item.serial_number?`<span class="serial-badge">${item.serial_number}</span>`:''}
@@ -1133,9 +1367,9 @@ function renderData(data){
   const docUrl=fp.warranty_doc_url;
   document.getElementById('qa-grid').innerHTML=[
     docUrl?`<a href="${docUrl}" download class="qa-btn"><div class="qa-icon">⬇️</div>${t('qa_pdf')}</a>`:'',
-    `<button class="qa-btn" onclick="window.print()"><div class="qa-icon">🖨️</div>${t('qa_print')}</button>`,
-    docUrl?`<a href="${docUrl}" target="_blank" class="qa-btn"><div class="qa-icon">🔗</div>${t('qa_open')}</a>`:'',
-    `<button class="qa-btn" onclick="shareW('${w.warranty_code}')"><div class="qa-icon">📤</div>${t('qa_share')}</button>`,
+    `<button class="qa-btn" onclick="window.print()"><div class="qa-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></div>${t('qa_print')}</button>`,
+    docUrl?`<a href="${docUrl}" target="_blank" class="qa-btn"><div class="qa-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>${t('qa_open')}</a>`:'',
+    `<button class="qa-btn" onclick="shareW('${w.warranty_code}')"><div class="qa-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>${t('qa_share')}</button>`,
   ].filter(Boolean).join('');
 
   const msvc=document.getElementById('mini-svc-list');
@@ -1150,18 +1384,18 @@ function renderData(data){
   }
 
   document.getElementById('mini-contact-list').innerHTML=`
-    <div class="mini-contact-item"><span class="mci-icon">📞</span><a href="tel:${CO.phone}" class="mci-val">${CO.phone}</a></div>
-    <div class="mini-contact-item"><span class="mci-icon">💬</span><a href="https://wa.me/${CO.wa}" target="_blank" class="mci-val">WhatsApp</a></div>
-    <div class="mini-contact-item"><span class="mci-icon">✉️</span><a href="mailto:${CO.email}" class="mci-val">${CO.email}</a></div>
-    <div class="mini-contact-item"><span class="mci-icon">🌐</span><a href="${CO.webUrl}" target="_blank" class="mci-val">${CO.web}</a></div>`;
+    <div class="mini-contact-item"><span class="mci-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 1 1 0 0 1-.23 1.06L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a1 1 0 0 1 1.06-.23 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg></span><a href="tel:${CO.phone}" class="mci-val">${CO.phone}</a></div>
+    <div class="mini-contact-item"><span class="mci-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span><a href="https://wa.me/${CO.wa}" target="_blank" class="mci-val">WhatsApp</a></div>
+    <div class="mini-contact-item"><span class="mci-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><a href="mailto:${CO.email}" class="mci-val">${CO.email}</a></div>
+    <div class="mini-contact-item"><span class="mci-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span><a href="${CO.webUrl}" target="_blank" class="mci-val">${CO.web}</a></div>`;
 
   /* ── BELGE TAB ── */
-  const cpPhoto=fp.photo_url?`<img src="${fp.photo_url}" class="cert-pphoto" alt="${pname}">`:`<div class="cert-pphoto-ph">🔧</div>`;
+  const cpPhoto=fp.photo_url?`<img src="${fp.photo_url}" class="cert-pphoto" alt="${pname}">`:`<div class="cert-pphoto-ph"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>`;
   document.getElementById('cert-wrap').innerHTML=`
     <div class="cert-hdr">
       <div class="cert-hdr-brand"><div class="cert-brand-name">EM<span>KA</span></div><div class="cert-brand-sub">EMKA Kuyumculuk Malzeme ve Makinaları</div></div>
       <div class="cert-hdr-title"><div class="ct">${t('cert_title')}</div><div class="cs">${t('cert_sub')}</div></div>
-      <div class="cert-seal"><div style="font-size:20px">🛡️</div><div style="font-size:8px;letter-spacing:1px;color:rgba(255,255,255,.45);margin-top:2px">EMKA</div></div>
+      <div class="cert-seal"><div style="display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div style="font-size:8px;letter-spacing:1px;color:rgba(255,255,255,.45);margin-top:2px">EMKA</div></div>
     </div>
     <div class="cert-body">
       <div class="cert-product-row">
@@ -1191,10 +1425,11 @@ function renderData(data){
 
   const manualUrl=fp.manual_url||null;
   document.getElementById('cert-actions').innerHTML=[
-    docUrl?`<a href="${docUrl}" download class="cert-act-btn cab-primary">⬇️ ${t('ca_pdf')}</a>`:'',
-    `<button class="cert-act-btn cab-ghost" onclick="window.print()">🖨️ ${t('ca_print')}</button>`,
-    docUrl?`<a href="${docUrl}" target="_blank" class="cert-act-btn cab-ghost">🔗 ${t('ca_open')}</a>`:'',
-    manualUrl?`<a href="${manualUrl}" target="_blank" class="cert-act-btn cab-ghost">📖 ${t('ca_manual')}</a>`:'',
+    docUrl?`<a href="${docUrl}" download class="cert-act-btn cab-primary">${t('ca_pdf')}</a>`:'',
+
+    `<button class="cert-act-btn cab-ghost" onclick="window.print()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> ${t('ca_print')}</button>`,
+    docUrl?`<a href="${docUrl}" target="_blank" class="cert-act-btn cab-ghost"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> ${t('ca_open')}</a>`:'',
+    manualUrl?`<a href="${manualUrl}" target="_blank" class="cert-act-btn cab-ghost"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> ${t('ca_manual')}</a>`:'',
   ].filter(Boolean).join('');
 
   /* Belge sekmesi QR */
@@ -1219,7 +1454,7 @@ function renderData(data){
   /* ── SERVİS TAB ── */
   const tl=document.getElementById('servis-timeline');
   if(!svc||!svc.length){
-    tl.innerHTML=`<div class="svc-empty"><div class="svc-empty-icon">🔧</div><div class="svc-empty-title">${t('s_empty_title')}</div><div class="svc-empty-sub">${t('s_empty_sub')}</div></div>`;
+    tl.innerHTML=`<div class="svc-empty"><div class="svc-empty-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div><div class="svc-empty-title">${t('s_empty_title')}</div><div class="svc-empty-sub">${t('s_empty_sub')}</div></div>`;
   } else {
     tl.innerHTML=`<div class="svc-timeline">${svc.map(r=>{
       const done=new Date(r.service_date)<=now;
@@ -1235,13 +1470,13 @@ function renderData(data){
             <div class="svc-date-box"><div class="svc-date-day">${day}</div><div class="svc-date-mo">${mo}</div></div>
             <div style="flex:1">
               <div class="svc-head-title">${r.description.split(/[.،]/)[0]||r.description}</div>
-              ${r.technician?`<div class="svc-head-tech">👤 ${r.technician}</div>`:''}
+              ${r.technician?`<div class="svc-head-tech">EMKA Teknik Servis</div>`:''}
             </div>
             <div class="svc-status ${bc}">● ${bl}</div>
           </div>
           <div class="svc-card-body">
             <div class="svc-desc">${r.description}</div>
-            ${r.parts_changed?`<div class="svc-parts"><div><div class="svc-parts-lbl">🔩 ${t('svc_parts_lbl')}</div><div class="svc-parts-text">${r.parts_changed}</div></div></div>`:''}
+            ${r.parts_changed?`<div class="svc-parts"><div><div class="svc-parts-lbl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> ${t('svc_parts_lbl')}</div><div class="svc-parts-text">${r.parts_changed}</div></div></div>`:''}
           </div>
         </div>
       </div>`;
@@ -1250,15 +1485,56 @@ function renderData(data){
 
   /* ── İLETİŞİM TAB ── */
   document.getElementById('contact-grid').innerHTML=`
-    <a href="tel:${CO.phone}" class="contact-btn"><div class="contact-btn-icon cbi-call">📞</div><div><div class="cbl-label">${t('c_call')}</div><div class="cbl-val">${CO.phone}</div></div></a>
-    <a href="https://wa.me/${CO.wa}" target="_blank" class="contact-btn"><div class="contact-btn-icon cbi-wa">💬</div><div><div class="cbl-label">${t('c_wa')}</div><div class="cbl-val">Mesaj Gönder</div></div></a>
-    <a href="mailto:${CO.email}" class="contact-btn"><div class="contact-btn-icon cbi-mail">✉️</div><div><div class="cbl-label">${t('c_mail')}</div><div class="cbl-val">${CO.email}</div></div></a>
-    <a href="${CO.webUrl}" target="_blank" class="contact-btn"><div class="contact-btn-icon cbi-web">🌐</div><div><div class="cbl-label">${t('c_web')}</div><div class="cbl-val">${CO.web}</div></div></a>`;
+    <a href="tel:${CO.phone}" class="contact-btn"><div class="contact-btn-icon cbi-call"><svg width="19" height="19" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 1 1 0 0 1-.23 1.06L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a1 1 0 0 1 1.06-.23 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg></div><div><div class="cbl-label">${t('c_call')}</div><div class="cbl-val">${CO.phone}</div></div></a>
+    <a href="https://wa.me/${CO.wa}" target="_blank" class="contact-btn"><div class="contact-btn-icon cbi-wa"><svg width="19" height="19" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div><div><div class="cbl-label">${t('c_wa')}</div><div class="cbl-val">Mesaj Gönder</div></div></a>
+    <a href="mailto:${CO.email}" class="contact-btn"><div class="contact-btn-icon cbi-mail"><svg width="19" height="19" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="cbl-label">${t('c_mail')}</div><div class="cbl-val">${CO.email}</div></div></a>
+    <a href="${CO.webUrl}" target="_blank" class="contact-btn"><div class="contact-btn-icon cbi-web"><svg width="19" height="19" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div><div class="cbl-label">${t('c_web')}</div><div class="cbl-val">${CO.web}</div></div></a>`;
 
   document.getElementById('c-addr-text').textContent=CO.addr;
   document.getElementById('c-maps-lnk').href=CO.mapsUrl;
   document.getElementById('c-maps-lnk').textContent=t('c_maps_lnk');
   document.getElementById('v-date').textContent=t('v_date')+' '+fd(new Date().toISOString());
+
+  /* ── BELGELER ── */
+  const docs=data.documents||[];
+  const blContent=document.getElementById('bl-content');
+  const blEmpty=document.getElementById('bl-empty');
+  if(blContent){
+    if(docs.length===0){
+      blContent.innerHTML=`<div class="doc-empty">${t('bl_none')}</div>`;
+    } else {
+      const docLangFull={tr:'Türkçe',en:'English',es:'Español',de:'Deutsch',fr:'Français',ar:'العربية',ru:'Русский',other:'Diğer'};
+      const docTypeIcon={warranty_certificate:`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,user_manual:`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`};
+      // Türe göre grupla
+      const byType={warranty_certificate:[],user_manual:[]};
+      docs.forEach(d=>{if(byType[d.document_type])byType[d.document_type].push(d);else byType.warranty_certificate.push(d);});
+      let html='';
+      const renderGroup=(typeKey,typeLabel)=>{
+        const grp=byType[typeKey];
+        if(!grp.length)return'';
+        const rows=grp.map(d=>`<div class="doc-row">
+          <div class="doc-row-left">
+            <div class="doc-row-icon">${docTypeIcon[d.document_type]||`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`}</div>
+            <div>
+              <div class="doc-row-title">${esc(d.title)}</div>
+              <div class="doc-row-lang">${docLangFull[d.language]||d.language}${d.version&&d.version!=='1.0'?' · v'+esc(d.version):''}</div>
+            </div>
+          </div>
+          <div class="doc-row-actions">
+            ${d.file_url?`<a href="${esc(d.file_url)}" target="_blank" class="doc-act-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> ${t('bl_view')}</a>`:''}
+            ${d.file_url?`<a href="${esc(d.file_url)}" download class="doc-act-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> ${t('bl_download')}</a>`:''}
+          </div>
+        </div>`).join('');
+        return`<div class="docs-group">
+          <div class="docs-group-title">${docTypeIcon[typeKey]||`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`} ${typeLabel}</div>
+          ${rows}
+        </div>`;
+      };
+      html+=renderGroup('warranty_certificate',t('bl_warranty'));
+      html+=renderGroup('user_manual',t('bl_manual'));
+      blContent.innerHTML=html||`<div class="doc-empty">${t('bl_none')}</div>`;
+    }
+  }
 
   /* ── SIBLINGS ── */
   const siblings=data.siblings||[];
@@ -1286,13 +1562,14 @@ function renderData(data){
         if(d<=30)return'<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;background:var(--warn-bg);color:var(--warn-text)">⚠ '+t('status_warn')+'</span>';
         return'<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;background:var(--ok-bg);color:var(--ok-text)">● '+t('status_active')+'</span>';
       };
-      document.getElementById('siblings-tbl-body').innerHTML=siblings.map(s=>`<tr>
+      const curToken=w.public_token;
+document.getElementById('siblings-tbl-body').innerHTML=siblings.slice(0,5).map(s=>`<tr style="${s.public_token===curToken?'background:#eff6ff':''}">
         <td style="font-weight:600">${esc(s.product_name||'—')}</td>
         <td><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">${esc(s.serial_no||'—')}</span></td>
         <td><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600">${esc(s.warranty_no||'—')}</span></td>
         <td>${sibStatus(s.warranty_end)}</td>
         <td style="white-space:nowrap">${fd(s.warranty_end)}</td>
-        <td><a href="${VERIFY_BASE}${esc(s.public_token)}" target="_blank" class="sib-act">🔍 ${t('sib_view')}</a></td>
+        <td>${s.public_token===curToken?'<span style="font-size:11px;font-weight:700;color:var(--accent);padding:4px 10px;background:#eff6ff;border-radius:6px">Görüntüleniyor</span>':`<a href="${VERIFY_BASE}${esc(s.public_token)}" target="_blank" class="sib-act">${t('sib_view')}</a>`}</td>
       </tr>`).join('');
     } else {
       sibSec.style.display='none';
