@@ -135,6 +135,46 @@ tr:hover td{background:#f9fafb}
   .contact-card{flex-direction:column}
   .site-footer{flex-direction:column;align-items:flex-start}
 }
+
+/* ═══ EMKA ORDER PAGE DESIGN OVERRIDE ═══ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+body{font-family:'Inter',-apple-system,sans-serif;font-size:15px;color:#0d1b2a}
+:root{
+  --text:#0d1b2a;--sub:#374151;--muted:#6b7280;
+  --accent:#1a7ec8;--accent2:#155fa0;
+}
+th{font-size:11px !important;font-weight:700 !important;color:#374151 !important;letter-spacing:1px;padding:11px 16px !important;background:#f9fafb !important;border-bottom:2px solid #e5e7eb !important}
+td{font-size:14px !important;color:#0d1b2a !important;padding:13px 16px !important}
+tr:hover td{background:#fafbfc}
+.prod-name{font-size:14px;font-weight:700;color:#0d1b2a}
+.prod-model{font-size:12px;color:#6b7280;margin-top:2px}
+.mono{font-size:13px;font-weight:600;color:#0d1b2a}
+.badge{font-size:11.5px;font-weight:600;padding:4px 11px}
+.b-active{background:#d1fae5;color:#065f46}
+.b-warn{background:#fef3c7;color:#92400e}
+.b-expired{background:#fee2e2;color:#991b1b}
+/* Stat kartlar */
+.stat-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.stat-block{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.stat-block-val{font-size:26px;font-weight:800;color:#0d1b2a;letter-spacing:-.5px}
+.stat-block-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#6b7280;margin-top:3px}
+/* Button kurumsal */
+.act-btn{font-size:13px;font-weight:600;padding:7px 15px;border-radius:7px;border:1.5px solid #1a7ec8;background:#1a7ec8;color:#fff}
+.act-btn:hover{background:#155fa0;border-color:#155fa0}
+/* Header chip */
+.order-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font-size:12.5px;font-weight:600}
+/* Tablo filter */
+.tbl-filter input,.tbl-filter select{font-size:13.5px;color:#0d1b2a;border:1.5px solid #d1d5db;border-radius:7px;padding:7px 11px}
+.tbl-filter input:focus,.tbl-filter select:focus{border-color:#1a7ec8;outline:none}
+/* Mobile kart görünümü */
+@media(max-width:700px){
+  .stat-bar{grid-template-columns:repeat(2,1fr)}
+  table thead{display:none}
+  table tr{display:flex;flex-direction:column;background:#fff;border:1px solid #e5e7eb;border-radius:10px;margin-bottom:10px;padding:14px}
+  table td{display:flex;justify-content:space-between;align-items:center;border:none !important;padding:5px 0 !important;font-size:13.5px !important}
+  table td::before{content:attr(data-label);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#9ca3af;margin-right:8px}
+}
+
 </style>
 </head>
 <body>
@@ -164,8 +204,8 @@ tr:hover td{background:#f9fafb}
 
   <div id="search-section" style="text-align:center;padding:40px 0 24px">
     <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px">🍷 Sipariş Garanti Sorgulama</div>
-    <div style="font-size:28px;font-weight:800;letter-spacing:-.5px;color:var(--text);margin-bottom:8px" id="search-title">Sipariş Garanti Belgesi</div>
-    <div style="font-size:14px;color:var(--sub);margin-bottom:28px" id="search-sub">Sipariş numarası ile tüm garanti belgelerinizi görüntüleyin.</div>
+    <div style="font-size:26px;font-weight:800;letter-spacing:-.5px;color:var(--text);margin-bottom:8px" id="search-title">Toplu Dijital Garanti Belgesi</div>
+    <div style="font-size:14px;color:var(--sub);margin-bottom:28px" id="search-sub">Bu sayfa, ilgili satış kapsamında oluşturulan tüm makine garanti belgelerini listeler.</div>
     <div class="search-wrap">
       <input type="text" id="s-input" placeholder="SALE-2026-1001" style="text-transform:uppercase" autocomplete="off">
       <button class="search-btn" id="s-btn" onclick="doSearch()"><span id="s-btn-txt">SORGULA</span></button>
@@ -176,12 +216,13 @@ tr:hover td{background:#f9fafb}
   <div class="state" id="st-loading" style="display:none"><div class="spin"></div></div>
 
   <div class="state" id="st-notfound" style="display:none">
-    <div class="state-icon">🔍</div>
+    <div class="state-icon"></div>
     <div class="state-title" id="nf-title">Sipariş Bulunamadı</div>
     <div class="state-sub" id="nf-sub">Girdiğiniz koda ait sipariş kaydı bulunamadı. Kodu kontrol ederek tekrar deneyin.</div>
   </div>
 
   <div id="order-section" style="display:none">
+  <div id="order-stat-bar" class="stat-bar" style="margin-top:0;margin-bottom:20px"></div>
 
     <div class="order-card">
       <div class="order-hdr">
@@ -193,7 +234,7 @@ tr:hover td{background:#f9fafb}
         <div class="order-hdr-right">
           <div class="order-count-val" id="oh-count">0</div>
           <div class="order-count-lbl" id="oh-count-lbl">Garanti Belgesi</div>
-          <div><div class="order-verified">✓ <span id="oh-verified">DOĞRULANDI</span></div></div>
+          <div><div class="order-verified"><span id="oh-verified">DOĞRULANDI</span></div></div>
         </div>
       </div>
       <div class="order-body">
@@ -249,7 +290,7 @@ const T={
 tr:{
   logo_sub:'Sipariş Garanti Belgesi',
   search_title:'Sipariş Garanti Belgesi',
-  search_sub:'Sipariş numarası ile tüm garanti belgelerinizi görüntüleyin.',
+  search_sub:'Bu sayfa, ilgili satış kapsamında oluşturulan tüm makine garanti belgelerini listeler.',
   s_btn:'SORGULA',s_err_empty:'Lütfen bir sipariş numarası girin.',
   nf_title:'Sipariş Bulunamadı',nf_sub:'Girdiğiniz koda ait sipariş kaydı bulunamadı.',
   oh_eyebrow:'Sipariş Garanti Belgesi',
@@ -359,9 +400,9 @@ function wSt(endDate){
 function wBadge(endDate){
   const s=wSt(endDate);
   const d=Math.ceil((new Date(endDate)-new Date())/86400000);
-  if(s==='active')return`<span class="badge b-active">✓ ${t('s_active')}</span>`;
-  if(s==='warn')return`<span class="badge b-warn">⚠ ${t('s_warn')} (${d}g)</span>`;
-  return`<span class="badge b-expired">✕ ${t('s_expired')}</span>`;
+  if(s==='active')return`<span class="badge b-active">${t('s_active')}</span>`;
+  if(s==='warn')return`<span class="badge b-warn">${t('s_warn')} (${d}g)</span>`;
+  return`<span class="badge b-expired">${t('s_expired')}</span>`;
 }
 function fd(d){if(!d)return'—';return new Date(d).toLocaleDateString(L==='en'?'en-GB':L==='ar'?'ar-SA':'tr-TR',{day:'2-digit',month:'long',year:'numeric'});}
 function esc(s){if(s==null)return'';const t=document.createElement('span');t.textContent=String(s);return t.innerHTML;}
@@ -372,13 +413,27 @@ function renderOrder(data){
 
   document.getElementById('oh-eyebrow').textContent=t('oh_eyebrow');
   document.getElementById('oh-saleno').textContent=s.sale_no||'—';
+  // Stat bar
+  const now2=new Date();
+  const totalW=wArr.length;
+  const activeW=wArr.filter(w=>w.warranty_end&&new Date(w.warranty_end)>now2).length;
+  const expiredW=totalW-activeW;
+  const sbar=document.getElementById('order-stat-bar');
+  if(sbar){
+    sbar.innerHTML=`
+      <div class="stat-block"><div class="stat-block-val">${totalW}</div><div class="stat-block-lbl">Toplam Makine</div></div>
+      <div class="stat-block"><div class="stat-block-val" style="color:#065f46">${activeW}</div><div class="stat-block-lbl">Aktif Garanti</div></div>
+      <div class="stat-block"><div class="stat-block-val" style="color:#991b1b">${expiredW}</div><div class="stat-block-lbl">Süresi Dolan</div></div>
+      <div class="stat-block"><div class="stat-block-val" style="font-size:18px;margin-top:2px">${(c?.name||'—').split(' ').slice(0,2).join(' ')}</div><div class="stat-block-lbl">${s.country||'—'}</div></div>
+    `;
+  }
   document.getElementById('oh-count').textContent=wArr.length;
   document.getElementById('oh-count-lbl').textContent=t('oh_count_lbl');
   document.getElementById('oh-verified').textContent=t('oh_verified');
 
   const meta=[];
-  if(c?.name)meta.push(`<div class="order-chip">👤 ${esc(c.name)}${c.city?' &mdash; '+esc(c.city):''}</div>`);
-  if(s.sale_date)meta.push(`<div class="order-chip">📅 ${fd(s.sale_date)}</div>`);
+  if(c?.name)meta.push(`<div class="order-chip">${esc(c.name)}${c.city?' &mdash; '+esc(c.city):''}</div>`);
+  if(s.sale_date)meta.push(`<div class="order-chip">${fd(s.sale_date)}</div>`);
   if(s.country)meta.push(`<div class="order-chip">🌐 ${esc(s.country)}</div>`);
   document.getElementById('oh-meta').innerHTML=meta.join('');
 
