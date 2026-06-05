@@ -277,6 +277,30 @@ label{font-size:12px;font-weight:600;color:#374151;letter-spacing:.3px;text-tran
 ::-webkit-scrollbar-track{background:#f3f4f6}
 ::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:3px}
 
+
+/* ─── TOOLTIP ─── */
+[data-tip]{position:relative}
+[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);background:#0f1c2e;color:#fff;font-size:11px;font-weight:500;white-space:nowrap;padding:5px 9px;border-radius:6px;z-index:10000;pointer-events:none;box-shadow:0 3px 10px rgba(0,0,0,.25)}
+[data-tip]:hover::before{content:'';position:absolute;bottom:calc(100% + 2px);left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#0f1c2e;z-index:10000;pointer-events:none}
+
+/* ─── BTN-XS BÜYÜTME ─── */
+.btn-xs{font-size:12px !important;padding:6px 11px !important;font-weight:600;border-radius:7px;display:inline-flex;align-items:center;gap:4px;transition:all .15s;cursor:pointer;border:1.5px solid transparent;line-height:1}
+.bv{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}.bv:hover{background:#dbeafe}
+.be{background:#f0fdf4;color:#166534;border-color:#bbf7d0}.be:hover{background:#dcfce7}
+.bq{background:#faf5ff;color:#6b21a8;border-color:#e9d5ff}.bq:hover{background:#f3e8ff}
+.bl{background:#f0f9ff;color:#0369a1;border-color:#bae6fd}.bl:hover{background:#e0f2fe}
+.bd{background:#fff1f2;color:#be123c;border-color:#fecdd3}.bd:hover{background:#ffe4e6}
+
+/* ─── TABLO ─── */
+td{font-size:14px !important;color:#0d1b2a !important;padding:13px 16px !important}
+th{font-size:11px !important;color:#1e293b !important;font-weight:800 !important;padding:11px 16px !important;background:#f1f5f9 !important;border-bottom:2px solid #e2e8f0 !important}
+tr:hover td{background:#f8fafc !important}
+
+/* ─── SATIŞ DETAYI HEADER BUTONLARI ─── */
+.sale-hdr-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;transition:all .15s}
+.sale-hdr-btn-light{background:#fff;color:#0d1b2a;border:2px solid #fff}.sale-hdr-btn-light:hover{background:#f1f5f9}
+.sale-hdr-btn-ghost{background:rgba(255,255,255,.18);color:#fff;border:1.5px solid rgba(255,255,255,.45)}.sale-hdr-btn-ghost:hover{background:rgba(255,255,255,.28)}
+
 </style>
 </head>
 <body>
@@ -1107,11 +1131,11 @@ function renderSales(){
     <td><span class="badge b-blue">${wCount(s.id)} garanti</span></td>
     <td><div class="act">
       <a href="${ORDER_URL}${s.public_order_token}" target="_blank" class="btn-xs bv">🔗 Sipariş</a>
-      <button class="btn-xs bq" onclick="showOrderQR('${s.public_order_token}','${s.sale_no}')">QR</button>
-      <button class="btn-xs bl" onclick="navigator.clipboard.writeText('${ORDER_URL}${s.public_order_token}').then(()=>toast('Link kopyalandı','ok'))">Kopyala</button>
-      <button class="btn-xs bv" onclick="showSaleDetail('${s.id}')">Detay</button>
-      <button class="btn-xs be" onclick="editSale('${s.id}')">✏️ Düzenle</button>
-      <button class="btn-xs bd" onclick="delRec('sales','${s.id}')">🗑</button>
+      <button class="btn-xs bq" data-tip="QR Kodu" onclick="showOrderQR('${s.public_order_token}','${s.sale_no}')">QR</button>
+      <button class="btn-xs bl" data-tip="Kopyala" onclick="navigator.clipboard.writeText('${ORDER_URL}${s.public_order_token}').then(()=>toast('Link kopyalandı','ok'))">Kopyala</button>
+      <button class="btn-xs bv" data-tip="Detay" onclick="showSaleDetail('${s.id}')">Detay</button>
+      <button class="btn-xs be" data-tip="Duzenle" onclick="editSale('${s.id}')">✏️ Düzenle</button>
+      <button class="btn-xs bd" data-tip="Sil" onclick="delRec('sales','${s.id}')">🗑</button>
     </div></td>
   </tr>`;
   }).join('')||'<tr class="erow"><td colspan="6">Satış bulunamadı</td></tr>';
@@ -1290,8 +1314,8 @@ async function saveSale(){try{
       <div class="sale-result-title">✅ Satış oluşturuldu: ${esc(saleNo)} - ${createdCount} garanti belgesi</div>
       ${errors.length?`<div style="color:var(--danger);font-size:12px;margin-bottom:8px">⚠️ ${errors.length} hata: ${errors.slice(0,3).join(', ')}</div>`:''}
       <div class="sale-result-links">
-        <a href="${ORDER_URL}${s.public_order_token}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1.5px solid #fff;background:#fff;color:#0d1b2a;font-size:12px;font-weight:700;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Sipariş Sayfası</a>
-          <button style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1.5px solid rgba(255,255,255,.6);background:rgba(255,255,255,.15);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit" onclick="showOrderQR('${s.public_order_token}','${s.sale_no}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/></svg> QR</button>
+        <a href="${ORDER_URL}${s.public_order_token}" target="_blank" class="sale-hdr-btn sale-hdr-btn-light" data-tip="Siparis Sayfasi"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Sipariş Sayfası</a>
+          <button class="sale-hdr-btn sale-hdr-btn-ghost" data-tip="QR Kodu" onclick="showOrderQR('${s.public_order_token}','${s.sale_no}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/></svg> QR</button>
         <button class="btn btn-ghost" style="font-size:12px;padding:6px 14px" onclick="navigator.clipboard.writeText('${ORDER_URL}${orderToken}').then(()=>toast('Link kopyalandı','ok'))">🔗 Link Kopyala</button>
       </div>
     </div>`;
@@ -1353,7 +1377,7 @@ function renderDocs(){
       <td>${fileEl}</td>
       <td><div class="act">
         ${d.file_url?`<a href="${esc(d.file_url)}" target="_blank" class="btn-xs bv">👁 Aç</a>`:''}
-        <button class="btn-xs be" onclick="editDoc('${d.id}')">✏️</button>
+        <button class="btn-xs be" data-tip="Duzenle" onclick="editDoc('${d.id}')">✏️</button>
         <button class="btn-xs ${active?'bd':'bq'}" onclick="toggleDoc('${d.id}',${!active})">${active?'⏸ Pasif':'▶ Aktif'}</button>
       </div></td>
     </tr>`;
@@ -1906,7 +1930,14 @@ function wBadge(w){
   return'<span class="badge b-expired">✕ Sona Erdi</span>';
 }
 function actBtns(w){
-  return`<button class="btn-xs bv" onclick="viewWarranty('${w.id}')">👁</button><button class="btn-xs bq" onclick="showQR('${w.public_token}','${w.warranty_code}')">📲</button><button class="btn-xs bl" onclick="cpLink('${w.public_token}')">🔗</button><button class="btn-xs be" onclick="editW('${w.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('warranties','${w.id}')">🗑</button>`;
+  const VERIFY='https://garanti.emkakuyumculuk.com/verify.html?id=';
+  return[
+    `<a href="${VERIFY}${w.public_token}" target="_blank" class="btn-xs bv" data-tip="Garanti Sayfasi">Goruntule</a>`,
+    `<button class="btn-xs bq" data-tip="QR Kodu" onclick="showQR('${w.public_token}','${w.warranty_no||w.warranty_code}')">QR</button>`,
+    `<button class="btn-xs bl" data-tip="Kopyala" onclick="cpLink('${w.public_token}')">Link</button>`,
+    `<button class="btn-xs be" data-tip="Duzenle" onclick="editW('${w.id}')">Duzenle</button>`,
+    `<button class="btn-xs bd" data-tip="Sil" onclick="delRec('warranties','${w.id}')">Sil</button>`,
+  ].join(' ');
 }
 function wTr(w){
   const items=w.warranty_items||[];
@@ -1987,7 +2018,7 @@ function renderC(q=''){
   document.getElementById('c-tbl').innerHTML=list.map(c=>{
     const wc=WS.filter(w=>w.customer_id===c.id).length;
     const wa=c.whatsapp?`<a href="https://wa.me/${c.whatsapp.replace(/\D/g,'')}" target="_blank" style="color:#25d366;font-size:11px;margin-left:4px">💬</a>`:'';
-    return`<tr><td><b>${esc(c.name||'-')}</b>${c.yetkili?`<br><span style="font-size:11px;color:var(--muted)">👤 ${esc(c.yetkili)}</span>`:''}</td><td>${esc(c.firma_adi||'-')}</td><td>${esc(c.phone||'-')}${wa}${c.email?`<br><span style="font-size:11px;color:var(--muted)">${esc(c.email)}</span>`:''}</td><td>${esc(c.city||'-')}${c.country?' · '+c.country:''}</td><td>${lm[c.dil_tercihi||'tr']||'-'}</td><td><span class="badge b-blue">${wc}</span></td><td><div class="act"><button class="btn-xs bv" onclick="showCustDetail('${c.id}')">👁 Detay</button><button class="btn-xs be" onclick="editC('${c.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('customers','${c.id}')">🗑</button></div></td></tr>`;
+    return`<tr><td><b>${esc(c.name||'-')}</b>${c.yetkili?`<br><span style="font-size:11px;color:var(--muted)">👤 ${esc(c.yetkili)}</span>`:''}</td><td>${esc(c.firma_adi||'-')}</td><td>${esc(c.phone||'-')}${wa}${c.email?`<br><span style="font-size:11px;color:var(--muted)">${esc(c.email)}</span>`:''}</td><td>${esc(c.city||'-')}${c.country?' · '+c.country:''}</td><td>${lm[c.dil_tercihi||'tr']||'-'}</td><td><span class="badge b-blue">${wc}</span></td><td><div class="act"><button class="btn-xs bv" onclick="showCustDetail('${c.id}')">👁 Detay</button><button class="btn-xs be" data-tip="Duzenle" onclick="editC('${c.id}')">✏️</button><button class="btn-xs bd" data-tip="Sil" onclick="delRec('customers','${c.id}')">🗑</button></div></td></tr>`;
   }).join('')||'<tr class="erow"><td colspan="7">Müşteri bulunamadı</td></tr>';
 }
 
@@ -2049,7 +2080,7 @@ function renderP(q=''){
     const cb=p.categories?`<span class="badge ci${ci<0?0:ci}">${esc(p.categories.name_tr)}</span>`:'-';
     const ph=p.photo_url?`<img src="${p.photo_url}" class="pthumb">`:`<div class="pthumb-ph">📦</div>`;
     const active=p.is_active!==false;
-    return`<tr>${[ph,`<b>${esc(p.name_tr||'-')}</b>${p.name_en?`<br><span style="font-size:11px;color:var(--muted)">${esc(p.name_en)}</span>`:''}`,`<span class="mono">${esc(p.model||'-')}</span>`,cb,`<span class="badge b-neutral">${p.warranty_months||24}ay</span>`,`${p.warranty_doc_url?`<a href="${p.warranty_doc_url}" target="_blank" class="btn-xs bv">📄 Belge</a> `:''}${p.manual_url?`<a href="${p.manual_url}" target="_blank" class="btn-xs bl">📖 Kılavuz</a>`:''}${!p.warranty_doc_url&&!p.manual_url?'-':''}`,`<span class="badge ${active?'b-active':'b-neutral'}">${active?'✓ Aktif':'Pasif'}</span>`,`<span class="badge b-blue">${uc}x</span>`,`<div class="act"><button class="btn-xs be" onclick="editP('${p.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('products','${p.id}')">🗑</button></div>`].map(v=>`<td>${v}</td>`).join('')}</tr>`;
+    return`<tr>${[ph,`<b>${esc(p.name_tr||'-')}</b>${p.name_en?`<br><span style="font-size:11px;color:var(--muted)">${esc(p.name_en)}</span>`:''}`,`<span class="mono">${esc(p.model||'-')}</span>`,cb,`<span class="badge b-neutral">${p.warranty_months||24}ay</span>`,`${p.warranty_doc_url?`<a href="${p.warranty_doc_url}" target="_blank" class="btn-xs bv">📄 Belge</a> `:''}${p.manual_url?`<a href="${p.manual_url}" target="_blank" class="btn-xs bl">📖 Kılavuz</a>`:''}${!p.warranty_doc_url&&!p.manual_url?'-':''}`,`<span class="badge ${active?'b-active':'b-neutral'}">${active?'✓ Aktif':'Pasif'}</span>`,`<span class="badge b-blue">${uc}x</span>`,`<div class="act"><button class="btn-xs be" data-tip="Duzenle" onclick="editP('${p.id}')">✏️</button><button class="btn-xs bd" data-tip="Sil" onclick="delRec('products','${p.id}')">🗑</button></div>`].map(v=>`<td>${v}</td>`).join('')}</tr>`;
   }).join('')||'<tr class="erow"><td colspan="9">Ürün bulunamadı</td></tr>';
 }
 
@@ -2064,7 +2095,7 @@ function renderCat(){
       <td><span class="badge b-neutral">${c.default_warranty_months||24} ay</span></td>
       <td><span class="badge ${active?'b-active':'b-neutral'}">${active?'✓ Aktif':'Pasif'}</span></td>
       <td>${c.sort_order??0}</td>
-      <td><div class="act"><button class="btn-xs be" onclick="editCat('${c.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('categories','${c.id}')">🗑</button></div></td>
+      <td><div class="act"><button class="btn-xs be" data-tip="Duzenle" onclick="editCat('${c.id}')">✏️</button><button class="btn-xs bd" data-tip="Sil" onclick="delRec('categories','${c.id}')">🗑</button></div></td>
     </tr>`;
   }).join('')||'<tr class="erow"><td colspan="7">-</td></tr>';
 }
