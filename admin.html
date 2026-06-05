@@ -301,71 +301,6 @@ tr:hover td{background:#f8fafc !important}
 .sale-hdr-btn-light{background:#fff;color:#0d1b2a;border:2px solid #fff}.sale-hdr-btn-light:hover{background:#f1f5f9}
 .sale-hdr-btn-ghost{background:rgba(255,255,255,.18);color:#fff;border:1.5px solid rgba(255,255,255,.45)}.sale-hdr-btn-ghost:hover{background:rgba(255,255,255,.28)}
 
-
-/* ─── TOOLTIP (table overflow fix dahil) ─── */
-.tbl-wrap { overflow-x: auto; }
-.tbl-wrap table { overflow: visible; }
-td, th { overflow: visible !important; position: relative; }
-[data-tip] { position: relative; }
-[data-tip]:hover::after {
-  content: attr(data-tip);
-  position: fixed;
-  background: #0f1c2e;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 500;
-  white-space: nowrap;
-  padding: 5px 10px;
-  border-radius: 6px;
-  z-index: 99999;
-  pointer-events: none;
-  box-shadow: 0 3px 12px rgba(0,0,0,.28);
-  transform: translateX(-50%);
-  margin-top: -6px;
-  bottom: auto;
-  top: auto;
-}
-[data-tip]:hover::before {
-  content: '';
-  position: fixed;
-  border: 5px solid transparent;
-  border-top-color: #0f1c2e;
-  z-index: 99999;
-  pointer-events: none;
-  transform: translateX(-50%);
-}
-
-/* ─── BTN-XS BÜYÜTME (mevcut halden belirgin büyük) ─── */
-.btn-xs {
-  font-size: 13px !important;
-  padding: 8px 14px !important;
-  font-weight: 600 !important;
-  border-radius: 7px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 5px !important;
-  transition: all .15s !important;
-  cursor: pointer !important;
-  border-width: 1.5px !important;
-  line-height: 1.2 !important;
-  min-height: 34px !important;
-}
-.act { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
-.bv  { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
-.bv:hover  { background: #dbeafe; }
-.be  { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
-.be:hover  { background: #dcfce7; }
-.bq  { background: #faf5ff; color: #6b21a8; border-color: #e9d5ff; }
-.bq:hover  { background: #f3e8ff; }
-.bl  { background: #f0f9ff; color: #0369a1; border-color: #bae6fd; }
-.bl:hover  { background: #e0f2fe; }
-.bd  { background: #fff1f2; color: #be123c; border-color: #fecdd3; }
-.bd:hover  { background: #ffe4e6; }
-
-/* Tablo satır padding artır */
-td { padding: 14px 16px !important; }
-th { padding: 11px 16px !important; }
-
 </style>
 </head>
 <body>
@@ -1196,7 +1131,7 @@ function renderSales(){
     <td><span class="badge b-blue">${wCount(s.id)} garanti</span></td>
     <td><div class="act">
       <a href="${ORDER_URL}${s.public_order_token}" target="_blank" class="btn-xs bv">🔗 Sipariş</a>
-      <button class="btn-xs bq" data-tip="QR Kodu" onclick="showOrderQR('${orderToken}','${saleNo}')">QR</button>
+      <button class="btn-xs bq" data-tip="QR Kodu" onclick="showOrderQR('${s.public_order_token}','${s.sale_no}')">QR</button>
       <button class="btn-xs bl" data-tip="Kopyala" onclick="navigator.clipboard.writeText('${ORDER_URL}${s.public_order_token}').then(()=>toast('Link kopyalandı','ok'))">Kopyala</button>
       <button class="btn-xs bv" data-tip="Detay" onclick="showSaleDetail('${s.id}')">Detay</button>
       <button class="btn-xs be" data-tip="Duzenle" onclick="editSale('${s.id}')">✏️ Düzenle</button>
@@ -1379,8 +1314,8 @@ async function saveSale(){try{
       <div class="sale-result-title">✅ Satış oluşturuldu: ${esc(saleNo)} - ${createdCount} garanti belgesi</div>
       ${errors.length?`<div style="color:var(--danger);font-size:12px;margin-bottom:8px">⚠️ ${errors.length} hata: ${errors.slice(0,3).join(', ')}</div>`:''}
       <div class="sale-result-links">
-        <a href="${ORDER_URL}${orderToken}" target="_blank" class="sale-hdr-btn sale-hdr-btn-light" data-tip="Siparis Sayfasi"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Sipariş Sayfası</a>
-          <button class="sale-hdr-btn sale-hdr-btn-ghost" data-tip="QR Kodu" onclick="showOrderQR('${orderToken}','${saleNo}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/></svg> QR</button>
+        <a href="${ORDER_URL}${s.public_order_token}" target="_blank" class="sale-hdr-btn sale-hdr-btn-light" data-tip="Siparis Sayfasi"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Sipariş Sayfası</a>
+          <button class="sale-hdr-btn sale-hdr-btn-ghost" data-tip="QR Kodu" onclick="showOrderQR('${s.public_order_token}','${s.sale_no}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/></svg> QR</button>
         <button class="btn btn-ghost" style="font-size:12px;padding:6px 14px" onclick="navigator.clipboard.writeText('${ORDER_URL}${orderToken}').then(()=>toast('Link kopyalandı','ok'))">🔗 Link Kopyala</button>
       </div>
     </div>`;
@@ -1575,7 +1510,7 @@ async function showSaleDetail(sid){
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <a href="${ORDER_URL}${s.public_order_token}" target="_blank" class="btn btn-ghost" style="color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.2);font-size:12px;padding:6px 13px">🔗 Sipariş Sayfası</a>
-        <button class="btn btn-ghost" style="color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.2);font-size:12px;padding:6px 13px" onclick="showOrderQR('${orderToken}','${saleNo}')">QR</button>
+        <button class="btn btn-ghost" style="color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.2);font-size:12px;padding:6px 13px" onclick="showOrderQR('${s.public_order_token}','${s.sale_no}')">QR</button>
       </div>
     </div>
 
@@ -2531,17 +2466,6 @@ function exportCSV(type){
 }
 function dlCSV(content,filename){const blob=new Blob(['\uFEFF'+content],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();}
 document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id.replace('modal-',''));});});
-
-// Tooltip: mouse pozisyonunu takip et
-(function(){
-  var style=document.createElement('style');
-  style.id='tooltip-pos-style';
-  document.head.appendChild(style);
-  document.addEventListener('mousemove',function(e){
-    style.textContent='[data-tip]:hover::after{top:'+(e.clientY-36)+'px!important;left:'+e.clientX+'px!important;}'
-      +'[data-tip]:hover::before{top:'+(e.clientY-11)+'px!important;left:'+e.clientX+'px!important;}';
-  });
-})();
 </script>
 </body>
 </html>
