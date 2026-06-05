@@ -301,6 +301,71 @@ tr:hover td{background:#f8fafc !important}
 .sale-hdr-btn-light{background:#fff;color:#0d1b2a;border:2px solid #fff}.sale-hdr-btn-light:hover{background:#f1f5f9}
 .sale-hdr-btn-ghost{background:rgba(255,255,255,.18);color:#fff;border:1.5px solid rgba(255,255,255,.45)}.sale-hdr-btn-ghost:hover{background:rgba(255,255,255,.28)}
 
+
+/* ─── TOOLTIP (table overflow fix dahil) ─── */
+.tbl-wrap { overflow-x: auto; }
+.tbl-wrap table { overflow: visible; }
+td, th { overflow: visible !important; position: relative; }
+[data-tip] { position: relative; }
+[data-tip]:hover::after {
+  content: attr(data-tip);
+  position: fixed;
+  background: #0f1c2e;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 6px;
+  z-index: 99999;
+  pointer-events: none;
+  box-shadow: 0 3px 12px rgba(0,0,0,.28);
+  transform: translateX(-50%);
+  margin-top: -6px;
+  bottom: auto;
+  top: auto;
+}
+[data-tip]:hover::before {
+  content: '';
+  position: fixed;
+  border: 5px solid transparent;
+  border-top-color: #0f1c2e;
+  z-index: 99999;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+/* ─── BTN-XS BÜYÜTME (mevcut halden belirgin büyük) ─── */
+.btn-xs {
+  font-size: 13px !important;
+  padding: 8px 14px !important;
+  font-weight: 600 !important;
+  border-radius: 7px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  transition: all .15s !important;
+  cursor: pointer !important;
+  border-width: 1.5px !important;
+  line-height: 1.2 !important;
+  min-height: 34px !important;
+}
+.act { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+.bv  { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+.bv:hover  { background: #dbeafe; }
+.be  { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
+.be:hover  { background: #dcfce7; }
+.bq  { background: #faf5ff; color: #6b21a8; border-color: #e9d5ff; }
+.bq:hover  { background: #f3e8ff; }
+.bl  { background: #f0f9ff; color: #0369a1; border-color: #bae6fd; }
+.bl:hover  { background: #e0f2fe; }
+.bd  { background: #fff1f2; color: #be123c; border-color: #fecdd3; }
+.bd:hover  { background: #ffe4e6; }
+
+/* Tablo satır padding artır */
+td { padding: 14px 16px !important; }
+th { padding: 11px 16px !important; }
+
 </style>
 </head>
 <body>
@@ -2466,6 +2531,17 @@ function exportCSV(type){
 }
 function dlCSV(content,filename){const blob=new Blob(['\uFEFF'+content],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();}
 document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id.replace('modal-',''));});});
+
+// Tooltip: mouse pozisyonunu takip et
+(function(){
+  var style=document.createElement('style');
+  style.id='tooltip-pos-style';
+  document.head.appendChild(style);
+  document.addEventListener('mousemove',function(e){
+    style.textContent='[data-tip]:hover::after{top:'+(e.clientY-36)+'px!important;left:'+e.clientX+'px!important;}'
+      +'[data-tip]:hover::before{top:'+(e.clientY-11)+'px!important;left:'+e.clientX+'px!important;}';
+  });
+})();
 </script>
 </body>
 </html>
