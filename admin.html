@@ -1118,10 +1118,11 @@ function addSaleProdRow(pid='',months=24){
     </div>
     <div class="sale-serial-wrap" id="serial-wrap-${idx}">
       <div class="sale-serial-lbl">
-        <span>Seri Numaraları <span style="font-weight:400;color:var(--muted)">(opsiyonel, her satır = 1 seri no)</span></span>
+        <span>Fiziksel Makine Seri No <span style="font-weight:400;color:var(--muted)">(opsiyonel — her satır = 1 makine)</span></span>
         <span class="sale-serial-count" id="serial-count-${idx}">0 / 1</span>
       </div>
-      <textarea class="sale-serial-ta" id="serial-ta-${idx}" placeholder="Her satıra bir seri no&#10;CILA-2026-0001&#10;CILA-2026-0002" oninput="countSerials('${idx}')"></textarea>
+      <textarea class="sale-serial-ta" id="serial-ta-${idx}" placeholder="Makinenin üzerindeki seri no&#10;Örn: EK-UY60-2026-001&#10;Birden fazlaysa her satıra bir tane" oninput="countSerials('${idx}')"></textarea>
+      <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5">Boş bırakılırsa sistem otomatik seri no oluşturur. Satış kodu, garanti belge no ve doğrulama kodu sistem tarafından otomatik üretilir.</div>
     </div>`;
   document.getElementById('sale-products-list').appendChild(div);
   updateSaleTotal();
@@ -1225,7 +1226,7 @@ async function saveSale(){try{
 
   // Her ürün için garantiler oluştur
   const custObj=CS.find(c=>c.id===custId);
-  let createdCount=0,errors=[];
+  let createdCount=0,errors=[],globalSerial=1;
   for(const row of rows){
     const pid=row.querySelector('.spr-prod').value;
     const qty=parseInt(row.querySelector('.spr-qty').value)||1;
@@ -1241,11 +1242,11 @@ async function saveSale(){try{
       const {error:wErr}=await sb.from('warranties').insert({
         warranty_no:wNo,warranty_code:wNo,public_token:pToken,
         sale_id:sale.id,product_id:pid,customer_id:custId,
-        serial_no:serials[i]||null,sale_date:sdate,
+        serial_no:serials[i]||(`AUTO-${saleNo}-${String(globalSerial).padStart(3,'0')}`),sale_date:sdate,
         warranty_start:wstart,warranty_end:wend,warranty_months:wmonths,
       });
       if(wErr)errors.push(wNo+': '+wErr.message);
-      else createdCount++;
+      else{createdCount++;globalSerial++;}
     }
   }
 
