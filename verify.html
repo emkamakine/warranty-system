@@ -1313,20 +1313,39 @@ async function doSearch(){
   err.style.display='none';
   document.getElementById('s-btn').disabled=true;
   ss('loading');
-  let data, error;
+  let data=null, error=null;
   try{
+    // 1. Önce public_token ile dene (yeni format: EK26-1001-XXXXXX)
     const res=await sb.rpc('get_warranty_public',{p_token:val});
     data=res.data; error=res.error;
   }catch(e){
     document.getElementById('s-btn').disabled=false;
     ss('notfound');return;
   }
+
+  // 2. Bulamazsa warranty_code veya warranty_no ile geri uyumlu arama
+  if(error||!data){
+    try{
+      const fallback=await sb.from('warranties')
+        .select('public_token')
+        .or('warranty_code.eq.'+val+',warranty_no.eq.'+val)
+        .limit(1);
+      if(fallback.data&&fallback.data.length>0&&fallback.data[0].public_token){
+        const tok=fallback.data[0].public_token;
+        const res2=await sb.rpc('get_warranty_public',{p_token:tok});
+        data=res2.data; error=res2.error;
+      }
+    }catch(e2){
+      console.warn('Fallback arama hatasi:',e2.message);
+    }
+  }
+
   document.getElementById('s-btn').disabled=false;
   if(error||!data){ss('notfound');return;}
   try{
     D=data;renderData(data);ss('warranty');
   }catch(e){
-    console.error('renderData hatası:',e);
+    console.error('renderData hatasi:',e);
     ss('notfound');
   }
 }
