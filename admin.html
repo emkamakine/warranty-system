@@ -207,6 +207,76 @@ textarea{resize:vertical;min-height:72px}
 .sale-result-card{background:#f0fdf4;border:1.5px solid #a7f3d0;border-radius:10px;padding:16px;margin-top:14px}
 .sale-result-title{font-size:13px;font-weight:700;color:var(--ok-text);margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .sale-result-links{display:flex;gap:8px;flex-wrap:wrap}
+
+/* DOCUMENTS */
+.doc-type-wc{background:#dbeafe;color:#1e40af;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.doc-type-um{background:#f3e8ff;color:#6b21a8;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.lang-flag{font-size:13px;margin-right:3px}
+.doc-file-link{display:inline-flex;align-items:center;gap:5px;color:var(--accent);font-size:12px;font-weight:600;text-decoration:none}
+.doc-file-link:hover{text-decoration:underline}
+
+/* ═══════════════════════════════════════════════
+   EMKA CORPORATE DESIGN OVERRIDE
+   Okunabilirlik, tipografi, kurumsal kimlik
+═══════════════════════════════════════════════ */
+:root{
+  --text:#0d1b2a;
+  --sub:#374151;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --border2:#f3f4f6;
+  --surface:#ffffff;
+  --bg:#f4f6f9;
+}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14.5px;color:#0d1b2a;-webkit-font-smoothing:antialiased}
+/* Tablo okunabilirliği */
+th{font-size:11px !important;font-weight:700 !important;color:#374151 !important;letter-spacing:1px;text-transform:uppercase;padding:11px 16px !important;background:#f9fafb !important;border-bottom:2px solid #e5e7eb !important}
+td{font-size:14px !important;color:#0d1b2a !important;padding:13px 16px !important;border-bottom:1px solid #f3f4f6 !important;vertical-align:middle}
+tr:hover td{background:#fafbfc !important}
+/* Form okunabilirliği */
+input,select,textarea{font-family:'Inter',sans-serif;font-size:14px !important;color:#0d1b2a !important;border:1.5px solid #d1d5db;border-radius:8px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--accent) !important;box-shadow:0 0 0 3px rgba(41,171,226,.12)}
+input::placeholder,textarea::placeholder{color:#9ca3af !important;font-size:13px}
+label{font-size:12px;font-weight:600;color:#374151;letter-spacing:.3px;text-transform:uppercase}
+/* Sidebar ikon hizası */
+.nav-item{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:500}
+.nav-item.active{font-weight:700}
+.nav-item svg{flex-shrink:0;opacity:.9}
+/* Kart başlıkları */
+.card-title{font-size:15px;font-weight:700;color:#0d1b2a}
+.page-title{font-size:22px;font-weight:800;color:#0d1b2a;letter-spacing:-.4px}
+.page-sub{font-size:13px;color:#6b7280;font-weight:400}
+/* Stat kartları */
+.stat-val{font-size:28px !important;font-weight:800 !important}
+.stat-lbl{font-size:12px !important;font-weight:600 !important;color:#374151 !important}
+/* Badge okunabilirliği */
+.badge{font-size:11.5px;font-weight:600;letter-spacing:.2px}
+.b-active{background:#d1fae5;color:#065f46}
+.b-warn{background:#fef3c7;color:#92400e}
+.b-expired,.b-danger{background:#fee2e2;color:#991b1b}
+.b-blue{background:#dbeafe;color:#1e40af}
+.b-neutral{background:#f3f4f6;color:#374151}
+/* Mono text */
+.mono{font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;color:#0d1b2a}
+/* Küçük butonlar */
+.btn-xs{font-size:11.5px;padding:5px 10px;font-weight:600;border-radius:6px}
+.bv{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
+.be{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
+.bq{background:#faf5ff;color:#6b21a8;border:1px solid #e9d5ff}
+.bl{background:#f0f9ff;color:#0369a1;border:1px solid #bae6fd}
+.bd{background:#fff1f2;color:#be123c;border:1px solid #fecdd3}
+/* Snav */
+.snav-lbl{font-size:9.5px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);padding:16px 16px 5px}
+/* Modal */
+.mtitle{font-size:18px;font-weight:800;color:#0d1b2a;letter-spacing:-.3px}
+.mcard{border-radius:14px;padding:28px}
+/* Input group */
+.fg label{margin-bottom:6px;display:block}
+/* Scrollbar */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:#f3f4f6}
+::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:3px}
+
 </style>
 </head>
 <body>
@@ -235,19 +305,21 @@ textarea{resize:vertical;min-height:72px}
     <div class="sbrand-name">EM<span>KA</span></div>
     <div class="sbrand-sub">Garanti Sistemi</div>
   </div>
-  <div class="snav-lbl">Yönetim</div>
+  <div class="snav-lbl">YÖNETİM</div>
   <button class="nav-item active" data-page="dashboard">📊 Dashboard</button>
-  <button class="nav-item" data-page="warranties">🛡️ Garanti Kayıtları</button>
-  <button class="nav-item" data-page="customers">👥 Müşteriler</button>
-  <div class="snav-lbl">Katalog</div>
-  <button class="nav-item" data-page="products">📦 Ürün Kataloğu</button>
-  <button class="nav-item" data-page="categories">🏷️ Kategoriler</button>
-  <div class="snav-lbl">Satış</div>
-  <button class="nav-item" data-page="sales">🛒 Satışlar</button>
-  <div class="snav-lbl">Servis</div>
-  <button class="nav-item" data-page="service">🔧 Servis Kayıtları</button>
-  <div class="snav-lbl">Sistem</div>
-  <button class="nav-item" data-page="settings">⚙️ Ayarlar</button>
+  <button class="nav-item" data-page="warranties"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Garanti Kayıtları</button>
+  <button class="nav-item" data-page="customers"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Müşteriler</button>
+  <div class="snav-lbl">KATALOG</div>
+  <button class="nav-item" data-page="products"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Ürün Kataloğu</button>
+  <button class="nav-item" data-page="categories"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> Kategoriler</button>
+  <div class="snav-lbl">SATIŞ</div>
+  <button class="nav-item" data-page="sales"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Satışlar</button>
+  <div class="snav-lbl">BELGELER</div>
+  <button class="nav-item" data-page="documents"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Belgeler</button>
+  <div class="snav-lbl">SERVİS</div>
+  <button class="nav-item" data-page="service"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Servis Kayıtları</button>
+  <div class="snav-lbl">SİSTEM</div>
+  <button class="nav-item" data-page="settings"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Ayarlar</button>
   <div class="sfooter">
     <div class="suser" id="s-email">—</div>
     <button class="logout-btn" onclick="doLogout()">🚪 Çıkış Yap</button>
@@ -262,14 +334,14 @@ textarea{resize:vertical;min-height:72px}
     <button class="btn btn-primary" onclick="navigate('warranties');openModal('warranty')">+ Yeni Garanti</button>
   </div>
   <div class="stat-grid">
-    <div class="stat-card"><div class="stat-icon">🛡️</div><div class="stat-lbl">Toplam Garanti</div><div class="stat-val c-accent" id="st-total">—</div></div>
-    <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-lbl">Aktif Garanti</div><div class="stat-val c-ok" id="st-active">—</div></div>
-    <div class="stat-card"><div class="stat-icon">⚠️</div><div class="stat-lbl">Bu Ay Bitiyor</div><div class="stat-val c-warn" id="st-expiring">—</div></div>
-    <div class="stat-card"><div class="stat-icon">❌</div><div class="stat-lbl">Süresi Dolan</div><div class="stat-val c-danger" id="st-expired">—</div></div>
-    <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-lbl">Bugün Oluşturulan</div><div class="stat-val c-accent" id="st-today">—</div></div>
-    <div class="stat-card"><div class="stat-icon">📆</div><div class="stat-lbl">Bu Ay Oluşturulan</div><div class="stat-val c-blue" id="st-this-month">—</div></div>
-    <div class="stat-card"><div class="stat-icon">🔧</div><div class="stat-lbl">Bekleyen Servis</div><div class="stat-val" style="color:#7c3aed" id="st-svc-pending">—</div></div>
-    <div class="stat-card"><div class="stat-icon">🌍</div><div class="stat-lbl">Yurtdışı Müşteri</div><div class="stat-val c-sub" id="st-intl">—</div></div>
+    <div class="stat-card"><div class="stat-icon"></div><div class="stat-lbl">Toplam Garanti</div><div class="stat-val c-accent" id="st-total">—</div></div>
+    <div class="stat-card"><div class="stat-icon"></div><div class="stat-lbl">Aktif Garanti</div><div class="stat-val c-ok" id="st-active">—</div></div>
+    <div class="stat-card"><div class="stat-icon"></div><div class="stat-lbl">Bu Ay Bitiyor</div><div class="stat-val c-warn" id="st-expiring">—</div></div>
+    <div class="stat-card"><div class="stat-icon"></div><div class="stat-lbl">Süresi Dolan</div><div class="stat-val c-danger" id="st-expired">—</div></div>
+    <div class="stat-card"><div class="stat-icon"></div><div class="stat-lbl">Bugün Oluşturulan</div><div class="stat-val c-accent" id="st-today">—</div></div>
+    <div class="stat-card"><div class="stat-icon"></div><div class="stat-lbl">Bu Ay Oluşturulan</div><div class="stat-val c-blue" id="st-this-month">—</div></div>
+    <div class="stat-card"><div class="stat-icon"></div><div class="stat-lbl">Bekleyen Servis</div><div class="stat-val" style="color:#7c3aed" id="st-svc-pending">—</div></div>
+    <div class="stat-card"><div class="stat-icon"></div><div class="stat-lbl">Yurtdışı Müşteri</div><div class="stat-val c-sub" id="st-intl">—</div></div>
   </div>
   <div class="card">
     <div class="card-hdr"><div class="card-title">Son Garanti Kayıtları</div><button class="btn btn-ghost" style="font-size:12px;padding:5px 11px" onclick="navigate('warranties')">Tümünü Gör →</button></div>
@@ -279,7 +351,7 @@ textarea{resize:vertical;min-height:72px}
     </table></div>
   </div>
   <div class="card">
-    <div class="card-hdr"><div class="card-title">⚠️ Bu Ay Biten Garantiler</div></div>
+    <div class="card-hdr"><div class="card-title">Bu Ay Biten Garantiler</div></div>
     <div class="tbl-wrap"><table>
       <thead><tr><th>Garanti No</th><th>Ürün</th><th>Müşteri</th><th>Bitiş</th><th>Kalan</th><th>İşlem</th></tr></thead>
       <tbody id="expiring-tbl"><tr class="erow"><td colspan="6">—</td></tr></tbody>
@@ -407,6 +479,53 @@ textarea{resize:vertical;min-height:72px}
   </div>
 </div>
 
+
+<!-- DOCUMENTS -->
+<div id="page-documents" class="page">
+  <div class="page-hdr">
+    <div><div class="page-title">Belgeler</div><div class="page-sub" id="docs-count-lbl">—</div></div>
+    <button class="btn btn-primary" onclick="openModal('document')">+ Yeni Belge</button>
+  </div>
+  <div class="card">
+    <div class="fbar">
+      <input class="sinput" style="max-width:260px" id="docs-search" placeholder="Belge adı ara..." oninput="renderDocs()">
+      <select id="docs-f-type" onchange="renderDocs()">
+        <option value="">Tüm Türler</option>
+        <option value="warranty_certificate">Garanti Belgesi</option>
+        <option value="user_manual">Kullanım Kılavuzu</option>
+      </select>
+      <select id="docs-f-lang" onchange="renderDocs()">
+        <option value="">Tüm Diller</option>
+        <option value="tr">🇹🇷 Türkçe</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="es">🇪🇸 Español</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="ar">🇸🇦 العربية</option>
+        <option value="ru">🇷🇺 Русский</option>
+        <option value="other">Diğer</option>
+      </select>
+      <select id="docs-f-status" onchange="renderDocs()">
+        <option value="">Tüm Durum</option>
+        <option value="1">Aktif</option>
+        <option value="0">Pasif</option>
+      </select>
+      <button class="btn btn-ghost" style="font-size:11px;padding:5px 11px" onclick="clearDocsF()">× Temizle</button>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Belge Adı</th><th>Tür</th><th>Dil</th><th>Versiyon</th><th>Açıklama</th><th>Durum</th><th>Dosya</th><th>İşlem</th></tr></thead>
+      <tbody id="docs-tbl"><tr class="erow"><td colspan="8">Yükleniyor...</td></tr></tbody>
+    </table></div>
+  </div>
+</div>
+
+
+<!-- SALE DETAIL -->
+<div id="page-sale-detail" class="page">
+  <div class="back-btn" onclick="navigate('sales')">← Satışlara Dön</div>
+  <div id="sale-detail-content"></div>
+</div>
+
 <!-- SETTINGS -->
 <div id="page-settings" class="page">
   <div class="page-hdr"><div><div class="page-title">Ayarlar</div></div></div>
@@ -423,7 +542,7 @@ textarea{resize:vertical;min-height:72px}
           <div class="fg full"><label>Adres</label><textarea id="set-addr" rows="2"></textarea></div>
           <div class="fg full"><label>Verify URL Temel Adresi</label><input type="url" id="set-verify-url"></div>
         </div>
-        <div class="factions"><button class="btn btn-primary" onclick="saveSettings()">💾 Kaydet</button></div>
+        <div class="factions"><button class="btn btn-primary" onclick="saveSettings()">Kaydet</button></div>
       </div>
     </div>
     <div class="card">
@@ -504,7 +623,7 @@ textarea{resize:vertical;min-height:72px}
     </div>
     <div class="factions">
       <button class="btn btn-ghost" onclick="closeModal('warranty')">İptal</button>
-      <button class="btn btn-primary" onclick="saveWarranty()">💾 Kaydet</button>
+      <button class="btn btn-primary" onclick="saveWarranty()">Kaydet</button>
     </div>
   </div>
 </div>
@@ -539,7 +658,7 @@ textarea{resize:vertical;min-height:72px}
     </div>
     <div class="factions">
       <button class="btn btn-ghost" onclick="closeModal('customer')">İptal</button>
-      <button class="btn btn-primary" onclick="saveCustomer()">💾 Kaydet</button>
+      <button class="btn btn-primary" onclick="saveCustomer()">Kaydet</button>
     </div>
   </div>
 </div>
@@ -586,7 +705,7 @@ textarea{resize:vertical;min-height:72px}
     </div>
     <div class="factions">
       <button class="btn btn-ghost" onclick="closeModal('product')">İptal</button>
-      <button class="btn btn-primary" onclick="saveProduct()">💾 Kaydet</button>
+      <button class="btn btn-primary" onclick="saveProduct()">Kaydet</button>
     </div>
   </div>
 </div>
@@ -610,7 +729,7 @@ textarea{resize:vertical;min-height:72px}
     </div>
     <div class="factions">
       <button class="btn btn-ghost" onclick="closeModal('category')">İptal</button>
-      <button class="btn btn-primary" onclick="saveCategory()">💾 Kaydet</button>
+      <button class="btn btn-primary" onclick="saveCategory()">Kaydet</button>
     </div>
   </div>
 </div>
@@ -648,11 +767,130 @@ textarea{resize:vertical;min-height:72px}
     </div>
     <div class="factions">
       <button class="btn btn-ghost" onclick="closeModal('service')">İptal</button>
-      <button class="btn btn-primary" onclick="saveService()">💾 Kaydet</button>
+      <button class="btn btn-primary" onclick="saveService()">Kaydet</button>
     </div>
   </div>
 </div>
 
+
+
+<!-- MODAL: DOCUMENT -->
+<div class="modal" id="modal-document">
+  <div class="mcard">
+    <button class="mclose" onclick="closeModal('document')">✕</button>
+    <div class="mtitle" id="doc-modal-title">Yeni Belge</div>
+    <div class="fgrid">
+      <div class="fg full"><label>Belge Adı *</label><input type="text" id="doc-title" placeholder="EK-2 Warranty Certificate EN"></div>
+      <div class="fg"><label>Belge Türü *</label>
+        <select id="doc-type">
+          <option value="warranty_certificate">📄 Garanti Belgesi</option>
+          <option value="user_manual">📖 Kullanım Kılavuzu</option>
+        </select>
+      </div>
+      <div class="fg"><label>Dil *</label>
+        <select id="doc-lang">
+          <option value="tr">🇹🇷 Türkçe</option>
+          <option value="en">🇬🇧 English</option>
+          <option value="es">🇪🇸 Español</option>
+          <option value="de">🇩🇪 Deutsch</option>
+          <option value="fr">🇫🇷 Français</option>
+          <option value="ar">🇸🇦 العربية</option>
+          <option value="ru">🇷🇺 Русский</option>
+          <option value="other">Diğer</option>
+        </select>
+      </div>
+      <div class="fg"><label>Versiyon</label><input type="text" id="doc-version" value="1.0" placeholder="1.0"></div>
+      <div class="fg" style="justify-content:flex-end">
+        <label>Durum</label>
+        <div class="tgl-row"><label class="tgl"><input type="checkbox" id="doc-active" checked><span class="tgl-sl"></span></label><span class="tgl-lbl">Aktif</span></div>
+      </div>
+      <div class="fg full">
+        <label>PDF Dosyası</label>
+        <div class="fupload" onclick="document.getElementById('doc-file-inp').click()">📄 PDF yükle (max 20MB)</div>
+        <input type="file" id="doc-file-inp" accept=".pdf,application/pdf" style="display:none" onchange="prevFile(this,'doc-file-prev')">
+        <div class="fprev" id="doc-file-prev"></div>
+        <input type="hidden" id="doc-file-url">
+      </div>
+      <div class="fg full"><label>Veya Mevcut URL</label><input type="url" id="doc-url-direct" placeholder="https://..."></div>
+      <div class="fg full"><label>Açıklama</label><textarea id="doc-notes" placeholder="İsteğe bağlı not..."></textarea></div>
+    </div>
+    <div class="factions">
+      <button class="btn btn-ghost" onclick="closeModal('document')">İptal</button>
+      <button class="btn btn-primary" onclick="saveDoc()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL: ASSIGN DOCS -->
+<div class="modal" id="modal-assign-docs">
+  <div class="mcard mcard-lg" style="max-width:700px">
+    <button class="mclose" onclick="closeModal('assign-docs')">✕</button>
+    <div class="mtitle">Belge Seç ve Uygula</div>
+    <div style="margin-bottom:14px;padding:10px 14px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:9px;font-size:13px;color:#1e40af" id="adocs-info">—</div>
+    <div class="fbar" style="margin-bottom:12px;padding:0">
+      <input class="sinput" style="max-width:220px" id="adocs-search" placeholder="Belge adı..." oninput="renderAssignDocs()">
+      <select id="adocs-f-type" onchange="renderAssignDocs()">
+        <option value="">Tüm Türler</option>
+        <option value="warranty_certificate">Garanti Belgesi</option>
+        <option value="user_manual">Kullanım Kılavuzu</option>
+      </select>
+      <select id="adocs-f-lang" onchange="renderAssignDocs()">
+        <option value="">Tüm Diller</option>
+        <option value="tr">🇹🇷 TR</option>
+        <option value="en">🇬🇧 EN</option>
+        <option value="es">🇪🇸 ES</option>
+        <option value="de">🇩🇪 DE</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="ar">🇸🇦 AR</option>
+        <option value="ru">🇷🇺 RU</option>
+      </select>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:9px;overflow:hidden;max-height:340px;overflow-y:auto">
+      <table style="width:100%;border-collapse:collapse">
+        <thead><tr>
+          <th style="padding:8px 12px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);background:#fafbfc;width:36px">
+            <input type="checkbox" id="adocs-all-cb" onchange="toggleAllAssignDocs(this.checked)">
+          </th>
+          <th style="padding:8px 12px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);background:#fafbfc;text-align:left">Belge Adı</th>
+          <th style="padding:8px 12px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);background:#fafbfc;text-align:left">Tür</th>
+          <th style="padding:8px 12px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);background:#fafbfc;text-align:left">Dil</th>
+          <th style="padding:8px 12px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);background:#fafbfc;text-align:left"></th>
+        </tr></thead>
+        <tbody id="adocs-list"></tbody>
+      </table>
+    </div>
+    <div class="factions">
+      <button class="btn btn-ghost" onclick="closeModal('assign-docs')">İptal</button>
+      <button class="btn btn-primary" onclick="applyDocs()" id="adocs-apply-btn">✅ Seçili Belgelere Uygula</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL: EDIT SALE -->
+<div class="modal" id="modal-edit-sale">
+  <div class="mcard">
+    <button class="mclose" onclick="closeModal('edit-sale')">✕</button>
+    <div class="mtitle" id="es-title">Satış Düzenle</div>
+    <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;color:#1e40af;margin-bottom:16px" id="es-info">—</div>
+    <div class="fgrid">
+      <div class="fg full"><label>Müşteri *</label>
+        <select id="es-customer"></select>
+      </div>
+      <div class="fg"><label>Satış Tarihi</label><input type="date" id="es-date"></div>
+      <div class="fg"><label>Ülke</label><input type="text" id="es-country" placeholder="TR, ES, DE..."></div>
+      <div class="fg"><label>Para Birimi (iç)</label>
+        <select id="es-currency"><option>TRY</option><option>USD</option><option>EUR</option><option>GBP</option></select>
+      </div>
+      <div class="fg full"><label>İç Not (müşteriye görünmez)</label><textarea id="es-note"></textarea></div>
+    </div>
+    <div class="factions">
+      <button class="btn btn-ghost" onclick="closeModal('edit-sale')">İptal</button>
+      <button class="btn btn-primary" onclick="updateSale()">Kaydet</button>
+    </div>
+  </div>
+</div>
 
 <!-- MODAL: SALE -->
 <div class="modal" id="modal-sale">
@@ -701,7 +939,7 @@ textarea{resize:vertical;min-height:72px}
     <div id="sale-result" style="display:none"></div>
     <div class="factions" id="sale-actions">
       <button class="btn btn-ghost" onclick="closeModal('sale')">İptal</button>
-      <button class="btn btn-primary" onclick="saveSale()">🛒 Satışı Kaydet ve Garantileri Oluştur</button>
+      <button class="btn btn-primary" onclick="saveSale()">Satışı Oluştur</button>
     </div>
   </div>
 </div>
@@ -730,8 +968,9 @@ const SB_URL='https://obbxxkzmnujtozxczgfm.supabase.co';
 const SB_KEY='sb_publishable_xY037ZoljAKp_mPOKh6HJA_ZCYfcuxc';
 const sb=window.supabase.createClient(SB_URL,SB_KEY);
 let VERIFY_URL='https://garanti.emkakuyumculuk.com/verify.html?id=';
-let WS=[],CS=[],PS=[],CATS=[],SVCS=[],SALES=[];
-let EID={warranty:null,customer:null,product:null,category:null,service:null,sale:null};
+let WS=[],CS=[],PS=[],CATS=[],SVCS=[],SALES=[],DOCS=[];
+let CUR_SALE_ID=null,CUR_SALE_WDOCS=[];
+let EID={warranty:null,customer:null,product:null,category:null,service:null,sale:null,document:null};
 let curQR='';
 
 // ═══ SETTINGS ═══
@@ -840,8 +1079,10 @@ function renderSales(){
     <td><span class="badge b-blue">${wCount(s.id)} garanti</span></td>
     <td><div class="act">
       <a href="${ORDER_URL}${s.public_order_token}" target="_blank" class="btn-xs bv">🔗 Sipariş</a>
-      <button class="btn-xs bq" onclick="showOrderQR('${s.public_order_token}','${s.sale_no}')">📲 QR</button>
+      <button class="btn-xs bq" onclick="showOrderQR('${s.public_order_token}','${s.sale_no}')">QR</button>
       <button class="btn-xs bl" onclick="navigator.clipboard.writeText('${ORDER_URL}${s.public_order_token}').then(()=>toast('Link kopyalandı','ok'))">Kopyala</button>
+      <button class="btn-xs bv" onclick="showSaleDetail('${s.id}')">Detay</button>
+      <button class="btn-xs be" onclick="editSale('${s.id}')">✏️ Düzenle</button>
       <button class="btn-xs bd" onclick="delRec('sales','${s.id}')">🗑</button>
     </div></td>
   </tr>`;
@@ -955,7 +1196,7 @@ async function saveSale(){try{
   let custId=custVal;
   if(custVal==='__new__'){
     const nm=document.getElementById('snc-name').value.trim();
-    if(!nm){if(btn){btn.disabled=false;btn.innerHTML='🛒 Satışı Kaydet ve Garantileri Oluştur';}return toast('Müşteri adı gerekli','err');}
+    if(!nm){if(btn){btn.disabled=false;btn.innerHTML='Satışı Oluştur';}return toast('Müşteri adı gerekli','err');}
     const {data:nc,error:ce}=await sb.from('customers').insert({
       name:nm,firma_adi:document.getElementById('snc-firm').value.trim()||null,
       phone:document.getElementById('snc-phone').value.trim()||null,
@@ -963,13 +1204,13 @@ async function saveSale(){try{
       city:document.getElementById('snc-city').value.trim()||null,
       country:document.getElementById('snc-country').value.trim()||'TR',
     }).select().single();
-    if(ce){if(btn){btn.disabled=false;btn.innerHTML='🛒 Satışı Kaydet ve Garantileri Oluştur';}return toast('Müşteri eklenemedi: '+ce.message,'err');}
+    if(ce){if(btn){btn.disabled=false;btn.innerHTML='Satışı Oluştur';}return toast('Müşteri eklenemedi: '+ce.message,'err');}
     custId=nc.id;
   }
 
   // Satış no ve token üret
   const {data:sNoData,error:snErr}=await sb.rpc('generate_sale_no');
-  if(snErr){if(btn){btn.disabled=false;btn.innerHTML='🛒 Satışı Kaydet ve Garantileri Oluştur';}return toast('Satış no üretilemedi','err');}
+  if(snErr){if(btn){btn.disabled=false;btn.innerHTML='Satışı Oluştur';}return toast('Satış no üretilemedi','err');}
   const saleNo=sNoData;
   const orderToken=genOrderToken(saleNo);
 
@@ -980,7 +1221,7 @@ async function saveSale(){try{
     currency:document.getElementById('sale-currency').value||'TRY',
     internal_note:document.getElementById('sale-note').value.trim()||null,
   }).select().single();
-  if(sErr){if(btn){btn.disabled=false;btn.innerHTML='🛒 Satışı Kaydet ve Garantileri Oluştur';}return toast('Satış kaydı hatası: '+sErr.message,'err');}
+  if(sErr){if(btn){btn.disabled=false;btn.innerHTML='Satışı Oluştur';}return toast('Satış kaydı hatası: '+sErr.message,'err');}
 
   // Her ürün için garantiler oluştur
   const custObj=CS.find(c=>c.id===custId);
@@ -1008,7 +1249,7 @@ async function saveSale(){try{
     }
   }
 
-  if(btn){btn.disabled=false;btn.innerHTML='🛒 Satışı Kaydet ve Garantileri Oluştur';}
+  if(btn){btn.disabled=false;btn.innerHTML='Satışı Oluştur';}
   await reloadAll();renderSales();
 
   const ORDER_URL='https://garanti.emkakuyumculuk.com/order.html?id=';
@@ -1021,7 +1262,7 @@ async function saveSale(){try{
       ${errors.length?`<div style="color:var(--danger);font-size:12px;margin-bottom:8px">⚠️ ${errors.length} hata: ${errors.slice(0,3).join(', ')}</div>`:''}
       <div class="sale-result-links">
         <a href="${ORDER_URL}${orderToken}" target="_blank" class="btn btn-primary" style="font-size:12px;padding:6px 14px">🔗 Sipariş Sayfası</a>
-        <button class="btn btn-ghost" style="font-size:12px;padding:6px 14px" onclick="showOrderQR('${orderToken}','${saleNo}')">📲 QR Kod</button>
+        <button class="btn btn-ghost" style="font-size:12px;padding:6px 14px" onclick="showOrderQR('${orderToken}','${saleNo}')">QR Kod</button>
         <button class="btn btn-ghost" style="font-size:12px;padding:6px 14px" onclick="navigator.clipboard.writeText('${ORDER_URL}${orderToken}').then(()=>toast('Link kopyalandı','ok'))">🔗 Link Kopyala</button>
       </div>
     </div>`;
@@ -1030,7 +1271,7 @@ async function saveSale(){try{
   toast(saleNo+' — '+createdCount+' garanti oluşturuldu','ok');
 }catch(e){toast('JS Hatası: '+e.message,'err');console.error('saveSale',e);
   const btn=document.querySelector('#sale-actions .btn-primary');
-  if(btn){btn.disabled=false;btn.innerHTML='🛒 Satışı Kaydet ve Garantileri Oluştur';}
+  if(btn){btn.disabled=false;btn.innerHTML='Satışı Oluştur';}
 }}
 
 function genOrderToken(saleNo){
@@ -1043,6 +1284,397 @@ function genRandStr(n){
   let s='';for(let i=0;i<n;i++)s+=chars[Math.floor(Math.random()*chars.length)];
   return s;
 }
+
+
+// ═══ DOCUMENTS ═══
+const DOC_TYPE_LABEL={'warranty_certificate':'Garanti Belgesi','user_manual':'Kullanım Kılavuzu'};
+const LANG_LABEL={tr:'🇹🇷 TR',en:'🇬🇧 EN',es:'🇪🇸 ES',de:'🇩🇪 DE',fr:'🇫🇷 FR',ar:'🇸🇦 AR',ru:'🇷🇺 RU',other:'Diğer'};
+
+function renderDocs(){
+  const q=(document.getElementById('docs-search')?.value||'').toLowerCase();
+  const ft=document.getElementById('docs-f-type')?.value||'';
+  const fl=document.getElementById('docs-f-lang')?.value||'';
+  const fs=document.getElementById('docs-f-status')?.value||'';
+  const list=DOCS.filter(d=>{
+    if(ft&&d.document_type!==ft)return false;
+    if(fl&&d.language!==fl)return false;
+    if(fs==='1'&&!d.is_active)return false;
+    if(fs==='0'&&d.is_active)return false;
+    if(q&&!d.title.toLowerCase().includes(q))return false;
+    return true;
+  });
+  const lbl=document.getElementById('docs-count-lbl');
+  if(lbl)lbl.textContent=list.length+' / '+DOCS.length+' belge';
+  document.getElementById('docs-tbl').innerHTML=list.map(d=>{
+    const typeEl=d.document_type==='warranty_certificate'
+      ?'<span class="doc-type-wc">Garanti Belgesi</span>'
+      :'<span class="doc-type-um">Kullanım Kılavuzu</span>';
+    const langEl='<span class="lang-flag">'+(LANG_LABEL[d.language]||d.language)+'</span>';
+    const active=d.is_active!==false;
+    const fileEl=d.file_url
+      ?`<a href="${esc(d.file_url)}" target="_blank" class="doc-file-link">📄 Görüntüle</a>`
+      :'<span style="color:var(--muted)">—</span>';
+    return`<tr>
+      <td><b>${esc(d.title)}</b></td>
+      <td>${typeEl}</td>
+      <td>${langEl}</td>
+      <td><span class="badge b-neutral">${esc(d.version||'—')}</span></td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--sub);font-size:12px">${esc(d.notes||'—')}</td>
+      <td><span class="badge ${active?'b-active':'b-neutral'}">${active?'✓ Aktif':'Pasif'}</span></td>
+      <td>${fileEl}</td>
+      <td><div class="act">
+        ${d.file_url?`<a href="${esc(d.file_url)}" target="_blank" class="btn-xs bv">👁 Aç</a>`:''}
+        <button class="btn-xs be" onclick="editDoc('${d.id}')">✏️</button>
+        <button class="btn-xs ${active?'bd':'bq'}" onclick="toggleDoc('${d.id}',${!active})">${active?'⏸ Pasif':'▶ Aktif'}</button>
+      </div></td>
+    </tr>`;
+  }).join('')||'<tr class="erow"><td colspan="8">Belge bulunamadı</td></tr>';
+}
+function clearDocsF(){['docs-search','docs-f-type','docs-f-lang','docs-f-status'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});renderDocs();}
+
+function editDoc(id){
+  const d=DOCS.find(x=>x.id===id);if(!d)return;
+  EID.document=id;openModal('document',true);
+  document.getElementById('doc-modal-title').textContent='Belge Düzenle';
+  document.getElementById('doc-title').value=d.title||'';
+  document.getElementById('doc-type').value=d.document_type||'warranty_certificate';
+  document.getElementById('doc-lang').value=d.language||'tr';
+  document.getElementById('doc-version').value=d.version||'1.0';
+  document.getElementById('doc-active').checked=d.is_active!==false;
+  document.getElementById('doc-file-url').value=d.file_url||'';
+  document.getElementById('doc-url-direct').value=d.file_url||'';
+  document.getElementById('doc-notes').value=d.notes||'';
+  document.getElementById('doc-file-prev').textContent=d.file_url?'✓ Mevcut dosya var':'';
+}
+
+async function saveDoc(){try{
+  const title=document.getElementById('doc-title').value.trim();
+  if(!title)return toast('Belge adı gerekli','err');
+  let fileUrl=document.getElementById('doc-file-url').value||document.getElementById('doc-url-direct').value.trim()||null;
+  const file=document.getElementById('doc-file-inp').files[0];
+  if(file){
+    const path='docs/'+Date.now()+'-'+file.name.replace(/\s/g,'-');
+    const {error:ue}=await sb.storage.from('warranty-docs').upload(path,file,{upsert:true});
+    if(ue)return toast('Dosya yüklenemedi: '+ue.message,'err');
+    fileUrl=sb.storage.from('warranty-docs').getPublicUrl(path).data.publicUrl;
+  }
+  const payload={
+    title,
+    document_type:document.getElementById('doc-type').value,
+    language:document.getElementById('doc-lang').value,
+    version:document.getElementById('doc-version').value.trim()||'1.0',
+    is_active:document.getElementById('doc-active').checked,
+    file_url:fileUrl,
+    notes:document.getElementById('doc-notes').value.trim()||null,
+    updated_at:new Date().toISOString(),
+  };
+  const {error}=EID.document
+    ?await sb.from('documents').update(payload).eq('id',EID.document)
+    :await sb.from('documents').insert(payload);
+  if(error)return toast('Hata: '+error.message,'err');
+  toast(EID.document?'Belge güncellendi':'Belge eklendi','ok');
+  closeModal('document');
+  await reloadAll();renderDocs();
+}catch(e){toast('JS Hatası: '+e.message,'err');console.error('saveDoc',e);}}
+
+async function toggleDoc(id,newState){
+  const {error}=await sb.from('documents').update({is_active:newState,updated_at:new Date().toISOString()}).eq('id',id);
+  if(error)return toast('Hata: '+error.message,'err');
+  toast(newState?'Belge aktifleştirildi':'Belge pasifleştirildi','ok');
+  await reloadAll();renderDocs();
+}
+
+// ═══ SALE DETAIL + BELGE YONETIMI ═══
+const LANG_FULL={tr:'Türkçe',en:'English',es:'Español',de:'Deutsch',fr:'Français',ar:'العربية',ru:'Русский',other:'Diğer'};
+
+async function showSaleDetail(sid){
+  CUR_SALE_ID=sid;
+  navigate('sale-detail');
+  const s=SALES.find(x=>x.id===sid);
+  if(!s){document.getElementById('sale-detail-content').innerHTML='<div class="state"><div class="state-title">Satış bulunamadı</div></div>';return;}
+  const sc=CS.find(c=>c.id===s.customer_id)||{};
+  const saleWarranties=WS.filter(w=>w.sale_id===sid);
+
+  // Ürün gruplarını oluştur (product_id bazlı)
+  const groups={};
+  saleWarranties.forEach(w=>{
+    const pid=w.product_id||'unknown';
+    if(!groups[pid]){
+      const p=PS.find(x=>x.id===pid)||{};
+      groups[pid]={pid,product:p,warranties:[],wids:[]};
+    }
+    groups[pid].warranties.push(w);
+    groups[pid].wids.push(w.id);
+  });
+
+  // Her grup için belge sayısını çek
+  CUR_SALE_WDOCS=[];
+  if(saleWarranties.length>0){
+    const wids=saleWarranties.map(w=>w.id);
+    const {data}=await sb.from('warranty_documents').select('*').in('warranty_id',wids);
+    CUR_SALE_WDOCS=data||[];
+  }
+
+  const groupRows=Object.values(groups).map((g,i)=>{
+    const docCount=CUR_SALE_WDOCS.filter(wd=>g.wids.includes(wd.warranty_id)&&wd.is_public).length;
+    const totalWd=CUR_SALE_WDOCS.filter(wd=>g.wids.includes(wd.warranty_id));
+    const pname=g.product.name_tr||'Bilinmeyen Ürün';
+    const model=g.product.model||'';
+    const docBadge=docCount>0
+      ?`<span class="badge b-active" style="font-size:10px">${docCount} belge atanmış</span>`
+      :`<span class="badge b-neutral" style="font-size:10px">Belge yok</span>`;
+    return`<tr id="grp-row-${i}">
+      <td style="width:36px"><input type="checkbox" class="grp-cb" data-pid="${g.pid}" data-idx="${i}"></td>
+      <td>
+        <div style="font-size:13px;font-weight:700">${esc(pname)}</div>
+        ${model?`<div style="font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace">${esc(model)}</div>`:''}
+      </td>
+      <td><span class="badge b-blue">${g.warranties.length} makine</span></td>
+      <td>${docBadge}</td>
+      <td>
+        <div class="act">
+          <button class="btn-xs bv" onclick="viewGroupDocs('${g.pid}','${sid}')">📄 Belgeler</button>
+          <button class="btn-xs bl" onclick="hideGroupDocs('${g.pid}','${sid}')">👁 Gizle</button>
+          <button class="btn-xs bd" onclick="clearGroupDocs('${g.pid}','${sid}')">🗑 Temizle</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  const ORDER_URL='https://garanti.emkakuyumculuk.com/order.html?id=';
+  document.getElementById('sale-detail-content').innerHTML=`
+    <div class="cust-banner" style="margin-bottom:18px">
+      <div style="flex:1">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">Satış Detayı</div>
+        <div style="font-size:22px;font-weight:800;color:#fff;font-family:'IBM Plex Mono',monospace;margin-bottom:8px">${esc(s.sale_no||'—')}</div>
+        <div class="cust-chips">
+          <div class="cust-chip">👤 ${esc(sc.name||'—')}</div>
+          ${sc.city?`<div class="cust-chip">📍 ${esc(sc.city)}</div>`:''}
+          ${s.country?`<div class="cust-chip">🌍 ${esc(s.country)}</div>`:''}
+          <div class="cust-chip">📅 ${fd(s.sale_date)}</div>
+          <div class="cust-chip">🛡️ ${saleWarranties.length} garanti</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a href="${ORDER_URL}${s.public_order_token}" target="_blank" class="btn btn-ghost" style="color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.2);font-size:12px;padding:6px 13px">🔗 Sipariş Sayfası</a>
+        <button class="btn btn-ghost" style="color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.2);font-size:12px;padding:6px 13px" onclick="showOrderQR('${s.public_order_token}','${s.sale_no}')">QR</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">Bu Satıştaki Makine Grupları</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn btn-ghost" style="font-size:12px;padding:5px 11px" onclick="toggleAllGroups(true)">☑ Tümünü Seç</button>
+          <button class="btn btn-ghost" style="font-size:12px;padding:5px 11px" onclick="toggleAllGroups(false)">☐ Temizle</button>
+          <button class="btn btn-primary" style="font-size:12px;padding:5px 13px" onclick="openAssignDocs()">📎 Seçililere Belge Ata</button>
+          <button class="btn btn-ghost" style="font-size:12px;padding:5px 11px" onclick="hideSelectedDocs()">👁 Seçilileri Gizle</button>
+          <button class="btn btn-ghost" style="font-size:12px;padding:5px 11px;color:var(--danger);border-color:var(--dan-b)" onclick="clearSelectedDocs()">🗑 Seçilileri Temizle</button>
+        </div>
+      </div>
+      <div id="sale-detail-result" style="display:none;padding:12px 18px"></div>
+      <div class="tbl-wrap"><table>
+        <thead><tr>
+          <th style="width:36px"><input type="checkbox" onchange="toggleAllGroups(this.checked)"></th>
+          <th>Ürün / Model</th>
+          <th>Adet</th>
+          <th>Belge Durumu</th>
+          <th>İşlem</th>
+        </tr></thead>
+        <tbody>${groupRows||'<tr class="erow"><td colspan="5">Bu satışta garanti kaydı bulunamadı</td></tr>'}</tbody>
+      </table></div>
+    </div>`;
+}
+
+function toggleAllGroups(checked){
+  document.querySelectorAll('.grp-cb').forEach(cb=>cb.checked=checked);
+}
+
+function getSelectedPids(){
+  return [...document.querySelectorAll('.grp-cb:checked')].map(cb=>cb.dataset.pid);
+}
+
+function getWarrantyIdsForPids(pids,saleId){
+  return WS.filter(w=>w.sale_id===saleId&&pids.includes(w.product_id||'unknown')).map(w=>w.id);
+}
+
+// Belge seçme modalı
+let PENDING_WIDS=[];
+function openAssignDocs(){
+  const pids=getSelectedPids();
+  if(!pids.length)return toast('Önce makine grubu seçin','err');
+  PENDING_WIDS=getWarrantyIdsForPids(pids,CUR_SALE_ID);
+  const s=SALES.find(x=>x.id===CUR_SALE_ID);
+  const infoEl=document.getElementById('adocs-info');
+  if(infoEl)infoEl.textContent=`${pids.length} ürün grubunda toplam ${PENDING_WIDS.length} garanti kaydına uygulanacak.`;
+  ['adocs-search','adocs-f-type','adocs-f-lang'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  renderAssignDocs();
+  document.getElementById('modal-assign-docs').classList.add('open');
+}
+
+function renderAssignDocs(){
+  const q=(document.getElementById('adocs-search')?.value||'').toLowerCase();
+  const ft=document.getElementById('adocs-f-type')?.value||'';
+  const fl=document.getElementById('adocs-f-lang')?.value||'';
+  const list=DOCS.filter(d=>{
+    if(!d.is_active)return false;
+    if(ft&&d.document_type!==ft)return false;
+    if(fl&&d.language!==fl)return false;
+    if(q&&!d.title.toLowerCase().includes(q))return false;
+    return true;
+  });
+  const tbody=document.getElementById('adocs-list');
+  if(!tbody)return;
+  tbody.innerHTML=list.map(d=>{
+    const typeLabel=d.document_type==='warranty_certificate'?'<span class="doc-type-wc">Garanti</span>':'<span class="doc-type-um">Kılavuz</span>';
+    const langLabel=LANG_LABEL[d.language]||d.language;
+    return`<tr style="border-bottom:1px solid var(--border2)">
+      <td style="padding:9px 12px;width:36px"><input type="checkbox" class="adoc-cb" data-docid="${d.id}"></td>
+      <td style="padding:9px 12px;font-size:13px;font-weight:600">${esc(d.title)}</td>
+      <td style="padding:9px 12px">${typeLabel}</td>
+      <td style="padding:9px 12px">${langLabel}</td>
+      <td style="padding:9px 12px">${d.file_url?`<a href="${esc(d.file_url)}" target="_blank" class="doc-file-link">👁</a>`:''}</td>
+    </tr>`;
+  }).join('')||'<tr><td colspan="5" style="padding:28px;text-align:center;color:var(--muted)">Belge bulunamadı</td></tr>';
+}
+
+function toggleAllAssignDocs(checked){
+  document.querySelectorAll('.adoc-cb').forEach(cb=>cb.checked=checked);
+}
+
+async function applyDocs(){
+  const docIds=[...document.querySelectorAll('.adoc-cb:checked')].map(cb=>cb.dataset.docid);
+  if(!docIds.length)return toast('En az bir belge seçin','err');
+  if(!PENDING_WIDS.length)return toast('Geçerli garanti kaydı yok','err');
+  const btn=document.getElementById('adocs-apply-btn');
+  if(btn){btn.disabled=true;btn.innerHTML='<span class="spin"></span> Uygulanıyor...';}
+  let applied=0,updated=0,errors=0;
+  for(const wid of PENDING_WIDS){
+    for(const did of docIds){
+      // Önce var mı kontrol et
+      const existing=CUR_SALE_WDOCS.find(x=>x.warranty_id===wid&&x.document_id===did);
+      if(existing){
+        // Varsa is_public=true yap
+        const {error}=await sb.from('warranty_documents').update({is_public:true}).eq('id',existing.id);
+        if(error)errors++;else updated++;
+      } else {
+        // Yoksa ekle
+        const {error}=await sb.from('warranty_documents').insert({warranty_id:wid,document_id:did,is_public:true});
+        if(error)errors++;else applied++;
+      }
+    }
+  }
+  if(btn){btn.disabled=false;btn.innerHTML='✅ Seçili Belgelere Uygula';}
+  closeModal('assign-docs');
+  const pids=getSelectedPids();
+  showDetailResult(`✅ ${pids.length} ürün grubunda ${PENDING_WIDS.length} garanti kaydına ${docIds.length} belge uygulandı. (${applied} yeni, ${updated} güncellendi${errors?', '+errors+' hata':''})`, errors?'warn':'ok');
+  await refreshSaleDetail();
+}
+
+async function hideSelectedDocs(){
+  const pids=getSelectedPids();
+  if(!pids.length)return toast('Makine grubu seçin','err');
+  const wids=getWarrantyIdsForPids(pids,CUR_SALE_ID);
+  if(!wids.length)return toast('Garanti kaydı bulunamadı','err');
+  const {error}=await sb.from('warranty_documents').update({is_public:false}).in('warranty_id',wids);
+  if(error)return toast('Hata: '+error.message,'err');
+  showDetailResult(`👁 ${pids.length} ürün grubundaki ${wids.length} garanti kaydının belgeleri gizlendi.`,'ok');
+  await refreshSaleDetail();
+}
+
+async function clearSelectedDocs(){
+  const pids=getSelectedPids();
+  if(!pids.length)return toast('Makine grubu seçin','err');
+  if(!confirm(`Seçili ${pids.length} ürün grubundaki tüm belge bağlantıları kaldırılacak. Emin misiniz?`))return;
+  const wids=getWarrantyIdsForPids(pids,CUR_SALE_ID);
+  if(!wids.length)return toast('Garanti kaydı bulunamadı','err');
+  const {error}=await sb.from('warranty_documents').delete().in('warranty_id',wids);
+  if(error)return toast('Hata: '+error.message,'err');
+  showDetailResult(`🗑 ${pids.length} ürün grubundaki ${wids.length} garanti kaydının belge bağlantıları temizlendi.`,'ok');
+  await refreshSaleDetail();
+}
+
+async function viewGroupDocs(pid,sid){
+  const wids=getWarrantyIdsForPids([pid],sid);
+  if(!wids.length)return toast('Garanti kaydı bulunamadı','err');
+  const {data}=await sb.from('warranty_documents').select('*,document:documents(*)').in('warranty_id',wids);
+  if(!data||!data.length)return toast('Bu gruba atanmış belge yok','err');
+  const unique=[];
+  const seen=new Set();
+  data.forEach(wd=>{if(wd.document&&!seen.has(wd.document_id)){seen.add(wd.document_id);unique.push(wd);}});
+  alert('Bu gruba atanmış belgeler:\n\n'+unique.map(wd=>`${wd.is_public?'✓':'○'} ${wd.document?.title||'?'} (${LANG_FULL[wd.document?.language]||'?'}) ${wd.is_public?'[Görünür]':'[Gizli]'}`).join('\n'));
+}
+
+async function hideGroupDocs(pid,sid){
+  const wids=getWarrantyIdsForPids([pid],sid);
+  if(!wids.length)return;
+  await sb.from('warranty_documents').update({is_public:false}).in('warranty_id',wids);
+  toast('Belgeler gizlendi','ok');
+  await refreshSaleDetail();
+}
+
+async function clearGroupDocs(pid,sid){
+  const wids=getWarrantyIdsForPids([pid],sid);
+  if(!wids.length)return;
+  if(!confirm('Bu grubun tüm belge bağlantıları kaldırılacak?'))return;
+  await sb.from('warranty_documents').delete().in('warranty_id',wids);
+  toast('Belgeler temizlendi','ok');
+  await refreshSaleDetail();
+}
+
+function showDetailResult(msg,type){
+  const el=document.getElementById('sale-detail-result');
+  if(!el)return;
+  el.style.display='block';
+  el.style.background=type==='ok'?'var(--ok-bg)':'var(--warn-bg)';
+  el.style.color=type==='ok'?'var(--ok-text)':'var(--warn-text)';
+  el.style.border='1px solid '+(type==='ok'?'var(--ok-b)':'var(--warn-b)');
+  el.style.borderRadius='8px';
+  el.textContent=msg;
+}
+
+async function refreshSaleDetail(){
+  await reloadAll();
+  if(CUR_SALE_ID)showSaleDetail(CUR_SALE_ID);
+}
+
+
+// ═══ SALE EDIT ═══
+function editSale(id){
+  const s=SALES.find(x=>x.id===id);if(!s)return;
+  EID.sale=id;
+  const infoEl=document.getElementById('es-info');
+  if(infoEl)infoEl.textContent='Satış No: '+(s.sale_no||'—');
+  // Müşteri dropdown doldur
+  const cSel=document.getElementById('es-customer');
+  cSel.innerHTML='<option value="">— Müşteri seçin —</option>';
+  CS.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=`${c.name}${c.firma_adi?' ('+c.firma_adi+')':''}${c.city?' – '+c.city:''}`;cSel.appendChild(o);});
+  cSel.value=s.customer_id||'';
+  document.getElementById('es-date').value=s.sale_date||'';
+  document.getElementById('es-country').value=s.country||'';
+  document.getElementById('es-currency').value=s.currency||'TRY';
+  document.getElementById('es-note').value=s.internal_note||'';
+  document.getElementById('modal-edit-sale').classList.add('open');
+}
+
+async function updateSale(){try{
+  const id=EID.sale;if(!id)return;
+  const custId=document.getElementById('es-customer').value;
+  if(!custId)return toast('Müşteri seçin','err');
+  const payload={
+    customer_id:custId,
+    sale_date:document.getElementById('es-date').value||null,
+    country:document.getElementById('es-country').value.trim()||null,
+    currency:document.getElementById('es-currency').value||'TRY',
+    internal_note:document.getElementById('es-note').value.trim()||null,
+    updated_at:new Date().toISOString(),
+  };
+  const {error}=await sb.from('sales').update(payload).eq('id',id);
+  if(error)return toast('Hata: '+error.message,'err');
+  toast('Satış güncellendi','ok');
+  closeModal('edit-sale');
+  await reloadAll();renderSales();
+}catch(e){toast('JS Hatası: '+e.message,'err');}}
 
 
 async function doLogout(){
@@ -1082,7 +1714,7 @@ function navigate(p){
   document.querySelectorAll('.nav-item[data-page]').forEach(x=>x.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
   const nb=document.querySelector(`[data-page="${p}"]`);if(nb)nb.classList.add('active');
-  const map={dashboard:loadDash,warranties:renderW,customers:renderC,products:renderP,categories:renderCat,service:renderSvc,sales:renderSales};
+  const map={dashboard:loadDash,warranties:renderW,customers:renderC,products:renderP,categories:renderCat,service:renderSvc,sales:renderSales,documents:renderDocs,'sale-detail':()=>{}};
   if(map[p])map[p]();
   window.scrollTo(0,0);
 }
@@ -1105,6 +1737,7 @@ async function reloadAll(){
   CATS=await qry('categories','*','sort_order');
   SVCS=await qry('service_records','*,warranty:warranties(warranty_code,customer_id,customers(*))','service_date');
   try{const {data}=await sb.from('sales').select('*').order('created_at',{ascending:false});SALES=data||[];}catch(e){SALES=[];console.warn('[EMKA] sales sorgusu başarısız:',e.message);}
+  try{const {data}=await sb.from('documents').select('*').order('created_at',{ascending:false});DOCS=data||[];}catch(e){DOCS=[];console.warn('[EMKA] documents sorgusu başarısız:',e.message);}
   console.log('[EMKA] reloadAll tamamlandı. WS:',WS.length,'CS:',CS.length,'PS:',PS.length);
   fillCatFilters();fillCountryFilter();
 }
@@ -1239,7 +1872,7 @@ function viewWarranty(id){
   document.getElementById('wv-content').innerHTML=`
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap">
       <div><div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Garanti Belgesi</div><div style="font-size:20px;font-weight:800;font-family:'IBM Plex Mono',monospace;margin-top:2px">${esc(w.warranty_code)}</div></div>
-      <div style="display:flex;gap:7px;flex-wrap:wrap">${wBadge(w)}<button class="btn btn-ghost" style="font-size:12px;padding:5px 12px" onclick="showQR('${w.public_token}','${w.warranty_code}')">📲 QR</button><button class="btn btn-ghost" style="font-size:12px;padding:5px 12px" onclick="cpLink('${w.public_token}')">🔗 Link</button><button class="btn btn-primary" style="font-size:12px;padding:5px 12px" onclick="closeModal('warranty-view');editW('${w.id}')">✏️ Düzenle</button></div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap">${wBadge(w)}<button class="btn btn-ghost" style="font-size:12px;padding:5px 12px" onclick="showQR('${w.public_token}','${w.warranty_code}')">QR</button><button class="btn btn-ghost" style="font-size:12px;padding:5px 12px" onclick="cpLink('${w.public_token}')">🔗 Link</button><button class="btn btn-primary" style="font-size:12px;padding:5px 12px" onclick="closeModal('warranty-view');editW('${w.id}')">✏️ Düzenle</button></div>
     </div>
     <div style="margin-bottom:14px">${itemsHtml}</div>
     <div class="wv-grid">
@@ -1294,7 +1927,7 @@ function showCustDetail(cid){
       <button class="btn btn-ghost" style="color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.2);font-size:12px;padding:6px 13px" onclick="editC('${c.id}')">✏️ Düzenle</button>
     </div>
     ${c.notes?`<div class="card"><div class="card-hdr"><div class="card-title">📝 Notlar</div></div><div style="padding:14px 18px;font-size:13px;color:var(--sub);line-height:1.65">${esc(c.notes)}</div></div>`:''}
-    <div class="card"><div class="card-hdr"><div class="card-title">🛡️ Garanti Kayıtları (${cws.length})</div><button class="btn btn-primary" style="font-size:12px;padding:5px 12px" onclick="navigate('warranties');openModal('warranty')">+ Yeni</button></div><div class="tbl-wrap"><table><thead><tr><th>Kod</th><th>Ürün</th><th>Satış</th><th>Bitiş</th><th>Durum</th><th>İşlem</th></tr></thead><tbody>${wRows}</tbody></table></div></div>
+    <div class="card"><div class="card-hdr"><div class="card-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Garanti Kayıtları (${cws.length})</div><button class="btn btn-primary" style="font-size:12px;padding:5px 12px" onclick="navigate('warranties');openModal('warranty')">+ Yeni</button></div><div class="tbl-wrap"><table><thead><tr><th>Kod</th><th>Ürün</th><th>Satış</th><th>Bitiş</th><th>Durum</th><th>İşlem</th></tr></thead><tbody>${wRows}</tbody></table></div></div>
     <div class="card"><div class="card-hdr"><div class="card-title">🔧 Servis Geçmişi (${cSvcs.length})</div></div><div class="tbl-wrap"><table><thead><tr><th>Garanti</th><th>Tarih</th><th>Açıklama</th><th>Teknisyen</th><th>Durum</th></tr></thead><tbody>${sRows}</tbody></table></div></div>`;
   navigate('customer-detail');
 }
@@ -1377,6 +2010,7 @@ function renderSvc(q=''){
 function openModal(name,keepEID=false){
   if(!keepEID)EID[name]=null;
 
+
   if(name==='warranty'){
     document.getElementById('w-modal-title').textContent='Yeni Garanti Kaydı';
     ['w-code','w-start','w-end','w-note'].forEach(id=>document.getElementById(id).value='');
@@ -1441,10 +2075,21 @@ function openModal(name,keepEID=false){
     const saEl=document.getElementById('sale-actions');
     if(saEl){saEl.innerHTML='';
       const b1=document.createElement('button');b1.className='btn btn-ghost';b1.textContent='İptal';b1.onclick=()=>closeModal('sale');saEl.appendChild(b1);
-      const b2=document.createElement('button');b2.className='btn btn-primary';b2.innerHTML='🛒 Satışı Kaydet ve Garantileri Oluştur';b2.onclick=()=>saveSale();saEl.appendChild(b2);
+      const b2=document.createElement('button');b2.className='btn btn-primary';b2.innerHTML='Satışı Oluştur';b2.onclick=()=>saveSale();saEl.appendChild(b2);
     }
     document.getElementById('sale-total-summary').style.display='none';
     addSaleProdRow();
+  }
+  if(name==='document'){
+    document.getElementById('doc-modal-title').textContent='Yeni Belge';
+    ['doc-title','doc-file-url','doc-url-direct','doc-notes'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+    document.getElementById('doc-version').value='1.0';
+    document.getElementById('doc-type').value='warranty_certificate';
+    document.getElementById('doc-lang').value='tr';
+    document.getElementById('doc-active').checked=true;
+    document.getElementById('doc-file-prev').textContent='';
+    document.getElementById('doc-file-inp').value='';
+    EID.document=null;
   }
   document.getElementById('modal-'+name).classList.add('open');
 }
