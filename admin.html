@@ -690,17 +690,45 @@ label{font-size:12px;font-weight:600;color:#374151;letter-spacing:.3px;text-tran
         <input type="file" id="p-photo-file" accept="image/*" style="display:none" onchange="prevFile(this,'p-photo-prev')">
         <div class="fprev" id="p-photo-prev"></div><input type="hidden" id="p-photo-url">
       </div>
+      <!-- VARSAYILAN URUN BELGELERI -->
       <div class="fg full">
-        <label>Garanti Belgesi (PDF)</label>
-        <div class="fupload" onclick="document.getElementById('p-doc-file').click()">📄 Garanti belgesi PDF (max 10MB)</div>
-        <input type="file" id="p-doc-file" accept=".pdf" style="display:none" onchange="prevFile(this,'p-doc-prev')">
-        <div class="fprev" id="p-doc-prev"></div><input type="hidden" id="p-doc-url">
-      </div>
-      <div class="fg full">
-        <label>Kullanım Kılavuzu (PDF)</label>
-        <div class="fupload" onclick="document.getElementById('p-manual-file').click()">📖 Kullanım kılavuzu PDF (max 20MB)</div>
-        <input type="file" id="p-manual-file" accept=".pdf" style="display:none" onchange="prevFile(this,'p-manual-prev')">
-        <div class="fprev" id="p-manual-prev"></div><input type="hidden" id="p-manual-url">
+        <label style="font-size:13px;font-weight:700;text-transform:none;letter-spacing:0;color:#0d1b2a;border-bottom:1px solid var(--border);padding-bottom:8px;display:block;margin-bottom:12px">Varsayılan Ürün Belgeleri</label>
+
+        <div style="margin-bottom:14px">
+          <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Garanti Belgesi</div>
+          <div id="p-doc-current" style="display:none;background:#f0fdf4;border:1px solid #a7f3d0;border-radius:8px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px">
+            <span style="font-size:13px;font-weight:600;color:#065f46">Mevcut belge var</span>
+            <div style="display:flex;gap:6px">
+              <a id="p-doc-view-btn" href="#" target="_blank" class="btn-xs bv">Görüntüle</a>
+              <button class="btn-xs be" onclick="replaceProductDoc('doc')">Değiştir</button>
+              <button class="btn-xs bd" onclick="removeProductDoc('doc')">Sil</button>
+            </div>
+          </div>
+          <div id="p-doc-upload" style="display:none">
+            <div class="fupload" onclick="document.getElementById('p-doc-file').click()">Garanti belgesi PDF yükle (max 10MB)</div>
+          </div>
+          <input type="file" id="p-doc-file" accept=".pdf" style="display:none" onchange="prevFile(this,'p-doc-prev')">
+          <div class="fprev" id="p-doc-prev"></div>
+          <input type="hidden" id="p-doc-url">
+        </div>
+
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Kullanım Kılavuzu</div>
+          <div id="p-manual-current" style="display:none;background:#f0fdf4;border:1px solid #a7f3d0;border-radius:8px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px">
+            <span style="font-size:13px;font-weight:600;color:#065f46">Mevcut kılavuz var</span>
+            <div style="display:flex;gap:6px">
+              <a id="p-manual-view-btn" href="#" target="_blank" class="btn-xs bv">Görüntüle</a>
+              <button class="btn-xs be" onclick="replaceProductDoc('manual')">Değiştir</button>
+              <button class="btn-xs bd" onclick="removeProductDoc('manual')">Sil</button>
+            </div>
+          </div>
+          <div id="p-manual-upload" style="display:none">
+            <div class="fupload" onclick="document.getElementById('p-manual-file').click()">Kullanım kılavuzu PDF yükle (max 20MB)</div>
+          </div>
+          <input type="file" id="p-manual-file" accept=".pdf" style="display:none" onchange="prevFile(this,'p-manual-prev')">
+          <div class="fprev" id="p-manual-prev"></div>
+          <input type="hidden" id="p-manual-url">
+        </div>
       </div>
     </div>
     <div class="factions">
@@ -1011,7 +1039,7 @@ async function showApp(session){
   console.log('[EMKA Admin]', ADMIN_VERSION, 'showApp başladı', session?.user?.email);
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').style.display='block';
-  document.getElementById('s-email').textContent=session?.user?.email || '—';
+  document.getElementById('s-email').textContent=session?.user?.email || '-';
 
   await loadSettings();
   await reloadAll();
@@ -1072,10 +1100,10 @@ function renderSales(){
   document.getElementById('sales-tbl').innerHTML=list.map(s=>{
     const sc=CS.find(c=>c.id===s.customer_id)||{};
     return`<tr>
-    <td><span class="mono" style="font-weight:700">${esc(s.sale_no||'—')}</span></td>
-    <td><b>${esc(sc.name||'—')}</b>${sc.city?`<br><span style="font-size:11px;color:var(--muted)">${esc(sc.city)}</span>`:''}</td>
+    <td><span class="mono" style="font-weight:700">${esc(s.sale_no||'-')}</span></td>
+    <td><b>${esc(sc.name||'-')}</b>${sc.city?`<br><span style="font-size:11px;color:var(--muted)">${esc(sc.city)}</span>`:''}</td>
     <td>${fd(s.sale_date)}</td>
-    <td>${esc(s.country||'—')}</td>
+    <td>${esc(s.country||'-')}</td>
     <td><span class="badge b-blue">${wCount(s.id)} garanti</span></td>
     <td><div class="act">
       <a href="${ORDER_URL}${s.public_order_token}" target="_blank" class="btn-xs bv">🔗 Sipariş</a>
@@ -1110,7 +1138,7 @@ function addSaleProdRow(pid='',months=24){
   div.innerHTML=`
     <div class="sale-prod-top">
       <select class="spr-prod" onchange="onSprProdChange('${idx}')">
-        <option value="">— Ürün seçin —</option>${opts}
+        <option value="">- Ürün seçin -</option>${opts}
       </select>
       <input type="number" class="spr-qty" min="1" max="999" value="1" placeholder="Adet" oninput="onSprQtyChange('${idx}')" style="padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;width:100%">
       <input type="number" class="spr-months" min="1" max="120" value="${months}" placeholder="Garanti (ay)" style="padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;width:100%">
@@ -1118,7 +1146,7 @@ function addSaleProdRow(pid='',months=24){
     </div>
     <div class="sale-serial-wrap" id="serial-wrap-${idx}">
       <div class="sale-serial-lbl">
-        <span>Fiziksel Makine Seri No <span style="font-weight:400;color:var(--muted)">(opsiyonel — her satır = 1 makine)</span></span>
+        <span>Fiziksel Makine Seri No <span style="font-weight:400;color:var(--muted)">(opsiyonel - her satır = 1 makine)</span></span>
         <span class="sale-serial-count" id="serial-count-${idx}">0 / 1</span>
       </div>
       <textarea class="sale-serial-ta" id="serial-ta-${idx}" placeholder="Makinenin üzerindeki seri no&#10;Örn: EK-UY60-2026-001&#10;Birden fazlaysa her satıra bir tane" oninput="countSerials('${idx}')"></textarea>
@@ -1259,17 +1287,17 @@ async function saveSale(){try{
   if(resultEl){
     resultEl.style.display='block';
     resultEl.innerHTML=`<div class="sale-result-card">
-      <div class="sale-result-title">✅ Satış oluşturuldu: ${esc(saleNo)} — ${createdCount} garanti belgesi</div>
+      <div class="sale-result-title">✅ Satış oluşturuldu: ${esc(saleNo)} - ${createdCount} garanti belgesi</div>
       ${errors.length?`<div style="color:var(--danger);font-size:12px;margin-bottom:8px">⚠️ ${errors.length} hata: ${errors.slice(0,3).join(', ')}</div>`:''}
       <div class="sale-result-links">
-        <a href="${ORDER_URL}${orderToken}" target="_blank" class="btn btn-primary" style="font-size:12px;padding:6px 14px">🔗 Sipariş Sayfası</a>
-        <button class="btn btn-ghost" style="font-size:12px;padding:6px 14px" onclick="showOrderQR('${orderToken}','${saleNo}')">QR Kod</button>
+        <a href="${ORDER_URL}${s.public_order_token}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1.5px solid #fff;background:#fff;color:#0d1b2a;font-size:12px;font-weight:700;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Sipariş Sayfası</a>
+          <button style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1.5px solid rgba(255,255,255,.6);background:rgba(255,255,255,.15);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit" onclick="showOrderQR('${s.public_order_token}','${s.sale_no}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/></svg> QR</button>
         <button class="btn btn-ghost" style="font-size:12px;padding:6px 14px" onclick="navigator.clipboard.writeText('${ORDER_URL}${orderToken}').then(()=>toast('Link kopyalandı','ok'))">🔗 Link Kopyala</button>
       </div>
     </div>`;
   }
   if(actEl){actEl.innerHTML='';const bc=document.createElement('button');bc.className='btn btn-ghost';bc.textContent='Kapat';bc.onclick=()=>closeModal('sale');actEl.appendChild(bc);}
-  toast(saleNo+' — '+createdCount+' garanti oluşturuldu','ok');
+  toast(saleNo+' - '+createdCount+' garanti oluşturuldu','ok');
 }catch(e){toast('JS Hatası: '+e.message,'err');console.error('saveSale',e);
   const btn=document.querySelector('#sale-actions .btn-primary');
   if(btn){btn.disabled=false;btn.innerHTML='Satışı Oluştur';}
@@ -1314,13 +1342,13 @@ function renderDocs(){
     const active=d.is_active!==false;
     const fileEl=d.file_url
       ?`<a href="${esc(d.file_url)}" target="_blank" class="doc-file-link">📄 Görüntüle</a>`
-      :'<span style="color:var(--muted)">—</span>';
+      :'<span style="color:var(--muted)">-</span>';
     return`<tr>
       <td><b>${esc(d.title)}</b></td>
       <td>${typeEl}</td>
       <td>${langEl}</td>
-      <td><span class="badge b-neutral">${esc(d.version||'—')}</span></td>
-      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--sub);font-size:12px">${esc(d.notes||'—')}</td>
+      <td><span class="badge b-neutral">${esc(d.version||'-')}</span></td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--sub);font-size:12px">${esc(d.notes||'-')}</td>
       <td><span class="badge ${active?'b-active':'b-neutral'}">${active?'✓ Aktif':'Pasif'}</span></td>
       <td>${fileEl}</td>
       <td><div class="act">
@@ -1447,9 +1475,9 @@ async function showSaleDetail(sid){
     <div class="cust-banner" style="margin-bottom:18px">
       <div style="flex:1">
         <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">Satış Detayı</div>
-        <div style="font-size:22px;font-weight:800;color:#fff;font-family:'IBM Plex Mono',monospace;margin-bottom:8px">${esc(s.sale_no||'—')}</div>
+        <div style="font-size:22px;font-weight:800;color:#fff;font-family:'IBM Plex Mono',monospace;margin-bottom:8px">${esc(s.sale_no||'-')}</div>
         <div class="cust-chips">
-          <div class="cust-chip">👤 ${esc(sc.name||'—')}</div>
+          <div class="cust-chip">👤 ${esc(sc.name||'-')}</div>
           ${sc.city?`<div class="cust-chip">📍 ${esc(sc.city)}</div>`:''}
           ${s.country?`<div class="cust-chip">🌍 ${esc(s.country)}</div>`:''}
           <div class="cust-chip">📅 ${fd(s.sale_date)}</div>
@@ -1645,11 +1673,11 @@ function editSale(id){
   const s=SALES.find(x=>x.id===id);if(!s)return;
   EID.sale=id;
   const infoEl=document.getElementById('es-info');
-  if(infoEl)infoEl.textContent='Satış No: '+(s.sale_no||'—');
+  if(infoEl)infoEl.textContent='Satış No: '+(s.sale_no||'-');
   // Müşteri dropdown doldur
   const cSel=document.getElementById('es-customer');
-  cSel.innerHTML='<option value="">— Müşteri seçin —</option>';
-  CS.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=`${c.name}${c.firma_adi?' ('+c.firma_adi+')':''}${c.city?' – '+c.city:''}`;cSel.appendChild(o);});
+  cSel.innerHTML='<option value="">- Müşteri seçin -</option>';
+  CS.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=`${c.name}${c.firma_adi?' ('+c.firma_adi+')':''}${c.city?' - '+c.city:''}`;cSel.appendChild(o);});
   cSel.value=s.customer_id||'';
   document.getElementById('es-date').value=s.sale_date||'';
   document.getElementById('es-country').value=s.country||'';
@@ -1676,6 +1704,65 @@ async function updateSale(){try{
   closeModal('edit-sale');
   await reloadAll();renderSales();
 }catch(e){toast('JS Hatası: '+e.message,'err');}}
+
+
+// ═══ PRODUCT DOCUMENT MANAGEMENT ═══
+function replaceProductDoc(type){
+  const inputId = type==='doc' ? 'p-doc-file' : 'p-manual-file';
+  document.getElementById(inputId).click();
+  // Upload sonrası prevFile zaten çağrılacak, saveProduct URL'yi güncelleyecek
+}
+
+async function removeProductDoc(type){
+  const pid = EID.product;
+  if(!pid)return toast('Ürün kaydı bulunamadı','err');
+  const p = PS.find(x=>x.id===pid);
+  if(!p)return toast('Ürün bulunamadı','err');
+  const urlField   = type==='doc' ? 'warranty_doc_url' : 'manual_url';
+  const hiddenId   = type==='doc' ? 'p-doc-url'        : 'p-manual-url';
+  const curId      = type==='doc' ? 'p-doc-current'    : 'p-manual-current';
+  const uplId      = type==='doc' ? 'p-doc-upload'     : 'p-manual-upload';
+  const fileUrl    = p[urlField];
+  if(!fileUrl)return toast('Bağlı dosya bulunamadı','err');
+
+  if(!confirm('Bu ürünün bağlı dosyası kaldırılacak. Eğer dosya sadece bu ürüne özel yüklenmişse depolamadan da silinecek. Devam etmek istiyor musunuz?'))return;
+
+  // Başka ürünler aynı URL'yi kullanıyor mu?
+  const {data:otherProds}=await sb.from('products').select('id').eq(urlField,fileUrl).neq('id',pid);
+  const usedByOthers = (otherProds||[]).length > 0;
+
+  if(!usedByOthers){
+    // Sadece bu ürüne özel - storage'dan da sil
+    try{
+      const pathMatch = fileUrl.match(/\/warranty-docs\/(.+)$/);
+      if(pathMatch){
+        const {error:se}=await sb.storage.from('warranty-docs').remove([decodeURIComponent(pathMatch[1])]);
+        if(se)console.warn('Storage silme hatası:',se.message);
+        else console.log('Dosya storage silindi - basarili');
+      }
+    }catch(e){console.warn('Storage silinemedi:', e.message);}
+  }
+
+  // Ürün kaydından URL'yi temizle
+  const update={};update[urlField]=null;
+  const {error}=await sb.from('products').update(update).eq('id',pid);
+  if(error)return toast('Güncelleme hatası: '+error.message,'err');
+
+  // Hidden input ve UI güncelle
+  document.getElementById(hiddenId).value='';
+  const curEl=document.getElementById(curId);
+  const uplEl=document.getElementById(uplId);
+  if(curEl)curEl.style.display='none';
+  if(uplEl)uplEl.style.display='block';
+
+  await reloadAll();
+
+  if(usedByOthers){
+    toast('Dosya başka kayıtlar tarafından da kullanıldığı için depolamadan silinmedi, sadece bu ürünle bağlantısı kaldırıldı.','ok');
+  } else {
+    toast(type==='doc'?'Garanti belgesi kaldırıldı':'Kullanım kılavuzu kaldırıldı','ok');
+  }
+}
 
 
 async function doLogout(){
@@ -1777,13 +1864,13 @@ function loadDash(){
   document.getElementById('dash-tbl').innerHTML=WS.slice(0,6).map(w=>{
     const items=w.warranty_items||[];
     const pn=w.product_id
-      ?(PS.find(p=>p.id===w.product_id)?.name_tr||'—')
-      :(items[0]?.product?.name_tr||'—');
-    const wno=w.warranty_no||w.warranty_code||'—';
+      ?(PS.find(p=>p.id===w.product_id)?.name_tr||'-')
+      :(items[0]?.product?.name_tr||'-');
+    const wno=w.warranty_no||w.warranty_code||'-';
     return`<tr>
       <td><span class="mono" style="font-weight:700">${esc(wno)}</span></td>
       <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(pn)}</td>
-      <td>${esc(w.customers?.name||'—')}</td>
+      <td>${esc(w.customers?.name||'-')}</td>
       <td style="white-space:nowrap">${fd(w.warranty_end)}</td>
       <td>${wBadge(w)}</td>
       <td><div class="act"><button class="btn-xs bq" onclick="showQR('${w.public_token}','${w.warranty_no||w.warranty_code}')">📲</button><button class="btn-xs bl" onclick="cpLink('${w.public_token}')">🔗</button><button class="btn-xs be" onclick="navigate('warranties');editW('${w.id}')">✏️</button></div></td>
@@ -1793,8 +1880,8 @@ function loadDash(){
   if(dtSales){
     const wCount=id=>WS.filter(w=>w.sale_id===id).length;
     dtSales.innerHTML=SALES.slice(0,5).map(s=>{const sc2=CS.find(c=>c.id===s.customer_id)||{};return`<tr>
-      <td><span class="mono" style="font-weight:700">${esc(s.sale_no||'—')}</span></td>
-      <td>${esc(sc2.name||'—')}</td>
+      <td><span class="mono" style="font-weight:700">${esc(s.sale_no||'-')}</span></td>
+      <td>${esc(sc2.name||'-')}</td>
       <td>${fd(s.sale_date)}</td>
       <td><span class="badge b-blue">${wCount(s.id)} garanti</span></td>
     </tr>`;}).join('')||'<tr class="erow"><td colspan="4">Henüz satış yok</td></tr>';
@@ -1804,9 +1891,9 @@ function loadDash(){
   document.getElementById('expiring-tbl').innerHTML=exp.map(w=>{
     const dl=Math.ceil((new Date(w.warranty_end)-now)/86400000);
     const items=w.warranty_items||[];
-    const pn=items[0]?.product?.name_tr||'—';
-    const wno2=w.warranty_no||w.warranty_code||'—';
-    return`<tr><td><span class="mono" style="font-weight:700">${esc(wno2)}</span></td><td>${esc(pn)}${items.length>1?' <span style="font-size:10px;color:var(--muted)">+'+( items.length-1)+'</span>':''}</td><td>${esc(w.customers?.name||'—')}</td><td>${fd(w.warranty_end)}</td><td><span class="badge b-warn">⚠ ${dl}g</span></td><td><div class="act">${actBtns(w)}</div></td></tr>`;
+    const pn=items[0]?.product?.name_tr||'-';
+    const wno2=w.warranty_no||w.warranty_code||'-';
+    return`<tr><td><span class="mono" style="font-weight:700">${esc(wno2)}</span></td><td>${esc(pn)}${items.length>1?' <span style="font-size:10px;color:var(--muted)">+'+( items.length-1)+'</span>':''}</td><td>${esc(w.customers?.name||'-')}</td><td>${fd(w.warranty_end)}</td><td><span class="badge b-warn">⚠ ${dl}g</span></td><td><div class="act">${actBtns(w)}</div></td></tr>`;
   }).join('')||'<tr class="erow"><td colspan="6">Bu ay biten garanti yok</td></tr>';
 }
 
@@ -1823,11 +1910,11 @@ function actBtns(w){
 }
 function wTr(w){
   const items=w.warranty_items||[];
-  const pn=items[0]?.product?.name_tr||'—';
+  const pn=items[0]?.product?.name_tr||'-';
   const multi=items.length>1?` <span style="font-size:10px;color:var(--muted)">+${items.length-1}</span>`:'';
   const prices=w.prices||[];
   const ph=prices.slice(0,2).map(p=>`<span class="cc ${(p.currency||'').toLowerCase()}">${p.currency} ${Number(p.amount||0).toLocaleString('tr-TR',{minimumFractionDigits:0})}</span>`).join(' ');
-  return`<tr><td><span class="mono">${esc(w.warranty_code)}</span></td><td>${esc(pn)}${multi}</td><td><b>${esc(w.customers?.name||'—')}</b><br><span style="font-size:11px;color:var(--muted)">${esc(w.customers?.city||'')}${w.customers?.country?' · '+w.customers.country:''}</span></td><td>${ph||'—'}</td><td>${fd(w.sale_date)}</td><td>${fd(w.warranty_end)}</td><td>${wBadge(w)}</td><td><div class="act">${actBtns(w)}</div></td></tr>`;
+  return`<tr><td><span class="mono">${esc(w.warranty_code)}</span></td><td>${esc(pn)}${multi}</td><td><b>${esc(w.customers?.name||'-')}</b><br><span style="font-size:11px;color:var(--muted)">${esc(w.customers?.city||'')}${w.customers?.country?' · '+w.customers.country:''}</span></td><td>${ph||'-'}</td><td>${fd(w.sale_date)}</td><td>${fd(w.warranty_end)}</td><td>${wBadge(w)}</td><td><div class="act">${actBtns(w)}</div></td></tr>`;
 }
 
 // ═══ WARRANTY PAGE ═══
@@ -1866,9 +1953,9 @@ function viewWarranty(id){
   const itemsHtml=items.map(it=>{
     const pr=it.product||{};
     const ph=pr.photo_url?`<img src="${pr.photo_url}" class="pthumb" style="margin-right:8px;vertical-align:middle">`:`<span class="pthumb-ph" style="margin-right:8px">📦</span>`;
-    return`<div style="display:flex;align-items:center;padding:8px 0;border-bottom:1px solid var(--border2)">${ph}<div><div style="font-size:13px;font-weight:700">${esc(pr.name_tr||'—')}</div><div style="font-size:11px;color:var(--muted)">${pr.model||''}${it.serial_number?' · S/N: '+esc(it.serial_number):''}${it.quantity>1?' · Adet: '+it.quantity:''}</div></div></div>`;
+    return`<div style="display:flex;align-items:center;padding:8px 0;border-bottom:1px solid var(--border2)">${ph}<div><div style="font-size:13px;font-weight:700">${esc(pr.name_tr||'-')}</div><div style="font-size:11px;color:var(--muted)">${pr.model||''}${it.serial_number?' · S/N: '+esc(it.serial_number):''}${it.quantity>1?' · Adet: '+it.quantity:''}</div></div></div>`;
   }).join('');
-  const ph=prices.map(p=>`<span class="cc ${(p.currency||'').toLowerCase()}">${p.currency} ${Number(p.amount||0).toLocaleString('tr-TR',{minimumFractionDigits:2})}</span>`).join(' ')||'—';
+  const ph=prices.map(p=>`<span class="cc ${(p.currency||'').toLowerCase()}">${p.currency} ${Number(p.amount||0).toLocaleString('tr-TR',{minimumFractionDigits:2})}</span>`).join(' ')||'-';
   const payMap={paid:'✅ Ödendi',partial:'⚠️ Kısmi',pending:'⏳ Bekliyor'};
   document.getElementById('wv-content').innerHTML=`
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap">
@@ -1877,15 +1964,15 @@ function viewWarranty(id){
     </div>
     <div style="margin-bottom:14px">${itemsHtml}</div>
     <div class="wv-grid">
-      <div class="wv-f"><div class="wv-lbl">Müşteri</div><div class="wv-val">${esc(w.customers?.name||'—')}${w.customers?.city?' · '+w.customers.city:''}</div></div>
+      <div class="wv-f"><div class="wv-lbl">Müşteri</div><div class="wv-val">${esc(w.customers?.name||'-')}${w.customers?.city?' · '+w.customers.city:''}</div></div>
       <div class="wv-f"><div class="wv-lbl">Satış Tarihi</div><div class="wv-val">${fd(w.sale_date)}</div></div>
       <div class="wv-f"><div class="wv-lbl">Garanti Başlangıç</div><div class="wv-val">${fd(w.warranty_start)}</div></div>
       <div class="wv-f"><div class="wv-lbl">Garanti Bitiş</div><div class="wv-val">${fd(w.warranty_end)}</div></div>
-      <div class="wv-f"><div class="wv-lbl">Süre</div><div class="wv-val">${w.warranty_months||'—'} ay</div></div>
-      <div class="wv-f"><div class="wv-lbl">Ödeme</div><div class="wv-val">${payMap[w.payment_status]||'—'}</div></div>
+      <div class="wv-f"><div class="wv-lbl">Süre</div><div class="wv-val">${w.warranty_months||'-'} ay</div></div>
+      <div class="wv-f"><div class="wv-lbl">Ödeme</div><div class="wv-val">${payMap[w.payment_status]||'-'}</div></div>
       <div class="wv-f"><div class="wv-lbl">Tutar</div><div class="wv-val">${ph}</div></div>
-      <div class="wv-f"><div class="wv-lbl">Bayi</div><div class="wv-val">${esc(w.dealer||'—')}</div></div>
-      <div class="wv-f" style="grid-column:1/-1"><div class="wv-lbl">Public Token</div><div class="wv-val" style="font-family:'IBM Plex Mono',monospace;font-size:12px">${esc(w.public_token||'—')}</div></div>
+      <div class="wv-f"><div class="wv-lbl">Bayi</div><div class="wv-val">${esc(w.dealer||'-')}</div></div>
+      <div class="wv-f" style="grid-column:1/-1"><div class="wv-lbl">Public Token</div><div class="wv-val" style="font-family:'IBM Plex Mono',monospace;font-size:12px">${esc(w.public_token||'-')}</div></div>
       ${w.notes?`<div class="wv-f" style="grid-column:1/-1"><div class="wv-lbl">İç Not</div><div class="wv-val" style="color:var(--sub);font-style:italic">${esc(w.notes)}</div></div>`:''}
     </div>`;
   document.getElementById('modal-warranty-view').classList.add('open');
@@ -1900,7 +1987,7 @@ function renderC(q=''){
   document.getElementById('c-tbl').innerHTML=list.map(c=>{
     const wc=WS.filter(w=>w.customer_id===c.id).length;
     const wa=c.whatsapp?`<a href="https://wa.me/${c.whatsapp.replace(/\D/g,'')}" target="_blank" style="color:#25d366;font-size:11px;margin-left:4px">💬</a>`:'';
-    return`<tr><td><b>${esc(c.name||'—')}</b>${c.yetkili?`<br><span style="font-size:11px;color:var(--muted)">👤 ${esc(c.yetkili)}</span>`:''}</td><td>${esc(c.firma_adi||'—')}</td><td>${esc(c.phone||'—')}${wa}${c.email?`<br><span style="font-size:11px;color:var(--muted)">${esc(c.email)}</span>`:''}</td><td>${esc(c.city||'—')}${c.country?' · '+c.country:''}</td><td>${lm[c.dil_tercihi||'tr']||'—'}</td><td><span class="badge b-blue">${wc}</span></td><td><div class="act"><button class="btn-xs bv" onclick="showCustDetail('${c.id}')">👁 Detay</button><button class="btn-xs be" onclick="editC('${c.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('customers','${c.id}')">🗑</button></div></td></tr>`;
+    return`<tr><td><b>${esc(c.name||'-')}</b>${c.yetkili?`<br><span style="font-size:11px;color:var(--muted)">👤 ${esc(c.yetkili)}</span>`:''}</td><td>${esc(c.firma_adi||'-')}</td><td>${esc(c.phone||'-')}${wa}${c.email?`<br><span style="font-size:11px;color:var(--muted)">${esc(c.email)}</span>`:''}</td><td>${esc(c.city||'-')}${c.country?' · '+c.country:''}</td><td>${lm[c.dil_tercihi||'tr']||'-'}</td><td><span class="badge b-blue">${wc}</span></td><td><div class="act"><button class="btn-xs bv" onclick="showCustDetail('${c.id}')">👁 Detay</button><button class="btn-xs be" onclick="editC('${c.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('customers','${c.id}')">🗑</button></div></td></tr>`;
   }).join('')||'<tr class="erow"><td colspan="7">Müşteri bulunamadı</td></tr>';
 }
 
@@ -1917,14 +2004,14 @@ function showCustDetail(cid){
     c.vergi_no&&`<div class="cust-chip">🪪 ${esc(c.vergi_no)}</div>`,
   ].filter(Boolean).join('');
   const wRows=cws.map(w=>{
-    const items=w.warranty_items||[];const pn=items[0]?.product?.name_tr||'—';
+    const items=w.warranty_items||[];const pn=items[0]?.product?.name_tr||'-';
     return`<tr><td><span class="mono">${esc(w.warranty_code)}</span></td><td>${esc(pn)}${items.length>1?' +'+( items.length-1):''}</td><td>${fd(w.sale_date)}</td><td>${fd(w.warranty_end)}</td><td>${wBadge(w)}</td><td><div class="act"><button class="btn-xs bv" onclick="viewWarranty('${w.id}')">👁</button><button class="btn-xs bq" onclick="showQR('${w.public_token}','${w.warranty_code}')">📲</button><button class="btn-xs be" onclick="navigate('warranties');editW('${w.id}')">✏️</button></div></td></tr>`;
   }).join('')||'<tr class="erow"><td colspan="6">Garanti kaydı yok</td></tr>';
-  const sRows=cSvcs.map(s=>`<tr><td><span class="mono" style="font-size:11px">${esc(s.warranty?.warranty_code||'—')}</span></td><td>${fd(s.service_date)}</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.description||'—')}</td><td>${esc(s.technician||'—')}</td><td>${svcBadge(s.status)}</td></tr>`).join('')||'<tr class="erow"><td colspan="5">Servis kaydı yok</td></tr>';
+  const sRows=cSvcs.map(s=>`<tr><td><span class="mono" style="font-size:11px">${esc(s.warranty?.warranty_code||'-')}</span></td><td>${fd(s.service_date)}</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.description||'-')}</td><td>${esc(s.technician||'-')}</td><td>${svcBadge(s.status)}</td></tr>`).join('')||'<tr class="erow"><td colspan="5">Servis kaydı yok</td></tr>';
   document.getElementById('cust-detail-content').innerHTML=`
     <div class="cust-banner">
       <div class="cust-av">👤</div>
-      <div style="flex:1"><div class="cust-name">${esc(c.name||'—')}</div><div class="cust-meta">${c.firma_adi?esc(c.firma_adi)+' · ':''}${lm[c.dil_tercihi||'tr']||''}</div><div class="cust-chips">${chips}</div></div>
+      <div style="flex:1"><div class="cust-name">${esc(c.name||'-')}</div><div class="cust-meta">${c.firma_adi?esc(c.firma_adi)+' · ':''}${lm[c.dil_tercihi||'tr']||''}</div><div class="cust-chips">${chips}</div></div>
       <button class="btn btn-ghost" style="color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.2);font-size:12px;padding:6px 13px" onclick="editC('${c.id}')">✏️ Düzenle</button>
     </div>
     ${c.notes?`<div class="card"><div class="card-hdr"><div class="card-title">📝 Notlar</div></div><div style="padding:14px 18px;font-size:13px;color:var(--sub);line-height:1.65">${esc(c.notes)}</div></div>`:''}
@@ -1959,10 +2046,10 @@ function renderP(q=''){
   document.getElementById('p-tbl').innerHTML=list.map((p,i)=>{
     const uc=WS.filter(w=>w.warranty_items?.some(it=>it.product_id===p.id)).length;
     const ci=CATS.findIndex(c=>c.id===p.category_id)%11;
-    const cb=p.categories?`<span class="badge ci${ci<0?0:ci}">${esc(p.categories.name_tr)}</span>`:'—';
+    const cb=p.categories?`<span class="badge ci${ci<0?0:ci}">${esc(p.categories.name_tr)}</span>`:'-';
     const ph=p.photo_url?`<img src="${p.photo_url}" class="pthumb">`:`<div class="pthumb-ph">📦</div>`;
     const active=p.is_active!==false;
-    return`<tr>${[ph,`<b>${esc(p.name_tr||'—')}</b>${p.name_en?`<br><span style="font-size:11px;color:var(--muted)">${esc(p.name_en)}</span>`:''}`,`<span class="mono">${esc(p.model||'—')}</span>`,cb,`<span class="badge b-neutral">${p.warranty_months||24}ay</span>`,`${p.warranty_doc_url?`<a href="${p.warranty_doc_url}" target="_blank" class="btn-xs bv">📄 Belge</a> `:''}${p.manual_url?`<a href="${p.manual_url}" target="_blank" class="btn-xs bl">📖 Kılavuz</a>`:''}${!p.warranty_doc_url&&!p.manual_url?'—':''}`,`<span class="badge ${active?'b-active':'b-neutral'}">${active?'✓ Aktif':'Pasif'}</span>`,`<span class="badge b-blue">${uc}x</span>`,`<div class="act"><button class="btn-xs be" onclick="editP('${p.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('products','${p.id}')">🗑</button></div>`].map(v=>`<td>${v}</td>`).join('')}</tr>`;
+    return`<tr>${[ph,`<b>${esc(p.name_tr||'-')}</b>${p.name_en?`<br><span style="font-size:11px;color:var(--muted)">${esc(p.name_en)}</span>`:''}`,`<span class="mono">${esc(p.model||'-')}</span>`,cb,`<span class="badge b-neutral">${p.warranty_months||24}ay</span>`,`${p.warranty_doc_url?`<a href="${p.warranty_doc_url}" target="_blank" class="btn-xs bv">📄 Belge</a> `:''}${p.manual_url?`<a href="${p.manual_url}" target="_blank" class="btn-xs bl">📖 Kılavuz</a>`:''}${!p.warranty_doc_url&&!p.manual_url?'-':''}`,`<span class="badge ${active?'b-active':'b-neutral'}">${active?'✓ Aktif':'Pasif'}</span>`,`<span class="badge b-blue">${uc}x</span>`,`<div class="act"><button class="btn-xs be" onclick="editP('${p.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('products','${p.id}')">🗑</button></div>`].map(v=>`<td>${v}</td>`).join('')}</tr>`;
   }).join('')||'<tr class="erow"><td colspan="9">Ürün bulunamadı</td></tr>';
 }
 
@@ -1972,14 +2059,14 @@ function renderCat(){
     const active=c.is_active!==false;
     return`<tr>
       <td><span class="badge ci${i%11}">${esc(c.name_tr)}</span></td>
-      <td>${esc(c.name_en||'—')}</td>
-      <td dir="rtl">${esc(c.name_ar||'—')}</td>
+      <td>${esc(c.name_en||'-')}</td>
+      <td dir="rtl">${esc(c.name_ar||'-')}</td>
       <td><span class="badge b-neutral">${c.default_warranty_months||24} ay</span></td>
       <td><span class="badge ${active?'b-active':'b-neutral'}">${active?'✓ Aktif':'Pasif'}</span></td>
       <td>${c.sort_order??0}</td>
       <td><div class="act"><button class="btn-xs be" onclick="editCat('${c.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('categories','${c.id}')">🗑</button></div></td>
     </tr>`;
-  }).join('')||'<tr class="erow"><td colspan="7">—</td></tr>';
+  }).join('')||'<tr class="erow"><td colspan="7">-</td></tr>';
 }
 
 // ═══ SERVICE ═══
@@ -2003,7 +2090,7 @@ function renderSvc(q=''){
     const costs=s.costs||[];
     const ch=costs.slice(0,2).map(c=>`<span class="cc ${(c.currency||'').toLowerCase()}">${c.currency} ${Number(c.amount||0).toLocaleString('tr-TR',{minimumFractionDigits:0})}</span>`).join(' ');
     const vis=s.customer_visible!==false?`<span class="badge b-ok-sm" style="font-size:10px">👁 Görünür</span>`:`<span class="badge b-gray-sm" style="font-size:10px">🔒 Gizli</span>`;
-    return`<tr><td><span class="mono" style="font-size:11px">${esc(s.warranty?.warranty_code||'—')}</span></td><td>${esc(s.warranty?.customers?.name||'—')}</td><td>${fd(s.service_date)}${s.delivery_date?`<br><span style="font-size:10px;color:var(--muted)">Teslim: ${fd(s.delivery_date)}</span>`:''}</td><td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(s.description||'')}">${esc(s.description||'—')}</td><td>${esc(s.technician||'—')}</td><td>${svcBadge(s.status)}</td><td>${vis}</td><td>${ch||'—'}</td><td><div class="act"><button class="btn-xs be" onclick="editSvc('${s.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('service_records','${s.id}')">🗑</button></div></td></tr>`;
+    return`<tr><td><span class="mono" style="font-size:11px">${esc(s.warranty?.warranty_code||'-')}</span></td><td>${esc(s.warranty?.customers?.name||'-')}</td><td>${fd(s.service_date)}${s.delivery_date?`<br><span style="font-size:10px;color:var(--muted)">Teslim: ${fd(s.delivery_date)}</span>`:''}</td><td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(s.description||'')}">${esc(s.description||'-')}</td><td>${esc(s.technician||'-')}</td><td>${svcBadge(s.status)}</td><td>${vis}</td><td>${ch||'-'}</td><td><div class="act"><button class="btn-xs be" onclick="editSvc('${s.id}')">✏️</button><button class="btn-xs bd" onclick="delRec('service_records','${s.id}')">🗑</button></div></td></tr>`;
   }).join('')||'<tr class="erow"><td colspan="9">Kayıt bulunamadı</td></tr>';
 }
 
@@ -2021,8 +2108,8 @@ function openModal(name,keepEID=false){
     const settComp=document.getElementById('set-company')?.value||'EMKA Kuyumcu Malzeme ve Makinaları';
     document.getElementById('w-dealer').value=settComp;
     const cSel=document.getElementById('w-customer');
-    cSel.innerHTML='<option value="">— Müşteri seçin —</option><option value="__new__">➕ Yeni müşteri ekle</option>';
-    CS.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=`${c.name}${c.firma_adi?' ('+c.firma_adi+')':''}${c.city?' – '+c.city:''}`;cSel.appendChild(o);});
+    cSel.innerHTML='<option value="">- Müşteri seçin -</option><option value="__new__">➕ Yeni müşteri ekle</option>';
+    CS.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=`${c.name}${c.firma_adi?' ('+c.firma_adi+')':''}${c.city?' - '+c.city:''}`;cSel.appendChild(o);});
     document.getElementById('new-cust-fields').style.display='none';
     ['nc-name','nc-firm','nc-phone','nc-wa','nc-city'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('nc-country').value='TR';
@@ -2039,8 +2126,10 @@ function openModal(name,keepEID=false){
     document.getElementById('p-modal-title').textContent='Yeni Ürün';
     ['p-tr','p-en','p-ar','p-model','p-desc','p-service-note','p-terms-tr','p-terms-en','p-terms-ar','p-photo-url','p-doc-url','p-manual-url'].forEach(id=>document.getElementById(id).value='');
     ['p-photo-prev','p-doc-prev','p-manual-prev'].forEach(id=>document.getElementById(id).textContent='');
+    const resetDocUi=(curId,uplId)=>{const c=document.getElementById(curId);const u=document.getElementById(uplId);if(c)c.style.display='none';if(u)u.style.display='block';};
+    resetDocUi('p-doc-current','p-doc-upload');resetDocUi('p-manual-current','p-manual-upload');
     document.getElementById('p-months').value=24;document.getElementById('p-active').checked=true;
-    const pcat=document.getElementById('p-cat');pcat.innerHTML='<option value="">— Kategori —</option>';
+    const pcat=document.getElementById('p-cat');pcat.innerHTML='<option value="">- Kategori -</option>';
     CATS.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name_tr;pcat.appendChild(o);});
   }
   if(name==='category'){
@@ -2057,13 +2146,13 @@ function openModal(name,keepEID=false){
     document.getElementById('sr-status').value='completed';document.getElementById('sr-visible').checked=true;
     document.getElementById('sr-costs-list').innerHTML='';
     const wSel=document.getElementById('sr-warr');
-    wSel.innerHTML='<option value="">— Garanti seçin —</option>';
-    WS.forEach(w=>{const o=document.createElement('option');o.value=w.id;o.textContent=`${w.warranty_code} – ${w.customers?.name||'?'} (${fd(w.warranty_end)})`;wSel.appendChild(o);});
+    wSel.innerHTML='<option value="">- Garanti seçin -</option>';
+    WS.forEach(w=>{const o=document.createElement('option');o.value=w.id;o.textContent=`${w.warranty_code} - ${w.customers?.name||'?'} (${fd(w.warranty_end)})`;wSel.appendChild(o);});
   }
   if(name==='sale'){
     document.getElementById('sale-modal-title').textContent='Yeni Satış Oluştur';
-    document.getElementById('sale-customer').innerHTML='<option value="">— Müşteri seçin —</option><option value="__new__">➕ Yeni müşteri ekle</option>';
-    CS.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=`${c.name}${c.firma_adi?' ('+c.firma_adi+')':''}${c.city?' – '+c.city:''}`;document.getElementById('sale-customer').appendChild(o);});
+    document.getElementById('sale-customer').innerHTML='<option value="">- Müşteri seçin -</option><option value="__new__">➕ Yeni müşteri ekle</option>';
+    CS.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=`${c.name}${c.firma_adi?' ('+c.firma_adi+')':''}${c.city?' - '+c.city:''}`;document.getElementById('sale-customer').appendChild(o);});
     document.getElementById('sale-new-cust').style.display='none';
     ['snc-name','snc-firm','snc-phone','snc-wa','snc-city'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
     document.getElementById('snc-country').value='TR';
@@ -2148,8 +2237,28 @@ function editP(id){
   document.getElementById('p-doc-url').value=p.warranty_doc_url||'';document.getElementById('p-manual-url').value=p.manual_url||'';
   document.getElementById('p-active').checked=p.is_active!==false;
   if(p.photo_url)document.getElementById('p-photo-prev').textContent='✓ Mevcut fotoğraf';
-  if(p.warranty_doc_url)document.getElementById('p-doc-prev').textContent='✓ Mevcut belge';
-  if(p.manual_url)document.getElementById('p-manual-prev').textContent='✓ Mevcut kılavuz';
+  // Garanti belgesi UI
+  const docCur=document.getElementById('p-doc-current');
+  const docUpl=document.getElementById('p-doc-upload');
+  const docViewBtn=document.getElementById('p-doc-view-btn');
+  if(p.warranty_doc_url){
+    if(docCur){docCur.style.display='flex';docViewBtn&&(docViewBtn.href=p.warranty_doc_url);}
+    if(docUpl)docUpl.style.display='none';
+  }else{
+    if(docCur)docCur.style.display='none';
+    if(docUpl)docUpl.style.display='block';
+  }
+  // Kılavuz UI
+  const manCur=document.getElementById('p-manual-current');
+  const manUpl=document.getElementById('p-manual-upload');
+  const manViewBtn=document.getElementById('p-manual-view-btn');
+  if(p.manual_url){
+    if(manCur){manCur.style.display='flex';manViewBtn&&(manViewBtn.href=p.manual_url);}
+    if(manUpl)manUpl.style.display='none';
+  }else{
+    if(manCur)manCur.style.display='none';
+    if(manUpl)manUpl.style.display='block';
+  }
 }
 function editCat(id){
   const c=CATS.find(x=>x.id===id);if(!c)return;
@@ -2178,7 +2287,7 @@ function editSvc(id){
 function addItemRow(pid='',qty=1,serial=''){
   const div=document.createElement('div');div.className='item-row';
   const opts=PS.map(p=>`<option value="${p.id}"${p.id===pid?' selected':''}>${esc(p.name_tr||'')}${p.model?' ('+p.model+')':''}</option>`).join('');
-  div.innerHTML=`<select class="iprod"><option value="">— Ürün seçin —</option>${opts}</select><input type="number" class="iqty" value="${qty}" min="1" max="99" placeholder="Adet"><input type="text" class="iserial" value="${esc(serial)}" placeholder="Seri No"><button type="button" class="rm-btn" onclick="this.parentElement.remove()">✕</button>`;
+  div.innerHTML=`<select class="iprod"><option value="">- Ürün seçin -</option>${opts}</select><input type="number" class="iqty" value="${qty}" min="1" max="99" placeholder="Adet"><input type="text" class="iserial" value="${esc(serial)}" placeholder="Seri No"><button type="button" class="rm-btn" onclick="this.parentElement.remove()">✕</button>`;
   document.getElementById('w-items-list').appendChild(div);
 }
 function addPriceRow(listId,curr='TRY',amt=''){
@@ -2303,7 +2412,7 @@ function onCustChange(){document.getElementById('new-cust-fields').style.display
 function calcEnd(){const sd=document.getElementById('w-sdate').value,mo=parseInt(document.getElementById('w-months').value)||24;if(sd){document.getElementById('w-start').value=sd;const e=new Date(sd);e.setMonth(e.getMonth()+mo);document.getElementById('w-end').value=e.toISOString().split('T')[0];}}
 function genCode(name,seq){const y=new Date().getFullYear().toString().slice(-2);const ini=(name||'GEN').split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,3).padEnd(3,'X');return`EK${y}-${ini}${String(seq).padStart(3,'0')}`;}
 function genToken(seq){const y=new Date().getFullYear().toString().slice(-2);const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<6;i++)s+=chars[Math.floor(Math.random()*chars.length)];return`EK${y}-${String(seq).padStart(3,'0')}-${s}`;}
-function fd(d){if(!d)return'—';return new Date(d).toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric'});}
+function fd(d){if(!d)return'-';return new Date(d).toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric'});}
 function esc(s){if(s==null)return'';const t=document.createElement('span');t.textContent=String(s);return t.innerHTML;}
 function prevFile(inp,prevId){const f=inp.files[0];if(f)document.getElementById(prevId).textContent=`✓ ${f.name} (${(f.size/1024).toFixed(0)} KB)`;}
 function toast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='show '+(type||'');clearTimeout(t._to);t._to=setTimeout(()=>{t.className='';},3200);}
