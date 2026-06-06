@@ -295,7 +295,7 @@ tr:{
   nf_title:'Sipariş Bulunamadı',nf_sub:'Girdiğiniz koda ait sipariş kaydı bulunamadı.',
   oh_eyebrow:'Sipariş Garanti Belgesi',
   oh_count_lbl:'Garanti Belgesi',oh_verified:'DOĞRULANDI',
-  th_product:'Ürün',th_model:'Model',th_serial:'Seri No',
+  th_product:'Ürün',th_model:'Model',th_serial:'Makine Seri No',
   th_warranty_no:'Garanti No',th_status:'Durum',th_expiry:'Garanti Bitiş',th_action:'Islem',
   fs_all:'Tüm Durumlar',fs_active:'Aktif',fs_warn:'Yakında Bitiyor',fs_expired:'Süresi Doldu',
   s_active:'AKTIF',s_warn:'YAKINDA BITIYOR',s_expired:'SURESI DOLDU',
@@ -312,7 +312,7 @@ en:{
   nf_title:'Order Not Found',nf_sub:'No order record found for the entered code.',
   oh_eyebrow:'Order Warranty Certificate',
   oh_count_lbl:'Warranty Certificate',oh_verified:'VERIFIED',
-  th_product:'Product',th_model:'Model',th_serial:'Serial No',
+  th_product:'Product',th_model:'Model',th_serial:'Machine S/N',
   th_warranty_no:'Warranty No',th_status:'Status',th_expiry:'Warranty Expiry',th_action:'Action',
   fs_all:'All Statuses',fs_active:'Active',fs_warn:'Expiring Soon',fs_expired:'Expired',
   s_active:'VALID',s_warn:'EXPIRING SOON',s_expired:'EXPIRED',
@@ -329,7 +329,7 @@ ar:{
   nf_title:'الطلب غير موجود',nf_sub:'لم يتم العثور على سجل للرمز الذي أدخلته.',
   oh_eyebrow:'شهادة ضمان الطلب',
   oh_count_lbl:'شهادة ضمان',oh_verified:'موثق',
-  th_product:'المنتج',th_model:'الموديل',th_serial:'الرقم التسلسلي',
+  th_product:'المنتج',th_model:'الموديل',th_serial:'الرقم التسلسلي للآلة',
   th_warranty_no:'رقم الضمان',th_status:'الحالة',th_expiry:'انتهاء الضمان',th_action:'إجراء',
   fs_all:'جميع الحالات',fs_active:'ساري',fs_warn:'ينتهي قريباً',fs_expired:'منتهي',
   s_active:'ساري',s_warn:'ينتهي قريباً',s_expired:'منتهي الصلاحية',
@@ -397,7 +397,8 @@ function wSt(endDate){
   const d=Math.ceil((new Date(endDate)-new Date())/86400000);
   if(d<=0)return'expired';if(d<=30)return'warn';return'active';
 }
-function wBadge(endDate){
+function wBadge(endDate,status){
+  if(status==='cancelled')return`<span class="badge b-expired">İptal Edildi</span>`;
   const s=wSt(endDate);
   const d=Math.ceil((new Date(endDate)-new Date())/86400000);
   if(s==='active')return`<span class="badge b-active">${t('s_active')}</span>`;
@@ -412,6 +413,17 @@ function renderOrder(data){
   const wArr=ws||[];
 
   document.getElementById('oh-eyebrow').textContent=t('oh_eyebrow');
+  // İptal kontrolü
+  if(s.status==='cancelled'){
+    document.getElementById('order-section').style.display='block';
+    document.getElementById('order-section').innerHTML=`<div style="padding:40px 32px;text-align:center;background:#fff;border-radius:14px;border:1.5px solid #fca5a5">
+      <div style="font-size:48px;margin-bottom:16px">⚠️</div>
+      <div style="font-size:20px;font-weight:800;color:#991b1b;margin-bottom:10px">Bu satış/sipariş kaydı iptal edilmiştir.</div>
+      <div style="font-size:14px;color:#6b7280;margin-bottom:8px">Sipariş No: <b>${esc(s.sale_no||'—')}</b></div>
+      <div style="font-size:13px;color:#9ca3af">Daha fazla bilgi için EMKA ile iletişime geçin.</div>
+    </div>`;
+    return;
+  }
   document.getElementById('oh-saleno').textContent=s.sale_no||'—';
   // Stat bar
   const now2=new Date();
@@ -475,7 +487,7 @@ function renderTableRows(wArr){
       </div></div></td>
       <td><span class="mono">${esc(w.serial_no||'—')}</span></td>
       <td><span class="mono" style="font-weight:600">${esc(w.warranty_no||'—')}</span></td>
-      <td>${wBadge(w.warranty_end)}</td>
+      <td>${wBadge(w.warranty_end,w.status)}</td>
       <td style="white-space:nowrap">${fd(w.warranty_end)}</td>
       <td><a href="${VERIFY_BASE}${esc(w.public_token)}" target="_blank" class="act-btn act-btn-primary">📜 ${t('btn_view')}</a></td>
     </tr>`;
