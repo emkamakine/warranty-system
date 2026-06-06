@@ -400,7 +400,7 @@ tr:hover td{background:#f8fafc !important}
       <button class="btn btn-ghost" style="font-size:11px;padding:5px 11px" onclick="clearWF()">× Temizle</button>
     </div>
     <div class="tbl-wrap"><table>
-      <thead><tr><th>Garanti No</th><th>Seri No</th><th>Ürün</th><th>Müşteri</th><th>Tutar</th><th>Satış</th><th>Bitiş</th><th>Durum</th><th>İşlem</th></tr></thead>
+      <thead><tr><th>Garanti No</th><th>Makine Seri No</th><th>Ürün</th><th>Müşteri</th><th>Tutar</th><th>Satış</th><th>Bitiş</th><th>Durum</th><th>İşlem</th></tr></thead>
       <tbody id="w-tbl"><tr class="erow"><td colspan="8">Yükleniyor...</td></tr></tbody>
     </table></div>
   </div>
@@ -497,7 +497,7 @@ tr:hover td{background:#f8fafc !important}
       <button class="btn btn-ghost" style="font-size:11px;padding:5px 11px" onclick="clearSalesF()">× Temizle</button>
     </div>
     <div class="tbl-wrap"><table>
-      <thead><tr><th>Satış No</th><th>Müşteri</th><th>Tarih</th><th>Ülke</th><th>Garanti Sayısı</th><th>İşlemler</th></tr></thead>
+      <thead><tr><th>Satış No</th><th>Müşteri</th><th>Tarih</th><th>Ülke</th><th>Garanti Sayısı</th><th>Durum</th><th>İşlemler</th></tr></thead>
       <tbody id="sales-tbl"><tr class="erow"><td colspan="6">Yükleniyor...</td></tr></tbody>
     </table></div>
   </div>
@@ -1129,13 +1129,14 @@ function renderSales(){
     <td>${fd(s.sale_date)}</td>
     <td>${esc(s.country||'-')}</td>
     <td><span class="badge b-blue">${wCount(s.id)} garanti</span></td>
+    <td>${s.status==='cancelled'?'<span class="badge" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5">İptal Edildi</span>':'<span class="badge b-active">Aktif</span>'}</td>
     <td><div class="act">
       <a href="${ORDER_URL}${s.public_order_token}" target="_blank" class="btn-xs bv">🔗 Sipariş</a>
       <button class="btn-xs bq" data-tip="QR Kodu" onclick="showOrderQR('${s.public_order_token}','${s.sale_no}')">QR</button>
       <button class="btn-xs bl" data-tip="Kopyala" onclick="navigator.clipboard.writeText('${ORDER_URL}${s.public_order_token}').then(()=>toast('Link kopyalandı','ok'))">Kopyala</button>
       <button class="btn-xs bv" data-tip="Detay" onclick="showSaleDetail('${s.id}')">Detay</button>
       <button class="btn-xs be" data-tip="Duzenle" onclick="editSale('${s.id}')">✏️ Düzenle</button>
-      <button class="btn-xs bd" data-tip="Sil" onclick="delRec('sales','${s.id}')">🗑</button>
+      <button class="btn-xs bd" data-tip="İptal Et" onclick="delRec('sales','${s.id}')">🗑</button>
     </div></td>
   </tr>`;
   }).join('')||'<tr class="erow"><td colspan="6">Satış bulunamadı</td></tr>';
@@ -1908,6 +1909,7 @@ function loadDash(){
       <td>${esc(sc2.name||'-')}</td>
       <td>${fd(s.sale_date)}</td>
       <td><span class="badge b-blue">${wCount(s.id)} garanti</span></td>
+    <td>${s.status==='cancelled'?'<span class="badge" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5">İptal Edildi</span>':'<span class="badge b-active">Aktif</span>'}</td>
     </tr>`;}).join('')||'<tr class="erow"><td colspan="4">Henüz satış yok</td></tr>';
   }
   const endOfMonth=new Date(now.getFullYear(),now.getMonth()+1,0);
@@ -1936,12 +1938,11 @@ function actBtns(w){
     `<button class="btn-xs bq" data-tip="QR Kodu" onclick="showQR('${w.public_token}','${w.warranty_no||w.warranty_code}')">QR</button>`,
     `<button class="btn-xs bl" data-tip="Kopyala" onclick="cpLink('${w.public_token}')">Link</button>`,
     `<button class="btn-xs be" data-tip="Duzenle" onclick="editW('${w.id}')">Duzenle</button>`,
-    `<button class="btn-xs bd" data-tip="Sil" onclick="delRec('warranties','${w.id}')">Sil</button>`,
+    `<button class="btn-xs bd" data-tip="İptal Et" onclick="delRec('warranties','${w.id}')">Sil</button>`,
   ].join(' ');
 }
 function wTr(w){
   const items=w.warranty_items||[];
-  // Ürün adı: yeni format (product_id) veya eski format (warranty_items)
   const pn=w.product_id
     ?(PS.find(p=>p.id===w.product_id)?.name_tr||items[0]?.product?.name_tr||'-')
     :(items[0]?.product?.name_tr||'-');
@@ -1949,12 +1950,15 @@ function wTr(w){
     ?(PS.find(p=>p.id===w.product_id)?.model||items[0]?.product?.model||'')
     :(items[0]?.product?.model||'');
   const multi=items.length>1?` <span style="font-size:10px;color:var(--muted)">+${items.length-1}</span>`:'';
-  // Seri No: serial_no (yeni) → serial_number (eski) → -
   const sno=w.serial_no||(items[0]?.serial_number)||'-';
   const prices=w.prices||[];
   const ph=prices.slice(0,2).map(p=>`<span class="cc ${(p.currency||'').toLowerCase()}">${p.currency} ${Number(p.amount||0).toLocaleString('tr-TR',{minimumFractionDigits:0})}</span>`).join(' ');
   const wno=w.warranty_no||w.warranty_code||'-';
-  return`<tr>
+  const cancelled=w.status==='cancelled';
+  const statusBadge=cancelled
+    ?'<span class="badge" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5">İptal Edildi</span>'
+    :wBadge(w);
+  return`<tr style="${cancelled?'opacity:.7;background:#fef2f2':''}">
     <td><span class="mono" style="font-weight:700">${esc(wno)}</span></td>
     <td><span class="mono" style="font-size:12px">${esc(sno)}</span></td>
     <td>${esc(pn)}${multi}${pm?`<br><span style="font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace">${esc(pm)}</span>`:''}</td>
@@ -1962,7 +1966,7 @@ function wTr(w){
     <td>${ph||'-'}</td>
     <td>${fd(w.sale_date)}</td>
     <td>${fd(w.warranty_end)}</td>
-    <td>${wBadge(w)}</td>
+    <td>${statusBadge}</td>
     <td><div class="act">${actBtns(w)}</div></td>
   </tr>`;}
 
@@ -2435,12 +2439,35 @@ async function saveService(){try{
 
 // ═══ DELETE ═══
 async function delRec(table,id){
+  // Satış ve garanti için fiziksel silme yerine iptal kullan
+  if(table==='sales'){cancelSale(id);return;}
+  if(table==='warranties'){cancelWarranty(id);return;}
   if(!confirm('Silmek istediğinizden emin misiniz?'))return;
-  const {error}=await sb.from(table).delete().eq('id',id);
-  if(error)return toast('Silinemedi: '+error.message,'err');
-  toast('Silindi','ok');await reloadAll();
-  const ap=document.querySelector('.page.active')?.id?.replace('page-','');
-  if(ap)navigate(ap==='customer-detail'?'customers':ap);
+  sb.from(table).delete().eq('id',id).then(({error})=>{
+    if(error)return toast('Silinemedi: '+error.message,'err');
+    toast('Silindi','ok');reloadAll().then(()=>{
+      const ap=document.querySelector('.page.active');
+      if(ap)navigate(ap.id.replace('page-',''));
+    });
+  });
+}
+
+async function cancelSale(id){
+  if(!confirm('Bu satış İptal Edildi olarak işaretlenecek ve bağlı tüm garanti kayıtları da iptal edilecek. Onaylıyor musunuz?'))return;
+  const {error:e1}=await sb.from('sales').update({status:'cancelled'}).eq('id',id);
+  if(e1)return toast('Satış iptal edilemedi: '+e1.message,'err');
+  const {error:e2}=await sb.from('warranties').update({status:'cancelled'}).eq('sale_id',id);
+  if(e2)console.warn('Garantiler iptal edilemedi:',e2.message);
+  toast('Satış ve bağlı garanti kayıtları iptal edildi','ok');
+  await reloadAll();renderSales();
+}
+
+async function cancelWarranty(id){
+  if(!confirm('Bu garanti kaydı İptal Edildi olarak işaretlenecek. Onaylıyor musunuz?'))return;
+  const {error}=await sb.from('warranties').update({status:'cancelled'}).eq('id',id);
+  if(error)return toast('İptal edilemedi: '+error.message,'err');
+  toast('Garanti kaydı iptal edildi','ok');
+  await reloadAll();renderW();
 }
 
 // ═══ QR & LINK ═══
