@@ -888,7 +888,7 @@ p,span,div{-webkit-font-smoothing:antialiased}
       <h1 class="search-h1">EMKA <span id="hero-h1">Dijital Garanti</span> Belgesi</h1>
       <p class="search-subtitle" id="hero-sub">Garanti kodu, seri numarası veya QR kod ile ürününüzün garanti durumunu kontrol edin.</p>
       <div class="search-form-wrap">
-        <input type="text" id="s-input" autocomplete="off" placeholder="EK26-001-XXXXXX" style="text-transform:uppercase">
+        <input type="text" id="s-input" autocomplete="off" placeholder="Doğrulama kodu, Garanti No veya Makine Seri No" style="text-transform:uppercase">
         <button class="search-btn-wrap" id="s-btn" onclick="doSearch()"><span id="s-btn-txt">SORGULA</span></button>
       </div>
       <div class="s-err-msg" id="s-err"></div>
@@ -1195,7 +1195,7 @@ ar:{
   g_sec1:'تفاصيل الضمان',g_products_lbl:'المنتجات',
   g_qa_lbl:'إجراءات سريعة',g_svc_lbl:'سجل الخدمة',g_svc_all:'عرض الكل ←',g_contact_lbl:'تواصل مع EMKA',
   lbl_product:'المنتج',lbl_model:'الموديل',lbl_serial:'الرقم التسلسلي',lbl_code:'رقم الوثيقة',
-  lbl_warranty_no:'رقم وثيقة الضمان',lbl_serial_no:'الرقم التسلسلي',lbl_verify:'رمز التحقق',lbl_sale:'تاريخ الشراء',lbl_start:'بداية الضمان',
+  lbl_warranty_no:'رقم الضمان',lbl_serial_no:'الرقم التسلسلي',lbl_verify:'رمز التحقق',lbl_sale:'تاريخ الشراء',lbl_start:'بداية الضمان',
   lbl_end:'انتهاء الضمان',lbl_duration:'مدة الضمان',lbl_status:'الحالة',
   lbl_customer:'العميل',lbl_dealer:'الموزع',lbl_price:'سعر الشراء',
   dur_unit:'شهر',
@@ -1307,6 +1307,19 @@ function ss(state){
 /* ════ RENDER ════ */
 function renderData(data){
   const {warranty:w,items,customer:c,service_records:svc}=data;
+  // İptal edilmiş garanti kontrolü
+  const isCancelled=w.status==='cancelled';
+  const saleIsCancelled=data.sale&&data.sale.status==='cancelled';
+  if(isCancelled||saleIsCancelled){
+    document.getElementById('w-card').style.display='block';
+    document.getElementById('w-card').innerHTML=`<div style="padding:40px 32px;text-align:center;background:#fff;border-radius:14px">
+      <div style="font-size:48px;margin-bottom:16px">⚠️</div>
+      <div style="font-size:20px;font-weight:800;color:#991b1b;margin-bottom:10px">${saleIsCancelled?'Bu satışa bağlı garanti kaydı iptal edilmiştir.':'Bu garanti kaydı iptal edilmiştir.'}</div>
+      <div style="font-size:14px;color:#6b7280;margin-bottom:20px">Garanti No: <b>${esc(w.warranty_no||w.warranty_code||'—')}</b></div>
+      <div style="font-size:13px;color:#9ca3af">Daha fazla bilgi için EMKA ile iletişime geçin.</div>
+    </div>`;
+    return;
+  }
   const items2=items||[];
   const fi=items2[0]||{};
   // Toplu satış garantileri product_id ile gelir, warranty_items boş olabilir
@@ -1369,9 +1382,9 @@ function renderData(data){
 
   const rows=[
     [t('lbl_product'),pname,null,null],
-    [t('lbl_model'),fp.model||'—','mono',null],
     [t('lbl_warranty_no'),warrantyNo,'mono',null],
     serialNo?[t('lbl_serial_no'),serialNo,'mono',null]:null,
+    [t('lbl_model'),fp.model||'—','mono',null],
     [t('lbl_verify'),w.public_token,'mono link',null],
     [t('lbl_sale'),fd(w.sale_date),null,null],
     [t('lbl_start'),fd(w.warranty_start),null,null],
