@@ -1878,15 +1878,16 @@ function loadDash(){
   document.getElementById('dash-date').textContent=now.toLocaleDateString('tr-TR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   const todayStr=new Date().toISOString().split('T')[0];
   const thisMonthStr=new Date().toISOString().slice(0,7);
-  document.getElementById('st-total').textContent=WS.length;
-  document.getElementById('st-active').textContent=WS.filter(w=>wSt(w)==='active').length;
-  document.getElementById('st-expiring').textContent=WS.filter(w=>wSt(w)==='warn').length;
-  document.getElementById('st-expired').textContent=WS.filter(w=>wSt(w)==='expired').length;
-  document.getElementById('st-today').textContent=WS.filter(w=>(w.created_at||'').startsWith(todayStr)).length;
-  document.getElementById('st-this-month').textContent=WS.filter(w=>(w.created_at||'').startsWith(thisMonthStr)).length;
+  const WS_active=WS.filter(w=>w.status!=='cancelled');
+  document.getElementById('st-total').textContent=WS_active.length;
+  document.getElementById('st-active').textContent=WS_active.filter(w=>wSt(w)==='active').length;
+  document.getElementById('st-expiring').textContent=WS_active.filter(w=>wSt(w)==='warn').length;
+  document.getElementById('st-expired').textContent=WS_active.filter(w=>wSt(w)==='expired').length;
+  document.getElementById('st-today').textContent=WS_active.filter(w=>(w.created_at||'').startsWith(todayStr)).length;
+  document.getElementById('st-this-month').textContent=WS_active.filter(w=>(w.created_at||'').startsWith(thisMonthStr)).length;
   document.getElementById('st-svc-pending').textContent=SVCS.filter(s=>s.status==='pending'||s.status==='in_review').length;
   document.getElementById('st-intl').textContent=CS.filter(c=>c.country&&c.country!=='TR'&&c.country!=='Türkiye').length;
-  document.getElementById('dash-tbl').innerHTML=WS.slice(0,6).map(w=>{
+  document.getElementById('dash-tbl').innerHTML=WS.filter(w=>w.status!=='cancelled').slice(0,6).map(w=>{
     const items=w.warranty_items||[];
     const pn=w.product_id
       ?(PS.find(p=>p.id===w.product_id)?.name_tr||'-')
@@ -1913,7 +1914,7 @@ function loadDash(){
     </tr>`;}).join('')||'<tr class="erow"><td colspan="4">Henüz satış yok</td></tr>';
   }
   const endOfMonth=new Date(now.getFullYear(),now.getMonth()+1,0);
-  const exp=WS.filter(w=>{const d=new Date(w.warranty_end);return d>=now&&d<=endOfMonth;}).sort((a,b)=>new Date(a.warranty_end)-new Date(b.warranty_end));
+  const exp=WS.filter(w=>w.status!=='cancelled').filter(w=>{const d=new Date(w.warranty_end);return d>=now&&d<=endOfMonth;}).sort((a,b)=>new Date(a.warranty_end)-new Date(b.warranty_end));
   document.getElementById('expiring-tbl').innerHTML=exp.map(w=>{
     const dl=Math.ceil((new Date(w.warranty_end)-now)/86400000);
     const items=w.warranty_items||[];
