@@ -2065,7 +2065,7 @@ async function reloadAll(){
       return data||[];
     }catch(e){console.error('[EMKA] istisna',table,e.message);return[];}
   }
-  WS=await qry('warranties','*,warranty_items(*,product:products(*)),customers(*)','created_at');
+  WS=await qry('warranties','*,status,warranty_items(*,product:products(*)),customers(*)','created_at');
   CS=await qry('customers','*','name');
   PS=await qry('products','*,categories(*)','name_tr');
   CATS=await qry('categories','*','sort_order');
@@ -2641,12 +2641,25 @@ async function saveService(){try{
 // ═══ DELETE ═══
 async function cancelSale(id){
   if(!confirm('Bu satış ve bağlı tüm garanti kayıtları İptal Edildi olarak işaretlenecek. Onaylıyor musunuz?'))return;
+  // 1. Satışı iptal et
   const {error:e1}=await sb.from('sales').update({status:'cancelled'}).eq('id',id);
   if(e1)return toast('Satış iptal edilemedi: '+e1.message,'err');
-  const {error:e2}=await sb.from('warranties').update({status:'cancelled'}).eq('sale_id',id);
-  if(e2)console.warn('Garantiler iptal edilemedi:',e2.message);
-  toast('Satış ve bağlı garanti kayıtları iptal edildi','ok');
-  await reloadAll();renderSales();
+  // 2. Bağlı garantileri warranty ID'leri üzerinden iptal et
+  const wIds=WS.filter(w=>w.sale_id===id).map(w=>w.id);
+  if(wIds.length>0){
+    for(const wid of wIds){
+      const {error}=await sb.from('warranties').update({status:'cancelled'}).eq('id',wid);
+      if(error)console.warn('Garanti iptal hatası:',wid,error.message);
+    }
+  }
+  // 3. WS'yi bellekte de güncelle (reloadAll öncesi anlık yansıma)
+  WS.forEach(w=>{if(w.sale_id===id)w.status='cancelled';});
+  SALES.forEach(s=>{if(s.id===id)s.status='cancelled';});
+  toast('Satış ve '+(wIds.length)+' garanti kaydı iptal edildi','ok');
+  // 4. Yeniden yükle ve render et
+  await reloadAll();
+  renderSales();
+  renderW();
 }
 
 async function hardDeleteSale(id){
