@@ -942,7 +942,7 @@ tr:hover td{background:#f8fafc !important}
 
 <!-- MODAL: EDIT SALE -->
 <div class="modal" id="modal-edit-sale">
-  <div class="mcard">
+  <div class="mcard" style="max-width:760px">
     <button class="mclose" onclick="closeModal('edit-sale')">✕</button>
     <div class="mtitle" id="es-title">Satış Düzenle</div>
     <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;color:#1e40af;margin-bottom:16px" id="es-info">—</div>
@@ -957,9 +957,26 @@ tr:hover td{background:#f8fafc !important}
       </div>
       <div class="fg full"><label>İç Not (müşteriye görünmez)</label><textarea id="es-note"></textarea></div>
     </div>
-    <div class="factions">
+    <div style="border-top:1px solid var(--border);margin:18px 0 14px"></div>
+    <div style="font-size:12px;font-weight:700;letter-spacing:.5px;color:var(--sub);text-transform:uppercase;margin-bottom:12px">Makine / Garanti Kayıtları</div>
+    <div id="es-warranties" style="margin-bottom:14px"></div>
+    <div style="background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:14px 16px">
+      <div style="font-size:12px;font-weight:700;color:var(--sub);margin-bottom:10px">+ Yeni Makine Ekle</div>
+      <div style="display:grid;grid-template-columns:1fr 180px auto;gap:8px;align-items:end">
+        <div>
+          <label style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:4px">Ürün</label>
+          <select id="es-new-prod" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;font-family:inherit"></select>
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:4px">Makine Seri No</label>
+          <input type="text" id="es-new-sno" placeholder="ek-2026-..." style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;font-family:inherit">
+        </div>
+        <button class="btn btn-primary" style="font-size:13px;padding:8px 16px;white-space:nowrap" onclick="addWarrantyToSale()">Ekle</button>
+      </div>
+    </div>
+    <div class="factions" style="margin-top:16px">
       <button class="btn btn-ghost" onclick="closeModal('edit-sale')">İptal</button>
-      <button class="btn btn-primary" onclick="updateSale()">Kaydet</button>
+      <button class="btn btn-primary" onclick="updateSale()">Satışı Kaydet</button>
     </div>
   </div>
 </div>
@@ -1770,6 +1787,108 @@ async function refreshSaleDetail(){
 
 
 // ═══ SALE EDIT ═══
+function renderEditSaleWarranties(warranties){
+  const el=document.getElementById('es-warranties');
+  if(!el)return;
+  if(!warranties||!warranties.length){
+    el.innerHTML='<div style="font-size:13px;color:var(--muted);padding:8px 0">Bu satışa bağlı garanti kaydı bulunamadı.</div>';
+    return;
+  }
+  el.innerHTML=warranties.map(w=>{
+    const pn=w.product_id
+      ?(PS.find(p=>p.id===w.product_id)?.name_tr||(w.warranty_items?.[0]?.product?.name_tr||'-'))
+      :(w.warranty_items?.[0]?.product?.name_tr||'-');
+    const cancelled=w.status==='cancelled';
+    const prodOpts=PS.filter(p=>p.is_active!==false).map(p=>
+      `<option value="${p.id}"${w.product_id===p.id?' selected':''}>${esc(p.model?p.model+' — '+p.name_tr:p.name_tr)}</option>`
+    ).join('');
+    return`<div style="display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;padding:10px 12px;background:${cancelled?'#fef2f2':'#fff'};border:1px solid ${cancelled?'#fca5a5':'var(--border)'};border-radius:8px;margin-bottom:6px;opacity:${cancelled?'.7':'1'}">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Ürün</div>
+        ${cancelled
+          ?`<div style="font-size:13px;font-weight:600;color:var(--sub)">${esc(pn)}</div>`
+          :`<select onchange="updateWarrantyProd('${w.id}',this.value)" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit"><option value="">- Ürün -</option>${prodOpts}</select>`
+        }
+        <div style="font-size:10px;color:var(--muted);margin-top:3px;font-family:'IBM Plex Mono',monospace">${esc(w.warranty_no||w.warranty_code||'-')}</div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Makine Seri No</div>
+        ${cancelled
+          ?`<div style="font-size:13px;color:var(--sub)">${esc(w.serial_no||'-')}</div>`
+          :`<div style="display:flex;gap:5px"><input type="text" id="es-sno-${w.id}" value="${esc(w.serial_no||'')}" placeholder="Seri no..." style="flex:1;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit"><button class="btn-xs be" onclick="saveWarrantySno('${w.id}')" title="Kaydet">✓</button></div>`
+        }
+      </div>
+      <div style="text-align:right">
+        ${cancelled
+          ?'<span class="badge" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;font-size:11px">İptal</span>'
+          :`<button class="btn-xs bd" onclick="cancelWarrantyFromEdit('${w.id}')" title="İptal Et">İptal Et</button>`
+        }
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function saveWarrantySno(wid){
+  const val=(document.getElementById('es-sno-'+wid)?.value||'').trim();
+  const {error}=await sb.from('warranties').update({serial_no:val||null}).eq('id',wid);
+  if(error)return toast('Güncelleme hatası: '+error.message,'err');
+  toast('Makine Seri No güncellendi','ok');
+  await reloadAll();
+  renderEditSaleWarranties(WS.filter(w=>w.sale_id===EID.sale));
+}
+
+async function updateWarrantyProd(wid,pid){
+  if(!pid)return;
+  const prod=PS.find(p=>p.id===pid);
+  if(!prod)return;
+  const {error}=await sb.from('warranties').update({product_id:pid,warranty_months:prod.warranty_months||24}).eq('id',wid);
+  if(error)return toast('Güncelleme hatası: '+error.message,'err');
+  toast('Ürün güncellendi','ok');
+  await reloadAll();
+  renderEditSaleWarranties(WS.filter(w=>w.sale_id===EID.sale));
+}
+
+async function cancelWarrantyFromEdit(wid){
+  if(!confirm('Bu makine garanti kaydı İptal Edildi olarak işaretlenecek. Onaylıyor musunuz?'))return;
+  const {error}=await sb.from('warranties').update({status:'cancelled'}).eq('id',wid);
+  if(error)return toast('İptal hatası: '+error.message,'err');
+  toast('Garanti kaydı iptal edildi','ok');
+  await reloadAll();
+  renderEditSaleWarranties(WS.filter(w=>w.sale_id===EID.sale));
+}
+
+async function addWarrantyToSale(){
+  const saleId=EID.sale;
+  const sale=SALES.find(s=>s.id===saleId);
+  if(!sale)return toast('Satış bulunamadı','err');
+  const pidSel=document.getElementById('es-new-prod');
+  const snoEl=document.getElementById('es-new-sno');
+  if(!pidSel?.value)return toast('Ürün seçin','err');
+  const prod=PS.find(p=>p.id===pidSel.value);
+  const months=prod?.warranty_months||24;
+  const sdate=sale.sale_date;
+  const wend=new Date(sdate);wend.setMonth(wend.getMonth()+months);
+  const {data:wNo,error:wNoErr}=await sb.rpc('generate_warranty_no');
+  if(wNoErr)return toast('Garanti no üretilemedi: '+wNoErr.message,'err');
+  const pToken=wNo+'-'+genRandStr(6);
+  const existCount=WS.filter(w=>w.sale_id===saleId).length;
+  const sno=snoEl.value.trim()||(`AUTO-${sale.sale_no}-${String(existCount+1).padStart(3,'0')}`);
+  const {error}=await sb.from('warranties').insert({
+    warranty_no:wNo,warranty_code:wNo,public_token:pToken,
+    sale_id:saleId,product_id:pidSel.value,customer_id:sale.customer_id,
+    serial_no:sno,sale_date:sdate,
+    warranty_start:sdate,
+    warranty_end:wend.toISOString().split('T')[0],
+    warranty_months:months,status:'active'
+  });
+  if(error)return toast('Eklenemedi: '+error.message,'err');
+  toast('Yeni makine garantisi oluşturuldu: '+wNo,'ok');
+  pidSel.value='';snoEl.value='';
+  await reloadAll();
+  renderEditSaleWarranties(WS.filter(w=>w.sale_id===saleId));
+}
+
+
 function editSale(id){
   const s=SALES.find(x=>x.id===id);if(!s)return;
   EID.sale=id;
@@ -1784,6 +1903,30 @@ function editSale(id){
   document.getElementById('es-country').value=s.country||'';
   document.getElementById('es-currency').value=s.currency||'TRY';
   document.getElementById('es-note').value=s.internal_note||'';
+  // es-country select'e dönüştür
+  const esCountry=document.getElementById('es-country');
+  if(esCountry&&esCountry.tagName==='INPUT'){
+    // eski text input varsa değeri al
+    const oldVal=esCountry.value;
+    esCountry.value=oldVal;
+  }
+  // Yeni makine ekle: ürün listesini doldur
+  const collator=new Intl.Collator('tr',{numeric:true,sensitivity:'base'});
+  const spPS=[...PS].sort((a,b)=>collator.compare(a.model||a.name_tr||'',b.model||b.name_tr||''));
+  const npSel=document.getElementById('es-new-prod');
+  if(npSel){
+    npSel.innerHTML='<option value="">- Ürün seçin -</option>';
+    spPS.filter(p=>p.is_active!==false).forEach(p=>{
+      const o=document.createElement('option');
+      o.value=p.id;
+      o.dataset.months=p.warranty_months||24;
+      o.textContent=(p.model?p.model+' — ':'')+p.name_tr;
+      npSel.appendChild(o);
+    });
+  }
+  // Mevcut garanti kayıtlarını listele
+  const saleWs=WS.filter(w=>w.sale_id===id);
+  renderEditSaleWarranties(saleWs);
   document.getElementById('modal-edit-sale').classList.add('open');
 }
 
