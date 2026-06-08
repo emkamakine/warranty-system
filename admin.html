@@ -1210,7 +1210,7 @@ function renderSales(){
       <button class="btn-xs bl" data-tip="Kopyala" onclick="navigator.clipboard.writeText('${ORDER_URL}${s.public_order_token}').then(()=>toast('Link kopyalandı','ok'))">Kopyala</button>
       <button class="btn-xs bv" data-tip="Detay" onclick="showSaleDetail('${s.id}')">Detay</button>
       <button class="btn-xs be" data-tip="Duzenle" onclick="editSale('${s.id}')">✏️ Düzenle</button>
-      <button class="btn-xs bd" data-tip="Sil" onclick="delRec('sales','${s.id}')">🗑</button>
+      ${s.status!=='cancelled'?`<button class='btn-xs bd' style='background:#fff8ec;color:#92400e;border-color:#fcd34d' data-tip='Iptal Et' onclick='cancelSale("${s.id}")'>İptal</button>`:''} <button class="btn-xs bd" data-tip="Kalici Sil" style="background:#fff1f2;color:#be123c;border-color:#fecdd3" onclick="hardDeleteSale('${s.id}')">Sil</button>
     </div></td>
   </tr>`;
   }).join('')||'<tr class="erow"><td colspan="6">Satış bulunamadı</td></tr>';
@@ -1830,11 +1830,13 @@ function renderEditSaleWarranties(warranties){
 
 async function saveWarrantySno(wid){
   const val=(document.getElementById('es-sno-'+wid)?.value||'').trim();
-  const {error}=await sb.from('warranties').update({serial_no:val||null}).eq('id',wid);
+  const updateVal=val===''?null:val;
+  const {error,data}=await sb.from('warranties').update({serial_no:updateVal}).eq('id',wid).select();
   if(error)return toast('Güncelleme hatası: '+error.message,'err');
-  toast('Makine Seri No güncellendi','ok');
+  toast('Makine Seri No güncellendi: '+(updateVal||'(boş)'),'ok');
   await reloadAll();
   renderEditSaleWarranties(WS.filter(w=>w.sale_id===EID.sale));
+  if(document.getElementById('page-warranties')?.classList.contains('active'))renderW();
 }
 
 async function updateWarrantyProd(wid,pid){
@@ -2637,6 +2639,30 @@ async function saveService(){try{
   }catch(e){toast('JS Hatası: '+e.message,'err');console.error('saveService',e);}}
 
 // ═══ DELETE ═══
+async function cancelSale(id){
+  if(!confirm('Bu satış ve bağlı tüm garanti kayıtları İptal Edildi olarak işaretlenecek. Onaylıyor musunuz?'))return;
+  const {error:e1}=await sb.from('sales').update({status:'cancelled'}).eq('id',id);
+  if(e1)return toast('Satış iptal edilemedi: '+e1.message,'err');
+  const {error:e2}=await sb.from('warranties').update({status:'cancelled'}).eq('sale_id',id);
+  if(e2)console.warn('Garantiler iptal edilemedi:',e2.message);
+  toast('Satış ve bağlı garanti kayıtları iptal edildi','ok');
+  await reloadAll();renderSales();
+}
+
+async function hardDeleteSale(id){
+  const s=SALES.find(x=>x.id===id);
+  const confirmMsg='Bu satış ve bağlı TÜM garanti kayıtları KALICI OLARAK SİLİNECEK.\n\nSatış No: '+(s?.sale_no||id)+'\n\nBu işlem geri alınamaz! Devam etmek istiyor musunuz?';
+  if(!confirm(confirmMsg))return;
+  // Önce bağlı garantileri sil
+  await sb.from('warranty_documents').delete().in('warranty_id',
+    WS.filter(w=>w.sale_id===id).map(w=>w.id)
+  );
+  await sb.from('warranties').delete().eq('sale_id',id);
+  await sb.from('sales').delete().eq('id',id);
+  toast('Satış ve bağlı kayıtlar silindi','ok');
+  await reloadAll();renderSales();
+}
+
 async function delRec(table,id){
   if(!confirm('Silmek istediğinizden emin misiniz?'))return;
   const {error}=await sb.from(table).delete().eq('id',id);
