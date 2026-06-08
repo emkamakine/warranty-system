@@ -2163,11 +2163,35 @@ function actBtns(w){
 }
 function wTr(w){
   const items=w.warranty_items||[];
-  const pn=items[0]?.product?.name_tr||'-';
+  // Ürün adı: yeni format (product_id) veya eski (warranty_items)
+  const pn=w.product_id
+    ?(PS.find(p=>p.id===w.product_id)?.name_tr||items[0]?.product?.name_tr||'-')
+    :(items[0]?.product?.name_tr||'-');
+  const pm=w.product_id
+    ?(PS.find(p=>p.id===w.product_id)?.model||items[0]?.product?.model||'')
+    :(items[0]?.product?.model||'');
   const multi=items.length>1?` <span style="font-size:10px;color:var(--muted)">+${items.length-1}</span>`:'';
+  // Seri No: serial_no (yeni) → serial_number (eski) → -
+  const sno=w.serial_no||(items[0]?.serial_number)||'-';
   const prices=w.prices||[];
   const ph=prices.slice(0,2).map(p=>`<span class="cc ${(p.currency||'').toLowerCase()}">${p.currency} ${Number(p.amount||0).toLocaleString('tr-TR',{minimumFractionDigits:0})}</span>`).join(' ');
-  return`<tr><td><span class="mono">${esc(w.warranty_code)}</span></td><td>${esc(pn)}${multi}</td><td><b>${esc(w.customers?.name||'-')}</b><br><span style="font-size:11px;color:var(--muted)">${esc(w.customers?.city||'')}${w.customers?.country?' · '+w.customers.country:''}</span></td><td>${ph||'-'}</td><td>${fd(w.sale_date)}</td><td>${fd(w.warranty_end)}</td><td>${wBadge(w)}</td><td><div class="act">${actBtns(w)}</div></td></tr>`;
+  const wno=w.warranty_no||w.warranty_code||'-';
+  // İptal durumu
+  const cancelled=w.status==='cancelled';
+  const statusBadge=cancelled
+    ?`<span class="badge" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5">İptal Edildi</span>`
+    :wBadge(w);
+  return`<tr style="${cancelled?'opacity:.7;background:#fff8f8':''}">
+    <td><span class="mono" style="font-weight:700">${esc(wno)}</span></td>
+    <td><span class="mono" style="font-size:12px">${esc(sno)}</span></td>
+    <td>${esc(pn)}${multi}${pm?`<br><span style="font-size:11px;color:var(--muted)">${esc(pm)}</span>`:''}</td>
+    <td><b>${esc(w.customers?.name||'-')}</b><br><span style="font-size:11px;color:var(--muted)">${esc(w.customers?.city||'')}${w.customers?.country?' · '+w.customers.country:''}</span></td>
+    <td>${ph||'-'}</td>
+    <td>${fd(w.sale_date)}</td>
+    <td>${fd(w.warranty_end)}</td>
+    <td>${statusBadge}</td>
+    <td><div class="act">${actBtns(w)}</div></td>
+  </tr>`;
 }
 
 // ═══ WARRANTY PAGE ═══
