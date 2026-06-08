@@ -301,6 +301,23 @@ tr:hover td{background:#f8fafc !important}
 .sale-hdr-btn-light{background:#fff;color:#0d1b2a;border:2px solid #fff}.sale-hdr-btn-light:hover{background:#f1f5f9}
 .sale-hdr-btn-ghost{background:rgba(255,255,255,.18);color:#fff;border:1.5px solid rgba(255,255,255,.45)}.sale-hdr-btn-ghost:hover{background:rgba(255,255,255,.28)}
 
+
+/* ─── PACKING LIST ─── */
+.pl-wrap{background:#fff;border:1.5px solid var(--border);border-radius:12px;overflow:hidden}
+.pl-hdr{background:#f8fafc;border-bottom:1px solid var(--border);padding:12px 18px;display:flex;align-items:center;justify-content:space-between}
+.pl-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--sub)}
+.pl-table{width:100%;border-collapse:collapse;font-size:13px}
+.pl-table th{padding:8px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);background:#fafbfc;border-bottom:1px solid var(--border);white-space:nowrap;text-align:left}
+.pl-table td{padding:9px 10px;border-bottom:1px solid var(--border2);color:var(--text);vertical-align:middle}
+.pl-table tr:last-child td{border-bottom:none}
+.pl-table tfoot td{font-weight:700;background:#f0f9ff;color:#1e40af;border-top:2px solid #bfdbfe}
+.pl-input{width:100%;padding:5px 7px;border:1.5px solid var(--border);border-radius:5px;font-size:12px;font-family:inherit;background:#fff;color:var(--text)}
+.pl-input:focus{border-color:var(--accent);outline:none}
+.pl-add-row{display:grid;grid-template-columns:60px 1fr 50px 70px 70px 55px 55px 55px 60px 1fr auto;gap:5px;padding:10px 14px;background:#f8fafc;border-top:1px solid var(--border);align-items:end}
+.ship-info{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:14px 18px;background:#f8fafc;border-top:1px solid var(--border)}
+.ship-field-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:3px}
+.ship-field-val{font-size:14px;font-weight:600;color:var(--text)}
+
 </style>
 </head>
 <body>
@@ -956,6 +973,11 @@ tr:hover td{background:#f8fafc !important}
         <select id="es-currency"><option>TRY</option><option>USD</option><option>EUR</option><option>GBP</option></select>
       </div>
       <div class="fg full"><label>İç Not (müşteriye görünmez)</label><textarea id="es-note"></textarea></div>
+      <div style="border-top:1px solid var(--border);margin:12px 0 10px"></div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--sub);margin-bottom:10px">Nakliye Bilgileri</div>
+      <div class="fg"><label>Nakliye Firması</label><input type="text" id="es-ship-co" placeholder="DHL, Fedex..."></div>
+      <div class="fg"><label>Nakliye Ücreti</label><input type="number" id="es-ship-fee" placeholder="0.00" min="0" step="0.01"></div>
+      <div class="fg full"><label>Nakliye Notu</label><textarea id="es-ship-note" rows="2" placeholder="Takip no, teslimat tarihi, özel not..."></textarea></div>
     </div>
     <div style="border-top:1px solid var(--border);margin:18px 0 14px"></div>
     <div style="font-size:12px;font-weight:700;letter-spacing:.5px;color:var(--sub);text-transform:uppercase;margin-bottom:12px">Makine / Garanti Kayıtları</div>
@@ -1630,7 +1652,9 @@ async function showSaleDetail(sid){
         </tr></thead>
         <tbody>${groupRows||'<tr class="erow"><td colspan="5">Bu satışta garanti kaydı bulunamadı</td></tr>'}</tbody>
       </table></div>
-    </div>`;
+    </div>
+    <div id="packing-section" style="margin-top:20px"></div>`;
+  loadPackingSection(sid);
 }
 
 function toggleAllGroups(checked){
@@ -1905,6 +1929,9 @@ function editSale(id){
   document.getElementById('es-country').value=s.country||'';
   document.getElementById('es-currency').value=s.currency||'TRY';
   document.getElementById('es-note').value=s.internal_note||'';
+  document.getElementById('es-ship-co').value=s.shipping_company||'';
+  document.getElementById('es-ship-fee').value=s.shipping_fee||'';
+  document.getElementById('es-ship-note').value=s.shipping_note||'';
   // es-country select'e dönüştür
   const esCountry=document.getElementById('es-country');
   if(esCountry&&esCountry.tagName==='INPUT'){
@@ -1942,6 +1969,9 @@ async function updateSale(){try{
     country:document.getElementById('es-country').value.trim()||null,
     currency:document.getElementById('es-currency').value||'TRY',
     internal_note:document.getElementById('es-note').value.trim()||null,
+    shipping_company:document.getElementById('es-ship-co').value.trim()||null,
+    shipping_fee:parseFloat(document.getElementById('es-ship-fee').value)||null,
+    shipping_note:document.getElementById('es-ship-note').value.trim()||null,
     updated_at:new Date().toISOString(),
   };
   const {error}=await sb.from('sales').update(payload).eq('id',id);
@@ -2010,6 +2040,144 @@ async function removeProductDoc(type){
   }
 }
 
+
+// ═══ PACKING LIST ═══
+
+async function loadPackingSection(saleId){
+  const el=document.getElementById('packing-section');
+  if(!el)return;
+  el.innerHTML='<div style="padding:20px;color:var(--muted);font-size:13px">Packing list yükleniyor...</div>';
+  try{
+    const {data,error}=await sb.from('sale_packing_items')
+      .select('*').eq('sale_id',saleId).order('sort_order').order('created_at');
+    if(error)throw error;
+    const sale=SALES.find(s=>s.id===saleId)||{};
+    el.innerHTML=renderPackingSection(data||[],saleId,sale);
+  }catch(e){
+    el.innerHTML=`<div style="padding:16px;color:var(--danger);font-size:13px">Packing list yüklenemedi: ${e.message}</div>`;
+  }
+}
+
+function renderPackingSection(items,saleId,sale){
+  const totalPiece=items.reduce((s,i)=>s+(i.piece||0),0);
+  const totalNet=items.reduce((s,i)=>s+(parseFloat(i.net_kg)||0),0).toFixed(2);
+  const totalGross=items.reduce((s,i)=>s+(parseFloat(i.gross_kg)||0),0).toFixed(2);
+  const totalM3=items.reduce((s,i)=>s+(parseFloat(i.m3)||0),0).toFixed(4);
+  const rows=items.map(i=>`<tr>
+    <td>${esc(i.case_no||'')}</td>
+    <td>${esc(i.machine_name||'')}</td>
+    <td style="text-align:center">${i.piece||1}</td>
+    <td style="text-align:right">${i.net_kg!=null?Number(i.net_kg).toFixed(2):''}</td>
+    <td style="text-align:right">${i.gross_kg!=null?Number(i.gross_kg).toFixed(2):''}</td>
+    <td style="text-align:right">${i.width_cm!=null?i.width_cm:''}</td>
+    <td style="text-align:right">${i.length_cm!=null?i.length_cm:''}</td>
+    <td style="text-align:right">${i.height_cm!=null?i.height_cm:''}</td>
+    <td style="text-align:right">${i.m3!=null?Number(i.m3).toFixed(4):''}</td>
+    <td>${esc(i.note||'')}</td>
+    <td><button class="btn-xs bd" onclick="deletePackingRow('${i.id}','${saleId}')" title="Sil">✕</button></td>
+  </tr>`).join('');
+
+  const shippingHtml=(sale.shipping_company||sale.shipping_fee||sale.shipping_note)?`
+    <div class="ship-info">
+      <div><div class="ship-field-lbl">Nakliye Firması</div><div class="ship-field-val">${esc(sale.shipping_company||'—')}</div></div>
+      <div><div class="ship-field-lbl">Nakliye Ücreti</div><div class="ship-field-val">${sale.shipping_fee!=null?Number(sale.shipping_fee).toLocaleString('tr-TR',{minimumFractionDigits:2})+'  USD/EUR':'—'}</div></div>
+      <div><div class="ship-field-lbl">Nakliye Notu</div><div class="ship-field-val" style="font-size:13px">${esc(sale.shipping_note||'—')}</div></div>
+    </div>`:'';
+
+  return`<div class="pl-wrap">
+    <div class="pl-hdr">
+      <div class="pl-title">Packing List</div>
+      <button class="btn-xs be" onclick="showAddPackingForm('${saleId}')">+ Satır Ekle</button>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="pl-table">
+      <thead><tr>
+        <th>CASE</th><th>MACHINE</th><th>PIECE</th><th>NET KG</th><th>GROSS KG</th>
+        <th>W (cm)</th><th>L (cm)</th><th>H (cm)</th><th>M3</th><th>NOTE</th><th></th>
+      </tr></thead>
+      <tbody>${rows||'<tr><td colspan="11" style="padding:24px;text-align:center;color:var(--muted)">Henüz packing list kalemi eklenmemiş.</td></tr>'}</tbody>
+      ${items.length>0?`<tfoot><tr>
+        <td colspan="2">TOPLAM</td>
+        <td style="text-align:center">${totalPiece}</td>
+        <td style="text-align:right">${totalNet} kg</td>
+        <td style="text-align:right">${totalGross} kg</td>
+        <td colspan="3"></td>
+        <td style="text-align:right">${totalM3} m³</td>
+        <td colspan="2"></td>
+      </tr></tfoot>`:''}
+    </table>
+    </div>
+    <div id="add-packing-form-${saleId}" style="display:none">
+      <div class="pl-add-row">
+        <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:3px">CASE</div><input class="pl-input" id="pf-case" placeholder="1"></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:3px">MACHINE</div><input class="pl-input" id="pf-machine" placeholder="Makine adı"></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:3px">PIECE</div><input class="pl-input" id="pf-piece" type="number" placeholder="1" min="1" value="1"></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:3px">NET KG</div><input class="pl-input" id="pf-net" type="number" step="0.001" placeholder="0.000"></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:3px">GROSS KG</div><input class="pl-input" id="pf-gross" type="number" step="0.001" placeholder="0.000"></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:3px">W (cm)</div><input class="pl-input" id="pf-w" type="number" step="0.01" placeholder="0" oninput="autoCalcM3()"></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:3px">L (cm)</div><input class="pl-input" id="pf-l" type="number" step="0.01" placeholder="0" oninput="autoCalcM3()"></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:3px">H (cm)</div><input class="pl-input" id="pf-h" type="number" step="0.01" placeholder="0" oninput="autoCalcM3()"></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:3px">M3</div><input class="pl-input" id="pf-m3" type="number" step="0.0001" placeholder="0.0000"></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:3px">NOTE</div><input class="pl-input" id="pf-note" placeholder="Not..."></div>
+        <div style="display:flex;gap:5px;padding-bottom:1px">
+          <button class="btn-xs be" onclick="savePackingRow('${saleId}')">Ekle</button>
+          <button class="btn-xs" style="background:#f1f5f9;border:1px solid var(--border);color:var(--sub)" onclick="hideAddPackingForm('${saleId}')">✕</button>
+        </div>
+      </div>
+    </div>
+    ${shippingHtml}
+  </div>`;
+}
+
+function showAddPackingForm(saleId){
+  const el=document.getElementById('add-packing-form-'+saleId);
+  if(el)el.style.display='block';
+  document.getElementById('pf-machine')?.focus();
+}
+function hideAddPackingForm(saleId){
+  const el=document.getElementById('add-packing-form-'+saleId);
+  if(el)el.style.display='none';
+}
+function autoCalcM3(){
+  const w=parseFloat(document.getElementById('pf-w')?.value)||0;
+  const l=parseFloat(document.getElementById('pf-l')?.value)||0;
+  const h=parseFloat(document.getElementById('pf-h')?.value)||0;
+  if(w&&l&&h){
+    const m3=((w*l*h)/1000000).toFixed(4);
+    const el=document.getElementById('pf-m3');
+    if(el)el.value=m3;
+  }
+}
+async function savePackingRow(saleId){
+  const machine=document.getElementById('pf-machine')?.value.trim();
+  if(!machine)return toast('Makine adı gerekli','err');
+  const payload={
+    sale_id:saleId,
+    case_no:document.getElementById('pf-case')?.value.trim()||null,
+    machine_name:machine,
+    piece:parseInt(document.getElementById('pf-piece')?.value)||1,
+    net_kg:parseFloat(document.getElementById('pf-net')?.value)||null,
+    gross_kg:parseFloat(document.getElementById('pf-gross')?.value)||null,
+    width_cm:parseFloat(document.getElementById('pf-w')?.value)||null,
+    length_cm:parseFloat(document.getElementById('pf-l')?.value)||null,
+    height_cm:parseFloat(document.getElementById('pf-h')?.value)||null,
+    m3:parseFloat(document.getElementById('pf-m3')?.value)||null,
+    note:document.getElementById('pf-note')?.value.trim()||null,
+  };
+  const {error}=await sb.from('sale_packing_items').insert(payload);
+  if(error)return toast('Eklenemedi: '+error.message,'err');
+  toast('Satır eklendi','ok');
+  ['pf-case','pf-machine','pf-net','pf-gross','pf-w','pf-l','pf-h','pf-m3','pf-note'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const pieceEl=document.getElementById('pf-piece');if(pieceEl)pieceEl.value='1';
+  await loadPackingSection(saleId);
+}
+async function deletePackingRow(id,saleId){
+  if(!confirm('Bu satır silinecek. Onaylıyor musunuz?'))return;
+  const {error}=await sb.from('sale_packing_items').delete().eq('id',id);
+  if(error)return toast('Silinemedi: '+error.message,'err');
+  toast('Satır silindi','ok');
+  await loadPackingSection(saleId);
+}
 
 async function doLogout(){
   console.log('[EMKA Admin] logout tıklandı');
