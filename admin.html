@@ -392,7 +392,7 @@ tr:hover td{background:#f8fafc !important}
   <div class="card">
     <div class="fbar">
       <input class="sinput" style="max-width:260px" id="w-search" placeholder="Kod, ürün, müşteri, seri no..." oninput="renderW()">
-      <select id="w-f-status" onchange="renderW()"><option value="">Tüm Durumlar</option><option value="active">Aktif</option><option value="warn">Yakında Bitiyor</option><option value="expired">Sona Ermiş</option></select>
+      <select id="w-f-status" onchange="renderW()"><option value="">Tüm Durumlar</option><option value="active">Aktif</option><option value="warn">Yakında Bitiyor</option><option value="expired">Sona Ermiş</option><option value="cancelled">İptal Edildi</option></select>
       <select id="w-f-cat" onchange="renderW()"><option value="">Tüm Kategoriler</option></select>
       <select id="w-f-country" onchange="renderW()"><option value="">Tüm Ülkeler</option></select>
       <input type="date" id="w-f-from" title="Satış tarihi başlangıç" onchange="renderW()">
@@ -1980,7 +1980,7 @@ function renderW(){
   const ff=document.getElementById('w-f-from')?.value||'';
   const ft=document.getElementById('w-f-to')?.value||'';
   let list=WS.filter(w=>{
-    if(fs&&wSt(w)!==fs)return false;
+    if(fs==='cancelled'){if(w.status!=='cancelled')return false;}else if(fs&&wSt(w)!==fs)return false;
     if(fc&&!w.warranty_items?.some(i=>i.product?.category_id==fc))return false;
     if(fcr&&w.customers?.country!==fcr)return false;
     if(ff&&w.sale_date<ff)return false;
