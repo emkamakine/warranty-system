@@ -1963,9 +1963,10 @@ async function updateSale(){try{
   const id=EID.sale;if(!id)return;
   const custId=document.getElementById('es-customer').value;
   if(!custId)return toast('Müşteri seçin','err');
+  const newDate=document.getElementById('es-date').value||null;
   const payload={
     customer_id:custId,
-    sale_date:document.getElementById('es-date').value||null,
+    sale_date:newDate,
     country:document.getElementById('es-country').value.trim()||null,
     currency:document.getElementById('es-currency').value||'TRY',
     internal_note:document.getElementById('es-note').value.trim()||null,
@@ -1974,11 +1975,33 @@ async function updateSale(){try{
     shipping_note:document.getElementById('es-ship-note').value.trim()||null,
     updated_at:new Date().toISOString(),
   };
+  // 1. sales tablosunu güncelle
   const {error}=await sb.from('sales').update(payload).eq('id',id);
   if(error)return toast('Hata: '+error.message,'err');
-  toast('Satış güncellendi','ok');
+  // 2. Bağlı aktif warranties kayıtlarını güncelle
+  //    warranty_no / warranty_code / public_token DEĞİŞMESİN
+  if(newDate){
+    const activeWs=WS.filter(w=>w.sale_id===id&&w.status!=='cancelled');
+    let wErrors=0;
+    for(const w of activeWs){
+      const months=w.warranty_months||24;
+      const wEnd=new Date(newDate);
+      wEnd.setMonth(wEnd.getMonth()+months);
+      const {error:we}=await sb.from('warranties').update({
+        sale_date:newDate,
+        warranty_start:newDate,
+        warranty_end:wEnd.toISOString().split('T')[0],
+        customer_id:custId,
+      }).eq('id',w.id);
+      if(we){console.warn('Warranty güncelleme hatası:',w.warranty_no,we.message);wErrors++;}
+    }
+    if(wErrors>0)toast('Satış güncellendi ama '+wErrors+' garanti güncellenemedi','warn');
+    else toast('Satış ve '+activeWs.length+' garanti kaydı güncellendi','ok');
+  } else {
+    toast('Satış güncellendi','ok');
+  }
   closeModal('edit-sale');
-  await reloadAll();renderSales();
+  await reloadAll();renderSales();renderW();
 }catch(e){toast('JS Hatası: '+e.message,'err');}}
 
 
