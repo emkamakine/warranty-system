@@ -853,6 +853,25 @@ p,span,div{-webkit-font-smoothing:antialiased}
 /* ─── BADGES ─── */
 .badge{font-size:12px !important;font-weight:700 !important;padding:5px 12px !important;border-radius:20px !important}
 
+
+/* ─── PRINT: SADECE GARANTİ BELGESİ ─── */
+@media print {
+  body * { visibility: hidden !important; }
+  #certificatePrintArea,
+  #certificatePrintArea * { visibility: visible !important; }
+  #certificatePrintArea {
+    position: absolute !important;
+    left: 0 !important; top: 0 !important;
+    width: 100% !important;
+    background: white !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+  .no-print { display: none !important; }
+  @page { size: A4; margin: 12mm; }
+}
+
 </style>
 </head>
 <body>
@@ -978,7 +997,7 @@ p,span,div{-webkit-font-smoothing:antialiased}
       <div class="tab-pane" id="tab-belge">
         <div class="belge-layout">
           <div class="sec-hdr"><span class="sec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span id="b-sec1">Garanti Belgesi</span></div>
-          <div class="cert-wrap" id="cert-wrap"></div>
+          <div id="certificatePrintArea"><div class="cert-wrap" id="cert-wrap"></div>
           <div id="cert-qr-row" class="cert-qr-row" style="display:none">
             <div class="cert-qr-info">
               <div class="cert-qr-info-title" id="cqr-title">QR Kod — Garanti Doğrulama</div><div style="font-size:11.5px;color:var(--muted);line-height:1.55;margin-top:4px">Bu kodu okutarak garanti belgesinin EMKA sistemi üzerinden doğruluğunu kontrol edebilirsiniz.</div>
@@ -986,7 +1005,8 @@ p,span,div{-webkit-font-smoothing:antialiased}
             </div>
             <div class="cert-qr-code" id="cert-qr-box"></div>
           </div>
-          <div class="cert-actions" id="cert-actions"></div>
+          </div><!-- /certificatePrintArea -->
+          <div class="cert-actions no-print" id="cert-actions"></div>
           <div class="sec-hdr"><span class="sec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span><span id="b-terms-lbl">Garanti Şartları</span></div>
           <div class="terms-cols">
             <div class="terms-card tc-ok">
@@ -2152,7 +2172,7 @@ function renderData(data){
   const docUrl=fp.warranty_doc_url;
   document.getElementById('qa-grid').innerHTML=[
     docUrl?`<a href="${docUrl}" download class="qa-btn"><div class="qa-icon">⬇️</div>${t('qa_pdf')}</a>`:'',
-    `<button class="qa-btn" onclick="window.print()"><div class="qa-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></div>${t('qa_print')}</button>`,
+    `<button class="qa-btn" onclick="switchTab('belge');setTimeout(()=>window.print(),120)"><div class="qa-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></div>${t('qa_print')}</button>`,
     docUrl?`<a href="${docUrl}" target="_blank" class="qa-btn"><div class="qa-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>${t('qa_open')}</a>`:'',
     `<button class="qa-btn" onclick="shareW('${w.warranty_code}')"><div class="qa-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>${t('qa_share')}</button>`,
   ].filter(Boolean).join('');
@@ -2212,7 +2232,7 @@ function renderData(data){
   document.getElementById('cert-actions').innerHTML=[
     docUrl?`<a href="${docUrl}" download class="cert-act-btn cab-primary">${t('ca_pdf')}</a>`:'',
 
-    `<button class="cert-act-btn cab-ghost" onclick="window.print()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> ${t('ca_print')}</button>`,
+    `<button class="cert-act-btn cab-ghost" onclick="switchTab('belge');setTimeout(()=>window.print(),120)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> ${t('ca_print')}</button>`,
     docUrl?`<a href="${docUrl}" target="_blank" class="cert-act-btn cab-ghost"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> ${t('ca_open')}</a>`:'',
     manualUrl?`<a href="${manualUrl}" target="_blank" class="cert-act-btn cab-ghost"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> ${t('ca_manual')}</a>`:'',
   ].filter(Boolean).join('');
