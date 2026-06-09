@@ -2181,11 +2181,9 @@ function renderData(data){
 
   const rows=[
     [t('lbl_product'),pname,null,null],
+    [t('lbl_model'),fp.model||'—','mono',null],
     [t('lbl_warranty_no'),warrantyNo,'mono',null],
     serialNo?[t('lbl_serial_no'),serialNo,'mono',null]:null,
-    [t('lbl_model'),fp.model||'—','mono',null],
-    [t('lbl_serial'),fi.serial_number||'—','mono',null],
-    [t('lbl_code'),w.warranty_code,'mono',null],
     [t('lbl_verify'),w.public_token,'mono link',null],
     [t('lbl_sale'),fd(w.sale_date),null,null],
     [t('lbl_start'),fd(w.warranty_start),null,null],
