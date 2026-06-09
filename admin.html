@@ -1831,7 +1831,7 @@ function renderEditSaleWarranties(warranties){
         <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Ürün</div>
         ${cancelled
           ?`<div style="font-size:13px;font-weight:600;color:var(--sub)">${esc(pn)}</div>`
-          :`<select onchange="updateWarrantyProd('${w.id}',this.value)" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit"><option value="">- Ürün -</option>${prodOpts}</select>`
+          :`<select id="es-prod-${w.id}" onchange="updateWarrantyProd('${w.id}',this.value)" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit"><option value="">- Ürün -</option>${prodOpts}</select>`
         }
         <div style="font-size:10px;color:var(--muted);margin-top:3px;font-family:'IBM Plex Mono',monospace">${esc(w.warranty_no||w.warranty_code||'-')}</div>
       </div>
@@ -1980,26 +1980,38 @@ async function updateSale(){try{
   if(error)return toast('Hata: '+error.message,'err');
   // 2. Bağlı aktif warranties kayıtlarını güncelle
   //    warranty_no / warranty_code / public_token DEĞİŞMESİN
-  if(newDate){
-    const activeWs=WS.filter(w=>w.sale_id===id&&w.status!=='cancelled');
-    let wErrors=0;
-    for(const w of activeWs){
-      const months=w.warranty_months||24;
+  const activeWs=WS.filter(w=>w.sale_id===id&&w.status!=='cancelled');
+  let wErrors=0;
+  for(const w of activeWs){
+    const months=w.warranty_months||24;
+    const wPatch={customer_id:custId};
+    // Tarih güncellemesi
+    if(newDate){
       const wEnd=new Date(newDate);
       wEnd.setMonth(wEnd.getMonth()+months);
-      const {error:we}=await sb.from('warranties').update({
-        sale_date:newDate,
-        warranty_start:newDate,
-        warranty_end:wEnd.toISOString().split('T')[0],
-        customer_id:custId,
-      }).eq('id',w.id);
-      if(we){console.warn('Warranty güncelleme hatası:',w.warranty_no,we.message);wErrors++;}
+      wPatch.sale_date=newDate;
+      wPatch.warranty_start=newDate;
+      wPatch.warranty_end=wEnd.toISOString().split('T')[0];
     }
-    if(wErrors>0)toast('Satış güncellendi ama '+wErrors+' garanti güncellenemedi','warn');
-    else toast('Satış ve '+activeWs.length+' garanti kaydı güncellendi','ok');
-  } else {
-    toast('Satış güncellendi','ok');
+    // Ürün güncellemesi — select'teki mevcut değeri oku
+    const prodSel=document.getElementById('es-prod-'+w.id);
+    if(prodSel&&prodSel.value&&prodSel.value!==w.product_id){
+      wPatch.product_id=prodSel.value;
+    }
+    // Seri No güncellemesi — input'taki mevcut değeri oku
+    const snoInput=document.getElementById('es-sno-'+w.id);
+    if(snoInput){
+      const newSno=snoInput.value.trim();
+      // Boş bırakılmışsa mevcut değeri koru (yanlışlıkla silme)
+      if(newSno&&newSno!==w.serial_no){
+        wPatch.serial_no=newSno;
+      }
+    }
+    const {error:we}=await sb.from('warranties').update(wPatch).eq('id',w.id);
+    if(we){console.warn('Warranty güncelleme hatası:',w.warranty_no,we.message);wErrors++;}
   }
+  if(wErrors>0)toast('Satış güncellendi ama '+wErrors+' garanti güncellenemedi','warn');
+  else toast('Satış ve '+activeWs.length+' garanti kaydı güncellendi','ok');
   closeModal('edit-sale');
   await reloadAll();renderSales();renderW();
 }catch(e){toast('JS Hatası: '+e.message,'err');}}
