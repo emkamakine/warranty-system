@@ -854,22 +854,67 @@ p,span,div{-webkit-font-smoothing:antialiased}
 .badge{font-size:12px !important;font-weight:700 !important;padding:5px 12px !important;border-radius:20px !important}
 
 
-/* ─── PRINT: SADECE GARANTİ BELGESİ ─── */
+
+/* ─── PRINT ROOT (normal ekranda gizli) ─── */
+#printRoot { display: none; }
+
+/* ─── PRINT: SADECE #printRoot ─── */
 @media print {
-  body * { visibility: hidden !important; }
-  #certificatePrintArea,
-  #certificatePrintArea * { visibility: visible !important; }
-  #certificatePrintArea {
-    position: absolute !important;
-    left: 0 !important; top: 0 !important;
-    width: 100% !important;
-    background: white !important;
-    box-shadow: none !important;
-    border: none !important;
-    padding: 0 !important;
+  html, body {
+    margin: 0 !important; padding: 0 !important;
+    background: #fff !important;
+    width: 100% !important; height: auto !important;
+    overflow: visible !important;
   }
-  .no-print { display: none !important; }
-  @page { size: A4; margin: 12mm; }
+  body > *:not(#printRoot) { display: none !important; }
+  #printRoot {
+    display: block !important;
+    position: static !important;
+    width: 100% !important; max-width: 100% !important;
+    margin: 0 !important; padding: 0 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+  #printRoot * { box-shadow: none !important; }
+  /* Koyu arka plan alanlarını beyaza çevir */
+  #printRoot .cert-hdr {
+    background: #1e293b !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  /* Açık gri / düşük opacity yazıları koyulaştır */
+  #printRoot .cert-brand-sub {
+    color: rgba(255,255,255,.85) !important; opacity: 1 !important;
+    font-weight: 600 !important; font-size: 9px !important;
+  }
+  #printRoot .cert-hdr-title .ct {
+    color: #fff !important; opacity: 1 !important; font-weight: 800 !important;
+  }
+  #printRoot .cert-hdr-title .cs {
+    color: rgba(255,255,255,.75) !important; opacity: 1 !important;
+    font-weight: 600 !important;
+  }
+  #printRoot .cert-brand-name { color: #fff !important; opacity: 1 !important; }
+  #printRoot .cert-brand-name span { color: #93c5fd !important; }
+  #printRoot .cert-seal { color: rgba(255,255,255,.85) !important; opacity: 1 !important; }
+  #printRoot .cig-field-lbl { color: #475569 !important; opacity: 1 !important; }
+  #printRoot .cig-field-val { color: #0f172a !important; font-weight: 700 !important; }
+  #printRoot .cig-field-val.mono { color: #1d4ed8 !important; }
+  #printRoot .cdb-label { color: #475569 !important; opacity: 1 !important; }
+  #printRoot .cdb-val { color: #0f172a !important; font-weight: 800 !important; }
+  #printRoot .cert-footer-left { color: #475569 !important; }
+  #printRoot .cert-qr-info-title { color: #334155 !important; font-weight: 700 !important; }
+  #printRoot .cert-qr-info-url { color: #475569 !important; }
+  #printRoot .cert-verified-badge {
+    background: #dcfce7 !important; color: #166534 !important;
+    border: 1px solid #86efac !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  @page { size: A4; margin: 10mm; }
 }
 
 </style>
@@ -2172,7 +2217,7 @@ function renderData(data){
   const docUrl=fp.warranty_doc_url;
   document.getElementById('qa-grid').innerHTML=[
     docUrl?`<a href="${docUrl}" download class="qa-btn"><div class="qa-icon">⬇️</div>${t('qa_pdf')}</a>`:'',
-    `<button class="qa-btn" onclick="switchTab('belge');setTimeout(()=>window.print(),120)"><div class="qa-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></div>${t('qa_print')}</button>`,
+    `<button class="qa-btn" onclick="doPrint()"><div class="qa-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></div>${t('qa_print')}</button>`,
     docUrl?`<a href="${docUrl}" target="_blank" class="qa-btn"><div class="qa-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>${t('qa_open')}</a>`:'',
     `<button class="qa-btn" onclick="shareW('${w.warranty_code}')"><div class="qa-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>${t('qa_share')}</button>`,
   ].filter(Boolean).join('');
@@ -2232,7 +2277,7 @@ function renderData(data){
   document.getElementById('cert-actions').innerHTML=[
     docUrl?`<a href="${docUrl}" download class="cert-act-btn cab-primary">${t('ca_pdf')}</a>`:'',
 
-    `<button class="cert-act-btn cab-ghost" onclick="switchTab('belge');setTimeout(()=>window.print(),120)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> ${t('ca_print')}</button>`,
+    `<button class="cert-act-btn cab-ghost" onclick="doPrint()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> ${t('ca_print')}</button>`,
     docUrl?`<a href="${docUrl}" target="_blank" class="cert-act-btn cab-ghost"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> ${t('ca_open')}</a>`:'',
     manualUrl?`<a href="${manualUrl}" target="_blank" class="cert-act-btn cab-ghost"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> ${t('ca_manual')}</a>`:'',
   ].filter(Boolean).join('');
@@ -2439,6 +2484,36 @@ document.addEventListener('click', function(e){
 document.addEventListener('keydown', function(e){
   if(e.key === 'Escape') closePhotoLb();
 });
+
+function doPrint(){
+  try{
+    // 1. Yazdırılacak içeriği topla
+    var certWrap=document.getElementById('cert-wrap');
+    var certQr=document.getElementById('cert-qr-row');
+    var root=document.getElementById('printRoot');
+    if(!certWrap||!root)return window.print();
+    // 2. printRoot'u temizle
+    root.innerHTML='';
+    // 3. cert-wrap klonu
+    var certClone=certWrap.cloneNode(true);
+    // Cert içindeki butonları kaldır
+    certClone.querySelectorAll('button,a.cert-act-btn').forEach(function(el){el.remove();});
+    root.appendChild(certClone);
+    // 4. QR alanı klonu
+    if(certQr&&certQr.style.display!=='none'){
+      var qrClone=certQr.cloneNode(true);
+      qrClone.style.marginTop='12px';
+      root.appendChild(qrClone);
+    }
+    // 5. Yazdır
+    window.print();
+    // 6. Temizle
+    setTimeout(function(){root.innerHTML='';},500);
+  }catch(e){
+    console.warn('Print hatasi:',e);
+    window.print();
+  }
+}
 </script>
 
 <!-- PHOTO LIGHTBOX -->
@@ -2447,5 +2522,6 @@ document.addEventListener('keydown', function(e){
   <button id="photo-lb-close" onclick="closePhotoLb()" style="position:fixed;top:18px;right:18px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.35);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10001">&#10005;</button>
 </div>
 
+<div id="printRoot"></div>
 </body>
 </html>
