@@ -691,26 +691,7 @@ tr:hover td{background:#f8fafc !important}
       <div class="fg"><label>E-posta</label><input type="email" id="c-email"></div>
       <div class="fg"><label>Vergi No / TC</label><input type="text" id="c-vergi"></div>
       <div class="fg"><label>Şehir</label><input type="text" id="c-city"></div>
-      <div class="fg"><label>Ülke</label><select id="c-country"><option value="">- Ülke seçin -</option>
-<option value="TR">🇹🇷 Türkiye</option>
-<option value="AE">🇦🇪 Birleşik Arap Emirlikleri</option>
-<option value="SA">🇸🇦 Suudi Arabistan</option>
-<option value="DE">🇩🇪 Almanya</option>
-<option value="NL">🇳🇱 Hollanda</option>
-<option value="FR">🇫🇷 Fransa</option>
-<option value="GB">🇬🇧 İngiltere</option>
-<option value="US">🇺🇸 ABD</option>
-<option value="IT">🇮🇹 İtalya</option>
-<option value="GR">🇬🇷 Yunanistan</option>
-<option value="BG">🇧🇬 Bulgaristan</option>
-<option value="AZ">🇦🇿 Azerbaycan</option>
-<option value="IR">🇮🇷 İran</option>
-<option value="IQ">🇮🇶 Irak</option>
-<option value="EG">🇪🇬 Mısır</option>
-<option value="QA">🇶🇦 Katar</option>
-<option value="KW">🇰🇼 Kuveyt</option>
-<option value="RU">🇷🇺 Rusya</option>
-<option value="OTHER">Diğer</option></select></div>
+      <div class="fg"><label>Ülke</label><input type="text" id="c-country" list="country-list" placeholder="Ülke kodu veya adı (TR, Türkiye...)" autocomplete="off" style="width:100%"></div>
       <div class="fg"><label>Dil Tercihi</label>
         <select id="c-lang"><option value="tr">Türkçe</option><option value="en">English</option><option value="ar">العربية</option></select>
       </div>
@@ -973,7 +954,7 @@ tr:hover td{background:#f8fafc !important}
         <select id="es-customer"></select>
       </div>
       <div class="fg"><label>Satış Tarihi</label><input type="date" id="es-date"></div>
-      <div class="fg"><label>Ülke</label><input type="text" id="es-country" placeholder="TR, ES, DE..."></div>
+      <div class="fg"><label>Ülke</label><input type="text" id="es-country" list="country-list" placeholder="TR, Türkiye, DE, Almanya..." autocomplete="off"></div>
       <div class="fg"><label>Para Birimi (iç)</label>
         <select id="es-currency"><option>TRY</option><option>USD</option><option>EUR</option><option>GBP</option></select>
       </div>
@@ -1028,26 +1009,7 @@ tr:hover td{background:#f8fafc !important}
           <div class="fg"><label>Telefon</label><input type="tel" id="snc-phone"></div>
           <div class="fg"><label>WhatsApp</label><input type="tel" id="snc-wa"></div>
           <div class="fg"><label>Şehir</label><input type="text" id="snc-city"></div>
-          <div class="fg"><label>Ülke</label><select id="snc-country"><option value="">- Ülke seçin -</option>
-<option value="TR">🇹🇷 Türkiye</option>
-<option value="AE">🇦🇪 Birleşik Arap Emirlikleri</option>
-<option value="SA">🇸🇦 Suudi Arabistan</option>
-<option value="DE">🇩🇪 Almanya</option>
-<option value="NL">🇳🇱 Hollanda</option>
-<option value="FR">🇫🇷 Fransa</option>
-<option value="GB">🇬🇧 İngiltere</option>
-<option value="US">🇺🇸 ABD</option>
-<option value="IT">🇮🇹 İtalya</option>
-<option value="GR">🇬🇷 Yunanistan</option>
-<option value="BG">🇧🇬 Bulgaristan</option>
-<option value="AZ">🇦🇿 Azerbaycan</option>
-<option value="IR">🇮🇷 İran</option>
-<option value="IQ">🇮🇶 Irak</option>
-<option value="EG">🇪🇬 Mısır</option>
-<option value="QA">🇶🇦 Katar</option>
-<option value="KW">🇰🇼 Kuveyt</option>
-<option value="RU">🇷🇺 Rusya</option>
-<option value="OTHER">Diğer</option></select></div>
+          <div class="fg"><label>Ülke</label><input type="text" id="snc-country" list="country-list" placeholder="Ülke kodu veya adı (TR, Türkiye...)" autocomplete="off" style="width:100%"></div>
         </div>
       </div>
       <div class="fg"><label>Satış Tarihi *</label><input type="date" id="sale-date"></div>
@@ -1115,7 +1077,8 @@ tr:hover td{background:#f8fafc !important}
 
 <div style="position:fixed;right:10px;bottom:8px;z-index:9999;font-size:10px;color:#94a3b8;background:rgba(255,255,255,.85);padding:3px 7px;border-radius:6px;border:1px solid #e2e8f0">v2026.06-oturum-e</div>
 <div id="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js">const COUNTRY_MAP={"US":"ABD","AF":"Afganistan","DE":"Almanya","AD":"Andorra","AO":"Angola","AG":"Antigua ve Barbuda","AR":"Arjantin","AL":"Arnavutluk","AU":"Avustralya","AT":"Avusturya","AZ":"Azerbaycan","BS":"Bahamalar","BH":"Bahreyn","BD":"Bangladeş","BB":"Barbados","BY":"Belarus","BZ":"Belize","BE":"Belçika","BJ":"Benin","BT":"Bhutan","AE":"Birleşik Arap Emirlikleri","BO":"Bolivya","BA":"Bosna Hersek","BW":"Botsvana","BR":"Brezilya","BN":"Brunei","BG":"Bulgaristan","BF":"Burkina Faso","BI":"Burundi","CV":"Cabo Verde","DZ":"Cezayir","DJ":"Cibuti","DK":"Danimarka","DO":"Dominik Cumhuriyeti","DM":"Dominika","TL":"Doğu Timor","EC":"Ekvador","GQ":"Ekvator Ginesi","SV":"El Salvador","ID":"Endonezya","ER":"Eritre","AM":"Ermenistan","EE":"Estonya","SZ":"Esvatini","ET":"Etiyopya","MA":"Fas","FJ":"Fiji","CI":"Fildişi Sahili","PH":"Filipinler","FI":"Finlandiya","FR":"Fransa","GA":"Gabon","GM":"Gambiya","GH":"Gana","GN":"Gine","GW":"Gine-Bissau","GD":"Grenada","GT":"Guatemala","GY":"Guyana","ZA":"Güney Afrika","KR":"Güney Kore","SS":"Güney Sudan","GE":"Gürcistan","HT":"Haiti","IN":"Hindistan","NL":"Hollanda","HN":"Honduras","HR":"Hırvatistan","IQ":"Irak","JM":"Jamaika","JP":"Japonya","KH":"Kamboçya","CM":"Kamerun","CA":"Kanada","ME":"Karadağ","QA":"Katar","KZ":"Kazakistan","KE":"Kenya","KI":"Kiribati","CO":"Kolombiya","KM":"Komorlar","CG":"Kongo","CD":"Kongo (DRC)","CR":"Kosta Rika","KW":"Kuveyt","KP":"Kuzey Kore","MK":"Kuzey Makedonya","CU":"Küba","CY":"Kıbrıs","KG":"Kırgızistan","LA":"Laos","LS":"Lesoto","LV":"Letonya","LR":"Liberya","LY":"Libya","LI":"Lihtenştayn","LT":"Litvanya","LB":"Lübnan","LU":"Lüksemburg","HU":"Macaristan","MG":"Madagaskar","MW":"Malavi","MV":"Maldivler","MY":"Malezya","ML":"Mali","MT":"Malta","MH":"Marşal Adaları","MU":"Mauritius","MX":"Meksika","FM":"Mikronezya","MD":"Moldova","MC":"Monako","MR":"Moritanya","MZ":"Mozambik","MN":"Moğolistan","MM":"Myanmar","EG":"Mısır","NA":"Namibya","NR":"Nauru","NP":"Nepal","NE":"Nijer","NG":"Nijerya","NI":"Nikaragua","NO":"Norveç","CF":"Orta Afrika Cumhuriyeti","PK":"Pakistan","PW":"Palau","PA":"Panama","PG":"Papua Yeni Gine","PY":"Paraguay","PE":"Peru","PL":"Polonya","PT":"Portekiz","RO":"Romanya","RW":"Ruanda","RU":"Rusya","KN":"Saint Kitts ve Nevis","LC":"Saint Lucia","VC":"Saint Vincent ve Grenadinler","WS":"Samoa","SM":"San Marino","SN":"Senegal","SC":"Seyşeller","SL":"Sierra Leone","SG":"Singapur","SK":"Slovakya","SI":"Slovenya","SB":"Solomon Adaları","SO":"Somali","LK":"Sri Lanka","SD":"Sudan","SR":"Surinam","SY":"Suriye","SA":"Suudi Arabistan","ST":"São Tomé ve Príncipe","RS":"Sırbistan","TJ":"Tacikistan","TZ":"Tanzanya","TH":"Tayland","TW":"Tayvan","TG":"Togo","TO":"Tonga","TT":"Trinidad ve Tobago","TN":"Tunus","TV":"Tuvalu","TR":"Türkiye","TM":"Türkmenistan","UG":"Uganda","UA":"Ukrayna","OM":"Umman","UY":"Uruguay","VU":"Vanuatu","VE":"Venezuela","VN":"Vietnam","YE":"Yemen","NZ":"Yeni Zelanda","GR":"Yunanistan","ZM":"Zambia","ZW":"Zimbabve","AX":"Åland Adaları","TD":"Çad","CZ":"Çekya","CN":"Çin","UZ":"Özbekistan","JO":"Ürdün","GB":"İngiltere","IR":"İran","IE":"İrlanda","ES":"İspanya","IL":"İsrail","SE":"İsveç","CH":"İsviçre","IT":"İtalya","IS":"İzlanda","CL":"Şili","OTHER":"Diğer"};
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 const SB_URL='https://obbxxkzmnujtozxczgfm.supabase.co';
@@ -2977,5 +2940,203 @@ function exportCSV(type){
 function dlCSV(content,filename){const blob=new Blob(['\uFEFF'+content],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();}
 document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target!==m)return;const noClose=['modal-sale','modal-customer','modal-product','modal-document','modal-service'];if(!noClose.includes(m.id))closeModal(m.id.replace('modal-',''));});});
 </script>
+<datalist id="country-list">
+  <option value="US">US – ABD</option>
+  <option value="AF">AF – Afganistan</option>
+  <option value="DE">DE – Almanya</option>
+  <option value="AD">AD – Andorra</option>
+  <option value="AO">AO – Angola</option>
+  <option value="AG">AG – Antigua ve Barbuda</option>
+  <option value="AR">AR – Arjantin</option>
+  <option value="AL">AL – Arnavutluk</option>
+  <option value="AU">AU – Avustralya</option>
+  <option value="AT">AT – Avusturya</option>
+  <option value="AZ">AZ – Azerbaycan</option>
+  <option value="BS">BS – Bahamalar</option>
+  <option value="BH">BH – Bahreyn</option>
+  <option value="BD">BD – Bangladeş</option>
+  <option value="BB">BB – Barbados</option>
+  <option value="BY">BY – Belarus</option>
+  <option value="BZ">BZ – Belize</option>
+  <option value="BE">BE – Belçika</option>
+  <option value="BJ">BJ – Benin</option>
+  <option value="BT">BT – Bhutan</option>
+  <option value="AE">AE – Birleşik Arap Emirlikleri</option>
+  <option value="BO">BO – Bolivya</option>
+  <option value="BA">BA – Bosna Hersek</option>
+  <option value="BW">BW – Botsvana</option>
+  <option value="BR">BR – Brezilya</option>
+  <option value="BN">BN – Brunei</option>
+  <option value="BG">BG – Bulgaristan</option>
+  <option value="BF">BF – Burkina Faso</option>
+  <option value="BI">BI – Burundi</option>
+  <option value="CV">CV – Cabo Verde</option>
+  <option value="DZ">DZ – Cezayir</option>
+  <option value="DJ">DJ – Cibuti</option>
+  <option value="DK">DK – Danimarka</option>
+  <option value="DO">DO – Dominik Cumhuriyeti</option>
+  <option value="DM">DM – Dominika</option>
+  <option value="TL">TL – Doğu Timor</option>
+  <option value="EC">EC – Ekvador</option>
+  <option value="GQ">GQ – Ekvator Ginesi</option>
+  <option value="SV">SV – El Salvador</option>
+  <option value="ID">ID – Endonezya</option>
+  <option value="ER">ER – Eritre</option>
+  <option value="AM">AM – Ermenistan</option>
+  <option value="EE">EE – Estonya</option>
+  <option value="SZ">SZ – Esvatini</option>
+  <option value="ET">ET – Etiyopya</option>
+  <option value="MA">MA – Fas</option>
+  <option value="FJ">FJ – Fiji</option>
+  <option value="CI">CI – Fildişi Sahili</option>
+  <option value="PH">PH – Filipinler</option>
+  <option value="FI">FI – Finlandiya</option>
+  <option value="FR">FR – Fransa</option>
+  <option value="GA">GA – Gabon</option>
+  <option value="GM">GM – Gambiya</option>
+  <option value="GH">GH – Gana</option>
+  <option value="GN">GN – Gine</option>
+  <option value="GW">GW – Gine-Bissau</option>
+  <option value="GD">GD – Grenada</option>
+  <option value="GT">GT – Guatemala</option>
+  <option value="GY">GY – Guyana</option>
+  <option value="ZA">ZA – Güney Afrika</option>
+  <option value="KR">KR – Güney Kore</option>
+  <option value="SS">SS – Güney Sudan</option>
+  <option value="GE">GE – Gürcistan</option>
+  <option value="HT">HT – Haiti</option>
+  <option value="IN">IN – Hindistan</option>
+  <option value="NL">NL – Hollanda</option>
+  <option value="HN">HN – Honduras</option>
+  <option value="HR">HR – Hırvatistan</option>
+  <option value="IQ">IQ – Irak</option>
+  <option value="JM">JM – Jamaika</option>
+  <option value="JP">JP – Japonya</option>
+  <option value="KH">KH – Kamboçya</option>
+  <option value="CM">CM – Kamerun</option>
+  <option value="CA">CA – Kanada</option>
+  <option value="ME">ME – Karadağ</option>
+  <option value="QA">QA – Katar</option>
+  <option value="KZ">KZ – Kazakistan</option>
+  <option value="KE">KE – Kenya</option>
+  <option value="KI">KI – Kiribati</option>
+  <option value="CO">CO – Kolombiya</option>
+  <option value="KM">KM – Komorlar</option>
+  <option value="CG">CG – Kongo</option>
+  <option value="CD">CD – Kongo (DRC)</option>
+  <option value="CR">CR – Kosta Rika</option>
+  <option value="KW">KW – Kuveyt</option>
+  <option value="KP">KP – Kuzey Kore</option>
+  <option value="MK">MK – Kuzey Makedonya</option>
+  <option value="CU">CU – Küba</option>
+  <option value="CY">CY – Kıbrıs</option>
+  <option value="KG">KG – Kırgızistan</option>
+  <option value="LA">LA – Laos</option>
+  <option value="LS">LS – Lesoto</option>
+  <option value="LV">LV – Letonya</option>
+  <option value="LR">LR – Liberya</option>
+  <option value="LY">LY – Libya</option>
+  <option value="LI">LI – Lihtenştayn</option>
+  <option value="LT">LT – Litvanya</option>
+  <option value="LB">LB – Lübnan</option>
+  <option value="LU">LU – Lüksemburg</option>
+  <option value="HU">HU – Macaristan</option>
+  <option value="MG">MG – Madagaskar</option>
+  <option value="MW">MW – Malavi</option>
+  <option value="MV">MV – Maldivler</option>
+  <option value="MY">MY – Malezya</option>
+  <option value="ML">ML – Mali</option>
+  <option value="MT">MT – Malta</option>
+  <option value="MH">MH – Marşal Adaları</option>
+  <option value="MU">MU – Mauritius</option>
+  <option value="MX">MX – Meksika</option>
+  <option value="FM">FM – Mikronezya</option>
+  <option value="MD">MD – Moldova</option>
+  <option value="MC">MC – Monako</option>
+  <option value="MR">MR – Moritanya</option>
+  <option value="MZ">MZ – Mozambik</option>
+  <option value="MN">MN – Moğolistan</option>
+  <option value="MM">MM – Myanmar</option>
+  <option value="EG">EG – Mısır</option>
+  <option value="NA">NA – Namibya</option>
+  <option value="NR">NR – Nauru</option>
+  <option value="NP">NP – Nepal</option>
+  <option value="NE">NE – Nijer</option>
+  <option value="NG">NG – Nijerya</option>
+  <option value="NI">NI – Nikaragua</option>
+  <option value="NO">NO – Norveç</option>
+  <option value="CF">CF – Orta Afrika Cumhuriyeti</option>
+  <option value="PK">PK – Pakistan</option>
+  <option value="PW">PW – Palau</option>
+  <option value="PA">PA – Panama</option>
+  <option value="PG">PG – Papua Yeni Gine</option>
+  <option value="PY">PY – Paraguay</option>
+  <option value="PE">PE – Peru</option>
+  <option value="PL">PL – Polonya</option>
+  <option value="PT">PT – Portekiz</option>
+  <option value="RO">RO – Romanya</option>
+  <option value="RW">RW – Ruanda</option>
+  <option value="RU">RU – Rusya</option>
+  <option value="KN">KN – Saint Kitts ve Nevis</option>
+  <option value="LC">LC – Saint Lucia</option>
+  <option value="VC">VC – Saint Vincent ve Grenadinler</option>
+  <option value="WS">WS – Samoa</option>
+  <option value="SM">SM – San Marino</option>
+  <option value="SN">SN – Senegal</option>
+  <option value="SC">SC – Seyşeller</option>
+  <option value="SL">SL – Sierra Leone</option>
+  <option value="SG">SG – Singapur</option>
+  <option value="SK">SK – Slovakya</option>
+  <option value="SI">SI – Slovenya</option>
+  <option value="SB">SB – Solomon Adaları</option>
+  <option value="SO">SO – Somali</option>
+  <option value="LK">LK – Sri Lanka</option>
+  <option value="SD">SD – Sudan</option>
+  <option value="SR">SR – Surinam</option>
+  <option value="SY">SY – Suriye</option>
+  <option value="SA">SA – Suudi Arabistan</option>
+  <option value="ST">ST – São Tomé ve Príncipe</option>
+  <option value="RS">RS – Sırbistan</option>
+  <option value="TJ">TJ – Tacikistan</option>
+  <option value="TZ">TZ – Tanzanya</option>
+  <option value="TH">TH – Tayland</option>
+  <option value="TW">TW – Tayvan</option>
+  <option value="TG">TG – Togo</option>
+  <option value="TO">TO – Tonga</option>
+  <option value="TT">TT – Trinidad ve Tobago</option>
+  <option value="TN">TN – Tunus</option>
+  <option value="TV">TV – Tuvalu</option>
+  <option value="TR">TR – Türkiye</option>
+  <option value="TM">TM – Türkmenistan</option>
+  <option value="UG">UG – Uganda</option>
+  <option value="UA">UA – Ukrayna</option>
+  <option value="OM">OM – Umman</option>
+  <option value="UY">UY – Uruguay</option>
+  <option value="VU">VU – Vanuatu</option>
+  <option value="VE">VE – Venezuela</option>
+  <option value="VN">VN – Vietnam</option>
+  <option value="YE">YE – Yemen</option>
+  <option value="NZ">NZ – Yeni Zelanda</option>
+  <option value="GR">GR – Yunanistan</option>
+  <option value="ZM">ZM – Zambia</option>
+  <option value="ZW">ZW – Zimbabve</option>
+  <option value="AX">AX – Åland Adaları</option>
+  <option value="TD">TD – Çad</option>
+  <option value="CZ">CZ – Çekya</option>
+  <option value="CN">CN – Çin</option>
+  <option value="UZ">UZ – Özbekistan</option>
+  <option value="JO">JO – Ürdün</option>
+  <option value="GB">GB – İngiltere</option>
+  <option value="IR">IR – İran</option>
+  <option value="IE">IE – İrlanda</option>
+  <option value="ES">ES – İspanya</option>
+  <option value="IL">IL – İsrail</option>
+  <option value="SE">SE – İsveç</option>
+  <option value="CH">CH – İsviçre</option>
+  <option value="IT">IT – İtalya</option>
+  <option value="IS">IS – İzlanda</option>
+  <option value="CL">CL – Şili</option>
+  <option value="OTHER">OTHER – Diğer</option>
+</datalist>
 </body>
 </html>
