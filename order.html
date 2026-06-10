@@ -298,10 +298,12 @@ async function loadCO(){
   try{
     const {data}=await sb.from('settings').select('*').eq('id','main').single();
     if(!data)return;
-    if(data.company_name)CO.name=data.company_name;
-    if(data.phone)CO.phone=data.phone;
-    if(data.email)CO.email=data.email;
-    if(data.web)CO.web=data.web;
+    if(data.company_name!=null)CO.name=data.company_name;
+    if(data.phone!=null)CO.phone=data.phone;
+    if(data.whatsapp!=null)CO.wa=(data.whatsapp||'').replace(/[^0-9+]/g,'');
+    if(data.email!=null)CO.email=data.email;
+    if(data.web!=null)CO.web=data.web;
+    if(data.address!=null)CO.addr=data.address;
   }catch(e){console.warn('Settings yüklenemedi',e);}
 }
 
