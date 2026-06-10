@@ -1140,7 +1140,7 @@ const SB_URL='https://obbxxkzmnujtozxczgfm.supabase.co';
 const SB_KEY='sb_publishable_xY037ZoljAKp_mPOKh6HJA_ZCYfcuxc';
 const sb=window.supabase.createClient(SB_URL,SB_KEY);
 
-const CO={
+let CO={
   name:'EMKA Kuyumculuk Malzeme ve Makinaları',
   phone:'+90 544 255 17 16',
   wa:'+905442551716',
@@ -1150,6 +1150,31 @@ const CO={
   addr:'Alemdar Mahallesi, Himaye-i Etfal Sokak, No: 6/A, Fatih, İstanbul, Türkiye',
   mapsUrl:'https://maps.google.com/?q=Alemdar+Mahallesi+Himaye-i+Etfal+Sokak+6A+Fatih+Istanbul',
 };
+
+const COUNTRY_MAP={"US":"ABD","AF":"Afganistan","DE":"Almanya","AD":"Andorra","AO":"Angola","AG":"Antigua ve Barbuda","AR":"Arjantin","AL":"Arnavutluk","AU":"Avustralya","AT":"Avusturya","AZ":"Azerbaycan","BS":"Bahamalar","BH":"Bahreyn","BD":"Bangladeş","BB":"Barbados","BY":"Belarus","BZ":"Belize","BE":"Belçika","BJ":"Benin","BT":"Bhutan","AE":"Birleşik Arap Emirlikleri","BO":"Bolivya","BA":"Bosna Hersek","BW":"Botsvana","BR":"Brezilya","BN":"Brunei","BG":"Bulgaristan","BF":"Burkina Faso","BI":"Burundi","CV":"Cabo Verde","DZ":"Cezayir","DJ":"Cibuti","DK":"Danimarka","DO":"Dominik Cumhuriyeti","DM":"Dominika","TL":"Doğu Timor","EC":"Ekvador","GQ":"Ekvator Ginesi","SV":"El Salvador","ID":"Endonezya","ER":"Eritre","AM":"Ermenistan","EE":"Estonya","SZ":"Esvatini","ET":"Etiyopya","MA":"Fas","FJ":"Fiji","CI":"Fildişi Sahili","PH":"Filipinler","FI":"Finlandiya","FR":"Fransa","GA":"Gabon","GM":"Gambiya","GH":"Gana","GN":"Gine","GW":"Gine-Bissau","GD":"Grenada","GT":"Guatemala","GY":"Guyana","ZA":"Güney Afrika","KR":"Güney Kore","SS":"Güney Sudan","GE":"Gürcistan","HT":"Haiti","IN":"Hindistan","NL":"Hollanda","HN":"Honduras","HR":"Hırvatistan","IQ":"Irak","JM":"Jamaika","JP":"Japonya","KH":"Kamboçya","CM":"Kamerun","CA":"Kanada","ME":"Karadağ","QA":"Katar","KZ":"Kazakistan","KE":"Kenya","KI":"Kiribati","CO":"Kolombiya","KM":"Komorlar","CG":"Kongo","CD":"Kongo (DRC)","CR":"Kosta Rika","KW":"Kuveyt","KP":"Kuzey Kore","MK":"Kuzey Makedonya","CU":"Küba","CY":"Kıbrıs","KG":"Kırgızistan","LA":"Laos","LS":"Lesoto","LV":"Letonya","LR":"Liberya","LY":"Libya","LI":"Lihtenştayn","LT":"Litvanya","LB":"Lübnan","LU":"Lüksemburg","HU":"Macaristan","MG":"Madagaskar","MW":"Malavi","MV":"Maldivler","MY":"Malezya","ML":"Mali","MT":"Malta","MH":"Marşal Adaları","MU":"Mauritius","MX":"Meksika","FM":"Mikronezya","MD":"Moldova","MC":"Monako","MR":"Moritanya","MZ":"Mozambik","MN":"Moğolistan","MM":"Myanmar","EG":"Mısır","NA":"Namibya","NR":"Nauru","NP":"Nepal","NE":"Nijer","NG":"Nijerya","NI":"Nikaragua","NO":"Norveç","CF":"Orta Afrika Cumhuriyeti","PK":"Pakistan","PW":"Palau","PA":"Panama","PG":"Papua Yeni Gine","PY":"Paraguay","PE":"Peru","PL":"Polonya","PT":"Portekiz","RO":"Romanya","RW":"Ruanda","RU":"Rusya","KN":"Saint Kitts ve Nevis","LC":"Saint Lucia","VC":"Saint Vincent ve Grenadinler","WS":"Samoa","SM":"San Marino","SN":"Senegal","SC":"Seyşeller","SL":"Sierra Leone","SG":"Singapur","SK":"Slovakya","SI":"Slovenya","SB":"Solomon Adaları","SO":"Somali","LK":"Sri Lanka","SD":"Sudan","SR":"Surinam","SY":"Suriye","SA":"Suudi Arabistan","ST":"São Tomé ve Príncipe","RS":"Sırbistan","TJ":"Tacikistan","TZ":"Tanzanya","TH":"Tayland","TW":"Tayvan","TG":"Togo","TO":"Tonga","TT":"Trinidad ve Tobago","TN":"Tunus","TV":"Tuvalu","TR":"Türkiye","TM":"Türkmenistan","UG":"Uganda","UA":"Ukrayna","OM":"Umman","UY":"Uruguay","VU":"Vanuatu","VE":"Venezuela","VN":"Vietnam","YE":"Yemen","NZ":"Yeni Zelanda","GR":"Yunanistan","ZM":"Zambia","ZW":"Zimbabve","AX":"Åland Adaları","TD":"Çad","CZ":"Çekya","CN":"Çin","UZ":"Özbekistan","JO":"Ürdün","GB":"İngiltere","IR":"İran","IE":"İrlanda","ES":"İspanya","IL":"İsrail","SE":"İsveç","CH":"İsviçre","IT":"İtalya","IS":"İzlanda","CL":"Şili","OTHER":"Diğer"};
+
+async function loadCO(){
+  try{
+    const {data}=await sb.from('settings').select('*').eq('id','main').single();
+    if(!data)return;
+    if(data.company_name)CO.name=data.company_name;
+    if(data.phone)CO.phone=data.phone;
+    if(data.whatsapp)CO.wa=data.whatsapp.replace(/[^0-9+]/g,'');
+    if(data.email)CO.email=data.email;
+    if(data.web){CO.web=data.web;}
+    if(data.address)CO.addr=data.address;
+    if(data.verify_base_url)CO.verifyBase=data.verify_base_url;
+  }catch(e){console.warn('Settings yüklenemedi',e);}
+}
+
+function parseWebsites(raw){
+  if(!raw)return[];
+  return raw.split(/[,\n]+/).map(s=>s.trim()).filter(Boolean).map(s=>{
+    const url=s.startsWith('http')?s:'https://'+s;
+    try{const u=new URL(url);return{url,label:u.hostname.replace('www.','')};}
+    catch(e){return{url,label:s};}
+  });
+}
 
 let L='tr', D=null;
 
@@ -2190,7 +2215,7 @@ function renderData(data){
     [t('lbl_end'),fd(w.warranty_end),null,null],
     [t('lbl_duration'),(w.warranty_months||'—')+' '+t('dur_unit'),null,null],
     [t('lbl_status'),null,null,sInline],
-    [t('lbl_customer'),`${c.name||'—'}${c.city?' — '+c.city:''}`,null,null],
+    [t('lbl_customer'),`${c.name||'—'}${c.country?(' — '+(COUNTRY_MAP[c.country]||c.country)):''}`,null,null],
     [t('lbl_dealer'),w.dealer||CO.name,null,null],
     ...(priceHtml?[[t('lbl_price'),null,null,`<div class="prices-display">${priceHtml}</div>`]]:[]),
   ];
@@ -2257,7 +2282,7 @@ function renderData(data){
       <div class="cert-info-grid">
         <div><div class="cig-field-lbl">${t('cert_cf_code')}</div><div class="cig-field-val mono">${w.warranty_code}</div></div>
         <div><div class="cig-field-lbl">${t('cert_cf_serial')}</div><div class="cig-field-val mono">${serialNo||'—'}</div></div>
-        <div><div class="cig-field-lbl">${t('cert_cf_cust')}</div><div class="cig-field-val">${c.name||'—'}${c.city?' — '+c.city:''}</div></div>
+        <div><div class="cig-field-lbl">${t('cert_cf_cust')}</div><div class="cig-field-val">${c.name||'—'}${c.country?(' — '+(COUNTRY_MAP[c.country]||c.country)):''}</div></div>
         <div><div class="cig-field-lbl">${t('cert_cf_dealer')}</div><div class="cig-field-val">${w.dealer||CO.name}</div></div>
       </div>
       <div class="cert-date-band">
