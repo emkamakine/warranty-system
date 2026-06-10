@@ -1844,7 +1844,10 @@ function renderEditSaleWarranties(warranties){
       </div>
       <div style="text-align:right">
         ${cancelled
-          ?'<span class="badge" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;font-size:11px">İptal</span>'
+          ?`<div style="display:flex;gap:5px;flex-direction:column;align-items:flex-end">
+              <span class="badge" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;font-size:11px">İptal</span>
+              <button class="btn-xs bd" onclick="hardDeleteWarrantyFromEdit('${w.id}')" style="font-size:11px;padding:4px 8px" title="Kalıcı Sil">Sil</button>
+            </div>`
           :`<button class="btn-xs bd" onclick="cancelWarrantyFromEdit('${w.id}')" title="İptal Et">İptal Et</button>`
         }
       </div>
@@ -1873,6 +1876,18 @@ async function updateWarrantyProd(wid,pid){
   await reloadAll();
   renderEditSaleWarranties(WS.filter(w=>w.sale_id===EID.sale));
 }
+
+async function hardDeleteWarrantyFromEdit(wid){
+  if(!confirm('Bu garanti kaydı kalıcı olarak silinecek. Bu işlem geri alınamaz. Onaylıyor musunuz?'))return;
+  const {error:e1}=await sb.from('warranty_documents').delete().eq('warranty_id',wid);
+  const {error:e2}=await sb.from('warranties').delete().eq('id',wid);
+  if(e2)return toast('Silinemedi: '+e2.message,'err');
+  toast('Garanti kaydı silindi','ok');
+  await reloadAll();
+  renderEditSaleWarranties(WS.filter(w=>w.sale_id===EID.sale));
+  renderW();
+}
+
 
 async function cancelWarrantyFromEdit(wid){
   if(!confirm('Bu makine garanti kaydı İptal Edildi olarak işaretlenecek. Onaylıyor musunuz?'))return;
