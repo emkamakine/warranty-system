@@ -2252,7 +2252,7 @@ function renderData(data){
       </div>
       <div class="cert-info-grid">
         <div><div class="cig-field-lbl">${t('cert_cf_code')}</div><div class="cig-field-val mono">${w.warranty_code}</div></div>
-        <div><div class="cig-field-lbl">${t('cert_cf_serial')}</div><div class="cig-field-val mono">${fi.serial_number||'—'}</div></div>
+        <div><div class="cig-field-lbl">${t('cert_cf_serial')}</div><div class="cig-field-val mono">${serialNo||'—'}</div></div>
         <div><div class="cig-field-lbl">${t('cert_cf_cust')}</div><div class="cig-field-val">${c.name||'—'}${c.city?' — '+c.city:''}</div></div>
         <div><div class="cig-field-lbl">${t('cert_cf_dealer')}</div><div class="cig-field-val">${w.dealer||CO.name}</div></div>
       </div>
