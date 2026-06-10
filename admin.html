@@ -841,7 +841,8 @@ tr:hover td{background:#f8fafc !important}
           <option value="out_of_warranty">🚫 Garanti Dışı</option>
         </select>
       </div>
-      <div class="fg full"><label>Açıklama *</label><textarea id="sr-desc"></textarea></div>
+      <div class="fg full"><label>Servis Başlığı</label><input type="text" id="sr-title" placeholder="Örn: Motor Değişimi, Revizyon, Arıza Giderme..."></div>
+      <div class="fg full"><label>Açıklama *</label><textarea id="sr-desc" placeholder="Servis detayı, tespit edilen arıza, yapılan işlemler..."></textarea></div>
       <div class="fg full"><label>Değiştirilen Parçalar</label><textarea id="sr-parts"></textarea></div>
       <div class="fg full"><label>İç Not (müşteriye görünmez)</label><textarea id="sr-internal-note"></textarea></div>
       <div class="fg full">
@@ -852,6 +853,10 @@ tr:hover td{background:#f8fafc !important}
         <label>Servis Ücretleri</label>
         <div class="dyn-list" id="sr-costs-list"></div>
         <button type="button" class="add-btn" onclick="addPriceRow('sr-costs-list')">+ Ücret Ekle</button>
+      </div>
+      <div class="fg full">
+        <label>Ücret Müşteriye Görünsün</label>
+        <div class="tgl-row"><label class="tgl"><input type="checkbox" id="sr-show-cost"><span class="tgl-sl"></span></label><span class="tgl-lbl">Servis ücreti public garanti sayfasında görünsün</span></div>
       </div>
     </div>
     <div class="factions">
@@ -2639,6 +2644,7 @@ function openModal(name,keepEID=false){
     ['sr-desc','sr-tech','sr-parts','sr-internal-note','sr-delivery'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('sr-date').value=new Date().toISOString().split('T')[0];
     document.getElementById('sr-status').value='completed';document.getElementById('sr-visible').checked=true;
+    document.getElementById('sr-show-cost').checked=false;
     document.getElementById('sr-costs-list').innerHTML='';
     const wSel=document.getElementById('sr-warr');
     wSel.innerHTML='<option value="">- Garanti seçin -</option>';
@@ -2774,7 +2780,9 @@ function editSvc(id){
   document.getElementById('sr-date').value=s.service_date||'';document.getElementById('sr-delivery').value=s.delivery_date||'';
   document.getElementById('sr-tech').value=s.technician||'';document.getElementById('sr-desc').value=s.description||'';
   document.getElementById('sr-parts').value=s.parts_changed||'';document.getElementById('sr-internal-note').value=s.internal_note||'';
+  document.getElementById('sr-title').value=s.title||'';
   document.getElementById('sr-status').value=s.status||'completed';document.getElementById('sr-visible').checked=s.customer_visible!==false;
+  document.getElementById('sr-show-cost').checked=s.show_cost_to_customer===true;
   document.getElementById('sr-costs-list').innerHTML='';
   (s.costs||[]).forEach(c=>addPriceRow('sr-costs-list',c.currency,c.amount));
 }
@@ -2874,7 +2882,7 @@ async function saveCategory(){
 async function saveService(){try{
   const wid=document.getElementById('sr-warr').value;const desc=document.getElementById('sr-desc').value.trim();
   if(!wid)return toast('Garanti seçin','err');if(!desc)return toast('Açıklama gerekli','err');
-  const payload={warranty_id:wid,service_date:document.getElementById('sr-date').value,delivery_date:document.getElementById('sr-delivery').value||null,technician:document.getElementById('sr-tech').value.trim()||null,description:desc,parts_changed:document.getElementById('sr-parts').value.trim()||null,internal_note:document.getElementById('sr-internal-note').value.trim()||null,status:document.getElementById('sr-status').value||'completed',customer_visible:document.getElementById('sr-visible').checked,costs:getPrices('sr-costs-list')};
+  const payload={warranty_id:wid,title:document.getElementById('sr-title')?.value.trim()||null,service_date:document.getElementById('sr-date').value,delivery_date:document.getElementById('sr-delivery').value||null,technician:document.getElementById('sr-tech').value.trim()||null,description:desc,parts_changed:document.getElementById('sr-parts').value.trim()||null,internal_note:document.getElementById('sr-internal-note').value.trim()||null,status:document.getElementById('sr-status').value||'completed',customer_visible:document.getElementById('sr-visible').checked,costs:getPrices('sr-costs-list'),show_cost_to_customer:document.getElementById('sr-show-cost')?.checked||false};
   const {error}=EID.service?await sb.from('service_records').update(payload).eq('id',EID.service):await sb.from('service_records').insert(payload);
   if(error)return toast('Hata: '+error.message,'err');
   toast(EID.service?'Güncellendi':'Servis kaydı eklendi','ok');closeModal('service');await reloadAll();renderSvc();
