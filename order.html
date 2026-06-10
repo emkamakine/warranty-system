@@ -561,7 +561,7 @@ function renderTableRows(wArr){
       <td><span class="mono" style="font-weight:600">${esc(w.warranty_no||'—')}</span></td>
       <td>${wBadge(w.warranty_end,w.status)}</td>
       <td style="white-space:nowrap">${fd(w.warranty_end)}</td>
-      <td><a href="${VERIFY_BASE}${esc(w.public_token)}" target="_blank" class="act-btn act-btn-primary">📜 ${t('btn_view')}</a></td>
+      <td>${w.status==='cancelled'?'<span style="font-size:12px;color:#9ca3af;font-style:italic">—</span>':`<a href="${VERIFY_BASE}${esc(w.public_token)}" target="_blank" class="act-btn act-btn-primary">${t('btn_view')}</a>`}</td>
     </tr>`;
   }).join('')||`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">${t('empty')}</td></tr>`;
 }
