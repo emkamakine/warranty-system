@@ -461,6 +461,10 @@ a{text-decoration:none;color:inherit}
 }
 .svc-date-day{font-size:18px;font-weight:800;line-height:1}
 .svc-date-mo{font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:1px}
+.svc-date-yr{font-size:9px;font-weight:700;color:rgba(255,255,255,.65);letter-spacing:.5px;margin-top:1px}
+.svc-cost-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--border2)}
+.ss-danger{background:#fff1f2;color:#be123c;border:1px solid #fecdd3}
+
 .svc-head-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px}
 .svc-head-tech{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px}
 .svc-status{
@@ -2300,31 +2304,50 @@ function renderData(data){
   if(!svc||!svc.length){
     tl.innerHTML=`<div class="svc-empty"><div class="svc-empty-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div><div class="svc-empty-title">${t('s_empty_title')}</div><div class="svc-empty-sub">${t('s_empty_sub')}</div></div>`;
   } else {
-    tl.innerHTML=`<div class="svc-timeline">${svc.map(r=>{
-      const done=new Date(r.service_date)<=now;
-      const nc=done?'sn-ok':'sn-pending', bc=done?'ss-ok':'ss-pending', bl=done?t('svc_done'):t('svc_pending');
-      const d=new Date(r.service_date);
-      const day=d.getDate();
-      const mo=d.toLocaleString(L==='en'?'en-GB':L==='ar'?'ar-SA':'tr-TR',{month:'short'}).toUpperCase();
-      return`<div class="svc-entry">
-        <div class="svc-line"></div>
-        <div class="svc-node ${nc}">${done?'✓':'⏱'}</div>
-        <div class="svc-card">
-          <div class="svc-card-head">
-            <div class="svc-date-box"><div class="svc-date-day">${day}</div><div class="svc-date-mo">${mo}</div></div>
-            <div style="flex:1">
-              <div class="svc-head-title">${r.description.split(/[.،]/)[0]||r.description}</div>
-              ${r.technician?`<div class="svc-head-tech">EMKA Teknik Servis</div>`:''}
-            </div>
-            <div class="svc-status ${bc}">● ${bl}</div>
-          </div>
-          <div class="svc-card-body">
-            <div class="svc-desc">${r.description}</div>
-            ${r.parts_changed?`<div class="svc-parts"><div><div class="svc-parts-lbl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> ${t('svc_parts_lbl')}</div><div class="svc-parts-text">${r.parts_changed}</div></div></div>`:''}
-          </div>
-        </div>
-      </div>`;
-    }).join('')}</div>`;
+    tl.innerHTML='<div class="svc-timeline">'+svc.map(function(r){
+      var statusMap={completed:{nc:'sn-ok',bc:'ss-ok',lbl:t('svc_done')},
+        out_of_warranty:{nc:'sn-danger',bc:'ss-danger',lbl:t('svc_out')},
+        in_review:{nc:'sn-pending',bc:'ss-pending',lbl:t('svc_pending')},
+        pending:{nc:'sn-pending',bc:'ss-pending',lbl:t('svc_pending')}};
+      var st=statusMap[r.status]||statusMap.completed;
+      var lm={tr:'tr-TR',en:'en-GB',ar:'ar-SA',ru:'ru-RU',es:'es-ES',de:'de-DE',fr:'fr-FR',pt:'pt-BR'};
+      var d=new Date(r.service_date);
+      var day=d.getDate();
+      var mo=d.toLocaleString(lm[L]||'tr-TR',{month:'short'}).toUpperCase();
+      var yr=d.getFullYear();
+      var headTitle=r.title||((r.description||'').split('.')[0])||'—';
+      var nodeIcon=r.status==='completed'?'✓':r.status==='out_of_warranty'?'✕':'⏱';
+      var deliveryStr=r.delivery_date?' · '+fd(r.delivery_date):'';
+      var descHtml=(r.description&&r.description!==headTitle)
+        ?'<div class="svc-desc">'+esc(r.description)+'</div>':'';
+      var partsHtml=r.parts_changed
+        ?'<div class="svc-parts"><div class="svc-parts-lbl">'+t('svc_parts_lbl')+'</div><div class="svc-parts-text">'+esc(r.parts_changed)+'</div></div>':'';
+      var costHtml='';
+      if(r.show_cost_to_customer&&r.costs&&r.costs.length){
+        costHtml='<div class="svc-cost-row">'+r.costs.map(function(c){
+          return'<span class="cc '+(c.currency||'').toLowerCase()+'">'+c.currency+' '+Number(c.amount||0).toLocaleString('tr-TR',{minimumFractionDigits:0})+'</span>';
+        }).join(' ')+'</div>';
+      }
+      return'<div class="svc-entry">'
+        +'<div class="svc-line"></div>'
+        +'<div class="svc-node '+st.nc+'">'+nodeIcon+'</div>'
+        +'<div class="svc-card">'
+          +'<div class="svc-card-head">'
+            +'<div class="svc-date-box">'
+              +'<div class="svc-date-day">'+day+'</div>'
+              +'<div class="svc-date-mo">'+mo+'</div>'
+              +'<div class="svc-date-yr">'+yr+'</div>'
+            +'</div>'
+            +'<div style="flex:1;min-width:0">'
+              +'<div class="svc-head-title">'+esc(headTitle)+'</div>'
+              +'<div class="svc-head-tech">EMKA Teknik Servis'+deliveryStr+'</div>'
+            +'</div>'
+            +'<div class="svc-status '+st.bc+'">● '+st.lbl+'</div>'
+          +'</div>'
+          +'<div class="svc-card-body">'+descHtml+partsHtml+costHtml+'</div>'
+        +'</div>'
+      +'</div>';
+    }).join('')+'</div>';
   }
 
   /* ── İLETİŞİM TAB ── */
