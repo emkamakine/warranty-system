@@ -1016,26 +1016,7 @@ tr:hover td{background:#f8fafc !important}
       <div class="fg"><label>Para Birimi (iç)</label>
         <select id="sale-currency"><option>TRY</option><option>USD</option><option>EUR</option><option>GBP</option></select>
       </div>
-      <div class="fg"><label>Ülke</label><select id="sale-country"><option value="">- Ülke seçin -</option>
-<option value="TR">🇹🇷 Türkiye</option>
-<option value="AE">🇦🇪 Birleşik Arap Emirlikleri</option>
-<option value="SA">🇸🇦 Suudi Arabistan</option>
-<option value="DE">🇩🇪 Almanya</option>
-<option value="NL">🇳🇱 Hollanda</option>
-<option value="FR">🇫🇷 Fransa</option>
-<option value="GB">🇬🇧 İngiltere</option>
-<option value="US">🇺🇸 ABD</option>
-<option value="IT">🇮🇹 İtalya</option>
-<option value="GR">🇬🇷 Yunanistan</option>
-<option value="BG">🇧🇬 Bulgaristan</option>
-<option value="AZ">🇦🇿 Azerbaycan</option>
-<option value="IR">🇮🇷 İran</option>
-<option value="IQ">🇮🇶 Irak</option>
-<option value="EG">🇪🇬 Mısır</option>
-<option value="QA">🇶🇦 Katar</option>
-<option value="KW">🇰🇼 Kuveyt</option>
-<option value="RU">🇷🇺 Rusya</option>
-<option value="OTHER">Diğer</option></select></div>
+      <div class="fg"><label>Ülke</label><input type="text" id="sale-country" list="country-list" placeholder="TR, Türkiye, DE, Almanya..." autocomplete="off" style="width:100%"></div>
       <div class="fg full"><label>İç Not (müşteriye görünmez)</label><textarea id="sale-note" rows="3" placeholder="Örn: İhracat yapıldı mı? İhraç kayıtlı mı? Nakliye firması, ücreti, süresi? Kargo takip no? Evrak durumu? Özel notlar..."></textarea></div>
       <div class="fg full">
         <label style="display:flex;justify-content:space-between;align-items:center">
