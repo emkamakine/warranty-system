@@ -921,6 +921,11 @@ p,span,div{-webkit-font-smoothing:antialiased}
   @page { size: A4; margin: 10mm; }
 }
 
+
+.contact-btn-multi{display:flex;gap:12px;padding:14px 18px;background:#fff;border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:.15s;margin-bottom:0}
+.contact-web-link{display:block;font-size:13px;font-weight:600;color:var(--accent);text-decoration:none;padding:2px 0}
+.contact-web-link:hover{text-decoration:underline}
+
 </style>
 </head>
 <body>
@@ -1170,12 +1175,20 @@ async function loadCO(){
 }
 
 function parseWebsites(raw){
-  if(!raw)return[];
-  return raw.split(/[,\n]+/).map(s=>s.trim()).filter(Boolean).map(s=>{
-    const url=s.startsWith('http')?s:'https://'+s;
-    try{const u=new URL(url);return{url,label:u.hostname.replace('www.','')};}
-    catch(e){return{url,label:s};}
-  });
+  if(!raw||!raw.trim())return[];
+  const seen=new Set();
+  return raw.split(/[,;\r\n]+/)
+    .map(s=>s.trim())
+    .filter(Boolean)
+    .map(s=>{
+      const url=/^https?:\/\//i.test(s)?s:'https://'+s;
+      const label=s.replace(/^https?:\/\//i,'').replace(/\/$/,'');
+      return{url,label};
+    })
+    .filter(site=>{
+      if(seen.has(site.url))return false;
+      seen.add(site.url);return true;
+    });
 }
 
 let L='tr', D=null;
@@ -2383,7 +2396,13 @@ function renderData(data){
     (CO.phone&&CO.phone.trim()?`<a href="tel:${CO.phone}" class="contact-btn"><div class="contact-btn-icon cbi-call"><svg width="19" height="19" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 1 1 0 0 1-.23 1.06L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a1 1 0 0 1 1.06-.23 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg></div><div class="contact-btn-label">${t('c_call')}</div><div class="contact-btn-value">${esc(CO.phone)}</div></a>`:'')
    +(CO.wa&&CO.wa.trim()?`<a href="https://wa.me/${CO.wa}" target="_blank" class="contact-btn"><div class="contact-btn-icon cbi-wa"><svg width="19" height="19" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div><div class="contact-btn-label">${t('c_wa')}</div><div class="contact-btn-value">${esc(CO.wa)}</div></a>`:'')
    +(CO.email&&CO.email.trim()?`<a href="mailto:${CO.email}" class="contact-btn"><div class="contact-btn-icon cbi-mail"><svg width="19" height="19" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg></div><div class="contact-btn-label">${t('c_mail')}</div><div class="contact-btn-value">${esc(CO.email)}</div></a>`:'')
-   +parseWebsites(CO.web).map(site=>`<a href="${site.url}" target="_blank" class="contact-btn"><div class="contact-btn-icon cbi-web"><svg width="19" height="19" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div class="contact-btn-label">${t('c_web')}</div><div class="contact-btn-value">${esc(site.label)}</div></a>`).join('')
+   +(()=>{const sites=parseWebsites(CO.web);if(!sites.length)return'';
+    const svg='<svg width="19" height="19" class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>';
+    if(sites.length===1){
+      return`<a href="${sites[0].url}" target="_blank" rel="noopener" class="contact-btn"><div class="contact-btn-icon cbi-web">${svg}</div><div class="contact-btn-label">${t('c_web')}</div><div class="contact-btn-value">${esc(sites[0].label)}</div></a>`;
+    }
+    return`<div class="contact-btn contact-btn-multi"><div class="contact-btn-icon cbi-web">${svg}</div><div style="flex:1"><div class="contact-btn-label">${t('c_web')}</div>${sites.map(s=>`<a href="${s.url}" target="_blank" rel="noopener" class="contact-web-link">${esc(s.label)}</a>`).join('')}</div></div>`;
+  })()
   );
   document.getElementById('c-addr-text').textContent=CO.addr;
   document.getElementById('c-maps-lnk').href=CO.mapsUrl;
