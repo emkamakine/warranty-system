@@ -600,10 +600,27 @@ https://emkamachinery.com" style="resize:vertical;min-height:64px"></textarea></
     </div>
     <div class="card">
       <div class="card-hdr"><div class="card-title">💾 Veri Yedekleme</div></div>
-      <div style="padding:20px;display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn btn-ghost" onclick="exportJSON()">⬇️ JSON Yedek</button>
-        <button class="btn btn-ghost" onclick="exportCSV('warranties')">📊 CSV — Garantiler</button>
-        <button class="btn btn-ghost" onclick="exportCSV('customers')">📊 CSV — Müşteriler</button>
+      <div style="padding:20px 24px">
+        <div style="margin-bottom:18px">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--sub);margin-bottom:10px">Tam Yedek</div>
+          <button class="btn btn-primary" onclick="exportFullJSON()" style="gap:8px">⬇️ Tam JSON Yedek Al</button>
+          <div style="font-size:12px;color:var(--muted);margin-top:8px">Tüm tablolar tek dosyada: müşteriler, ürünler, satışlar, garantiler, servis kayıtları, belgeler, ayarlar ve diğerleri.</div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:16px;margin-bottom:16px">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--sub);margin-bottom:10px">Tablo Bazlı CSV</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-ghost" onclick="exportTableCSV('sales')">📊 CSV — Satışlar</button>
+            <button class="btn btn-ghost" onclick="exportTableCSV('warranties')">📊 CSV — Garantiler</button>
+            <button class="btn btn-ghost" onclick="exportTableCSV('customers')">📊 CSV — Müşteriler</button>
+            <button class="btn btn-ghost" onclick="exportTableCSV('products')">📊 CSV — Ürünler</button>
+            <button class="btn btn-ghost" onclick="exportTableCSV('service_records')">📊 CSV — Servis Kayıtları</button>
+            <button class="btn btn-ghost" onclick="exportTableCSV('documents')">📊 CSV — Belgeler</button>
+          </div>
+        </div>
+        <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:12px 14px;font-size:12px;color:#92400e;line-height:1.6">
+          <strong>📁 Storage Dosyaları:</strong> PDF belgeler ve ürün fotoğrafları Supabase Storage içinde tutulur.
+          Bunlar bu yedek dosyalarına dahil değildir. Ayrıca <strong>Supabase Dashboard → Storage</strong> panelinden manuel indirilmeli.
+        </div>
       </div>
     </div>
     <div class="card">
@@ -2179,6 +2196,88 @@ async function deletePackingRow(id,saleId){
   toast('Satır silindi','ok');
   await loadPackingSection(saleId);
 }
+async function exportFullJSON(){
+  try{
+    toast('Yedek hazırlanıyor, lütfen bekleyin...','ok');
+    const ts=Date.now();
+    const [r_cust,r_prod,r_cat,r_sales,r_warr,r_svc,r_docs,r_wdocs,r_pack,r_set]=await Promise.all([
+      sb.from('customers').select('*').order('created_at'),
+      sb.from('products').select('*').order('name_tr'),
+      sb.from('categories').select('*').order('sort_order'),
+      sb.from('sales').select('*').order('created_at'),
+      sb.from('warranties').select('*').order('created_at'),
+      sb.from('service_records').select('*').order('service_date'),
+      sb.from('documents').select('*').order('created_at'),
+      sb.from('warranty_documents').select('*'),
+      sb.from('sale_packing_items').select('*').order('created_at'),
+      sb.from('settings').select('*'),
+    ]);
+    const errors=[];
+    if(r_cust.error)errors.push('customers: '+r_cust.error.message);
+    if(r_prod.error)errors.push('products: '+r_prod.error.message);
+    if(r_sales.error)errors.push('sales: '+r_sales.error.message);
+    if(r_warr.error)errors.push('warranties: '+r_warr.error.message);
+    if(errors.length)toast('Uyarı: bazı tablolar alınamadı — '+errors.join(', '),'err');
+    const payload={
+      exported_at:new Date().toISOString(),
+      system:'EMKA Dijital Garanti Sistemi',
+      version:'1.0',
+      elapsed_ms:Date.now()-ts,
+      record_counts:{
+        customers:(r_cust.data||[]).length,
+        products:(r_prod.data||[]).length,
+        categories:(r_cat.data||[]).length,
+        sales:(r_sales.data||[]).length,
+        warranties:(r_warr.data||[]).length,
+        service_records:(r_svc.data||[]).length,
+        documents:(r_docs.data||[]).length,
+        warranty_documents:(r_wdocs.data||[]).length,
+        sale_packing_items:(r_pack.data||[]).length,
+        settings:(r_set.data||[]).length,
+      },
+      tables:{
+        customers:r_cust.data||[],
+        products:r_prod.data||[],
+        categories:r_cat.data||[],
+        sales:r_sales.data||[],
+        warranties:r_warr.data||[],
+        service_records:r_svc.data||[],
+        documents:r_docs.data||[],
+        warranty_documents:r_wdocs.data||[],
+        sale_packing_items:r_pack.data||[],
+        settings:r_set.data||[],
+      }
+    };
+    const now=new Date();
+    const pad=n=>String(n).padStart(2,'0');
+    const fname=`emka-tam-yedek-${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}.json`;
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+    const link=document.createElement('a');
+    link.href=URL.createObjectURL(blob);
+    link.download=fname;
+    link.click();
+    const total=Object.values(payload.record_counts).reduce((s,n)=>s+n,0);
+    toast(`Yedek indirildi: ${fname} (${total} kayıt)`,'ok');
+  }catch(e){toast('Yedek alınamadı: '+e.message,'err');}
+}
+
+async function exportTableCSV(table){
+  try{
+    const {data,error}=await sb.from(table).select('*').order('created_at',{ascending:true}).catch(()=>sb.from(table).select('*'));
+    if(error)return toast('Veri alınamadı: '+error.message,'err');
+    if(!data||!data.length)return toast('Bu tabloda kayıt yok','err');
+    const headers=Object.keys(data[0]);
+    const esc=v=>{const s=v==null?'':String(v).replace(/"/g,'""');return s.includes(',')||s.includes('"')||s.includes('\n')?`"${s}"`:s;};
+    const csv=[headers.join(','),...data.map(row=>headers.map(h=>esc(row[h])).join(','))].join('\n');
+    const now=new Date();const pad=n=>String(n).padStart(2,'0');
+    const tableNames={sales:'Satislar',warranties:'Garantiler',customers:'Musteriler',products:'Urunler',service_records:'Servis',documents:'Belgeler'};
+    const fname=`emka-${tableNames[table]||table}-${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}.csv`;
+    const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+    const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download=fname;link.click();
+    toast(`${data.length} kayıt indirildi: ${fname}`,'ok');
+  }catch(e){toast('CSV alınamadı: '+e.message,'err');}
+}
+
 
 async function doLogout(){
   console.log('[EMKA Admin] logout tıklandı');
