@@ -296,15 +296,15 @@ const COUNTRY_MAP={"US":"ABD","AF":"Afganistan","DE":"Almanya","AD":"Andorra","A
 
 async function loadCO(){
   try{
-    const {data}=await sb.from('settings').select('*').eq('id','main').single();
-    if(!data)return;
-    if(data.company_name!=null)CO.name=data.company_name;
-    if(data.phone!=null)CO.phone=data.phone;
-    if(data.whatsapp!=null)CO.wa=(data.whatsapp||'').replace(/[^0-9+]/g,'');
-    if(data.email!=null)CO.email=data.email;
-    if(data.web!=null)CO.web=data.web;
-    if(data.address!=null)CO.addr=data.address;
-  }catch(e){console.warn('Settings yüklenemedi',e);}
+    const {data,error}=await sb.from('settings').select('*').eq('id','main').single();
+    if(error||!data){console.warn('Settings okunamadı');return;}
+    CO.name  = data.company_name ?? CO.name;
+    CO.phone = data.phone        ?? '';
+    CO.wa    = (data.whatsapp    ?? '').replace(/[^0-9+]/g,'');
+    CO.email = data.email        ?? '';
+    CO.web   = data.web          ?? '';
+    CO.addr  = data.address      ?? '';
+  }catch(e){console.warn('Settings yüklenemedi:',e);}
 }
 
 function parseWebsites(raw){
@@ -465,8 +465,9 @@ function applyT(){
   Object.entries(ids).forEach(([k,id])=>{const e=document.getElementById(id);if(e)e.textContent=t(k);});
 }
 
-window.addEventListener('DOMContentLoaded',()=>{
+window.addEventListener('DOMContentLoaded',async()=>{
   applyT();
+  await loadCO();
   const p=new URLSearchParams(window.location.search);
   const tok=p.get('id')||p.get('token')||'';
   if(tok){document.getElementById('s-input').value=tok.toUpperCase();doSearch();}
