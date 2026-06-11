@@ -1155,17 +1155,18 @@ const COUNTRY_MAP={"US":"ABD","AF":"Afganistan","DE":"Almanya","AD":"Andorra","A
 
 async function loadCO(){
   try{
-    const {data}=await sb.from('settings').select('*').eq('id','main').single();
-    if(!data)return;
-    // null=ayar hiç girilmemiş (default kullan); ''=kasıtlı silindi (boş göster)
-    if(data.company_name!=null)CO.name=data.company_name;
-    if(data.phone!=null)CO.phone=data.phone;
-    if(data.whatsapp!=null)CO.wa=(data.whatsapp||'').replace(/[^0-9+]/g,'');
-    if(data.email!=null)CO.email=data.email;
-    if(data.web!=null)CO.web=data.web;
-    if(data.address!=null)CO.addr=data.address;
-    if(data.verify_base_url!=null)CO.verifyBase=data.verify_base_url;
-  }catch(e){console.warn('Settings yüklenemedi',e);}
+    const {data,error}=await sb.from('settings').select('*').eq('id','main').single();
+    if(error||!data){console.warn('Settings okunamadı, hardcoded kullanılıyor');return;}
+    // Settings başarıyla geldi: TÜM alanları CO'ya yaz
+    // Boş string '' bile olsa yaz — yani "sil" işlemi publicte yansır
+    CO.name  = data.company_name ?? CO.name;
+    CO.phone = data.phone        ?? '';
+    CO.wa    = (data.whatsapp    ?? '').replace(/[^0-9+]/g,'');
+    CO.email = data.email        ?? '';
+    CO.web   = data.web          ?? '';
+    CO.addr  = data.address      ?? '';
+    if(data.verify_base_url)CO.verifyBase=data.verify_base_url;
+  }catch(e){console.warn('Settings yüklenemedi:',e);}
 }
 
 function parseWebsites(raw){
@@ -2100,8 +2101,9 @@ function applyT(){
 }
 
 /* ════ INIT ════ */
-window.addEventListener('DOMContentLoaded',()=>{
+window.addEventListener('DOMContentLoaded',async()=>{
   applyT();
+  await loadCO();          // settings yüklenmeden devam etme
   const p=new URLSearchParams(window.location.search);
   const tok=p.get('id')||p.get('token')||'';
   if(tok){document.getElementById('s-input').value=tok.toUpperCase();doSearch();}
