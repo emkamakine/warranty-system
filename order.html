@@ -308,14 +308,21 @@ async function loadCO(){
 }
 
 function parseWebsites(raw){
-  if(!raw)return[];
-  return raw.split(/[,\n]+/).map(s=>s.trim()).filter(Boolean).map(s=>{
-    const url=s.startsWith('http')?s:'https://'+s;
-    try{const u=new URL(url);return{url,label:u.hostname.replace('www.','')};}
-    catch(e){return{url,label:s};}
-  });
+  if(!raw||!raw.trim())return[];
+  const seen=new Set();
+  return raw.split(/[,;\r\n]+/)
+    .map(s=>s.trim())
+    .filter(Boolean)
+    .map(s=>{
+      const url=/^https?:\/\//i.test(s)?s:'https://'+s;
+      const label=s.replace(/^https?:\/\//i,'').replace(/\/$/,'');
+      return{url,label};
+    })
+    .filter(site=>{
+      if(seen.has(site.url))return false;
+      seen.add(site.url);return true;
+    });
 }
-
 const VERIFY_BASE='https://garanti.emkakuyumculuk.com/verify.html?id=';
 let L='tr', DATA=null;
 
